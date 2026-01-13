@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abwasser-Monitoring Österreich</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Viruslast im Abwasser</h1>
+            <p class="subtitle">Daten: AGES Abwasser-Monitoring Österreich</p>
+        </header>
+
+        <main>
+            <div id="controls">
+                <div class="control-group">
+                    <label>Standorte:</label>
+                    <div id="location-selector">
+                        <button id="toggle-locations" class="btn">Standorte auswählen</button>
+                        <div id="location-dropdown" class="dropdown hidden">
+                            <div class="dropdown-header">
+                                <button id="select-all" class="btn-small">Alle</button>
+                                <button id="select-none" class="btn-small">Keine</button>
+                            </div>
+                            <div id="location-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="chart-container">
+                <div id="loading">Lade Daten...</div>
+                <div id="chart"></div>
+            </div>
+
+            <div id="error" class="hidden">
+                <p>Fehler beim Laden der Daten. Bitte später erneut versuchen.</p>
+            </div>
+        </main>
+
+        <footer>
+            <p>
+                Datenquelle:
+                <a href="https://abwasser.ages.at" target="_blank" rel="noopener">AGES Abwasser-Monitoring</a>
+            </p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
