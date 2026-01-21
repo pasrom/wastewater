@@ -133,10 +133,6 @@ function createChart() {
     }
 
     const layout = {
-        title: {
-            text: 'Zeitlicher Verlauf der Viruslast im Abwasser',
-            font: { size: 18 }
-        },
         xaxis: {
             title: 'Datum',
             type: 'date',

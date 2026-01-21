@@ -9,37 +9,39 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Viruslast im Abwasser</h1>
-            <p class="subtitle">Daten: AGES Abwasser-Monitoring Österreich</p>
-        </header>
+        <section class="sari-section">
+            <header>
+                <h2>Viruslast im Abwasser</h2>
+                <p class="subtitle">Daten: AGES Abwasser-Monitoring Österreich</p>
+            </header>
 
-        <main>
-            <div id="controls">
-                <div class="control-group">
-                    <label>Standorte:</label>
-                    <div id="location-selector">
-                        <button id="toggle-locations" class="btn">Standorte auswählen</button>
-                        <div id="location-dropdown" class="dropdown hidden">
-                            <div class="dropdown-header">
-                                <button id="select-all" class="btn-small">Alle</button>
-                                <button id="select-none" class="btn-small">Keine</button>
+            <div class="sari-content">
+                <div id="controls">
+                    <div class="control-group">
+                        <label>Standorte:</label>
+                        <div id="location-selector">
+                            <button id="toggle-locations" class="btn">Standorte auswählen</button>
+                            <div id="location-dropdown" class="dropdown hidden">
+                                <div class="dropdown-header">
+                                    <button id="select-all" class="btn-small">Alle</button>
+                                    <button id="select-none" class="btn-small">Keine</button>
+                                </div>
+                                <div id="location-list"></div>
                             </div>
-                            <div id="location-list"></div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div id="chart-container">
-                <div id="loading">Lade Daten...</div>
-                <div id="chart"></div>
-            </div>
+                <div id="chart-container">
+                    <div id="loading">Lade Daten...</div>
+                    <div id="chart"></div>
+                </div>
 
-            <div id="error" class="hidden">
-                <p>Fehler beim Laden der Daten. Bitte später erneut versuchen.</p>
+                <div id="error" class="hidden">
+                    <p>Fehler beim Laden der Daten. Bitte später erneut versuchen.</p>
+                </div>
             </div>
-        </main>
+        </section>
 
         <section class="sari-section">
             <header>
