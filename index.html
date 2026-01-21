@@ -150,6 +150,80 @@
             </div>
         </section>
 
+        <section class="sari-section">
+            <header>
+                <h2>Altersgruppen im Zeitverlauf</h2>
+                <p class="subtitle">Heatmap: Wann trifft es welche Altersgruppe?</p>
+            </header>
+
+            <div class="sari-content">
+                <div id="sari-heatmap-controls">
+                    <div class="control-group">
+                        <label for="sari-heatmap-bundesland">Bundesland:</label>
+                        <select id="sari-heatmap-bundesland" class="select-input">
+                            <option value="AT">Österreich (Gesamt)</option>
+                            <option value="W">Wien</option>
+                            <option value="NÖ">Niederösterreich</option>
+                            <option value="OÖ">Oberösterreich</option>
+                            <option value="S">Salzburg</option>
+                            <option value="T">Tirol</option>
+                            <option value="V">Vorarlberg</option>
+                            <option value="K">Kärnten</option>
+                            <option value="ST">Steiermark</option>
+                            <option value="BGL">Burgenland</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="sari-heatmap-station">Station:</label>
+                        <select id="sari-heatmap-station" class="select-input">
+                            <option value="ALL">Alle Stationen</option>
+                            <option value="N">Normalstation</option>
+                            <option value="I">Intensivstation</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="sari-heatmap-diagnose">Diagnose:</label>
+                        <select id="sari-heatmap-diagnose" class="select-input">
+                            <option value="ALL">Alle SARI-Diagnosen</option>
+                            <option value="COVID">COVID-19</option>
+                            <option value="INFLUENZA">Influenza</option>
+                            <option value="RSV">RSV</option>
+                            <option value="PNEUMOKOKKEN">Pneumokokken</option>
+                            <option value="SONSTIGE">Sonstige SARI</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label class="toggle-label">
+                            <input type="checkbox" id="sari-heatmap-per100k" checked>
+                            <span class="toggle-text">pro 100.000 Einw.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="zeitraum-slider-wrapper">
+                    <div class="zeitraum-slider-container">
+                        <span id="sari-heatmap-start-label" class="slider-label left">Lade...</span>
+                        <div class="dual-slider">
+                            <div class="slider-track"></div>
+                            <div id="heatmap-slider-range" class="slider-range"></div>
+                            <input type="range" id="sari-heatmap-start" class="range-slider" min="0" max="100" value="0">
+                            <input type="range" id="sari-heatmap-end" class="range-slider" min="0" max="100" value="100">
+                        </div>
+                        <span id="sari-heatmap-end-label" class="slider-label right">Lade...</span>
+                    </div>
+                </div>
+
+                <div id="sari-heatmap-chart-container">
+                    <div id="sari-heatmap-loading">Lade Daten...</div>
+                    <div id="sari-heatmap-chart"></div>
+                </div>
+
+                <div id="sari-heatmap-error" class="hidden">
+                    <p>Fehler beim Laden der Daten. Bitte später erneut versuchen.</p>
+                </div>
+            </div>
+        </section>
+
         <footer>
             <p>
                 Datenquellen:

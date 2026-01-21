@@ -1041,3 +1041,296 @@ async function loadSariDemographicsData() {
 
 // Demographics-Daten nach DOM-Load initialisieren
 document.addEventListener('DOMContentLoaded', loadSariDemographicsData);
+
+// ==================== SARI Heatmap (Altersgruppen × Zeit) ====================
+
+let sariHeatmapKWs = []; // Sortierte Liste aller KWs für Slider
+
+// Sortiert KW-Strings chronologisch
+function sortKWs(kws) {
+    return kws.sort((a, b) => {
+        const matchA = a.match(/(\d+)\.\s*KW\s*(\d+)/);
+        const matchB = b.match(/(\d+)\.\s*KW\s*(\d+)/);
+        if (matchA && matchB) {
+            const yearDiff = parseInt(matchA[2]) - parseInt(matchB[2]);
+            if (yearDiff !== 0) return yearDiff;
+            return parseInt(matchA[1]) - parseInt(matchB[1]);
+        }
+        return 0;
+    });
+}
+
+// Aggregiert Daten für Heatmap: Altersgruppe × KW
+function aggregateHeatmapData(bundesland, station, diagnose, startIdx, endIdx) {
+    let filtered = sariDemographicsData;
+
+    // Nach Bundesland filtern
+    if (bundesland !== 'AT') {
+        filtered = filtered.filter(row => row.WOHNORT === bundesland);
+    }
+
+    // Nach Station filtern
+    if (station !== 'ALL') {
+        filtered = filtered.filter(row => row.STATION === station);
+    }
+
+    // Nach KW-Zeitraum filtern (wenn Slider-Indizes übergeben)
+    if (startIdx !== undefined && endIdx !== undefined && sariHeatmapKWs.length > 0) {
+        const startKW = sariHeatmapKWs[startIdx];
+        const endKW = sariHeatmapKWs[endIdx];
+        const startKWIdx = sariHeatmapKWs.indexOf(startKW);
+        const endKWIdx = sariHeatmapKWs.indexOf(endKW);
+        filtered = filtered.filter(row => {
+            const kwIdx = sariHeatmapKWs.indexOf(row.KW);
+            return kwIdx >= startKWIdx && kwIdx <= endKWIdx;
+        });
+    }
+
+    // Aggregieren: KW × Altersgruppe
+    const data = {};
+
+    filtered.forEach(row => {
+        const kw = row.KW;
+        const ag = row.ALTERSGRUPPE;
+        const key = `${kw}_${ag}`;
+
+        if (!data[key]) {
+            data[key] = { kw, ageGroup: ag, count: 0, pop: 0, popCount: 0 };
+        }
+
+        // Diagnose-Wert
+        if (diagnose === 'ALL') {
+            data[key].count += (row.COVID || 0) + (row.INFLUENZA || 0) +
+                (row.RSV || 0) + (row.PNEUMOKOKKEN || 0) + (row.SONSTIGE || 0);
+        } else {
+            data[key].count += row[diagnose] || 0;
+        }
+
+        // Bevölkerung (pro KW/Altersgruppe nur einmal zählen)
+        if (row.BEV_ZAHL) {
+            data[key].pop += row.BEV_ZAHL;
+            data[key].popCount++;
+        }
+    });
+
+    return Object.values(data);
+}
+
+// Aktualisiert die Heatmap-Zeitraum-Labels und die blaue Leiste
+function updateHeatmapSlider() {
+    const startSlider = document.getElementById('sari-heatmap-start');
+    const endSlider = document.getElementById('sari-heatmap-end');
+    const startLabel = document.getElementById('sari-heatmap-start-label');
+    const endLabel = document.getElementById('sari-heatmap-end-label');
+    const rangeBar = document.getElementById('heatmap-slider-range');
+
+    const startIdx = parseInt(startSlider.value);
+    const endIdx = parseInt(endSlider.value);
+    const maxIdx = parseInt(startSlider.max);
+
+    if (sariHeatmapKWs.length === 0) {
+        startLabel.textContent = 'Keine Daten';
+        endLabel.textContent = '';
+        return;
+    }
+
+    startLabel.textContent = sariHeatmapKWs[startIdx] || '';
+    endLabel.textContent = sariHeatmapKWs[endIdx] || '';
+
+    // Blaue Leiste positionieren
+    const startPercent = (startIdx / maxIdx) * 100;
+    const endPercent = (endIdx / maxIdx) * 100;
+    rangeBar.style.left = startPercent + '%';
+    rangeBar.style.width = (endPercent - startPercent) + '%';
+}
+
+// Erstellt die Heatmap
+function createSariHeatmap() {
+    const bundesland = document.getElementById('sari-heatmap-bundesland').value;
+    const station = document.getElementById('sari-heatmap-station').value;
+    const diagnose = document.getElementById('sari-heatmap-diagnose').value;
+    const per100k = document.getElementById('sari-heatmap-per100k').checked;
+
+    const startIdx = parseInt(document.getElementById('sari-heatmap-start').value);
+    const endIdx = parseInt(document.getElementById('sari-heatmap-end').value);
+
+    updateHeatmapSlider();
+
+    const aggregated = aggregateHeatmapData(bundesland, station, diagnose, startIdx, endIdx);
+
+    if (aggregated.length === 0) {
+        document.getElementById('sari-heatmap-chart').innerHTML =
+            '<p style="text-align:center;padding:40px;color:#666;">Keine Daten für diese Auswahl verfügbar.</p>';
+        return;
+    }
+
+    // Alle KWs und Altersgruppen extrahieren
+    const kwSet = new Set();
+    aggregated.forEach(d => kwSet.add(d.kw));
+    const kws = Array.from(kwSet).sort((a, b) => {
+        // Sortiere nach Jahr und KW
+        const matchA = a.match(/(\d+)\.\s*KW\s*(\d+)/);
+        const matchB = b.match(/(\d+)\.\s*KW\s*(\d+)/);
+        if (matchA && matchB) {
+            const yearDiff = parseInt(matchA[2]) - parseInt(matchB[2]);
+            if (yearDiff !== 0) return yearDiff;
+            return parseInt(matchA[1]) - parseInt(matchB[1]);
+        }
+        return 0;
+    });
+
+    // Altersgruppen in umgekehrter Reihenfolge (älteste oben)
+    const ageGroups = [...AGE_GROUPS_ORDER].reverse();
+
+    // Matrix erstellen
+    const zValues = [];
+    const hoverText = [];
+
+    ageGroups.forEach(ag => {
+        const row = [];
+        const hoverRow = [];
+        kws.forEach(kw => {
+            const item = aggregated.find(d => d.kw === kw && d.ageGroup === ag);
+            let value = 0;
+            if (item) {
+                if (per100k && item.popCount > 0) {
+                    const avgPop = item.pop / item.popCount;
+                    value = avgPop > 0 ? (item.count / avgPop) * 100000 : 0;
+                } else {
+                    value = item.count;
+                }
+            }
+            row.push(value);
+            hoverRow.push(`${ag}<br>${kw}<br>${per100k ? value.toFixed(1) + ' pro 100k' : value + ' Aufnahmen'}`);
+        });
+        zValues.push(row);
+        hoverText.push(hoverRow);
+    });
+
+    const bundeslandNames = {
+        'AT': 'Österreich',
+        'W': 'Wien',
+        'NÖ': 'Niederösterreich',
+        'OÖ': 'Oberösterreich',
+        'S': 'Salzburg',
+        'T': 'Tirol',
+        'V': 'Vorarlberg',
+        'K': 'Kärnten',
+        'ST': 'Steiermark',
+        'BGL': 'Burgenland'
+    };
+
+    const diagnoseNames = {
+        'ALL': 'Alle SARI-Diagnosen',
+        'COVID': 'COVID-19',
+        'INFLUENZA': 'Influenza',
+        'RSV': 'RSV',
+        'PNEUMOKOKKEN': 'Pneumokokken',
+        'SONSTIGE': 'Sonstige SARI'
+    };
+
+    const trace = {
+        z: zValues,
+        x: kws,
+        y: ageGroups,
+        type: 'heatmap',
+        colorscale: [
+            [0, '#f7f7f7'],
+            [0.2, '#fee8c8'],
+            [0.4, '#fdbb84'],
+            [0.6, '#e34a33'],
+            [1, '#7f0000']
+        ],
+        hovertemplate: '%{text}<extra></extra>',
+        text: hoverText,
+        colorbar: {
+            title: per100k ? 'pro 100k' : 'Aufnahmen',
+            titleside: 'right'
+        }
+    };
+
+    const layout = {
+        title: {
+            text: `${diagnoseNames[diagnose]} nach Altersgruppe - ${bundeslandNames[bundesland]}`,
+            font: { size: 18 }
+        },
+        xaxis: {
+            title: 'Kalenderwoche',
+            tickangle: -45,
+            dtick: 4
+        },
+        yaxis: {
+            title: 'Altersgruppe'
+        },
+        margin: { t: 80, b: 100, l: 80, r: 60 }
+    };
+
+    const config = {
+        responsive: true,
+        displayModeBar: true,
+        displaylogo: false
+    };
+
+    Plotly.newPlot('sari-heatmap-chart', [trace], layout, config);
+}
+
+// Initialisiert Heatmap UI
+function initSariHeatmapUI() {
+    // Alle KWs aus den Daten extrahieren und sortieren
+    const kwSet = new Set();
+    sariDemographicsData.forEach(row => {
+        if (row.KW) kwSet.add(row.KW);
+    });
+    sariHeatmapKWs = sortKWs(Array.from(kwSet));
+
+    // Slider-Bereich setzen
+    const maxIdx = sariHeatmapKWs.length - 1;
+    const startSlider = document.getElementById('sari-heatmap-start');
+    const endSlider = document.getElementById('sari-heatmap-end');
+
+    startSlider.max = maxIdx;
+    startSlider.value = 0;
+    endSlider.max = maxIdx;
+    endSlider.value = maxIdx;
+
+    // Event Listeners für Dropdowns
+    document.getElementById('sari-heatmap-bundesland').addEventListener('change', createSariHeatmap);
+    document.getElementById('sari-heatmap-station').addEventListener('change', createSariHeatmap);
+    document.getElementById('sari-heatmap-diagnose').addEventListener('change', createSariHeatmap);
+    document.getElementById('sari-heatmap-per100k').addEventListener('change', createSariHeatmap);
+
+    // Slider Event Listeners mit Validierung
+    startSlider.addEventListener('input', () => {
+        if (parseInt(startSlider.value) > parseInt(endSlider.value)) {
+            startSlider.value = endSlider.value;
+        }
+        updateHeatmapSlider();
+    });
+
+    startSlider.addEventListener('change', createSariHeatmap);
+
+    endSlider.addEventListener('input', () => {
+        if (parseInt(endSlider.value) < parseInt(startSlider.value)) {
+            endSlider.value = startSlider.value;
+        }
+        updateHeatmapSlider();
+    });
+
+    endSlider.addEventListener('change', createSariHeatmap);
+
+    // Loading ausblenden und Chart erstellen
+    document.getElementById('sari-heatmap-loading').classList.add('hidden');
+    updateHeatmapSlider();
+    createSariHeatmap();
+}
+
+// Heatmap initialisieren wenn Demographics-Daten geladen sind
+document.addEventListener('DOMContentLoaded', () => {
+    // Warte bis Demographics-Daten geladen sind
+    const checkData = setInterval(() => {
+        if (sariDemographicsData.length > 0) {
+            clearInterval(checkData);
+            initSariHeatmapUI();
+        }
+    }, 100);
+});
