@@ -1,19 +1,19 @@
-// AGES Abwasser-Monitoring Datenquellen
+// AGES Wastewater Monitoring data sources
 const DATA_SOURCES = {
     sarscov2: {
         url: 'https://abwasser.ages.at/de/cache/plotly/sarscov2_development.json',
         name: 'SARS-CoV-2',
-        color: '#e74c3c'
+        color: '#e87461'  // COVID color (consistent with SARI)
     },
     influenza: {
         url: 'https://abwasser.ages.at/de/cache/plotly/influenza_development.json',
         name: 'Influenza',
-        color: '#3498db'
+        color: '#ffc600'  // Influenza color (consistent with SARI)
     },
     rsv: {
         url: 'https://abwasser.ages.at/de/cache/plotly/rsv_development.json',
         name: 'RSV',
-        color: '#2ecc71'
+        color: '#456990'  // RSV color (consistent with SARI)
     }
 };
 
