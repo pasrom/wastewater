@@ -70,8 +70,31 @@ ci: add GitHub Actions workflow for deployment
 ```
 
 ## Key Functions in app.js
+
+### Wastewater Chart
 - `fetchData(url)` - Fetches JSON with CORS fallback
 - `extractAllTraces(plotlyData)` - Extracts location traces from Plotly JSON
 - `loadAllData()` - Loads all 3 virus datasets in parallel
 - `createChart()` - Renders Plotly chart with selected locations
 - `buildLocationList()` - Builds location selector UI
+
+### SARI Hospital Admissions
+- `fetchCSV(url)` - Fetches CSV with CORS fallback
+- `parseCSV(csvText)` - Parses semicolon-separated CSV data
+- `loadSariData()` - Loads SARI hospital admission data
+- `createSariChart()` - Renders stacked bar chart by diagnosis
+
+### SARI Demographics (Age/Gender)
+- `loadSariDemographicsData()` - Loads patient demographics data
+- `aggregateDemographicsData()` - Aggregates by age group, gender, diagnosis
+- `createSariDemographicsChart()` - Renders grouped bar chart (M/W per age group)
+
+### SARI Heatmap (Age Groups over Time)
+- `aggregateHeatmapData()` - Aggregates data for heatmap matrix
+- `createSariHeatmap()` - Renders heatmap (age group × calendar week)
+
+## Additional Data Sources
+| Data | Endpoint |
+|------|----------|
+| SARI Hospital | `https://opendata-files.sozialversicherung.at/sari/SARI_Region_Krankenanstalt_v202307.csv` |
+| SARI Demographics | `https://opendata-files.sozialversicherung.at/sari/SARI_Wohnregion_Patient_v202307.csv` |
