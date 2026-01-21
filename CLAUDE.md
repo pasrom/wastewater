@@ -37,6 +37,11 @@ open http://localhost:8080
 ## Deployment
 Automatic via GitHub Actions on push to `main`. Live at: https://pasrom.github.io/wastewater/
 
+## Code Style
+- Comments in English
+- UI text in German (Austrian dashboard)
+- Use camelCase for function and variable names
+
 ## Commit Convention
 Use [Conventional Commits](https://www.conventionalcommits.org/):
 
