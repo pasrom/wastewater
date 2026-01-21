@@ -17,12 +17,12 @@ const DATA_SOURCES = {
     }
 };
 
-// Globaler State
+// Global state
 let allData = {};
 let allLocations = new Set();
 let selectedLocations = new Set(['Österreich']);
 
-// Extrahiert alle Traces aus Plotly-Daten
+// Extracts all traces from Plotly data
 function extractAllTraces(plotlyData) {
     const traces = {};
 
@@ -31,7 +31,7 @@ function extractAllTraces(plotlyData) {
     }
 
     for (const trace of plotlyData.data) {
-        // Nur Traces mit Namen und Daten (keine Quartil-Bänder etc.)
+        // Only traces with name and data (no quartile bands etc.)
         if (trace.name && trace.x && trace.y &&
             !trace.name.includes('Quartil') &&
             trace.type !== 'bar' &&
@@ -46,7 +46,7 @@ function extractAllTraces(plotlyData) {
     return traces;
 }
 
-// Lädt Daten von einer URL mit CORS-Proxy falls nötig
+// Fetches data from URL with CORS proxy fallback
 async function fetchData(url) {
     try {
         const response = await fetch(url);
@@ -65,7 +65,7 @@ async function fetchData(url) {
     return await response.json();
 }
 
-// Lädt alle Datenquellen parallel
+// Loads all data sources in parallel
 async function loadAllData() {
     const results = {};
 
@@ -80,7 +80,7 @@ async function loadAllData() {
                     traces: traces
                 };
 
-                // Sammle alle Standorte
+                // Collect all locations
                 Object.keys(traces).forEach(loc => allLocations.add(loc));
             }
         } catch (error) {
@@ -92,17 +92,17 @@ async function loadAllData() {
     return results;
 }
 
-// Generiert eine Farbe für einen Standort basierend auf Virus-Farbe
+// Generates a color for a location based on virus color
 function getLocationColor(baseColor, locationIndex, totalLocations) {
-    // Für Österreich: volle Farbe
+    // For Austria: full color
     if (locationIndex === 0) return baseColor;
 
-    // Für andere Standorte: hellere Version
+    // For other locations: lighter version
     const opacity = 0.3 + (0.5 * (locationIndex / totalLocations));
     return baseColor + Math.round(opacity * 255).toString(16).padStart(2, '0');
 }
 
-// Erstellt den Plotly-Chart
+// Creates the Plotly chart
 function createChart() {
     const traces = [];
     const locationArray = Array.from(selectedLocations);
@@ -174,12 +174,12 @@ function createChart() {
     Plotly.newPlot('chart', traces, layout, config);
 }
 
-// Baut die Standort-Liste im Dropdown
+// Builds the location list in dropdown
 function buildLocationList() {
     const listEl = document.getElementById('location-list');
     listEl.innerHTML = '';
 
-    // Österreich immer zuerst
+    // Austria always first
     const sortedLocations = ['Österreich', ...Array.from(allLocations).filter(l => l !== 'Österreich').sort()];
 
     sortedLocations.forEach(location => {
@@ -210,33 +210,33 @@ function buildLocationList() {
     });
 }
 
-// Initialisiert die UI-Events
+// Initializes UI events
 function initUI() {
     const toggleBtn = document.getElementById('toggle-locations');
     const dropdown = document.getElementById('location-dropdown');
     const selectAllBtn = document.getElementById('select-all');
     const selectNoneBtn = document.getElementById('select-none');
 
-    // Toggle Dropdown
+    // Toggle dropdown
     toggleBtn.addEventListener('click', () => {
         dropdown.classList.toggle('hidden');
     });
 
-    // Schließe Dropdown bei Klick außerhalb
+    // Close dropdown on click outside
     document.addEventListener('click', (e) => {
         if (!e.target.closest('#location-selector')) {
             dropdown.classList.add('hidden');
         }
     });
 
-    // Alle auswählen
+    // Select all
     selectAllBtn.addEventListener('click', () => {
         selectedLocations = new Set(allLocations);
         buildLocationList();
         createChart();
     });
 
-    // Keine auswählen (außer Österreich)
+    // Select none (except Austria)
     selectNoneBtn.addEventListener('click', () => {
         selectedLocations = new Set(['Österreich']);
         buildLocationList();
@@ -244,7 +244,7 @@ function initUI() {
     });
 }
 
-// Hauptfunktion
+// Main function
 async function init() {
     const loading = document.getElementById('loading');
     const errorDiv = document.getElementById('error');
@@ -269,12 +269,12 @@ async function init() {
     }
 }
 
-// Start
+// Start application
 document.addEventListener('DOMContentLoaded', init);
 
 // ==================== SARI Dashboard Integration ====================
 
-// Hellt eine Hex-Farbe auf (amount: 0-1, höher = heller)
+// Lightens a hex color (amount: 0-1, higher = lighter)
 function lightenColor(hex, amount) {
     const num = parseInt(hex.replace('#', ''), 16);
     const r = Math.min(255, Math.floor((num >> 16) + (255 - (num >> 16)) * amount));
@@ -304,17 +304,17 @@ const SARI_CONFIG = {
 let sariRawData = [];
 let sariFilteredData = [];
 
-// Konvertiert KW-String zu Datum (Montag der Kalenderwoche)
+// Converts KW string to date (Monday of calendar week)
 function parseKW(kwString) {
-    // "19. KW 2023" → Montag der 19. Kalenderwoche 2023
+    // "19. KW 2023" → Monday of calendar week 19, 2023
     const match = kwString.match(/(\d+)\.\s*KW\s*(\d+)/);
     if (match) {
         const week = parseInt(match[1]);
         const year = parseInt(match[2]);
-        // ISO 8601: Kalenderwoche beginnt am Montag
-        // Erster Donnerstag des Jahres ist in KW1
+        // ISO 8601: Calendar week starts on Monday
+        // First Thursday of the year is in week 1
         const jan4 = new Date(year, 0, 4);
-        const dayOfWeek = jan4.getDay() || 7; // Sonntag = 7
+        const dayOfWeek = jan4.getDay() || 7; // Sunday = 7
         const mondayKW1 = new Date(jan4);
         mondayKW1.setDate(jan4.getDate() - dayOfWeek + 1);
         const targetMonday = new Date(mondayKW1);
@@ -324,7 +324,7 @@ function parseKW(kwString) {
     return null;
 }
 
-// Lädt CSV mit optionalem CORS-Proxy
+// Fetches CSV with optional CORS proxy
 async function fetchCSV(url) {
     try {
         const response = await fetch(url);
@@ -343,7 +343,7 @@ async function fetchCSV(url) {
     return await response.text();
 }
 
-// Parst CSV-Daten (Semikolon-getrennt)
+// Parses CSV data (semicolon-separated)
 function parseCSV(csvText) {
     const lines = csvText.trim().split('\n');
     if (lines.length < 2) return [];
@@ -360,14 +360,14 @@ function parseCSV(csvText) {
             row[header] = values[index];
         });
 
-        // Numerische Werte konvertieren
+        // Convert numeric values
         ['COVID', 'INFLUENZA', 'RSV', 'PNEUMOKOKKEN', 'SONSTIGE', 'AUFNAHMEN'].forEach(col => {
             if (row[col]) {
                 row[col] = parseInt(row[col]) || 0;
             }
         });
 
-        // Datum parsen
+        // Parse date
         if (row.KW) {
             row.date = parseKW(row.KW);
         }
@@ -380,21 +380,21 @@ function parseCSV(csvText) {
     return data;
 }
 
-// Filtert und aggregiert SARI-Daten
+// Filters and aggregates SARI data
 function filterSariData(bundesland, station) {
     let filtered = sariRawData;
 
-    // Nach Bundesland filtern
+    // Filter by state
     if (bundesland !== 'AT') {
         filtered = filtered.filter(row => row.BUNDESLAND === bundesland);
     }
 
-    // Nach Station filtern
+    // Filter by station
     if (station !== 'ALL') {
         filtered = filtered.filter(row => row.STATION === station);
     }
 
-    // Nach Datum gruppieren und aggregieren
+    // Group and aggregate by date
     const grouped = {};
     filtered.forEach(row => {
         const dateKey = row.date.toISOString().split('T')[0];
@@ -415,23 +415,23 @@ function filterSariData(bundesland, station) {
         grouped[dateKey].SONSTIGE += row.SONSTIGE || 0;
     });
 
-    // In Array konvertieren und nach Datum sortieren
+    // Convert to array and sort by date
     return Object.values(grouped).sort((a, b) => a.date - b.date);
 }
 
-// Filtert SARI-Daten nach Station (für getrennte N/I Darstellung)
+// Filters SARI data by station (for separate N/I display)
 function filterSariDataByStation(bundesland, stationType) {
     let filtered = sariRawData;
 
-    // Nach Bundesland filtern
+    // Filter by state
     if (bundesland !== 'AT') {
         filtered = filtered.filter(row => row.BUNDESLAND === bundesland);
     }
 
-    // Nach Station filtern
+    // Filter by station
     filtered = filtered.filter(row => row.STATION === stationType);
 
-    // Nach Datum gruppieren und aggregieren
+    // Group and aggregate by date
     const grouped = {};
     filtered.forEach(row => {
         const dateKey = row.date.toISOString().split('T')[0];
@@ -455,7 +455,7 @@ function filterSariDataByStation(bundesland, stationType) {
     return Object.values(grouped).sort((a, b) => a.date - b.date);
 }
 
-// Erstellt den SARI-Chart
+// Creates the SARI chart
 function createSariChart() {
     const bundesland = document.getElementById('sari-bundesland').value;
     const station = document.getElementById('sari-station').value;
@@ -464,7 +464,7 @@ function createSariChart() {
     let traces = [];
 
     if (station === 'ALL') {
-        // Bei "Alle Stationen": Normal und Intensiv getrennt mit Muster
+        // For "All Stations": Normal and ICU separate with pattern
         const normalData = filterSariDataByStation(bundesland, 'N');
         const intensivData = filterSariDataByStation(bundesland, 'I');
 
@@ -477,7 +477,7 @@ function createSariChart() {
             ? normalData.map(row => row.date.toISOString().split('T')[0])
             : intensivData.map(row => row.date.toISOString().split('T')[0]);
 
-        // Normalstation Traces (volle Farbe)
+        // Normal ward traces (full color)
         diagnosen.forEach(diagnose => {
             traces.push({
                 x: dates,
@@ -494,7 +494,7 @@ function createSariChart() {
             });
         });
 
-        // Intensivstation Traces (hellere Farbe)
+        // ICU traces (lighter color)
         diagnosen.forEach(diagnose => {
             traces.push({
                 x: dates,
@@ -512,7 +512,7 @@ function createSariChart() {
             });
         });
     } else {
-        // Einzelne Station: wie bisher
+        // Single station: as before
         sariFilteredData = filterSariData(bundesland, station);
 
         if (sariFilteredData.length === 0) {
@@ -555,13 +555,13 @@ function createSariChart() {
         'I': 'Intensivstation'
     };
 
-    // Berechne Meldedatum-Cutoff (3 Wochen vor letztem Datenpunkt)
+    // Calculate reporting cutoff (2 weeks before last data point)
     const allDates = traces.length > 0 ? traces[0].x : [];
     let reportingCutoffStr = null;
     if (allDates.length > 0) {
         const lastDate = new Date(allDates[allDates.length - 1]);
         const reportingCutoff = new Date(lastDate);
-        reportingCutoff.setDate(reportingCutoff.getDate() - 14); // 2 Wochen
+        reportingCutoff.setDate(reportingCutoff.getDate() - 14); // 2 weeks
         reportingCutoffStr = reportingCutoff.toISOString().split('T')[0];
     }
 
@@ -628,7 +628,7 @@ function createSariChart() {
     Plotly.newPlot('sari-chart', traces, layout, config);
 }
 
-// Initialisiert SARI UI-Events
+// Initializes SARI UI events
 function initSariUI() {
     const bundeslandSelect = document.getElementById('sari-bundesland');
     const stationSelect = document.getElementById('sari-station');
@@ -637,7 +637,7 @@ function initSariUI() {
     stationSelect.addEventListener('change', createSariChart);
 }
 
-// Lädt SARI-Daten
+// Loads SARI data
 async function loadSariData() {
     const loading = document.getElementById('sari-loading');
     const errorDiv = document.getElementById('sari-error');
@@ -661,7 +661,7 @@ async function loadSariData() {
     }
 }
 
-// SARI-Daten nach DOM-Load initialisieren
+// Initialize SARI data after DOM load
 document.addEventListener('DOMContentLoaded', loadSariData);
 
 // ==================== SARI Demographics (Alter/Geschlecht) ====================
@@ -669,11 +669,11 @@ document.addEventListener('DOMContentLoaded', loadSariData);
 const SARI_DEMOGRAPHICS_URL = 'https://opendata-files.sozialversicherung.at/sari/SARI_Wohnregion_Patient_v202307.csv';
 
 let sariDemographicsData = [];
-let sariDemographicsDates = []; // Sortierte Liste aller Wochen
+let sariDemographicsDates = []; // Sorted list of all weeks
 
 const AGE_GROUPS_ORDER = ['0 - 4', '5 - 14', '15 - 29', '30 - 44', '45 - 59', '60 - 69', '70 - 79', '80+'];
 
-// Parst Demographics-CSV (gleiche Struktur wie SARI)
+// Parses demographics CSV (same structure as SARI)
 function parseDemographicsCSV(csvText) {
     const lines = csvText.trim().split('\n');
     if (lines.length < 2) return [];
@@ -690,14 +690,14 @@ function parseDemographicsCSV(csvText) {
             row[header] = values[index];
         });
 
-        // Numerische Werte konvertieren
+        // Convert numeric values
         ['COVID', 'INFLUENZA', 'RSV', 'PNEUMOKOKKEN', 'SONSTIGE', 'AUFNAHMEN', 'BEV_ZAHL'].forEach(col => {
             if (row[col]) {
                 row[col] = parseInt(row[col]) || 0;
             }
         });
 
-        // Datum aus KW parsen
+        // Parse date from KW
         if (row.KW) {
             row.date = parseKW(row.KW);
         }
@@ -710,32 +710,32 @@ function parseDemographicsCSV(csvText) {
     return data;
 }
 
-// Aggregiert Daten nach Altersgruppe, Geschlecht und Diagnose
+// Aggregates data by age group, gender and diagnosis
 function aggregateDemographicsData(bundesland, station, startDate, endDate) {
     let filtered = sariDemographicsData;
 
-    // Nach Bundesland filtern
+    // Filter by state
     if (bundesland !== 'AT') {
         filtered = filtered.filter(row => row.WOHNORT === bundesland);
     }
 
-    // Nach Station filtern
+    // Filter by station
     if (station !== 'ALL') {
         filtered = filtered.filter(row => row.STATION === station);
     }
 
-    // Nach Zeitraum filtern
+    // Filter by time range
     if (startDate && endDate) {
         filtered = filtered.filter(row => row.date >= startDate && row.date <= endDate);
     }
 
-    // Nach Altersgruppe, Geschlecht und Diagnose aggregieren
+    // Aggregate by age group, gender and diagnosis
     const aggregated = {};
     const populationByAgeGender = {};
     const diagnosen = ['COVID', 'INFLUENZA', 'RSV', 'PNEUMOKOKKEN', 'SONSTIGE'];
 
     filtered.forEach(row => {
-        // Bevölkerung pro Altersgruppe/Geschlecht tracken (nur einmal pro KW zählen)
+        // Track population per age group/gender (count only once per KW)
         const popKey = `${row.ALTERSGRUPPE}_${row.GESCHLECHT}_${row.KW}`;
         if (!populationByAgeGender[popKey] && row.BEV_ZAHL) {
             populationByAgeGender[popKey] = {
@@ -759,7 +759,7 @@ function aggregateDemographicsData(bundesland, station, startDate, endDate) {
         });
     });
 
-    // Durchschnittliche Bevölkerung pro Altersgruppe/Geschlecht berechnen
+    // Calculate average population per age group/gender
     const popSums = {};
     const popCounts = {};
     Object.values(populationByAgeGender).forEach(p => {
@@ -772,7 +772,7 @@ function aggregateDemographicsData(bundesland, station, startDate, endDate) {
         popCounts[key]++;
     });
 
-    // Population zu aggregierten Daten hinzufügen
+    // Add population to aggregated data
     Object.values(aggregated).forEach(item => {
         const popKey = `${item.ageGroup}_${item.gender}`;
         item.population = popCounts[popKey] ? popSums[popKey] / popCounts[popKey] : 0;
@@ -781,7 +781,7 @@ function aggregateDemographicsData(bundesland, station, startDate, endDate) {
     return Object.values(aggregated);
 }
 
-// Formatiert Datum als "X. KW YYYY"
+// Formats date as "X. KW YYYY"
 function formatDateAsKW(date) {
     const startOfYear = new Date(date.getFullYear(), 0, 1);
     const days = Math.floor((date - startOfYear) / (24 * 60 * 60 * 1000));
@@ -789,7 +789,7 @@ function formatDateAsKW(date) {
     return `${week}. KW ${date.getFullYear()}`;
 }
 
-// Aktualisiert die Zeitraum-Labels und die grüne Leiste
+// Updates the time range labels and the blue bar
 function updateZeitraumSlider() {
     const startSlider = document.getElementById('sari-demo-start');
     const endSlider = document.getElementById('sari-demo-end');
@@ -813,14 +813,14 @@ function updateZeitraumSlider() {
     startLabel.textContent = formatDateAsKW(startDate);
     endLabel.textContent = formatDateAsKW(endDate);
 
-    // Grüne Leiste positionieren
+    // Position the blue bar
     const startPercent = (startIdx / maxIdx) * 100;
     const endPercent = (endIdx / maxIdx) * 100;
     rangeBar.style.left = startPercent + '%';
     rangeBar.style.width = (endPercent - startPercent) + '%';
 }
 
-// Erstellt den Demographics-Chart mit gestapelten Diagnosen pro Geschlecht
+// Creates the demographics chart with stacked diagnoses per gender
 function createSariDemographicsChart() {
     const bundesland = document.getElementById('sari-demo-bundesland').value;
     const station = document.getElementById('sari-demo-station').value;
@@ -836,7 +836,7 @@ function createSariDemographicsChart() {
 
     const aggregated = aggregateDemographicsData(bundesland, station, startDate, endDate);
 
-    // Pro 100k berechnen wenn aktiviert
+    // Calculate per 100k if enabled
     if (per100k) {
         aggregated.forEach(item => {
             if (item.population > 0) {
@@ -851,7 +851,7 @@ function createSariDemographicsChart() {
         return;
     }
 
-    // Daten nach Geschlecht und Diagnose gruppieren
+    // Group data by gender and diagnosis
     const data = {};
     aggregated.forEach(item => {
         const key = `${item.gender}_${item.diagnose}`;
@@ -870,7 +870,7 @@ function createSariDemographicsChart() {
         'SONSTIGE': 'Sonstige SARI'
     };
 
-    // X-Achsen-Labels: W und M pro Altersgruppe nebeneinander
+    // X-axis labels: W and M per age group side by side
     const xLabels = [];
     AGE_GROUPS_ORDER.forEach(ag => {
         xLabels.push(`${ag}|W`);
@@ -879,7 +879,7 @@ function createSariDemographicsChart() {
 
     const traces = [];
 
-    // Für jede Diagnose einen Trace mit allen M/W Werten
+    // Create a trace for each diagnosis with all M/W values
     diagnosen.forEach(diagnose => {
         const maleKey = `M_${diagnose}`;
         const femaleKey = `W_${diagnose}`;
@@ -887,10 +887,10 @@ function createSariDemographicsChart() {
         const yValues = [];
         const colors = [];
         AGE_GROUPS_ORDER.forEach(ag => {
-            // Weiblich (volle Farbe)
+            // Female (full color)
             yValues.push(data[femaleKey]?.[ag] || 0);
             colors.push(SARI_CONFIG.colors[diagnose]);
-            // Männlich (heller)
+            // Male (lighter)
             yValues.push(data[maleKey]?.[ag] || 0);
             colors.push(lightenColor(SARI_CONFIG.colors[diagnose], 0.4));
         });
@@ -961,9 +961,9 @@ function createSariDemographicsChart() {
     Plotly.newPlot('sari-demographics-chart', traces, layout, config);
 }
 
-// Initialisiert Demographics UI
+// Initializes demographics UI
 function initSariDemographicsUI() {
-    // Extrahiere und sortiere alle einzigartigen Daten
+    // Extract and sort all unique dates
     const dateSet = new Set();
     sariDemographicsData.forEach(row => {
         if (row.date) {
@@ -974,7 +974,7 @@ function initSariDemographicsUI() {
         .sort()
         .map(d => new Date(d));
 
-    // Slider-Bereich setzen
+    // Set slider range
     const maxIdx = sariDemographicsDates.length - 1;
     const startSlider = document.getElementById('sari-demo-start');
     const endSlider = document.getElementById('sari-demo-end');
@@ -984,12 +984,12 @@ function initSariDemographicsUI() {
     endSlider.max = maxIdx;
     endSlider.value = maxIdx;
 
-    // Event Listeners
+    // Event listeners
     document.getElementById('sari-demo-bundesland').addEventListener('change', createSariDemographicsChart);
     document.getElementById('sari-demo-station').addEventListener('change', createSariDemographicsChart);
     document.getElementById('sari-demo-per100k').addEventListener('change', createSariDemographicsChart);
 
-    // Slider Event Listeners mit Validierung
+    // Slider event listeners with validation
     startSlider.addEventListener('input', () => {
         if (parseInt(startSlider.value) > parseInt(endSlider.value)) {
             startSlider.value = endSlider.value;
@@ -1011,7 +1011,7 @@ function initSariDemographicsUI() {
     updateZeitraumSlider();
 }
 
-// Lädt Demographics-Daten
+// Loads demographics data
 async function loadSariDemographicsData() {
     const loading = document.getElementById('sari-demographics-loading');
     const errorDiv = document.getElementById('sari-demographics-error');
@@ -1035,14 +1035,14 @@ async function loadSariDemographicsData() {
     }
 }
 
-// Demographics-Daten nach DOM-Load initialisieren
+// Initialize demographics data after DOM load
 document.addEventListener('DOMContentLoaded', loadSariDemographicsData);
 
 // ==================== SARI Heatmap (Altersgruppen × Zeit) ====================
 
-let sariHeatmapKWs = []; // Sortierte Liste aller KWs für Slider
+let sariHeatmapKWs = []; // Sorted list of all KWs for slider
 
-// Sortiert KW-Strings chronologisch
+// Sorts KW strings chronologically
 function sortKWs(kws) {
     return kws.sort((a, b) => {
         const matchA = a.match(/(\d+)\.\s*KW\s*(\d+)/);
@@ -1056,21 +1056,21 @@ function sortKWs(kws) {
     });
 }
 
-// Aggregiert Daten für Heatmap: Altersgruppe × KW
+// Aggregates data for heatmap: age group × KW
 function aggregateHeatmapData(bundesland, station, diagnose, startIdx, endIdx) {
     let filtered = sariDemographicsData;
 
-    // Nach Bundesland filtern
+    // Filter by state
     if (bundesland !== 'AT') {
         filtered = filtered.filter(row => row.WOHNORT === bundesland);
     }
 
-    // Nach Station filtern
+    // Filter by station
     if (station !== 'ALL') {
         filtered = filtered.filter(row => row.STATION === station);
     }
 
-    // Nach KW-Zeitraum filtern (wenn Slider-Indizes übergeben)
+    // Filter by KW time range (if slider indices provided)
     if (startIdx !== undefined && endIdx !== undefined && sariHeatmapKWs.length > 0) {
         const startKW = sariHeatmapKWs[startIdx];
         const endKW = sariHeatmapKWs[endIdx];
@@ -1082,7 +1082,7 @@ function aggregateHeatmapData(bundesland, station, diagnose, startIdx, endIdx) {
         });
     }
 
-    // Aggregieren: KW × Altersgruppe
+    // Aggregate: KW × age group
     const data = {};
 
     filtered.forEach(row => {
@@ -1094,7 +1094,7 @@ function aggregateHeatmapData(bundesland, station, diagnose, startIdx, endIdx) {
             data[key] = { kw, ageGroup: ag, count: 0, pop: 0, popCount: 0 };
         }
 
-        // Diagnose-Wert
+        // Diagnosis value
         if (diagnose === 'ALL') {
             data[key].count += (row.COVID || 0) + (row.INFLUENZA || 0) +
                 (row.RSV || 0) + (row.PNEUMOKOKKEN || 0) + (row.SONSTIGE || 0);
@@ -1102,7 +1102,7 @@ function aggregateHeatmapData(bundesland, station, diagnose, startIdx, endIdx) {
             data[key].count += row[diagnose] || 0;
         }
 
-        // Bevölkerung (pro KW/Altersgruppe nur einmal zählen)
+        // Population (count only once per KW/age group)
         if (row.BEV_ZAHL) {
             data[key].pop += row.BEV_ZAHL;
             data[key].popCount++;
@@ -1112,7 +1112,7 @@ function aggregateHeatmapData(bundesland, station, diagnose, startIdx, endIdx) {
     return Object.values(data);
 }
 
-// Aktualisiert die Heatmap-Zeitraum-Labels und die blaue Leiste
+// Updates the heatmap time range labels and the blue bar
 function updateHeatmapSlider() {
     const startSlider = document.getElementById('sari-heatmap-start');
     const endSlider = document.getElementById('sari-heatmap-end');
@@ -1133,14 +1133,14 @@ function updateHeatmapSlider() {
     startLabel.textContent = sariHeatmapKWs[startIdx] || '';
     endLabel.textContent = sariHeatmapKWs[endIdx] || '';
 
-    // Blaue Leiste positionieren
+    // Position the blue bar
     const startPercent = (startIdx / maxIdx) * 100;
     const endPercent = (endIdx / maxIdx) * 100;
     rangeBar.style.left = startPercent + '%';
     rangeBar.style.width = (endPercent - startPercent) + '%';
 }
 
-// Erstellt die Heatmap
+// Creates the heatmap
 function createSariHeatmap() {
     const bundesland = document.getElementById('sari-heatmap-bundesland').value;
     const station = document.getElementById('sari-heatmap-station').value;
@@ -1160,11 +1160,11 @@ function createSariHeatmap() {
         return;
     }
 
-    // Alle KWs und Altersgruppen extrahieren
+    // Extract all KWs and age groups
     const kwSet = new Set();
     aggregated.forEach(d => kwSet.add(d.kw));
     const kws = Array.from(kwSet).sort((a, b) => {
-        // Sortiere nach Jahr und KW
+        // Sort by year and KW
         const matchA = a.match(/(\d+)\.\s*KW\s*(\d+)/);
         const matchB = b.match(/(\d+)\.\s*KW\s*(\d+)/);
         if (matchA && matchB) {
@@ -1175,10 +1175,10 @@ function createSariHeatmap() {
         return 0;
     });
 
-    // Altersgruppen in umgekehrter Reihenfolge (älteste oben)
+    // Age groups in reverse order (oldest on top)
     const ageGroups = [...AGE_GROUPS_ORDER].reverse();
 
-    // Matrix erstellen
+    // Create matrix
     const zValues = [];
     const hoverText = [];
 
@@ -1270,16 +1270,16 @@ function createSariHeatmap() {
     Plotly.newPlot('sari-heatmap-chart', [trace], layout, config);
 }
 
-// Initialisiert Heatmap UI
+// Initializes heatmap UI
 function initSariHeatmapUI() {
-    // Alle KWs aus den Daten extrahieren und sortieren
+    // Extract and sort all KWs from data
     const kwSet = new Set();
     sariDemographicsData.forEach(row => {
         if (row.KW) kwSet.add(row.KW);
     });
     sariHeatmapKWs = sortKWs(Array.from(kwSet));
 
-    // Slider-Bereich setzen
+    // Set slider range
     const maxIdx = sariHeatmapKWs.length - 1;
     const startSlider = document.getElementById('sari-heatmap-start');
     const endSlider = document.getElementById('sari-heatmap-end');
@@ -1289,13 +1289,13 @@ function initSariHeatmapUI() {
     endSlider.max = maxIdx;
     endSlider.value = maxIdx;
 
-    // Event Listeners für Dropdowns
+    // Event listeners for dropdowns
     document.getElementById('sari-heatmap-bundesland').addEventListener('change', createSariHeatmap);
     document.getElementById('sari-heatmap-station').addEventListener('change', createSariHeatmap);
     document.getElementById('sari-heatmap-diagnose').addEventListener('change', createSariHeatmap);
     document.getElementById('sari-heatmap-per100k').addEventListener('change', createSariHeatmap);
 
-    // Slider Event Listeners mit Validierung
+    // Slider event listeners with validation
     startSlider.addEventListener('input', () => {
         if (parseInt(startSlider.value) > parseInt(endSlider.value)) {
             startSlider.value = endSlider.value;
@@ -1314,15 +1314,15 @@ function initSariHeatmapUI() {
 
     endSlider.addEventListener('change', createSariHeatmap);
 
-    // Loading ausblenden und Chart erstellen
+    // Hide loading and create chart
     document.getElementById('sari-heatmap-loading').classList.add('hidden');
     updateHeatmapSlider();
     createSariHeatmap();
 }
 
-// Heatmap initialisieren wenn Demographics-Daten geladen sind
+// Initialize heatmap when demographics data is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Warte bis Demographics-Daten geladen sind
+    // Wait until demographics data is loaded
     const checkData = setInterval(() => {
         if (sariDemographicsData.length > 0) {
             clearInterval(checkData);
