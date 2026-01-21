@@ -559,6 +559,16 @@ function createSariChart() {
         'I': 'Intensivstation'
     };
 
+    // Berechne Meldedatum-Cutoff (3 Wochen vor letztem Datenpunkt)
+    const allDates = traces.length > 0 ? traces[0].x : [];
+    let reportingCutoffStr = null;
+    if (allDates.length > 0) {
+        const lastDate = new Date(allDates[allDates.length - 1]);
+        const reportingCutoff = new Date(lastDate);
+        reportingCutoff.setDate(reportingCutoff.getDate() - 14); // 2 Wochen
+        reportingCutoffStr = reportingCutoff.toISOString().split('T')[0];
+    }
+
     const layout = {
         title: {
             text: `SARI-Aufnahmen - ${bundeslandNames[bundesland]} (${stationNames[station]})`,
@@ -591,7 +601,25 @@ function createSariChart() {
             x: 0.5
         },
         hovermode: 'x unified',
-        margin: { t: 80, b: 60, l: 60, r: 30 }
+        margin: { t: 80, b: 60, l: 60, r: 30 },
+        shapes: reportingCutoffStr ? [{
+            type: 'line',
+            x0: reportingCutoffStr,
+            x1: reportingCutoffStr,
+            y0: 0,
+            y1: 1,
+            yref: 'paper',
+            line: { color: '#666', width: 1, dash: 'dot' }
+        }] : [],
+        annotations: reportingCutoffStr ? [{
+            x: reportingCutoffStr,
+            y: 1,
+            yref: 'paper',
+            text: 'Daten bis hierher größtenteils gemeldet* →',
+            showarrow: false,
+            xanchor: 'right',
+            font: { size: 11, color: '#666' }
+        }] : []
     };
 
     const config = {

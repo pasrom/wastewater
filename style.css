@@ -274,6 +274,12 @@ footer a:hover {
     color: #e74c3c;
 }
 
+.footnote {
+    font-size: 0.7rem;
+    color: #888;
+    margin-top: 8px;
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 10px;
