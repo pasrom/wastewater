@@ -41,10 +41,55 @@
             </div>
         </main>
 
+        <section class="sari-section">
+            <header>
+                <h2>Krankenhausaufnahmen (SARI)</h2>
+                <p class="subtitle">Daten: SARI-Dashboard Österreich</p>
+            </header>
+
+            <div class="sari-content">
+                <div id="sari-controls">
+                    <div class="control-group">
+                        <label for="sari-bundesland">Bundesland:</label>
+                        <select id="sari-bundesland" class="select-input">
+                            <option value="AT">Österreich (Gesamt)</option>
+                            <option value="W">Wien</option>
+                            <option value="NÖ">Niederösterreich</option>
+                            <option value="OÖ">Oberösterreich</option>
+                            <option value="S">Salzburg</option>
+                            <option value="T">Tirol</option>
+                            <option value="V">Vorarlberg</option>
+                            <option value="K">Kärnten</option>
+                            <option value="ST">Steiermark</option>
+                            <option value="BGL">Burgenland</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="sari-station">Station:</label>
+                        <select id="sari-station" class="select-input">
+                            <option value="ALL">Alle Stationen</option>
+                            <option value="N">Normalstation</option>
+                            <option value="I">Intensivstation</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="sari-chart-container">
+                    <div id="sari-loading">Lade SARI-Daten...</div>
+                    <div id="sari-chart"></div>
+                </div>
+
+                <div id="sari-error" class="hidden">
+                    <p>Fehler beim Laden der SARI-Daten. Bitte später erneut versuchen.</p>
+                </div>
+            </div>
+        </section>
+
         <footer>
             <p>
-                Datenquelle:
-                <a href="https://abwasser.ages.at" target="_blank" rel="noopener">AGES Abwasser-Monitoring</a>
+                Datenquellen:
+                <a href="https://abwasser.ages.at" target="_blank" rel="noopener">AGES Abwasser-Monitoring</a> |
+                <a href="https://www.sari-dashboard.at" target="_blank" rel="noopener">SARI-Dashboard</a>
             </p>
         </footer>
     </div>
