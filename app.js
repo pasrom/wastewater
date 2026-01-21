@@ -667,3 +667,377 @@ async function loadSariData() {
 
 // SARI-Daten nach DOM-Load initialisieren
 document.addEventListener('DOMContentLoaded', loadSariData);
+
+// ==================== SARI Demographics (Alter/Geschlecht) ====================
+
+const SARI_DEMOGRAPHICS_URL = 'https://opendata-files.sozialversicherung.at/sari/SARI_Wohnregion_Patient_v202307.csv';
+
+let sariDemographicsData = [];
+let sariDemographicsDates = []; // Sortierte Liste aller Wochen
+
+const AGE_GROUPS_ORDER = ['0 - 4', '5 - 14', '15 - 29', '30 - 44', '45 - 59', '60 - 69', '70 - 79', '80+'];
+
+// Parst Demographics-CSV (gleiche Struktur wie SARI)
+function parseDemographicsCSV(csvText) {
+    const lines = csvText.trim().split('\n');
+    if (lines.length < 2) return [];
+
+    const headers = lines[0].split(';').map(h => h.trim().replace(/"/g, ''));
+    const data = [];
+
+    for (let i = 1; i < lines.length; i++) {
+        const values = lines[i].split(';').map(v => v.trim().replace(/"/g, ''));
+        if (values.length !== headers.length) continue;
+
+        const row = {};
+        headers.forEach((header, index) => {
+            row[header] = values[index];
+        });
+
+        // Numerische Werte konvertieren
+        ['COVID', 'INFLUENZA', 'RSV', 'PNEUMOKOKKEN', 'SONSTIGE', 'AUFNAHMEN', 'BEV_ZAHL'].forEach(col => {
+            if (row[col]) {
+                row[col] = parseInt(row[col]) || 0;
+            }
+        });
+
+        // Datum aus KW parsen
+        if (row.KW) {
+            row.date = parseKW(row.KW);
+        }
+
+        if (row.date) {
+            data.push(row);
+        }
+    }
+
+    return data;
+}
+
+// Aggregiert Daten nach Altersgruppe, Geschlecht und Diagnose
+function aggregateDemographicsData(bundesland, station, startDate, endDate) {
+    let filtered = sariDemographicsData;
+
+    // Nach Bundesland filtern
+    if (bundesland !== 'AT') {
+        filtered = filtered.filter(row => row.WOHNORT === bundesland);
+    }
+
+    // Nach Station filtern
+    if (station !== 'ALL') {
+        filtered = filtered.filter(row => row.STATION === station);
+    }
+
+    // Nach Zeitraum filtern
+    if (startDate && endDate) {
+        filtered = filtered.filter(row => row.date >= startDate && row.date <= endDate);
+    }
+
+    // Nach Altersgruppe, Geschlecht und Diagnose aggregieren
+    const aggregated = {};
+    const populationByAgeGender = {};
+    const diagnosen = ['COVID', 'INFLUENZA', 'RSV', 'PNEUMOKOKKEN', 'SONSTIGE'];
+
+    filtered.forEach(row => {
+        // Bevölkerung pro Altersgruppe/Geschlecht tracken (nur einmal pro KW zählen)
+        const popKey = `${row.ALTERSGRUPPE}_${row.GESCHLECHT}_${row.KW}`;
+        if (!populationByAgeGender[popKey] && row.BEV_ZAHL) {
+            populationByAgeGender[popKey] = {
+                ageGroup: row.ALTERSGRUPPE,
+                gender: row.GESCHLECHT,
+                pop: row.BEV_ZAHL
+            };
+        }
+
+        diagnosen.forEach(diagnose => {
+            const key = `${row.ALTERSGRUPPE}_${row.GESCHLECHT}_${diagnose}`;
+            if (!aggregated[key]) {
+                aggregated[key] = {
+                    ageGroup: row.ALTERSGRUPPE,
+                    gender: row.GESCHLECHT,
+                    diagnose: diagnose,
+                    count: 0
+                };
+            }
+            aggregated[key].count += row[diagnose] || 0;
+        });
+    });
+
+    // Durchschnittliche Bevölkerung pro Altersgruppe/Geschlecht berechnen
+    const popSums = {};
+    const popCounts = {};
+    Object.values(populationByAgeGender).forEach(p => {
+        const key = `${p.ageGroup}_${p.gender}`;
+        if (!popSums[key]) {
+            popSums[key] = 0;
+            popCounts[key] = 0;
+        }
+        popSums[key] += p.pop;
+        popCounts[key]++;
+    });
+
+    // Population zu aggregierten Daten hinzufügen
+    Object.values(aggregated).forEach(item => {
+        const popKey = `${item.ageGroup}_${item.gender}`;
+        item.population = popCounts[popKey] ? popSums[popKey] / popCounts[popKey] : 0;
+    });
+
+    return Object.values(aggregated);
+}
+
+// Formatiert Datum als "X. KW YYYY"
+function formatDateAsKW(date) {
+    const startOfYear = new Date(date.getFullYear(), 0, 1);
+    const days = Math.floor((date - startOfYear) / (24 * 60 * 60 * 1000));
+    const week = Math.ceil((days + startOfYear.getDay() + 1) / 7);
+    return `${week}. KW ${date.getFullYear()}`;
+}
+
+// Aktualisiert die Zeitraum-Labels und die grüne Leiste
+function updateZeitraumSlider() {
+    const startSlider = document.getElementById('sari-demo-start');
+    const endSlider = document.getElementById('sari-demo-end');
+    const startLabel = document.getElementById('sari-demo-start-label');
+    const endLabel = document.getElementById('sari-demo-end-label');
+    const rangeBar = document.getElementById('slider-range');
+
+    const startIdx = parseInt(startSlider.value);
+    const endIdx = parseInt(endSlider.value);
+    const maxIdx = parseInt(startSlider.max);
+
+    if (sariDemographicsDates.length === 0) {
+        startLabel.textContent = 'Keine Daten';
+        endLabel.textContent = '';
+        return;
+    }
+
+    const startDate = sariDemographicsDates[startIdx];
+    const endDate = sariDemographicsDates[endIdx];
+
+    startLabel.textContent = formatDateAsKW(startDate);
+    endLabel.textContent = formatDateAsKW(endDate);
+
+    // Grüne Leiste positionieren
+    const startPercent = (startIdx / maxIdx) * 100;
+    const endPercent = (endIdx / maxIdx) * 100;
+    rangeBar.style.left = startPercent + '%';
+    rangeBar.style.width = (endPercent - startPercent) + '%';
+}
+
+// Erstellt den Demographics-Chart mit gestapelten Diagnosen pro Geschlecht
+function createSariDemographicsChart() {
+    const bundesland = document.getElementById('sari-demo-bundesland').value;
+    const station = document.getElementById('sari-demo-station').value;
+    const per100k = document.getElementById('sari-demo-per100k').checked;
+
+    const startIdx = parseInt(document.getElementById('sari-demo-start').value);
+    const endIdx = parseInt(document.getElementById('sari-demo-end').value);
+
+    const startDate = sariDemographicsDates[startIdx];
+    const endDate = sariDemographicsDates[endIdx];
+
+    updateZeitraumSlider();
+
+    const aggregated = aggregateDemographicsData(bundesland, station, startDate, endDate);
+
+    // Pro 100k berechnen wenn aktiviert
+    if (per100k) {
+        aggregated.forEach(item => {
+            if (item.population > 0) {
+                item.count = (item.count / item.population) * 100000;
+            }
+        });
+    }
+
+    if (aggregated.length === 0) {
+        document.getElementById('sari-demographics-chart').innerHTML =
+            '<p style="text-align:center;padding:40px;color:#666;">Keine Daten für diese Auswahl verfügbar.</p>';
+        return;
+    }
+
+    // Daten nach Geschlecht und Diagnose gruppieren
+    const data = {};
+    aggregated.forEach(item => {
+        const key = `${item.gender}_${item.diagnose}`;
+        if (!data[key]) {
+            data[key] = {};
+        }
+        data[key][item.ageGroup] = item.count;
+    });
+
+    const diagnosen = ['COVID', 'INFLUENZA', 'PNEUMOKOKKEN', 'RSV', 'SONSTIGE'];
+    const diagnoseNames = {
+        'COVID': 'COVID-19',
+        'INFLUENZA': 'Influenza',
+        'RSV': 'RSV',
+        'PNEUMOKOKKEN': 'Pneumokokken',
+        'SONSTIGE': 'Sonstige SARI'
+    };
+
+    // X-Achsen-Labels: W und M pro Altersgruppe nebeneinander
+    const xLabels = [];
+    AGE_GROUPS_ORDER.forEach(ag => {
+        xLabels.push(`${ag}|W`);
+        xLabels.push(`${ag}|M`);
+    });
+
+    const traces = [];
+
+    // Für jede Diagnose einen Trace mit allen M/W Werten
+    diagnosen.forEach(diagnose => {
+        const maleKey = `M_${diagnose}`;
+        const femaleKey = `W_${diagnose}`;
+
+        const yValues = [];
+        const colors = [];
+        AGE_GROUPS_ORDER.forEach(ag => {
+            // Weiblich (volle Farbe)
+            yValues.push(data[femaleKey]?.[ag] || 0);
+            colors.push(SARI_CONFIG.colors[diagnose]);
+            // Männlich (heller)
+            yValues.push(data[maleKey]?.[ag] || 0);
+            colors.push(lightenColor(SARI_CONFIG.colors[diagnose], 0.4));
+        });
+
+        traces.push({
+            name: diagnoseNames[diagnose],
+            x: xLabels,
+            y: yValues,
+            type: 'bar',
+            marker: { color: colors },
+            hovertemplate: `<b>${diagnoseNames[diagnose]}</b><br>%{x}<br>Aufnahmen: %{y}<extra></extra>`
+        });
+    });
+
+    const bundeslandNames = {
+        'AT': 'Österreich',
+        'W': 'Wien',
+        'NÖ': 'Niederösterreich',
+        'OÖ': 'Oberösterreich',
+        'S': 'Salzburg',
+        'T': 'Tirol',
+        'V': 'Vorarlberg',
+        'K': 'Kärnten',
+        'ST': 'Steiermark',
+        'BGL': 'Burgenland'
+    };
+
+    const stationNames = {
+        'ALL': 'Alle Stationen',
+        'N': 'Normalstation',
+        'I': 'Intensivstation'
+    };
+
+    const layout = {
+        title: {
+            text: `SARI-Aufnahmen nach Alter und Geschlecht - ${bundeslandNames[bundesland]} (${stationNames[station]})`,
+            font: { size: 18 }
+        },
+        barmode: 'stack',
+        xaxis: {
+            title: 'Altersgruppe (dunkel = Weiblich, hell = Männlich)',
+            categoryorder: 'array',
+            categoryarray: xLabels,
+            tickangle: -45
+        },
+        yaxis: {
+            title: per100k ? 'Aufnahmen pro 100.000 Einw.' : 'Aufnahmen (absolut)',
+            rangemode: 'tozero'
+        },
+        legend: {
+            orientation: 'h',
+            yanchor: 'bottom',
+            y: 1.02,
+            xanchor: 'center',
+            x: 0.5
+        },
+        hovermode: 'x unified',
+        margin: { t: 80, b: 80, l: 60, r: 30 }
+    };
+
+    const config = {
+        responsive: true,
+        displayModeBar: true,
+        displaylogo: false,
+        modeBarButtonsToRemove: ['lasso2d', 'select2d']
+    };
+
+    Plotly.newPlot('sari-demographics-chart', traces, layout, config);
+}
+
+// Initialisiert Demographics UI
+function initSariDemographicsUI() {
+    // Extrahiere und sortiere alle einzigartigen Daten
+    const dateSet = new Set();
+    sariDemographicsData.forEach(row => {
+        if (row.date) {
+            dateSet.add(row.date.toISOString().split('T')[0]);
+        }
+    });
+    sariDemographicsDates = Array.from(dateSet)
+        .sort()
+        .map(d => new Date(d));
+
+    // Slider-Bereich setzen
+    const maxIdx = sariDemographicsDates.length - 1;
+    const startSlider = document.getElementById('sari-demo-start');
+    const endSlider = document.getElementById('sari-demo-end');
+
+    startSlider.max = maxIdx;
+    startSlider.value = 0;
+    endSlider.max = maxIdx;
+    endSlider.value = maxIdx;
+
+    // Event Listeners
+    document.getElementById('sari-demo-bundesland').addEventListener('change', createSariDemographicsChart);
+    document.getElementById('sari-demo-station').addEventListener('change', createSariDemographicsChart);
+    document.getElementById('sari-demo-per100k').addEventListener('change', createSariDemographicsChart);
+
+    // Slider Event Listeners mit Validierung
+    startSlider.addEventListener('input', () => {
+        if (parseInt(startSlider.value) > parseInt(endSlider.value)) {
+            startSlider.value = endSlider.value;
+        }
+        updateZeitraumSlider();
+    });
+
+    startSlider.addEventListener('change', createSariDemographicsChart);
+
+    endSlider.addEventListener('input', () => {
+        if (parseInt(endSlider.value) < parseInt(startSlider.value)) {
+            endSlider.value = startSlider.value;
+        }
+        updateZeitraumSlider();
+    });
+
+    endSlider.addEventListener('change', createSariDemographicsChart);
+
+    updateZeitraumSlider();
+}
+
+// Lädt Demographics-Daten
+async function loadSariDemographicsData() {
+    const loading = document.getElementById('sari-demographics-loading');
+    const errorDiv = document.getElementById('sari-demographics-error');
+
+    try {
+        const csvText = await fetchCSV(SARI_DEMOGRAPHICS_URL);
+        sariDemographicsData = parseDemographicsCSV(csvText);
+
+        if (sariDemographicsData.length === 0) {
+            throw new Error('Keine Demographics-Daten geladen');
+        }
+
+        loading.classList.add('hidden');
+        initSariDemographicsUI();
+        createSariDemographicsChart();
+
+    } catch (error) {
+        console.error('Demographics-Initialisierungsfehler:', error);
+        loading.classList.add('hidden');
+        errorDiv.classList.remove('hidden');
+    }
+}
+
+// Demographics-Daten nach DOM-Load initialisieren
+document.addEventListener('DOMContentLoaded', loadSariDemographicsData);
