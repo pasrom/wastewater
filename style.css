@@ -59,18 +59,28 @@ h1 {
 }
 
 .btn {
-    background: #3498db;
-    color: white;
-    border: none;
-    padding: 8px 16px;
+    padding: 6px 28px 6px 10px;
+    border: 1px solid #ccc;
     border-radius: 6px;
-    cursor: pointer;
     font-size: 0.9rem;
-    transition: background 0.2s;
+    background: white;
+    cursor: pointer;
+    min-width: 160px;
+    text-align: left;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M3 4.5L6 7.5L9 4.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    transition: border-color 0.2s;
 }
 
 .btn:hover {
-    background: #2980b9;
+    border-color: #999;
+}
+
+.btn:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.15);
 }
 
 .btn-small {
@@ -208,10 +218,6 @@ footer a:hover {
     font-size: 1.5rem;
     color: #2c3e50;
     margin-bottom: 8px;
-}
-
-.sari-content {
-    /* Container for SARI controls and chart */
 }
 
 #sari-controls {
