@@ -201,6 +201,16 @@ footer a:hover {
     text-decoration: underline;
 }
 
+footer .impressum {
+    font-size: 0.75rem;
+    margin-top: 10px;
+    color: #888;
+}
+
+footer .impressum a {
+    color: #888;
+}
+
 /* SARI Section */
 .sari-section {
     background: white;
