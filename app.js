@@ -28,17 +28,23 @@ let selectedLocations = new Set(['Österreich']);
 // Extracts all traces from Plotly data
 function extractAllTraces(plotlyData) {
     const traces = {};
+    let quartile1 = null;
+    let quartile3 = null;
 
     if (!plotlyData || !plotlyData.data) {
-        return traces;
+        return { traces, quartile1, quartile3 };
     }
 
     for (const trace of plotlyData.data) {
-        // Only traces with name and data (no quartile bands etc.)
-        if (trace.name && trace.x && trace.y &&
-            !trace.name.includes('Quartil') &&
-            trace.type !== 'bar' &&
-            trace.mode !== 'none') {
+        if (!trace.name || !trace.x || !trace.y) continue;
+
+        // Extract quartile traces for Austria
+        if (trace.name === '1. Quartil Österreich') {
+            quartile1 = { x: trace.x, y: trace.y };
+        } else if (trace.name === '3. Quartil Österreich') {
+            quartile3 = { x: trace.x, y: trace.y };
+        } else if (trace.type !== 'bar' && trace.mode !== 'none') {
+            // Regular location traces
             traces[trace.name] = {
                 x: trace.x,
                 y: trace.y
@@ -46,7 +52,7 @@ function extractAllTraces(plotlyData) {
         }
     }
 
-    return traces;
+    return { traces, quartile1, quartile3 };
 }
 
 // Fetches data from URL with CORS proxy fallback
@@ -75,12 +81,14 @@ async function loadAllData() {
     const promises = Object.entries(DATA_SOURCES).map(async ([key, source]) => {
         try {
             const data = await fetchData(source.url);
-            const traces = extractAllTraces(data);
+            const { traces, quartile1, quartile3 } = extractAllTraces(data);
 
             if (Object.keys(traces).length > 0) {
                 results[key] = {
                     ...source,
-                    traces: traces
+                    traces: traces,
+                    quartile1: quartile1,
+                    quartile3: quartile3
                 };
 
                 // Collect all locations
@@ -105,12 +113,52 @@ function getLocationColor(baseColor, locationIndex, totalLocations) {
     return baseColor + Math.round(opacity * 255).toString(16).padStart(2, '0');
 }
 
+// Converts hex color to rgba with alpha
+function hexToRgba(hex, alpha) {
+    const num = parseInt(hex.replace('#', ''), 16);
+    const r = (num >> 16) & 0xFF;
+    const g = (num >> 8) & 0xFF;
+    const b = num & 0xFF;
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
 // Creates the Plotly chart
 function createChart() {
     const traces = [];
     const locationArray = Array.from(selectedLocations);
+    const showAustria = selectedLocations.has('Österreich');
 
     for (const [virusKey, source] of Object.entries(allData)) {
+        // Add quartile band first (behind the main line) when Austria is selected
+        if (showAustria && source.quartile1 && source.quartile3) {
+            // Upper quartile (Q3) - invisible line
+            traces.push({
+                x: source.quartile3.x,
+                y: source.quartile3.y,
+                name: `${source.name} Q3`,
+                type: 'scatter',
+                mode: 'lines',
+                line: { color: 'transparent', width: 0 },
+                showlegend: false,
+                legendgroup: virusKey,
+                hoverinfo: 'skip'
+            });
+            // Lower quartile (Q1) - fill to Q3
+            traces.push({
+                x: source.quartile1.x,
+                y: source.quartile1.y,
+                name: `${source.name} Q1`,
+                type: 'scatter',
+                mode: 'lines',
+                line: { color: 'transparent', width: 0 },
+                fill: 'tonexty',
+                fillcolor: hexToRgba(source.color, 0.25),
+                showlegend: false,
+                legendgroup: virusKey,
+                hoverinfo: 'skip'
+            });
+        }
+
         locationArray.forEach((location, locIndex) => {
             if (source.traces[location]) {
                 const isAustria = location === 'Österreich';
