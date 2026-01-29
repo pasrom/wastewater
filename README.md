@@ -38,7 +38,7 @@ Interactive dashboard displaying virus load in Austrian wastewater, Sentinel vir
 | Data | Source |
 |------|--------|
 | Wastewater | [AGES Abwasser-Monitoring](https://abwasser.ages.at) |
-| Sentinel | [MedUni Wien Virusepidemiologie](https://www.meduniwien.ac.at/virusepidemiologie) |
+| Sentinel | [MedUni Wien Virusepidemiologie](https://viro.meduniwien.ac.at/forschung/virus-epidemiologie-2/ueberwachung-der-zirkulation-respiratorischer-viren-in-oesterreich/) |
 | SARI Hospital | [SARI-Dashboard](https://www.sari-dashboard.at) |
 
 ## Local Development
