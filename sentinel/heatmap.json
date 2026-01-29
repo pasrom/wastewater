@@ -1,7 +1,6 @@
 {
   "source": "https://viro.meduniwien.ac.at/fileadmin/content/OE/virologie/dokumente/Virus_Epidemiogie/RespiratorischeViren/sentinelHeatmap.svg",
   "description": "Virusnachweise im Sentinelsystem - Heatmap data",
-  "scale": "0-120 (Fallzahl)",
   "viruses": [
     "AD",
     "Corona",
@@ -434,5 +433,6 @@
       "KW04/2026": 21.0,
       "KW05/2026": 27.6
     }
-  }
+  },
+  "scale": "0-120 (Fallzahl)"
 }

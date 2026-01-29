@@ -1,18 +1,18 @@
 {
-  "last_updated": "2026-01-29T20:04:54.834228",
+  "last_updated": "2026-01-29T19:26:10.339192",
   "sources": {
     "ages": {
       "sarscov2": {
         "status": "ok",
-        "file": "/tmp/wastewater-data/ages/sarscov2.json"
+        "file": "../../data/ages/sarscov2.json"
       },
       "influenza": {
         "status": "ok",
-        "file": "/tmp/wastewater-data/ages/influenza.json"
+        "file": "../../data/ages/influenza.json"
       },
       "rsv": {
         "status": "ok",
-        "file": "/tmp/wastewater-data/ages/rsv.json"
+        "file": "../../data/ages/rsv.json"
       }
     },
     "sentinel": {
