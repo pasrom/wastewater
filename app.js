@@ -1,17 +1,20 @@
+// Data source base URL (from data branch on GitHub)
+const DATA_BASE = 'https://raw.githubusercontent.com/pasrom/wastewater/data';
+
 // AGES Wastewater Monitoring data sources
 const DATA_SOURCES = {
     sarscov2: {
-        url: 'https://abwasser.ages.at/de/cache/plotly/sarscov2_development.json',
+        url: `${DATA_BASE}/ages/sarscov2.json`,
         name: 'SARS-CoV-2',
         color: '#e87461'  // COVID color (consistent with SARI)
     },
     influenza: {
-        url: 'https://abwasser.ages.at/de/cache/plotly/influenza_development.json',
+        url: `${DATA_BASE}/ages/influenza.json`,
         name: 'Influenza',
         color: '#ffc600'  // Influenza color (consistent with SARI)
     },
     rsv: {
-        url: 'https://abwasser.ages.at/de/cache/plotly/rsv_development.json',
+        url: `${DATA_BASE}/ages/rsv.json`,
         name: 'RSV',
         color: '#456990'  // RSV color (consistent with SARI)
     }
@@ -284,7 +287,7 @@ function lightenColor(hex, amount) {
 }
 
 const SARI_CONFIG = {
-    url: 'https://opendata-files.sozialversicherung.at/sari/SARI_Region_Krankenanstalt_v202307.csv',
+    url: `${DATA_BASE}/sari/krankenanstalt.json`,
     colors: {
         COVID: '#e87461',       // rgb(232, 116, 97)
         INFLUENZA: '#ffc600',   // rgb(255, 198, 0)
@@ -637,14 +640,21 @@ function initSariUI() {
     stationSelect.addEventListener('change', createSariChart);
 }
 
-// Loads SARI data
+// Loads SARI data (from JSON in data branch)
 async function loadSariData() {
     const loading = document.getElementById('sari-loading');
     const errorDiv = document.getElementById('sari-error');
 
     try {
-        const csvText = await fetchCSV(SARI_CONFIG.url);
-        sariRawData = parseCSV(csvText);
+        const response = await fetchData(SARI_CONFIG.url);
+        sariRawData = response.data || [];
+
+        // Convert date strings to Date objects
+        sariRawData.forEach(row => {
+            if (row.date) {
+                row.date = new Date(row.date);
+            }
+        });
 
         if (sariRawData.length === 0) {
             throw new Error('Keine SARI-Daten geladen');
@@ -666,7 +676,7 @@ document.addEventListener('DOMContentLoaded', loadSariData);
 
 // ==================== SARI Demographics (Alter/Geschlecht) ====================
 
-const SARI_DEMOGRAPHICS_URL = 'https://opendata-files.sozialversicherung.at/sari/SARI_Wohnregion_Patient_v202307.csv';
+const SARI_DEMOGRAPHICS_URL = `${DATA_BASE}/sari/patient.json`;
 
 let sariDemographicsData = [];
 let sariDemographicsDates = []; // Sorted list of all weeks
@@ -1011,14 +1021,21 @@ function initSariDemographicsUI() {
     updateZeitraumSlider();
 }
 
-// Loads demographics data
+// Loads demographics data (from JSON in data branch)
 async function loadSariDemographicsData() {
     const loading = document.getElementById('sari-demographics-loading');
     const errorDiv = document.getElementById('sari-demographics-error');
 
     try {
-        const csvText = await fetchCSV(SARI_DEMOGRAPHICS_URL);
-        sariDemographicsData = parseDemographicsCSV(csvText);
+        const response = await fetchData(SARI_DEMOGRAPHICS_URL);
+        sariDemographicsData = response.data || [];
+
+        // Convert date strings to Date objects
+        sariDemographicsData.forEach(row => {
+            if (row.date) {
+                row.date = new Date(row.date);
+            }
+        });
 
         if (sariDemographicsData.length === 0) {
             throw new Error('Keine Demographics-Daten geladen');
