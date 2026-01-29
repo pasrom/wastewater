@@ -1,1 +1,39 @@
-{"status": "initialized", "note": "Data will be fetched by GitHub Action"}
+{
+  "last_updated": "2026-01-29T20:04:54.834228",
+  "sources": {
+    "ages": {
+      "sarscov2": {
+        "status": "ok",
+        "file": "/tmp/wastewater-data/ages/sarscov2.json"
+      },
+      "influenza": {
+        "status": "ok",
+        "file": "/tmp/wastewater-data/ages/influenza.json"
+      },
+      "rsv": {
+        "status": "ok",
+        "file": "/tmp/wastewater-data/ages/rsv.json"
+      }
+    },
+    "sentinel": {
+      "heatmap": {
+        "status": "ok",
+        "weeks": 40
+      },
+      "barchart": {
+        "status": "ok",
+        "weeks": 50
+      }
+    },
+    "sari": {
+      "krankenanstalt": {
+        "status": "ok",
+        "rows": 2556
+      },
+      "patient": {
+        "status": "ok",
+        "rows": 40896
+      }
+    }
+  }
+}
