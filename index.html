@@ -45,6 +45,42 @@
 
         <section class="sari-section">
             <header>
+                <h2>Virusnachweise im Sentinelsystem</h2>
+                <p class="subtitle">Daten: MedUni Wien Sentinelsystem</p>
+            </header>
+
+            <div class="sari-content">
+                <div id="sentinel-bar-chart-container">
+                    <div id="sentinel-bar-loading">Lade Sentinel-Daten...</div>
+                    <div id="sentinel-bar-chart"></div>
+                </div>
+
+                <div id="sentinel-bar-error" class="hidden">
+                    <p>Fehler beim Laden der Sentinel-Daten. Bitte später erneut versuchen.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="sari-section">
+            <header>
+                <h2>Fallzahlen nach Virustyp</h2>
+                <p class="subtitle">Heatmap: MedUni Wien Sentinelsystem</p>
+            </header>
+
+            <div class="sari-content">
+                <div id="sentinel-heatmap-chart-container">
+                    <div id="sentinel-heatmap-loading">Lade Heatmap-Daten...</div>
+                    <div id="sentinel-heatmap-chart"></div>
+                </div>
+
+                <div id="sentinel-heatmap-error" class="hidden">
+                    <p>Fehler beim Laden der Heatmap-Daten. Bitte später erneut versuchen.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="sari-section">
+            <header>
                 <h2>Krankenhausaufnahmen (SARI)</h2>
                 <p class="subtitle">Daten: SARI-Dashboard Österreich</p>
             </header>
@@ -230,6 +266,7 @@
             <p>
                 Datenquellen:
                 <a href="https://abwasser.ages.at" target="_blank" rel="noopener">AGES Abwasser-Monitoring</a> |
+                <a href="https://www.meduniwien.ac.at/virusepidemiologie" target="_blank" rel="noopener">MedUni Wien Sentinel</a> |
                 <a href="https://www.sari-dashboard.at" target="_blank" rel="noopener">SARI-Dashboard</a>
             </p>
             <p class="impressum">

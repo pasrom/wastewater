@@ -1395,3 +1395,254 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 100);
 });
+
+// ==================== Sentinel (MedUni Wien) ====================
+
+const SENTINEL_BAR_URL = `${DATA_BASE}/sentinel/barchart.json`;
+const SENTINEL_HEATMAP_URL = `${DATA_BASE}/sentinel/heatmap.json`;
+
+let sentinelBarData = null;
+let sentinelHeatmapData = null;
+
+const SENTINEL_COLORS = {
+    'Inf_A': '#E63946',
+    'Inf_B': '#E07B00',
+    'Inf_C': '#A0522D',
+    'Metapneumo_V': '#6C757D',
+    'Covid-19': '#FFAA00',
+    'Corona': '#16A085',
+    'RSV': '#7D47BC',
+    'Rhino': '#1CA9C9',
+    'Adeno': '#556B2F',
+    'ParaInfluenza': '#1D3557',
+    'Entero': '#5A2E18'
+};
+
+const SENTINEL_VIRUS_ORDER = [
+    'Entero', 'Inf_A', 'Inf_B', 'Inf_C', 'Metapneumo_V',
+    'RSV', 'Rhino', 'Adeno', 'ParaInfluenza', 'Corona', 'Covid-19'
+];
+
+const SENTINEL_LABELS = {
+    'Inf_A': 'Inf A',
+    'Inf_B': 'Inf B',
+    'Inf_C': 'Inf C',
+    'Metapneumo_V': 'Metapneumo V.',
+    'Covid-19': 'Covid-19',
+    'Corona': 'Corona',
+    'RSV': 'RSV',
+    'Rhino': 'Rhino',
+    'Adeno': 'Adeno',
+    'ParaInfluenza': 'ParaInfluenza',
+    'Entero': 'Entero'
+};
+
+// Creates the Sentinel stacked bar chart
+function createSentinelBarChart() {
+    if (!sentinelBarData) return;
+
+    const weeks = sentinelBarData.weeks;
+    const traces = [];
+
+    // Add stacked bars for each virus (in order)
+    for (const virus of SENTINEL_VIRUS_ORDER) {
+        if (!sentinelBarData.viruses.includes(virus)) continue;
+
+        const values = weeks.map(w => sentinelBarData.data[w]?.[virus] || 0);
+        traces.push({
+            x: weeks,
+            y: values,
+            name: SENTINEL_LABELS[virus] || virus,
+            type: 'bar',
+            marker: { color: SENTINEL_COLORS[virus] || '#888' },
+            hovertemplate: `${SENTINEL_LABELS[virus] || virus}: %{y:.1f}<extra></extra>`
+        });
+    }
+
+    // Add Einsendungen line trace for legend and hover (visible line on top)
+    const einsendungenValues = weeks.map(w => sentinelBarData.einsendungen[w] || 0);
+    traces.push({
+        x: weeks,
+        y: einsendungenValues,
+        name: 'Einsendungen',
+        type: 'scatter',
+        mode: 'lines',
+        line: { color: 'rgba(150, 150, 150, 0.9)', width: 2 },
+        yaxis: 'y2',
+        hovertemplate: '%{x}: %{y:.0f} Einsendungen<extra></extra>'
+    });
+
+    // Build SVG path for Einsendungen background area
+    const pathParts = ['M', 0, 0];
+    weeks.forEach((w, i) => {
+        const y = sentinelBarData.einsendungen[w] || 0;
+        pathParts.push('L', i, y);
+    });
+    pathParts.push('L', weeks.length - 1, 0, 'Z');
+
+    const layout = {
+        barmode: 'stack',
+        showlegend: true,
+        height: 600,
+        legend: {
+            orientation: 'h',
+            yanchor: 'bottom',
+            y: 1.02,
+            xanchor: 'center',
+            x: 0.5,
+            traceorder: 'normal'
+        },
+        xaxis: {
+            title: 'Kalenderwoche',
+            tickangle: -45,
+            dtick: 4,
+            rangeslider: { visible: true }
+        },
+        yaxis: {
+            title: 'N Virusnachweise',
+            rangemode: 'tozero'
+        },
+        yaxis2: {
+            title: 'N Einsendungen',
+            overlaying: 'y',
+            side: 'right',
+            rangemode: 'tozero',
+            showgrid: false
+        },
+        margin: { t: 80, b: 60, l: 60, r: 60 },
+        hovermode: 'x unified',
+        shapes: [{
+            type: 'path',
+            path: pathParts.join(' '),
+            fillcolor: 'rgba(220, 220, 220, 0.4)',
+            line: { width: 0 },
+            layer: 'below',
+            xref: 'x',
+            yref: 'y2'
+        }]
+    };
+
+    const config = {
+        responsive: true,
+        displayModeBar: true,
+        displaylogo: false
+    };
+
+    Plotly.newPlot('sentinel-bar-chart', traces, layout, config);
+}
+
+// Heatmap virus order (top to bottom, matching original)
+const SENTINEL_HEATMAP_VIRUS_ORDER = [
+    'Covid19', 'Influenza', 'Entero', 'MPV', 'RSV', 'RH', 'AD', 'Para', 'Corona'
+];
+
+// Creates the Sentinel heatmap
+function createSentinelHeatmap() {
+    if (!sentinelHeatmapData) return;
+
+    const weeks = sentinelHeatmapData.weeks;
+
+    // Filter viruses to those present in data
+    const viruses = SENTINEL_HEATMAP_VIRUS_ORDER.filter(v =>
+        sentinelHeatmapData.viruses.includes(v)
+    );
+
+    // Build z-matrix (virus × week)
+    const z = viruses.map(virus =>
+        weeks.map(week => sentinelHeatmapData.data[virus]?.[week] || 0)
+    );
+
+    const trace = {
+        x: weeks,
+        y: viruses,
+        z: z,
+        type: 'heatmap',
+        colorscale: [
+            [0, '#ffffcc'],
+            [0.25, '#ffeda0'],
+            [0.5, '#feb24c'],
+            [0.75, '#f03b20'],
+            [1, '#bd0026']
+        ],
+        zmin: 0,
+        zmax: 120,
+        colorbar: {
+            title: 'Fallzahl',
+            titleside: 'right'
+        },
+        hovertemplate: '%{y}<br>%{x}: %{z:.1f}<extra></extra>'
+    };
+
+    const layout = {
+        height: 550,
+        xaxis: {
+            title: 'Kalenderwoche',
+            tickangle: -45,
+            dtick: 4,
+            rangeslider: { visible: true }
+        },
+        yaxis: {
+            title: '',
+            autorange: 'reversed'
+        },
+        margin: { t: 30, b: 60, l: 100, r: 80 }
+    };
+
+    const config = {
+        responsive: true,
+        displayModeBar: true,
+        displaylogo: false
+    };
+
+    Plotly.newPlot('sentinel-heatmap-chart', [trace], layout, config);
+}
+
+// Loads Sentinel bar chart data
+async function loadSentinelBarData() {
+    const loading = document.getElementById('sentinel-bar-loading');
+    const errorDiv = document.getElementById('sentinel-bar-error');
+
+    try {
+        sentinelBarData = await fetchData(SENTINEL_BAR_URL);
+
+        if (!sentinelBarData || !sentinelBarData.weeks || sentinelBarData.weeks.length === 0) {
+            throw new Error('Keine Sentinel-Daten geladen');
+        }
+
+        loading.classList.add('hidden');
+        createSentinelBarChart();
+
+    } catch (error) {
+        console.error('Fehler beim Laden der Sentinel-Daten:', error);
+        loading.classList.add('hidden');
+        errorDiv.classList.remove('hidden');
+    }
+}
+
+// Loads Sentinel heatmap data
+async function loadSentinelHeatmapData() {
+    const loading = document.getElementById('sentinel-heatmap-loading');
+    const errorDiv = document.getElementById('sentinel-heatmap-error');
+
+    try {
+        sentinelHeatmapData = await fetchData(SENTINEL_HEATMAP_URL);
+
+        if (!sentinelHeatmapData || !sentinelHeatmapData.weeks || sentinelHeatmapData.weeks.length === 0) {
+            throw new Error('Keine Heatmap-Daten geladen');
+        }
+
+        loading.classList.add('hidden');
+        createSentinelHeatmap();
+
+    } catch (error) {
+        console.error('Fehler beim Laden der Heatmap-Daten:', error);
+        loading.classList.add('hidden');
+        errorDiv.classList.remove('hidden');
+    }
+}
+
+// Initialize Sentinel data after DOM load
+document.addEventListener('DOMContentLoaded', () => {
+    loadSentinelBarData();
+    loadSentinelHeatmapData();
+});
