@@ -1,0 +1,56 @@
+# Fetch all external data sources weekly and store in data branch
+name: Fetch All Data
+
+on:
+  schedule:
+    # Every Monday at 06:00 UTC (07:00 Vienna time)
+    - cron: '0 6 * * 1'
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main (for scripts)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main
+
+      - name: Checkout data branch
+        uses: actions/checkout@v4
+        with:
+          ref: data
+          path: data
+        continue-on-error: true  # Branch may not exist yet
+
+      - name: Create data branch if needed
+        run: |
+          if [ ! -d "data/.git" ]; then
+            mkdir -p data
+            cd data
+            git init
+            git checkout -b data
+          fi
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r main/tools/requirements.txt
+
+      - name: Fetch all data
+        working-directory: main/tools
+        run: python fetch_all_data.py --output-dir ../../data/
+
+      - name: Commit and push data
+        run: |
+          cd data
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add -A
+          git diff --staged --quiet || git commit -m "chore: update data $(date +%Y-%m-%d)"
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git data --force
