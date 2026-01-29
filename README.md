@@ -1,6 +1,6 @@
 # Wastewater & SARI Monitoring Austria
 
-Interactive dashboard displaying virus load in Austrian wastewater and SARI hospital admissions.
+Interactive dashboard displaying virus load in Austrian wastewater, Sentinel virus detections, and SARI hospital admissions.
 
 **Live Demo:** https://pasrom.github.io/wastewater/
 
@@ -11,6 +11,12 @@ Interactive dashboard displaying virus load in Austrian wastewater and SARI hosp
 - Location selector for individual treatment plants
 - Time range selection (3m, 6m, 1y, all)
 - Interactive hover tooltips
+
+### Sentinel Virus Detections (MedUni Wien)
+- Stacked bar chart of virus detections by type
+- Einsendungen (submissions) shown as background area
+- Heatmap of virus types over time
+- Interactive time range slider
 
 ### SARI Hospital Admissions
 - Stacked bar chart by diagnosis (COVID-19, Influenza, RSV, Pneumokokken, Sonstige)
@@ -32,6 +38,7 @@ Interactive dashboard displaying virus load in Austrian wastewater and SARI hosp
 | Data | Source |
 |------|--------|
 | Wastewater | [AGES Abwasser-Monitoring](https://abwasser.ages.at) |
+| Sentinel | [MedUni Wien Virusepidemiologie](https://www.meduniwien.ac.at/virusepidemiologie) |
 | SARI Hospital | [SARI-Dashboard](https://www.sari-dashboard.at) |
 
 ## Local Development

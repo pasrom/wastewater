@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 ## Project Overview
-AGES Wastewater Monitoring Dashboard - displays SARS-CoV-2, Influenza, and RSV virus load data from Austrian wastewater treatment plants.
+Austrian virus monitoring dashboard - displays wastewater virus load (AGES), Sentinel virus detections (MedUni Wien), and SARI hospital admissions.
 
 ## Tech Stack
 - Pure HTML/CSS/JavaScript (no build tools)
@@ -98,8 +98,18 @@ ci: add GitHub Actions workflow for deployment
 - `aggregateHeatmapData()` - Aggregates data for heatmap matrix
 - `createSariHeatmap()` - Renders heatmap (age group × calendar week)
 
+### Sentinel (MedUni Wien)
+- `loadSentinelBarData()` - Loads virus detection bar chart data
+- `createSentinelBarChart()` - Renders stacked bar chart with Einsendungen background
+- `loadSentinelHeatmapData()` - Loads heatmap data
+- `createSentinelHeatmap()` - Renders virus type heatmap over time
+
 ## Additional Data Sources
 | Data | Endpoint |
 |------|----------|
-| SARI Hospital | `https://opendata-files.sozialversicherung.at/sari/SARI_Region_Krankenanstalt_v202307.csv` |
-| SARI Demographics | `https://opendata-files.sozialversicherung.at/sari/SARI_Wohnregion_Patient_v202307.csv` |
+| SARI Hospital | `${DATA_BASE}/sari/krankenanstalt.json` |
+| SARI Demographics | `${DATA_BASE}/sari/patient.json` |
+| Sentinel Bar Chart | `${DATA_BASE}/sentinel/barchart.json` |
+| Sentinel Heatmap | `${DATA_BASE}/sentinel/heatmap.json` |
+
+Note: `DATA_BASE` = `https://raw.githubusercontent.com/pasrom/wastewater/data`
