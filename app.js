@@ -1462,3 +1462,329 @@ document.addEventListener('DOMContentLoaded', () => {
     loadSentinelBarData();
     loadSentinelHeatmapData();
 });
+
+// ==================== Kombiniertes Virensignal ====================
+
+// Converts a Date object to ISO week string "YYYY-Www"
+function dateToISOWeek(date) {
+    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+    return `${d.getUTCFullYear()}-W${String(weekNo).padStart(2, '0')}`;
+}
+
+// Converts ISO week string "YYYY-Www" to a Date (Monday of that week)
+function isoWeekToDate(isoWeek) {
+    const match = isoWeek.match(/(\d{4})-W(\d{2})/);
+    if (!match) return null;
+    const year = parseInt(match[1]);
+    const week = parseInt(match[2]);
+    const jan4 = new Date(year, 0, 4);
+    const dayOfWeek = jan4.getDay() || 7;
+    const monday = new Date(jan4);
+    monday.setDate(jan4.getDate() - dayOfWeek + 1 + (week - 1) * 7);
+    return monday;
+}
+
+// Extracts weekly mean wastewater values for Austria per virus
+function getWastewaterWeekly() {
+    const result = {};
+
+    for (const [virusKey, source] of Object.entries(allData)) {
+        const austriaTrace = source.traces['Österreich'];
+        if (!austriaTrace) continue;
+
+        const weeklyGroups = {};
+        for (let i = 0; i < austriaTrace.x.length; i++) {
+            const date = new Date(austriaTrace.x[i]);
+            const week = dateToISOWeek(date);
+            if (!weeklyGroups[week]) weeklyGroups[week] = [];
+            weeklyGroups[week].push(austriaTrace.y[i]);
+        }
+
+        const weekly = {};
+        for (const [week, values] of Object.entries(weeklyGroups)) {
+            const validValues = values.filter(v => v != null && !isNaN(v));
+            if (validValues.length > 0) {
+                weekly[week] = validValues.reduce((a, b) => a + b, 0) / validValues.length;
+            }
+        }
+
+        result[virusKey] = weekly;
+    }
+
+    return result;
+}
+
+// Extracts weekly SARI admission totals for Austria per virus
+function getSariWeekly() {
+    const filtered = sariRawData.filter(row => row.date);
+
+    const grouped = {};
+    for (const row of filtered) {
+        const week = dateToISOWeek(row.date);
+        if (!grouped[week]) {
+            grouped[week] = { COVID: 0, INFLUENZA: 0, RSV: 0 };
+        }
+        grouped[week].COVID += row.COVID || 0;
+        grouped[week].INFLUENZA += row.INFLUENZA || 0;
+        grouped[week].RSV += row.RSV || 0;
+    }
+
+    return {
+        sarscov2: Object.fromEntries(Object.entries(grouped).map(([w, d]) => [w, d.COVID])),
+        influenza: Object.fromEntries(Object.entries(grouped).map(([w, d]) => [w, d.INFLUENZA])),
+        rsv: Object.fromEntries(Object.entries(grouped).map(([w, d]) => [w, d.RSV]))
+    };
+}
+
+// Extracts weekly Sentinel detection counts per virus
+function getSentinelWeekly() {
+    if (!sentinelBarData) return { sarscov2: {}, influenza: {}, rsv: {} };
+
+    const result = { sarscov2: {}, influenza: {}, rsv: {} };
+
+    for (const weekLabel of sentinelBarData.weeks) {
+        const match = weekLabel.match(/KW(\d+)\/(\d+)/);
+        if (!match) continue;
+        const isoWeek = `${match[2]}-W${match[1].padStart(2, '0')}`;
+
+        const weekData = sentinelBarData.data[weekLabel] || {};
+
+        result.sarscov2[isoWeek] = weekData['Covid-19'] || 0;
+        result.influenza[isoWeek] = (weekData['Inf_A'] || 0) + (weekData['Inf_B'] || 0) + (weekData['Inf_C'] || 0);
+        result.rsv[isoWeek] = weekData['RSV'] || 0;
+    }
+
+    return result;
+}
+
+// Calculates rolling Z-Scores for a weekly data object {week: value}
+// Uses a 52-week lookback window (minimum 8 weeks required)
+const ZSCORE_WINDOW = 26;
+const ZSCORE_MIN_WEEKS = 8;
+
+function calculateZScores(weeklyData) {
+    const sortedWeeks = Object.keys(weeklyData).sort();
+    if (sortedWeeks.length === 0) return {};
+
+    const zScores = {};
+    for (let i = 0; i < sortedWeeks.length; i++) {
+        const currentWeek = sortedWeeks[i];
+        const currentValue = weeklyData[currentWeek];
+        if (currentValue == null || isNaN(currentValue)) continue;
+
+        // Collect values from the lookback window (up to 52 weeks before current)
+        const windowStart = Math.max(0, i - ZSCORE_WINDOW);
+        const windowValues = [];
+        for (let j = windowStart; j < i; j++) {
+            const v = weeklyData[sortedWeeks[j]];
+            if (v != null && !isNaN(v)) windowValues.push(v);
+        }
+
+        // Need minimum weeks for meaningful statistics
+        if (windowValues.length < ZSCORE_MIN_WEEKS) {
+            zScores[currentWeek] = 0;
+            continue;
+        }
+
+        const mean = windowValues.reduce((a, b) => a + b, 0) / windowValues.length;
+        const variance = windowValues.reduce((sum, v) => sum + (v - mean) ** 2, 0) / windowValues.length;
+        const stddev = Math.sqrt(variance);
+
+        zScores[currentWeek] = stddev > 0 ? (currentValue - mean) / stddev : 0;
+    }
+    return zScores;
+}
+
+// Computes combined signals from all sources
+function computeCombinedSignals() {
+    const wastewater = getWastewaterWeekly();
+    const sari = getSariWeekly();
+    const sentinel = getSentinelWeekly();
+
+    const viruses = ['sarscov2', 'influenza', 'rsv'];
+    const sources = [
+        { name: 'Abwasser', data: wastewater },
+        { name: 'SARI', data: sari },
+        { name: 'Sentinel', data: sentinel }
+    ];
+
+    // Calculate Z-Scores for each source x virus
+    const zScores = {};
+    for (const virus of viruses) {
+        zScores[virus] = [];
+        for (const source of sources) {
+            const weeklyData = source.data[virus];
+            if (weeklyData && Object.keys(weeklyData).length > 0) {
+                zScores[virus].push({
+                    name: source.name,
+                    scores: calculateZScores(weeklyData)
+                });
+            }
+        }
+    }
+
+    // Collect all weeks across all sources
+    const allWeeks = new Set();
+    for (const virus of viruses) {
+        for (const source of zScores[virus]) {
+            Object.keys(source.scores).forEach(w => allWeeks.add(w));
+        }
+    }
+    const sortedWeeks = Array.from(allWeeks).sort();
+
+    // Compute combined signal per virus (mean of available z-scores per week)
+    const combinedPerVirus = {};
+    for (const virus of viruses) {
+        combinedPerVirus[virus] = {};
+        for (const week of sortedWeeks) {
+            const values = zScores[virus]
+                .map(s => s.scores[week])
+                .filter(v => v != null && !isNaN(v));
+            if (values.length > 0) {
+                combinedPerVirus[virus][week] = values.reduce((a, b) => a + b, 0) / values.length;
+            }
+        }
+    }
+
+    // Compute Gesamt signal (mean of available per-virus signals per week)
+    const gesamt = {};
+    for (const week of sortedWeeks) {
+        const values = viruses
+            .map(v => combinedPerVirus[v][week])
+            .filter(v => v != null && !isNaN(v));
+        if (values.length > 0) {
+            gesamt[week] = values.reduce((a, b) => a + b, 0) / values.length;
+        }
+    }
+
+    return { combinedPerVirus, gesamt, sortedWeeks };
+}
+
+// Creates the combined signal Plotly chart
+function createCombinedSignalChart() {
+    const { combinedPerVirus, gesamt, sortedWeeks } = computeCombinedSignals();
+
+    const virusConfig = {
+        sarscov2: { name: 'SARS-CoV-2', color: '#e87461' },
+        influenza: { name: 'Influenza', color: '#ffc600' },
+        rsv: { name: 'RSV', color: '#456990' }
+    };
+
+    const traces = [];
+
+    // Per-virus combined signals
+    for (const [virus, config] of Object.entries(virusConfig)) {
+        const data = combinedPerVirus[virus];
+        const weeks = sortedWeeks.filter(w => data[w] != null);
+        traces.push({
+            x: weeks.map(w => isoWeekToDate(w)?.toISOString().split('T')[0]).filter(Boolean),
+            y: weeks.map(w => data[w]),
+            name: config.name,
+            type: 'scatter',
+            mode: 'lines',
+            line: { color: config.color, width: 2 },
+            hovertemplate: `<b>${config.name}</b><br>%{x}<br>Z-Score: %{y:.2f}<extra></extra>`
+        });
+    }
+
+    // Gesamt signal
+    const gesamtWeeks = sortedWeeks.filter(w => gesamt[w] != null);
+    traces.push({
+        x: gesamtWeeks.map(w => isoWeekToDate(w)?.toISOString().split('T')[0]).filter(Boolean),
+        y: gesamtWeeks.map(w => gesamt[w]),
+        name: 'Gesamt',
+        type: 'scatter',
+        mode: 'lines',
+        line: { color: '#2c3e50', width: 3, dash: 'dash' },
+        hovertemplate: '<b>Gesamt</b><br>%{x}<br>Z-Score: %{y:.2f}<extra></extra>'
+    });
+
+    const layout = {
+        xaxis: {
+            title: 'Datum',
+            type: 'date',
+            rangeselector: {
+                buttons: [
+                    { count: 3, label: '3m', step: 'month', stepmode: 'backward' },
+                    { count: 6, label: '6m', step: 'month', stepmode: 'backward' },
+                    { count: 1, label: '1J', step: 'year', stepmode: 'backward' },
+                    { step: 'all', label: 'Alle' }
+                ]
+            },
+            rangeslider: { visible: true }
+        },
+        yaxis: {
+            title: 'Z-Score (0 = Durchschnitt)',
+            zeroline: true,
+            zerolinecolor: '#ccc',
+            zerolinewidth: 2
+        },
+        legend: {
+            orientation: 'h',
+            yanchor: 'bottom',
+            y: 1.02,
+            xanchor: 'center',
+            x: 0.5
+        },
+        hovermode: 'x unified',
+        margin: { t: 50, b: 60, l: 60, r: 30 },
+        shapes: [{
+            type: 'line',
+            x0: 0, x1: 1,
+            y0: 0, y1: 0,
+            xref: 'paper', yref: 'y',
+            line: { color: '#999', width: 1, dash: 'dot' }
+        }]
+    };
+
+    const config = {
+        responsive: true,
+        displayModeBar: true,
+        displaylogo: false,
+        modeBarButtonsToRemove: ['lasso2d', 'select2d']
+    };
+
+    Plotly.newPlot('combined-signal-chart', traces, layout, config);
+}
+
+// Initializes combined signal chart when all data sources are ready
+function initCombinedSignal() {
+    const loading = document.getElementById('combined-signal-loading');
+    const errorDiv = document.getElementById('combined-signal-error');
+
+    const checkAllData = setInterval(() => {
+        const hasWastewater = Object.keys(allData).length > 0;
+        const hasSari = sariRawData.length > 0;
+        const hasSentinel = sentinelBarData != null;
+
+        if (hasWastewater && hasSari && hasSentinel) {
+            clearInterval(checkAllData);
+            try {
+                loading.classList.add('hidden');
+                createCombinedSignalChart();
+            } catch (error) {
+                console.error('Fehler beim Erstellen des kombinierten Signals:', error);
+                loading.classList.add('hidden');
+                errorDiv.classList.remove('hidden');
+            }
+        }
+    }, 200);
+
+    // Timeout after 30 seconds - try with whatever data is available
+    setTimeout(() => {
+        clearInterval(checkAllData);
+        if (loading && !loading.classList.contains('hidden')) {
+            loading.classList.add('hidden');
+            try {
+                createCombinedSignalChart();
+            } catch (error) {
+                errorDiv.classList.remove('hidden');
+            }
+        }
+    }, 30000);
+}
+
+document.addEventListener('DOMContentLoaded', initCombinedSignal);
