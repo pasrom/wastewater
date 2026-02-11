@@ -1,7 +1,7 @@
 {
   "source": "https://opendata-files.sozialversicherung.at/sari/SARI_Region_Krankenanstalt_v202307.csv",
   "description": "SARI krankenanstalt data",
-  "fetched_at": "2026-02-11T06:21:54.568235",
+  "fetched_at": "2026-02-11T11:07:23.811689",
   "columns": [
     "KW",
     "BUNDESLAND",
