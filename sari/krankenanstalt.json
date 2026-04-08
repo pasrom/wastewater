@@ -1,7 +1,7 @@
 {
   "source": "https://opendata-files.sozialversicherung.at/sari/SARI_Region_Krankenanstalt_v202307.csv",
   "description": "SARI krankenanstalt data",
-  "fetched_at": "2026-04-01T06:31:23.271728",
+  "fetched_at": "2026-04-08T06:28:44.606557",
   "columns": [
     "KW",
     "BUNDESLAND",
@@ -13,7 +13,7 @@
     "SONSTIGE",
     "AUFNAHMEN"
   ],
-  "row_count": 2718,
+  "row_count": 2736,
   "data": [
     {
       "KW": "19. KW 2023",
@@ -15343,12 +15343,12 @@
       "KW": "37. KW 2024",
       "BUNDESLAND": "W",
       "STATION": "N",
-      "COVID": 59,
+      "COVID": 58,
       "INFLUENZA": 0,
       "RSV": 0,
       "PNEUMOKOKKEN": 4,
       "SONSTIGE": 132,
-      "AUFNAHMEN": 190,
+      "AUFNAHMEN": 189,
       "date": "2024-09-09"
     },
     {
@@ -28987,7 +28987,7 @@
       "KW": "49. KW 2025",
       "BUNDESLAND": "KTN",
       "STATION": "I",
-      "COVID": 1,
+      "COVID": 0,
       "INFLUENZA": 1,
       "RSV": 0,
       "PNEUMOKOKKEN": 0,
@@ -29267,8 +29267,8 @@
       "INFLUENZA": 79,
       "RSV": 6,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 154,
-      "AUFNAHMEN": 297,
+      "SONSTIGE": 155,
+      "AUFNAHMEN": 298,
       "date": "2025-12-08"
     },
     {
@@ -29315,8 +29315,8 @@
       "INFLUENZA": 38,
       "RSV": 1,
       "PNEUMOKOKKEN": 6,
-      "SONSTIGE": 272,
-      "AUFNAHMEN": 360,
+      "SONSTIGE": 273,
+      "AUFNAHMEN": 361,
       "date": "2025-12-08"
     },
     {
@@ -29423,8 +29423,8 @@
       "INFLUENZA": 4,
       "RSV": 0,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 6,
-      "AUFNAHMEN": 11,
+      "SONSTIGE": 7,
+      "AUFNAHMEN": 12,
       "date": "2025-12-15"
     },
     {
@@ -29771,8 +29771,8 @@
       "INFLUENZA": 90,
       "RSV": 4,
       "PNEUMOKOKKEN": 5,
-      "SONSTIGE": 193,
-      "AUFNAHMEN": 313,
+      "SONSTIGE": 194,
+      "AUFNAHMEN": 314,
       "date": "2025-12-22"
     },
     {
@@ -29819,8 +29819,8 @@
       "INFLUENZA": 217,
       "RSV": 13,
       "PNEUMOKOKKEN": 9,
-      "SONSTIGE": 229,
-      "AUFNAHMEN": 459,
+      "SONSTIGE": 230,
+      "AUFNAHMEN": 460,
       "date": "2025-12-22"
     },
     {
@@ -29863,12 +29863,12 @@
       "KW": "1. KW 2026",
       "BUNDESLAND": "KTN",
       "STATION": "N",
-      "COVID": 22,
+      "COVID": 23,
       "INFLUENZA": 59,
       "RSV": 4,
       "PNEUMOKOKKEN": 1,
       "SONSTIGE": 101,
-      "AUFNAHMEN": 179,
+      "AUFNAHMEN": 180,
       "date": "2025-12-29"
     },
     {
@@ -29936,11 +29936,11 @@
       "BUNDESLAND": "SBG",
       "STATION": "N",
       "COVID": 12,
-      "INFLUENZA": 67,
-      "RSV": 5,
+      "INFLUENZA": 68,
+      "RSV": 6,
       "PNEUMOKOKKEN": 3,
       "SONSTIGE": 89,
-      "AUFNAHMEN": 168,
+      "AUFNAHMEN": 169,
       "date": "2025-12-29"
     },
     {
@@ -29987,8 +29987,8 @@
       "INFLUENZA": 74,
       "RSV": 6,
       "PNEUMOKOKKEN": 4,
-      "SONSTIGE": 204,
-      "AUFNAHMEN": 306,
+      "SONSTIGE": 205,
+      "AUFNAHMEN": 307,
       "date": "2025-12-29"
     },
     {
@@ -30035,8 +30035,8 @@
       "INFLUENZA": 219,
       "RSV": 14,
       "PNEUMOKOKKEN": 5,
-      "SONSTIGE": 269,
-      "AUFNAHMEN": 506,
+      "SONSTIGE": 270,
+      "AUFNAHMEN": 507,
       "date": "2025-12-29"
     },
     {
@@ -30152,10 +30152,10 @@
       "BUNDESLAND": "SBG",
       "STATION": "N",
       "COVID": 9,
-      "INFLUENZA": 28,
+      "INFLUENZA": 29,
       "RSV": 7,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 76,
+      "SONSTIGE": 75,
       "AUFNAHMEN": 117,
       "date": "2026-01-05"
     },
@@ -30251,8 +30251,8 @@
       "INFLUENZA": 128,
       "RSV": 16,
       "PNEUMOKOKKEN": 15,
-      "SONSTIGE": 240,
-      "AUFNAHMEN": 416,
+      "SONSTIGE": 241,
+      "AUFNAHMEN": 417,
       "date": "2026-01-05"
     },
     {
@@ -30299,8 +30299,8 @@
       "INFLUENZA": 32,
       "RSV": 5,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 103,
-      "AUFNAHMEN": 133,
+      "SONSTIGE": 104,
+      "AUFNAHMEN": 134,
       "date": "2026-01-12"
     },
     {
@@ -30320,11 +30320,11 @@
       "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 18,
-      "INFLUENZA": 50,
+      "INFLUENZA": 51,
       "RSV": 8,
       "PNEUMOKOKKEN": 2,
       "SONSTIGE": 149,
-      "AUFNAHMEN": 224,
+      "AUFNAHMEN": 225,
       "date": "2026-01-12"
     },
     {
@@ -30368,10 +30368,10 @@
       "BUNDESLAND": "SBG",
       "STATION": "N",
       "COVID": 8,
-      "INFLUENZA": 19,
+      "INFLUENZA": 20,
       "RSV": 2,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 72,
+      "SONSTIGE": 71,
       "AUFNAHMEN": 102,
       "date": "2026-01-12"
     },
@@ -30383,8 +30383,8 @@
       "INFLUENZA": 0,
       "RSV": 0,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 17,
-      "AUFNAHMEN": 17,
+      "SONSTIGE": 18,
+      "AUFNAHMEN": 18,
       "date": "2026-01-12"
     },
     {
@@ -30539,8 +30539,8 @@
       "INFLUENZA": 56,
       "RSV": 12,
       "PNEUMOKOKKEN": 3,
-      "SONSTIGE": 128,
-      "AUFNAHMEN": 210,
+      "SONSTIGE": 129,
+      "AUFNAHMEN": 211,
       "date": "2026-01-19"
     },
     {
@@ -30599,8 +30599,8 @@
       "INFLUENZA": 0,
       "RSV": 0,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 10,
-      "AUFNAHMEN": 13,
+      "SONSTIGE": 11,
+      "AUFNAHMEN": 14,
       "date": "2026-01-19"
     },
     {
@@ -30803,8 +30803,8 @@
       "INFLUENZA": 24,
       "RSV": 9,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 74,
-      "AUFNAHMEN": 110,
+      "SONSTIGE": 73,
+      "AUFNAHMEN": 109,
       "date": "2026-01-26"
     },
     {
@@ -30899,8 +30899,8 @@
       "INFLUENZA": 39,
       "RSV": 44,
       "PNEUMOKOKKEN": 4,
-      "SONSTIGE": 190,
-      "AUFNAHMEN": 283,
+      "SONSTIGE": 191,
+      "AUFNAHMEN": 284,
       "date": "2026-01-26"
     },
     {
@@ -30971,8 +30971,8 @@
       "INFLUENZA": 43,
       "RSV": 26,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 143,
-      "AUFNAHMEN": 223,
+      "SONSTIGE": 144,
+      "AUFNAHMEN": 224,
       "date": "2026-02-02"
     },
     {
@@ -30983,8 +30983,8 @@
       "INFLUENZA": 9,
       "RSV": 0,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 8,
-      "AUFNAHMEN": 16,
+      "SONSTIGE": 9,
+      "AUFNAHMEN": 17,
       "date": "2026-02-02"
     },
     {
@@ -31111,12 +31111,12 @@
       "KW": "6. KW 2026",
       "BUNDESLAND": "W",
       "STATION": "N",
-      "COVID": 26,
+      "COVID": 27,
       "INFLUENZA": 46,
       "RSV": 39,
       "PNEUMOKOKKEN": 5,
-      "SONSTIGE": 199,
-      "AUFNAHMEN": 293,
+      "SONSTIGE": 200,
+      "AUFNAHMEN": 295,
       "date": "2026-02-02"
     },
     {
@@ -31187,8 +31187,8 @@
       "INFLUENZA": 22,
       "RSV": 42,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 147,
-      "AUFNAHMEN": 219,
+      "SONSTIGE": 148,
+      "AUFNAHMEN": 220,
       "date": "2026-02-09"
     },
     {
@@ -31211,8 +31211,8 @@
       "INFLUENZA": 49,
       "RSV": 65,
       "PNEUMOKOKKEN": 6,
-      "SONSTIGE": 161,
-      "AUFNAHMEN": 281,
+      "SONSTIGE": 163,
+      "AUFNAHMEN": 283,
       "date": "2026-02-09"
     },
     {
@@ -31319,8 +31319,8 @@
       "INFLUENZA": 0,
       "RSV": 1,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 15,
-      "AUFNAHMEN": 19,
+      "SONSTIGE": 17,
+      "AUFNAHMEN": 21,
       "date": "2026-02-09"
     },
     {
@@ -31331,8 +31331,8 @@
       "INFLUENZA": 20,
       "RSV": 37,
       "PNEUMOKOKKEN": 8,
-      "SONSTIGE": 207,
-      "AUFNAHMEN": 269,
+      "SONSTIGE": 208,
+      "AUFNAHMEN": 270,
       "date": "2026-02-09"
     },
     {
@@ -31367,8 +31367,8 @@
       "INFLUENZA": 0,
       "RSV": 0,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 3,
-      "AUFNAHMEN": 3,
+      "SONSTIGE": 4,
+      "AUFNAHMEN": 4,
       "date": "2026-02-16"
     },
     {
@@ -31414,9 +31414,9 @@
       "COVID": 0,
       "INFLUENZA": 2,
       "RSV": 0,
-      "PNEUMOKOKKEN": 1,
+      "PNEUMOKOKKEN": 2,
       "SONSTIGE": 6,
-      "AUFNAHMEN": 9,
+      "AUFNAHMEN": 10,
       "date": "2026-02-16"
     },
     {
@@ -31427,8 +31427,8 @@
       "INFLUENZA": 39,
       "RSV": 75,
       "PNEUMOKOKKEN": 8,
-      "SONSTIGE": 149,
-      "AUFNAHMEN": 272,
+      "SONSTIGE": 150,
+      "AUFNAHMEN": 273,
       "date": "2026-02-16"
     },
     {
@@ -31439,8 +31439,8 @@
       "INFLUENZA": 0,
       "RSV": 1,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 3,
-      "AUFNAHMEN": 4,
+      "SONSTIGE": 4,
+      "AUFNAHMEN": 5,
       "date": "2026-02-16"
     },
     {
@@ -31448,11 +31448,11 @@
       "BUNDESLAND": "SBG",
       "STATION": "N",
       "COVID": 4,
-      "INFLUENZA": 13,
+      "INFLUENZA": 14,
       "RSV": 14,
       "PNEUMOKOKKEN": 3,
-      "SONSTIGE": 56,
-      "AUFNAHMEN": 83,
+      "SONSTIGE": 57,
+      "AUFNAHMEN": 84,
       "date": "2026-02-16"
     },
     {
@@ -31463,8 +31463,8 @@
       "INFLUENZA": 0,
       "RSV": 2,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 11,
-      "AUFNAHMEN": 13,
+      "SONSTIGE": 12,
+      "AUFNAHMEN": 14,
       "date": "2026-02-16"
     },
     {
@@ -31499,8 +31499,8 @@
       "INFLUENZA": 19,
       "RSV": 38,
       "PNEUMOKOKKEN": 6,
-      "SONSTIGE": 109,
-      "AUFNAHMEN": 173,
+      "SONSTIGE": 110,
+      "AUFNAHMEN": 174,
       "date": "2026-02-16"
     },
     {
@@ -31535,8 +31535,8 @@
       "INFLUENZA": 1,
       "RSV": 1,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 9,
-      "AUFNAHMEN": 12,
+      "SONSTIGE": 10,
+      "AUFNAHMEN": 13,
       "date": "2026-02-16"
     },
     {
@@ -31546,9 +31546,9 @@
       "COVID": 11,
       "INFLUENZA": 19,
       "RSV": 45,
-      "PNEUMOKOKKEN": 7,
-      "SONSTIGE": 194,
-      "AUFNAHMEN": 256,
+      "PNEUMOKOKKEN": 8,
+      "SONSTIGE": 195,
+      "AUFNAHMEN": 258,
       "date": "2026-02-16"
     },
     {
@@ -31595,8 +31595,8 @@
       "INFLUENZA": 8,
       "RSV": 28,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 80,
-      "AUFNAHMEN": 118,
+      "SONSTIGE": 83,
+      "AUFNAHMEN": 121,
       "date": "2026-02-23"
     },
     {
@@ -31619,8 +31619,8 @@
       "INFLUENZA": 24,
       "RSV": 33,
       "PNEUMOKOKKEN": 3,
-      "SONSTIGE": 163,
-      "AUFNAHMEN": 222,
+      "SONSTIGE": 167,
+      "AUFNAHMEN": 226,
       "date": "2026-02-23"
     },
     {
@@ -31639,12 +31639,12 @@
       "KW": "9. KW 2026",
       "BUNDESLAND": "OÖ",
       "STATION": "N",
-      "COVID": 15,
-      "INFLUENZA": 24,
+      "COVID": 16,
+      "INFLUENZA": 25,
       "RSV": 43,
       "PNEUMOKOKKEN": 3,
-      "SONSTIGE": 173,
-      "AUFNAHMEN": 252,
+      "SONSTIGE": 178,
+      "AUFNAHMEN": 259,
       "date": "2026-02-23"
     },
     {
@@ -31667,8 +31667,8 @@
       "INFLUENZA": 9,
       "RSV": 16,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 49,
-      "AUFNAHMEN": 74,
+      "SONSTIGE": 50,
+      "AUFNAHMEN": 75,
       "date": "2026-02-23"
     },
     {
@@ -31691,8 +31691,8 @@
       "INFLUENZA": 3,
       "RSV": 59,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 153,
-      "AUFNAHMEN": 221,
+      "SONSTIGE": 154,
+      "AUFNAHMEN": 222,
       "date": "2026-02-23"
     },
     {
@@ -31739,8 +31739,8 @@
       "INFLUENZA": 5,
       "RSV": 14,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 52,
-      "AUFNAHMEN": 71,
+      "SONSTIGE": 53,
+      "AUFNAHMEN": 72,
       "date": "2026-02-23"
     },
     {
@@ -31749,10 +31749,10 @@
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 1,
-      "RSV": 2,
+      "RSV": 3,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 12,
-      "AUFNAHMEN": 15,
+      "SONSTIGE": 14,
+      "AUFNAHMEN": 18,
       "date": "2026-02-23"
     },
     {
@@ -31763,8 +31763,8 @@
       "INFLUENZA": 15,
       "RSV": 38,
       "PNEUMOKOKKEN": 3,
-      "SONSTIGE": 213,
-      "AUFNAHMEN": 275,
+      "SONSTIGE": 214,
+      "AUFNAHMEN": 276,
       "date": "2026-02-23"
     },
     {
@@ -31799,8 +31799,8 @@
       "INFLUENZA": 0,
       "RSV": 1,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 2,
-      "AUFNAHMEN": 3,
+      "SONSTIGE": 3,
+      "AUFNAHMEN": 4,
       "date": "2026-03-02"
     },
     {
@@ -31811,8 +31811,8 @@
       "INFLUENZA": 1,
       "RSV": 20,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 91,
-      "AUFNAHMEN": 113,
+      "SONSTIGE": 95,
+      "AUFNAHMEN": 117,
       "date": "2026-03-02"
     },
     {
@@ -31832,11 +31832,11 @@
       "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 7,
-      "INFLUENZA": 13,
-      "RSV": 38,
+      "INFLUENZA": 15,
+      "RSV": 37,
       "PNEUMOKOKKEN": 4,
-      "SONSTIGE": 151,
-      "AUFNAHMEN": 208,
+      "SONSTIGE": 153,
+      "AUFNAHMEN": 211,
       "date": "2026-03-02"
     },
     {
@@ -31857,10 +31857,10 @@
       "STATION": "N",
       "COVID": 12,
       "INFLUENZA": 11,
-      "RSV": 29,
+      "RSV": 31,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 123,
-      "AUFNAHMEN": 169,
+      "SONSTIGE": 125,
+      "AUFNAHMEN": 173,
       "date": "2026-03-02"
     },
     {
@@ -31881,10 +31881,10 @@
       "STATION": "N",
       "COVID": 4,
       "INFLUENZA": 7,
-      "RSV": 8,
+      "RSV": 9,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 59,
-      "AUFNAHMEN": 78,
+      "SONSTIGE": 60,
+      "AUFNAHMEN": 80,
       "date": "2026-03-02"
     },
     {
@@ -31895,8 +31895,8 @@
       "INFLUENZA": 0,
       "RSV": 1,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 5,
-      "AUFNAHMEN": 6,
+      "SONSTIGE": 4,
+      "AUFNAHMEN": 5,
       "date": "2026-03-02"
     },
     {
@@ -31907,8 +31907,8 @@
       "INFLUENZA": 3,
       "RSV": 49,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 141,
-      "AUFNAHMEN": 193,
+      "SONSTIGE": 143,
+      "AUFNAHMEN": 195,
       "date": "2026-03-02"
     },
     {
@@ -31918,9 +31918,9 @@
       "COVID": 0,
       "INFLUENZA": 0,
       "RSV": 3,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 6,
-      "AUFNAHMEN": 9,
+      "PNEUMOKOKKEN": 1,
+      "SONSTIGE": 7,
+      "AUFNAHMEN": 11,
       "date": "2026-03-02"
     },
     {
@@ -31979,8 +31979,8 @@
       "INFLUENZA": 4,
       "RSV": 30,
       "PNEUMOKOKKEN": 3,
-      "SONSTIGE": 195,
-      "AUFNAHMEN": 233,
+      "SONSTIGE": 199,
+      "AUFNAHMEN": 237,
       "date": "2026-03-02"
     },
     {
@@ -32001,10 +32001,10 @@
       "STATION": "N",
       "COVID": 0,
       "INFLUENZA": 0,
-      "RSV": 8,
+      "RSV": 9,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 26,
-      "AUFNAHMEN": 33,
+      "SONSTIGE": 28,
+      "AUFNAHMEN": 36,
       "date": "2026-03-09"
     },
     {
@@ -32015,20 +32015,20 @@
       "INFLUENZA": 0,
       "RSV": 0,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 4,
-      "AUFNAHMEN": 4,
+      "SONSTIGE": 7,
+      "AUFNAHMEN": 7,
       "date": "2026-03-09"
     },
     {
       "KW": "11. KW 2026",
       "BUNDESLAND": "KTN",
       "STATION": "N",
-      "COVID": 0,
+      "COVID": 1,
       "INFLUENZA": 1,
-      "RSV": 18,
+      "RSV": 20,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 90,
-      "AUFNAHMEN": 110,
+      "SONSTIGE": 91,
+      "AUFNAHMEN": 113,
       "date": "2026-03-09"
     },
     {
@@ -32039,20 +32039,20 @@
       "INFLUENZA": 1,
       "RSV": 1,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 7,
-      "AUFNAHMEN": 9,
+      "SONSTIGE": 8,
+      "AUFNAHMEN": 10,
       "date": "2026-03-09"
     },
     {
       "KW": "11. KW 2026",
       "BUNDESLAND": "NÖ",
       "STATION": "N",
-      "COVID": 4,
-      "INFLUENZA": 6,
-      "RSV": 34,
+      "COVID": 5,
+      "INFLUENZA": 7,
+      "RSV": 35,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 143,
-      "AUFNAHMEN": 184,
+      "SONSTIGE": 152,
+      "AUFNAHMEN": 196,
       "date": "2026-03-09"
     },
     {
@@ -32063,8 +32063,8 @@
       "INFLUENZA": 1,
       "RSV": 1,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 8,
-      "AUFNAHMEN": 12,
+      "SONSTIGE": 9,
+      "AUFNAHMEN": 13,
       "date": "2026-03-09"
     },
     {
@@ -32075,8 +32075,8 @@
       "INFLUENZA": 6,
       "RSV": 36,
       "PNEUMOKOKKEN": 3,
-      "SONSTIGE": 127,
-      "AUFNAHMEN": 174,
+      "SONSTIGE": 132,
+      "AUFNAHMEN": 179,
       "date": "2026-03-09"
     },
     {
@@ -32087,8 +32087,8 @@
       "INFLUENZA": 0,
       "RSV": 1,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 2,
-      "AUFNAHMEN": 3,
+      "SONSTIGE": 3,
+      "AUFNAHMEN": 4,
       "date": "2026-03-09"
     },
     {
@@ -32097,7 +32097,7 @@
       "STATION": "N",
       "COVID": 1,
       "INFLUENZA": 0,
-      "RSV": 10,
+      "RSV": 9,
       "PNEUMOKOKKEN": 3,
       "SONSTIGE": 38,
       "AUFNAHMEN": 50,
@@ -32111,20 +32111,20 @@
       "INFLUENZA": 0,
       "RSV": 0,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 6,
-      "AUFNAHMEN": 6,
+      "SONSTIGE": 7,
+      "AUFNAHMEN": 7,
       "date": "2026-03-09"
     },
     {
       "KW": "11. KW 2026",
       "BUNDESLAND": "ST",
       "STATION": "N",
-      "COVID": 2,
+      "COVID": 3,
       "INFLUENZA": 0,
-      "RSV": 46,
-      "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 126,
-      "AUFNAHMEN": 171,
+      "RSV": 47,
+      "PNEUMOKOKKEN": 2,
+      "SONSTIGE": 130,
+      "AUFNAHMEN": 178,
       "date": "2026-03-09"
     },
     {
@@ -32147,8 +32147,8 @@
       "INFLUENZA": 7,
       "RSV": 16,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 121,
-      "AUFNAHMEN": 145,
+      "SONSTIGE": 129,
+      "AUFNAHMEN": 153,
       "date": "2026-03-09"
     },
     {
@@ -32171,8 +32171,8 @@
       "INFLUENZA": 5,
       "RSV": 8,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 32,
-      "AUFNAHMEN": 44,
+      "SONSTIGE": 33,
+      "AUFNAHMEN": 45,
       "date": "2026-03-09"
     },
     {
@@ -32183,8 +32183,8 @@
       "INFLUENZA": 1,
       "RSV": 0,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 10,
-      "AUFNAHMEN": 11,
+      "SONSTIGE": 11,
+      "AUFNAHMEN": 12,
       "date": "2026-03-09"
     },
     {
@@ -32194,9 +32194,9 @@
       "COVID": 8,
       "INFLUENZA": 7,
       "RSV": 25,
-      "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 207,
-      "AUFNAHMEN": 239,
+      "PNEUMOKOKKEN": 3,
+      "SONSTIGE": 211,
+      "AUFNAHMEN": 244,
       "date": "2026-03-09"
     },
     {
@@ -32219,8 +32219,8 @@
       "INFLUENZA": 0,
       "RSV": 9,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 16,
-      "AUFNAHMEN": 25,
+      "SONSTIGE": 18,
+      "AUFNAHMEN": 27,
       "date": "2026-03-16"
     },
     {
@@ -32241,10 +32241,10 @@
       "STATION": "N",
       "COVID": 1,
       "INFLUENZA": 1,
-      "RSV": 19,
-      "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 79,
-      "AUFNAHMEN": 101,
+      "RSV": 20,
+      "PNEUMOKOKKEN": 2,
+      "SONSTIGE": 90,
+      "AUFNAHMEN": 114,
       "date": "2026-03-16"
     },
     {
@@ -32255,8 +32255,8 @@
       "INFLUENZA": 0,
       "RSV": 0,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 4,
-      "AUFNAHMEN": 5,
+      "SONSTIGE": 7,
+      "AUFNAHMEN": 8,
       "date": "2026-03-16"
     },
     {
@@ -32265,10 +32265,10 @@
       "STATION": "N",
       "COVID": 4,
       "INFLUENZA": 2,
-      "RSV": 20,
+      "RSV": 21,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 143,
-      "AUFNAHMEN": 170,
+      "SONSTIGE": 152,
+      "AUFNAHMEN": 180,
       "date": "2026-03-16"
     },
     {
@@ -32279,20 +32279,20 @@
       "INFLUENZA": 0,
       "RSV": 1,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 3,
-      "AUFNAHMEN": 4,
+      "SONSTIGE": 6,
+      "AUFNAHMEN": 7,
       "date": "2026-03-16"
     },
     {
       "KW": "12. KW 2026",
       "BUNDESLAND": "OÖ",
       "STATION": "N",
-      "COVID": 6,
-      "INFLUENZA": 3,
-      "RSV": 22,
-      "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 92,
-      "AUFNAHMEN": 120,
+      "COVID": 7,
+      "INFLUENZA": 4,
+      "RSV": 25,
+      "PNEUMOKOKKEN": 2,
+      "SONSTIGE": 106,
+      "AUFNAHMEN": 139,
       "date": "2026-03-16"
     },
     {
@@ -32303,8 +32303,8 @@
       "INFLUENZA": 0,
       "RSV": 2,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 3,
-      "AUFNAHMEN": 5,
+      "SONSTIGE": 4,
+      "AUFNAHMEN": 6,
       "date": "2026-03-16"
     },
     {
@@ -32313,10 +32313,10 @@
       "STATION": "N",
       "COVID": 2,
       "INFLUENZA": 1,
-      "RSV": 7,
+      "RSV": 8,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 49,
-      "AUFNAHMEN": 59,
+      "SONSTIGE": 50,
+      "AUFNAHMEN": 61,
       "date": "2026-03-16"
     },
     {
@@ -32327,20 +32327,20 @@
       "INFLUENZA": 0,
       "RSV": 2,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 7,
-      "AUFNAHMEN": 10,
+      "SONSTIGE": 11,
+      "AUFNAHMEN": 14,
       "date": "2026-03-16"
     },
     {
       "KW": "12. KW 2026",
       "BUNDESLAND": "ST",
       "STATION": "N",
-      "COVID": 4,
+      "COVID": 3,
       "INFLUENZA": 1,
       "RSV": 32,
-      "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 121,
-      "AUFNAHMEN": 156,
+      "PNEUMOKOKKEN": 2,
+      "SONSTIGE": 128,
+      "AUFNAHMEN": 163,
       "date": "2026-03-16"
     },
     {
@@ -32363,8 +32363,8 @@
       "INFLUENZA": 1,
       "RSV": 13,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 86,
-      "AUFNAHMEN": 102,
+      "SONSTIGE": 95,
+      "AUFNAHMEN": 110,
       "date": "2026-03-16"
     },
     {
@@ -32385,10 +32385,10 @@
       "STATION": "N",
       "COVID": 0,
       "INFLUENZA": 0,
-      "RSV": 2,
+      "RSV": 3,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 24,
-      "AUFNAHMEN": 27,
+      "SONSTIGE": 27,
+      "AUFNAHMEN": 31,
       "date": "2026-03-16"
     },
     {
@@ -32399,8 +32399,8 @@
       "INFLUENZA": 1,
       "RSV": 2,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 6,
-      "AUFNAHMEN": 9,
+      "SONSTIGE": 7,
+      "AUFNAHMEN": 10,
       "date": "2026-03-16"
     },
     {
@@ -32408,11 +32408,11 @@
       "BUNDESLAND": "W",
       "STATION": "N",
       "COVID": 3,
-      "INFLUENZA": 5,
-      "RSV": 12,
+      "INFLUENZA": 6,
+      "RSV": 14,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 184,
-      "AUFNAHMEN": 200,
+      "SONSTIGE": 198,
+      "AUFNAHMEN": 216,
       "date": "2026-03-16"
     },
     {
@@ -32433,10 +32433,10 @@
       "STATION": "N",
       "COVID": 2,
       "INFLUENZA": 0,
-      "RSV": 5,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 19,
-      "AUFNAHMEN": 25,
+      "RSV": 6,
+      "PNEUMOKOKKEN": 2,
+      "SONSTIGE": 31,
+      "AUFNAHMEN": 37,
       "date": "2026-03-23"
     },
     {
@@ -32446,69 +32446,69 @@
       "COVID": 0,
       "INFLUENZA": 0,
       "RSV": 0,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 0,
-      "AUFNAHMEN": 0,
-      "date": "2026-03-23"
-    },
-    {
-      "KW": "13. KW 2026",
-      "BUNDESLAND": "KTN",
-      "STATION": "N",
-      "COVID": 0,
-      "INFLUENZA": 0,
-      "RSV": 1,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 20,
-      "AUFNAHMEN": 21,
-      "date": "2026-03-23"
-    },
-    {
-      "KW": "13. KW 2026",
-      "BUNDESLAND": "NÖ",
-      "STATION": "I",
-      "COVID": 0,
-      "INFLUENZA": 0,
-      "RSV": 1,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 3,
-      "AUFNAHMEN": 4,
-      "date": "2026-03-23"
-    },
-    {
-      "KW": "13. KW 2026",
-      "BUNDESLAND": "NÖ",
-      "STATION": "N",
-      "COVID": 2,
-      "INFLUENZA": 0,
-      "RSV": 9,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 83,
-      "AUFNAHMEN": 94,
-      "date": "2026-03-23"
-    },
-    {
-      "KW": "13. KW 2026",
-      "BUNDESLAND": "OÖ",
-      "STATION": "I",
-      "COVID": 0,
-      "INFLUENZA": 0,
-      "RSV": 0,
-      "PNEUMOKOKKEN": 0,
+      "PNEUMOKOKKEN": 1,
       "SONSTIGE": 1,
-      "AUFNAHMEN": 1,
+      "AUFNAHMEN": 2,
       "date": "2026-03-23"
     },
     {
       "KW": "13. KW 2026",
-      "BUNDESLAND": "OÖ",
+      "BUNDESLAND": "KTN",
       "STATION": "N",
       "COVID": 0,
       "INFLUENZA": 1,
-      "RSV": 3,
+      "RSV": 9,
+      "PNEUMOKOKKEN": 1,
+      "SONSTIGE": 62,
+      "AUFNAHMEN": 71,
+      "date": "2026-03-23"
+    },
+    {
+      "KW": "13. KW 2026",
+      "BUNDESLAND": "NÖ",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 1,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 57,
-      "AUFNAHMEN": 61,
+      "SONSTIGE": 2,
+      "AUFNAHMEN": 3,
+      "date": "2026-03-23"
+    },
+    {
+      "KW": "13. KW 2026",
+      "BUNDESLAND": "NÖ",
+      "STATION": "N",
+      "COVID": 3,
+      "INFLUENZA": 0,
+      "RSV": 15,
+      "PNEUMOKOKKEN": 1,
+      "SONSTIGE": 122,
+      "AUFNAHMEN": 140,
+      "date": "2026-03-23"
+    },
+    {
+      "KW": "13. KW 2026",
+      "BUNDESLAND": "OÖ",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 6,
+      "AUFNAHMEN": 6,
+      "date": "2026-03-23"
+    },
+    {
+      "KW": "13. KW 2026",
+      "BUNDESLAND": "OÖ",
+      "STATION": "N",
+      "COVID": 1,
+      "INFLUENZA": 0,
+      "RSV": 8,
+      "PNEUMOKOKKEN": 2,
+      "SONSTIGE": 92,
+      "AUFNAHMEN": 101,
       "date": "2026-03-23"
     },
     {
@@ -32529,87 +32529,15 @@
       "STATION": "N",
       "COVID": 1,
       "INFLUENZA": 0,
-      "RSV": 3,
+      "RSV": 7,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 27,
-      "AUFNAHMEN": 30,
+      "SONSTIGE": 40,
+      "AUFNAHMEN": 47,
       "date": "2026-03-23"
     },
     {
       "KW": "13. KW 2026",
       "BUNDESLAND": "ST",
-      "STATION": "I",
-      "COVID": 0,
-      "INFLUENZA": 0,
-      "RSV": 0,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 4,
-      "AUFNAHMEN": 4,
-      "date": "2026-03-23"
-    },
-    {
-      "KW": "13. KW 2026",
-      "BUNDESLAND": "ST",
-      "STATION": "N",
-      "COVID": 1,
-      "INFLUENZA": 0,
-      "RSV": 17,
-      "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 90,
-      "AUFNAHMEN": 109,
-      "date": "2026-03-23"
-    },
-    {
-      "KW": "13. KW 2026",
-      "BUNDESLAND": "T",
-      "STATION": "I",
-      "COVID": 0,
-      "INFLUENZA": 0,
-      "RSV": 0,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 1,
-      "AUFNAHMEN": 1,
-      "date": "2026-03-23"
-    },
-    {
-      "KW": "13. KW 2026",
-      "BUNDESLAND": "T",
-      "STATION": "N",
-      "COVID": 0,
-      "INFLUENZA": 1,
-      "RSV": 9,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 36,
-      "AUFNAHMEN": 46,
-      "date": "2026-03-23"
-    },
-    {
-      "KW": "13. KW 2026",
-      "BUNDESLAND": "V",
-      "STATION": "I",
-      "COVID": 0,
-      "INFLUENZA": 0,
-      "RSV": 2,
-      "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 0,
-      "AUFNAHMEN": 3,
-      "date": "2026-03-23"
-    },
-    {
-      "KW": "13. KW 2026",
-      "BUNDESLAND": "V",
-      "STATION": "N",
-      "COVID": 0,
-      "INFLUENZA": 2,
-      "RSV": 4,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 37,
-      "AUFNAHMEN": 43,
-      "date": "2026-03-23"
-    },
-    {
-      "KW": "13. KW 2026",
-      "BUNDESLAND": "W",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -32621,15 +32549,303 @@
     },
     {
       "KW": "13. KW 2026",
+      "BUNDESLAND": "ST",
+      "STATION": "N",
+      "COVID": 2,
+      "INFLUENZA": 0,
+      "RSV": 26,
+      "PNEUMOKOKKEN": 1,
+      "SONSTIGE": 119,
+      "AUFNAHMEN": 147,
+      "date": "2026-03-23"
+    },
+    {
+      "KW": "13. KW 2026",
+      "BUNDESLAND": "T",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 1,
+      "PNEUMOKOKKEN": 1,
+      "SONSTIGE": 2,
+      "AUFNAHMEN": 4,
+      "date": "2026-03-23"
+    },
+    {
+      "KW": "13. KW 2026",
+      "BUNDESLAND": "T",
+      "STATION": "N",
+      "COVID": 2,
+      "INFLUENZA": 2,
+      "RSV": 13,
+      "PNEUMOKOKKEN": 1,
+      "SONSTIGE": 81,
+      "AUFNAHMEN": 99,
+      "date": "2026-03-23"
+    },
+    {
+      "KW": "13. KW 2026",
+      "BUNDESLAND": "V",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 1,
+      "PNEUMOKOKKEN": 1,
+      "SONSTIGE": 0,
+      "AUFNAHMEN": 2,
+      "date": "2026-03-23"
+    },
+    {
+      "KW": "13. KW 2026",
+      "BUNDESLAND": "V",
+      "STATION": "N",
+      "COVID": 0,
+      "INFLUENZA": 3,
+      "RSV": 8,
+      "PNEUMOKOKKEN": 1,
+      "SONSTIGE": 44,
+      "AUFNAHMEN": 54,
+      "date": "2026-03-23"
+    },
+    {
+      "KW": "13. KW 2026",
+      "BUNDESLAND": "W",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 10,
+      "AUFNAHMEN": 10,
+      "date": "2026-03-23"
+    },
+    {
+      "KW": "13. KW 2026",
       "BUNDESLAND": "W",
       "STATION": "N",
-      "COVID": 6,
-      "INFLUENZA": 2,
-      "RSV": 10,
-      "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 122,
-      "AUFNAHMEN": 141,
+      "COVID": 10,
+      "INFLUENZA": 4,
+      "RSV": 14,
+      "PNEUMOKOKKEN": 4,
+      "SONSTIGE": 158,
+      "AUFNAHMEN": 187,
       "date": "2026-03-23"
+    },
+    {
+      "KW": "14. KW 2026",
+      "BUNDESLAND": "BGL",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 0,
+      "AUFNAHMEN": 0,
+      "date": "2026-03-30"
+    },
+    {
+      "KW": "14. KW 2026",
+      "BUNDESLAND": "BGL",
+      "STATION": "N",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 4,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 16,
+      "AUFNAHMEN": 19,
+      "date": "2026-03-30"
+    },
+    {
+      "KW": "14. KW 2026",
+      "BUNDESLAND": "KTN",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 0,
+      "AUFNAHMEN": 0,
+      "date": "2026-03-30"
+    },
+    {
+      "KW": "14. KW 2026",
+      "BUNDESLAND": "KTN",
+      "STATION": "N",
+      "COVID": 2,
+      "INFLUENZA": 0,
+      "RSV": 3,
+      "PNEUMOKOKKEN": 2,
+      "SONSTIGE": 14,
+      "AUFNAHMEN": 21,
+      "date": "2026-03-30"
+    },
+    {
+      "KW": "14. KW 2026",
+      "BUNDESLAND": "NÖ",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 1,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 0,
+      "AUFNAHMEN": 1,
+      "date": "2026-03-30"
+    },
+    {
+      "KW": "14. KW 2026",
+      "BUNDESLAND": "NÖ",
+      "STATION": "N",
+      "COVID": 1,
+      "INFLUENZA": 0,
+      "RSV": 3,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 56,
+      "AUFNAHMEN": 60,
+      "date": "2026-03-30"
+    },
+    {
+      "KW": "14. KW 2026",
+      "BUNDESLAND": "OÖ",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 2,
+      "AUFNAHMEN": 2,
+      "date": "2026-03-30"
+    },
+    {
+      "KW": "14. KW 2026",
+      "BUNDESLAND": "OÖ",
+      "STATION": "N",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 2,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 36,
+      "AUFNAHMEN": 38,
+      "date": "2026-03-30"
+    },
+    {
+      "KW": "14. KW 2026",
+      "BUNDESLAND": "SBG",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 0,
+      "AUFNAHMEN": 0,
+      "date": "2026-03-30"
+    },
+    {
+      "KW": "14. KW 2026",
+      "BUNDESLAND": "SBG",
+      "STATION": "N",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 3,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 16,
+      "AUFNAHMEN": 18,
+      "date": "2026-03-30"
+    },
+    {
+      "KW": "14. KW 2026",
+      "BUNDESLAND": "ST",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 4,
+      "AUFNAHMEN": 4,
+      "date": "2026-03-30"
+    },
+    {
+      "KW": "14. KW 2026",
+      "BUNDESLAND": "ST",
+      "STATION": "N",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 6,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 50,
+      "AUFNAHMEN": 55,
+      "date": "2026-03-30"
+    },
+    {
+      "KW": "14. KW 2026",
+      "BUNDESLAND": "T",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 1,
+      "AUFNAHMEN": 1,
+      "date": "2026-03-30"
+    },
+    {
+      "KW": "14. KW 2026",
+      "BUNDESLAND": "T",
+      "STATION": "N",
+      "COVID": 0,
+      "INFLUENZA": 1,
+      "RSV": 2,
+      "PNEUMOKOKKEN": 1,
+      "SONSTIGE": 24,
+      "AUFNAHMEN": 28,
+      "date": "2026-03-30"
+    },
+    {
+      "KW": "14. KW 2026",
+      "BUNDESLAND": "V",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 0,
+      "AUFNAHMEN": 0,
+      "date": "2026-03-30"
+    },
+    {
+      "KW": "14. KW 2026",
+      "BUNDESLAND": "V",
+      "STATION": "N",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 3,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 14,
+      "AUFNAHMEN": 17,
+      "date": "2026-03-30"
+    },
+    {
+      "KW": "14. KW 2026",
+      "BUNDESLAND": "W",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 1,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 2,
+      "AUFNAHMEN": 3,
+      "date": "2026-03-30"
+    },
+    {
+      "KW": "14. KW 2026",
+      "BUNDESLAND": "W",
+      "STATION": "N",
+      "COVID": 1,
+      "INFLUENZA": 2,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 1,
+      "SONSTIGE": 57,
+      "AUFNAHMEN": 61,
+      "date": "2026-03-30"
     }
   ]
 }
