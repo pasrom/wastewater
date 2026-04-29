@@ -1,13 +1,13 @@
 {
   "visdat": {
-    "12e4440fbbbe": [
+    "25a1d27970116": [
       "function () ",
       "plotlyVisDat"
     ]
   },
-  "cur_data": "12e4440fbbbe",
+  "cur_data": "25a1d27970116",
   "attrs": {
-    "12e4440fbbbe": {
+    "25a1d27970116": {
       "mode": "lines",
       "alpha_stroke": 1,
       "sizes": [
@@ -20,7 +20,7 @@
       ],
       "type": "scatter"
     },
-    "12e4440fbbbe.1": {
+    "25a1d27970116.1": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -53,7 +53,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         325.97060611323377,
@@ -72,6 +73,7 @@
         34.07641542202153,
         0,
         15.742271622091003,
+        0,
         0,
         0,
         0,
@@ -108,13 +110,14 @@
         "Wulkaprodersdorf",
         "Wulkaprodersdorf",
         "Wulkaprodersdorf",
+        "Wulkaprodersdorf",
         "Wulkaprodersdorf"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "12e4440fbbbe.2": {
+    "25a1d27970116.2": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -148,7 +151,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         498.90181818181816,
@@ -172,6 +176,7 @@
         0,
         15.731418181818182,
         14.133236363636364,
+        0,
         0
       ],
       "name": "Millstätter See",
@@ -205,13 +210,14 @@
         "Millstätter See",
         "Millstätter See",
         "Millstätter See",
+        "Millstätter See",
         "Millstätter See"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "12e4440fbbbe.3": {
+    "25a1d27970116.3": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -245,7 +251,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         557.2472758620689,
@@ -269,7 +276,8 @@
         26.805572413793104,
         47.59655172413793,
         0,
-        10.926551724137932
+        10.926551724137932,
+        0
       ],
       "name": "Wörthersee Ost",
       "line": {
@@ -302,13 +310,14 @@
         "Wörthersee Ost",
         "Wörthersee Ost",
         "Wörthersee Ost",
+        "Wörthersee Ost",
         "Wörthersee Ost"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "12e4440fbbbe.4": {
+    "25a1d27970116.4": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -342,7 +351,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         166.08305970303368,
@@ -366,7 +376,8 @@
         0,
         55.02550440906181,
         0,
-        0
+        0,
+        27.715445139706336
       ],
       "name": "An der Traisen",
       "line": {
@@ -399,13 +410,14 @@
         "An der Traisen",
         "An der Traisen",
         "An der Traisen",
+        "An der Traisen",
         "An der Traisen"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "12e4440fbbbe.5": {
+    "25a1d27970116.5": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -438,7 +450,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         632.895589361935,
@@ -461,6 +474,7 @@
         0,
         0,
         19.397898653825106,
+        0,
         0
       ],
       "name": "Amstetten",
@@ -493,13 +507,14 @@
         "Amstetten",
         "Amstetten",
         "Amstetten",
+        "Amstetten",
         "Amstetten"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "12e4440fbbbe.6": {
+    "25a1d27970116.6": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -532,7 +547,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         228.2416,
@@ -555,7 +571,8 @@
         0,
         0,
         0,
-        11.862666666666666
+        11.862666666666666,
+        4.916211111111111
       ],
       "name": "Wr. Neustadt-Süd",
       "line": {
@@ -587,13 +604,14 @@
         "Wr. Neustadt-Süd",
         "Wr. Neustadt-Süd",
         "Wr. Neustadt-Süd",
+        "Wr. Neustadt-Süd",
         "Wr. Neustadt-Süd"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "12e4440fbbbe.7": {
+    "25a1d27970116.7": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -627,7 +645,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         481.05051333333336,
@@ -650,6 +669,7 @@
         0,
         0,
         15.795333333333334,
+        0,
         0,
         0
       ],
@@ -684,13 +704,14 @@
         "Asten",
         "Asten",
         "Asten",
+        "Asten",
         "Asten"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "12e4440fbbbe.8": {
+    "25a1d27970116.8": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -724,7 +745,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         475.5392731823424,
@@ -748,6 +770,7 @@
         28.21355483031924,
         0,
         19.262189286678282,
+        0,
         0
       ],
       "name": "Traunsee-Nord",
@@ -781,13 +804,14 @@
         "Traunsee-Nord",
         "Traunsee-Nord",
         "Traunsee-Nord",
+        "Traunsee-Nord",
         "Traunsee-Nord"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "12e4440fbbbe.9": {
+    "25a1d27970116.9": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -819,7 +843,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         255.11633333333333,
@@ -841,7 +866,8 @@
         0,
         10.166228571428572,
         8.066542857142856,
-        7.002857142857143
+        7.002857142857143,
+        0
       ],
       "name": "Welser Heide",
       "line": {
@@ -872,13 +898,14 @@
         "Welser Heide",
         "Welser Heide",
         "Welser Heide",
+        "Welser Heide",
         "Welser Heide"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "12e4440fbbbe.10": {
+    "25a1d27970116.10": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -912,7 +939,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         306.76316376894266,
@@ -936,7 +964,8 @@
         8.596046528931769,
         14.75505344874625,
         8.2683350281505,
-        3.1352960142860686
+        3.1352960142860686,
+        0
       ],
       "name": "Salzach-Pongau",
       "line": {
@@ -969,13 +998,14 @@
         "Salzach-Pongau",
         "Salzach-Pongau",
         "Salzach-Pongau",
+        "Salzach-Pongau",
         "Salzach-Pongau"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "12e4440fbbbe.11": {
+    "25a1d27970116.11": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -1008,7 +1038,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         268.2252336448598,
@@ -1031,7 +1062,8 @@
         0,
         9.244504672897197,
         0,
-        6.254968847352025
+        6.254968847352025,
+        0
       ],
       "name": "Siggerwiesen",
       "line": {
@@ -1063,13 +1095,14 @@
         "Siggerwiesen",
         "Siggerwiesen",
         "Siggerwiesen",
+        "Siggerwiesen",
         "Siggerwiesen"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "12e4440fbbbe.12": {
+    "25a1d27970116.12": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -1102,7 +1135,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         133.40053571428572,
@@ -1125,7 +1159,8 @@
         0,
         30.093857142857143,
         9.23525,
-        12.387857142857143
+        12.387857142857143,
+        3.145607142857143
       ],
       "name": "Kapfenberg/Mürz",
       "line": {
@@ -1157,13 +1192,14 @@
         "Kapfenberg/Mürz",
         "Kapfenberg/Mürz",
         "Kapfenberg/Mürz",
+        "Kapfenberg/Mürz",
         "Kapfenberg/Mürz"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "12e4440fbbbe.13": {
+    "25a1d27970116.13": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -1196,7 +1232,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         158.78993875554158,
@@ -1219,7 +1256,8 @@
         12.818398705048137,
         18.964582100189652,
         9.464865974898228,
-        13.942237536692316
+        13.942237536692316,
+        4.014456470531389
       ],
       "name": "Graz-Gössendorf",
       "line": {
@@ -1251,13 +1289,14 @@
         "Graz-Gössendorf",
         "Graz-Gössendorf",
         "Graz-Gössendorf",
+        "Graz-Gössendorf",
         "Graz-Gössendorf"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "12e4440fbbbe.14": {
+    "25a1d27970116.14": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -1288,7 +1327,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         240.9880372324339,
@@ -1309,7 +1349,8 @@
         15.536325145334185,
         19.101280284955813,
         9.255435330488256,
-        16.520363587486138
+        16.520363587486138,
+        5.751974192681206
       ],
       "name": "Wildon",
       "line": {
@@ -1339,13 +1380,14 @@
         "Wildon",
         "Wildon",
         "Wildon",
+        "Wildon",
         "Wildon"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "12e4440fbbbe.15": {
+    "25a1d27970116.15": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -1377,7 +1419,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         233.98481570535813,
@@ -1399,7 +1442,8 @@
         11.05767851301798,
         11.878869957936175,
         9.027941168031493,
-        4.084667076019029
+        4.084667076019029,
+        0
       ],
       "name": "Innsbruck",
       "line": {
@@ -1430,13 +1474,14 @@
         "Innsbruck",
         "Innsbruck",
         "Innsbruck",
+        "Innsbruck",
         "Innsbruck"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "12e4440fbbbe.16": {
+    "25a1d27970116.16": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -1468,7 +1513,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         222.31830387372452,
@@ -1490,7 +1536,8 @@
         65.05111261587317,
         86.754687463516,
         19.68178952529946,
-        14.158965138814299
+        14.158965138814299,
+        39.7683704205291
       ],
       "name": "Kirchbichl",
       "line": {
@@ -1521,13 +1568,14 @@
         "Kirchbichl",
         "Kirchbichl",
         "Kirchbichl",
+        "Kirchbichl",
         "Kirchbichl"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "12e4440fbbbe.17": {
+    "25a1d27970116.17": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -1557,7 +1605,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         106.5813543741382,
@@ -1576,6 +1625,7 @@
         8.807338746744293,
         0,
         36.26311858434197,
+        0,
         0,
         0
       ],
@@ -1606,13 +1656,14 @@
         "Strass",
         "Strass",
         "Strass",
+        "Strass",
         "Strass"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "12e4440fbbbe.18": {
+    "25a1d27970116.18": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -1645,7 +1696,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         757.6862242776104,
@@ -1668,6 +1720,7 @@
         8.615773626337065,
         0,
         9.883386289155425,
+        0,
         0
       ],
       "name": "Meiningen",
@@ -1700,13 +1753,14 @@
         "Meiningen",
         "Meiningen",
         "Meiningen",
+        "Meiningen",
         "Meiningen"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "12e4440fbbbe.19": {
+    "25a1d27970116.19": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -1738,7 +1792,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         160.15125238108777,
@@ -1760,7 +1815,8 @@
         0,
         0,
         0,
-        11.104639922667955
+        11.104639922667955,
+        0
       ],
       "name": "Hofsteig",
       "line": {
@@ -1791,13 +1847,14 @@
         "Hofsteig",
         "Hofsteig",
         "Hofsteig",
+        "Hofsteig",
         "Hofsteig"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "12e4440fbbbe.20": {
+    "25a1d27970116.20": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -1831,7 +1888,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         392.7399374369324,
@@ -1855,7 +1913,8 @@
         16.52259889001009,
         20.904400100908173,
         10.747921291624621,
-        15.830005549949545
+        15.830005549949545,
+        5.134034308779011
       ],
       "name": "Wien",
       "line": {
@@ -1888,13 +1947,14 @@
         "Wien",
         "Wien",
         "Wien",
+        "Wien",
         "Wien"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "12e4440fbbbe.21": {
+    "25a1d27970116.21": {
       "mode": "lines",
       "alpha_stroke": 1,
       "sizes": [
@@ -2331,7 +2391,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         151.63265620561592,
@@ -2758,7 +2819,8 @@
         13.497880315119648,
         23.201764361395416,
         10.099520039772724,
-        11.993964285714284
+        11.993964285714284,
+        4.239895130676319
       ],
       "line": {
         "color": "transparent"
@@ -3190,12 +3252,13 @@
         "3. Quartil Österreich",
         "3. Quartil Österreich",
         "3. Quartil Österreich",
+        "3. Quartil Österreich",
         "3. Quartil Österreich"
       ],
       "hoverinfo": "text",
       "inherit": true
     },
-    "12e4440fbbbe.22": {
+    "25a1d27970116.22": {
       "mode": "lines",
       "alpha_stroke": 1,
       "sizes": [
@@ -3632,7 +3695,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         92.42378420958539,
@@ -4056,6 +4120,7 @@
         10.303938775842635,
         10.456590585593778,
         2.44035,
+        0,
         0,
         0,
         0,
@@ -4493,12 +4558,13 @@
         "1. Quartil Österreich",
         "1. Quartil Österreich",
         "1. Quartil Österreich",
+        "1. Quartil Österreich",
         "1. Quartil Österreich"
       ],
       "hoverinfo": "text",
       "inherit": true
     },
-    "12e4440fbbbe.23": {
+    "25a1d27970116.23": {
       "mode": "lines",
       "alpha_stroke": 1,
       "sizes": [
@@ -4935,7 +5001,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         92.42378420958539,
@@ -5359,6 +5426,7 @@
         10.303938775842635,
         10.456590585593778,
         2.44035,
+        0,
         0,
         0,
         0,
@@ -5794,12 +5862,13 @@
         "1. Quartil Österreich",
         "1. Quartil Österreich",
         "1. Quartil Österreich",
+        "1. Quartil Österreich",
         "1. Quartil Österreich"
       ],
       "hoverinfo": "text",
       "inherit": true
     },
-    "12e4440fbbbe.24": {
+    "25a1d27970116.24": {
       "mode": "lines",
       "alpha_stroke": 1,
       "sizes": [
@@ -6236,7 +6305,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         122.02822020760064,
@@ -6663,7 +6733,8 @@
         0,
         15.243235815282215,
         8.648138098090996,
-        5.169817961685527
+        5.169817961685527,
+        0
       ],
       "name": "Österreich",
       "line": {
@@ -7096,13 +7167,14 @@
         "Österreich",
         "Österreich",
         "Österreich",
+        "Österreich",
         "Österreich"
       ],
       "hoverinfo": "text",
       "visible": true,
       "inherit": true
     },
-    "12e4440fbbbe.25": {
+    "25a1d27970116.25": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -7135,7 +7207,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         325.97060611323377,
@@ -7154,6 +7227,7 @@
         34.07641542202153,
         0,
         15.742271622091003,
+        0,
         0,
         0,
         0,
@@ -7190,13 +7264,14 @@
         "Wulkaprodersdorf",
         "Wulkaprodersdorf",
         "Wulkaprodersdorf",
+        "Wulkaprodersdorf",
         "Wulkaprodersdorf"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "12e4440fbbbe.26": {
+    "25a1d27970116.26": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -7230,7 +7305,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         498.90181818181816,
@@ -7254,6 +7330,7 @@
         0,
         15.731418181818182,
         14.133236363636364,
+        0,
         0
       ],
       "name": "Millstätter See",
@@ -7287,13 +7364,14 @@
         "Millstätter See",
         "Millstätter See",
         "Millstätter See",
+        "Millstätter See",
         "Millstätter See"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "12e4440fbbbe.27": {
+    "25a1d27970116.27": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -7327,7 +7405,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         557.2472758620689,
@@ -7351,7 +7430,8 @@
         26.805572413793104,
         47.59655172413793,
         0,
-        10.926551724137932
+        10.926551724137932,
+        0
       ],
       "name": "Wörthersee Ost",
       "line": {
@@ -7384,13 +7464,14 @@
         "Wörthersee Ost",
         "Wörthersee Ost",
         "Wörthersee Ost",
+        "Wörthersee Ost",
         "Wörthersee Ost"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "12e4440fbbbe.28": {
+    "25a1d27970116.28": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -7424,7 +7505,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         166.08305970303368,
@@ -7448,7 +7530,8 @@
         0,
         55.02550440906181,
         0,
-        0
+        0,
+        27.715445139706336
       ],
       "name": "An der Traisen",
       "line": {
@@ -7481,13 +7564,14 @@
         "An der Traisen",
         "An der Traisen",
         "An der Traisen",
+        "An der Traisen",
         "An der Traisen"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "12e4440fbbbe.29": {
+    "25a1d27970116.29": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -7520,7 +7604,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         632.895589361935,
@@ -7543,6 +7628,7 @@
         0,
         0,
         19.397898653825106,
+        0,
         0
       ],
       "name": "Amstetten",
@@ -7575,13 +7661,14 @@
         "Amstetten",
         "Amstetten",
         "Amstetten",
+        "Amstetten",
         "Amstetten"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "12e4440fbbbe.30": {
+    "25a1d27970116.30": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -7614,7 +7701,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         228.2416,
@@ -7637,7 +7725,8 @@
         0,
         0,
         0,
-        11.862666666666666
+        11.862666666666666,
+        4.916211111111111
       ],
       "name": "Wr. Neustadt-Süd",
       "line": {
@@ -7669,13 +7758,14 @@
         "Wr. Neustadt-Süd",
         "Wr. Neustadt-Süd",
         "Wr. Neustadt-Süd",
+        "Wr. Neustadt-Süd",
         "Wr. Neustadt-Süd"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "12e4440fbbbe.31": {
+    "25a1d27970116.31": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -7709,7 +7799,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         481.05051333333336,
@@ -7732,6 +7823,7 @@
         0,
         0,
         15.795333333333334,
+        0,
         0,
         0
       ],
@@ -7766,13 +7858,14 @@
         "Asten",
         "Asten",
         "Asten",
+        "Asten",
         "Asten"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "12e4440fbbbe.32": {
+    "25a1d27970116.32": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -7806,7 +7899,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         475.5392731823424,
@@ -7830,6 +7924,7 @@
         28.21355483031924,
         0,
         19.262189286678282,
+        0,
         0
       ],
       "name": "Traunsee-Nord",
@@ -7863,13 +7958,14 @@
         "Traunsee-Nord",
         "Traunsee-Nord",
         "Traunsee-Nord",
+        "Traunsee-Nord",
         "Traunsee-Nord"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "12e4440fbbbe.33": {
+    "25a1d27970116.33": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -7901,7 +7997,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         255.11633333333333,
@@ -7923,7 +8020,8 @@
         0,
         10.166228571428572,
         8.066542857142856,
-        7.002857142857143
+        7.002857142857143,
+        0
       ],
       "name": "Welser Heide",
       "line": {
@@ -7954,13 +8052,14 @@
         "Welser Heide",
         "Welser Heide",
         "Welser Heide",
+        "Welser Heide",
         "Welser Heide"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "12e4440fbbbe.34": {
+    "25a1d27970116.34": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -7994,7 +8093,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         306.76316376894266,
@@ -8018,7 +8118,8 @@
         8.596046528931769,
         14.75505344874625,
         8.2683350281505,
-        3.1352960142860686
+        3.1352960142860686,
+        0
       ],
       "name": "Salzach-Pongau",
       "line": {
@@ -8051,13 +8152,14 @@
         "Salzach-Pongau",
         "Salzach-Pongau",
         "Salzach-Pongau",
+        "Salzach-Pongau",
         "Salzach-Pongau"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "12e4440fbbbe.35": {
+    "25a1d27970116.35": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -8090,7 +8192,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         268.2252336448598,
@@ -8113,7 +8216,8 @@
         0,
         9.244504672897197,
         0,
-        6.254968847352025
+        6.254968847352025,
+        0
       ],
       "name": "Siggerwiesen",
       "line": {
@@ -8145,13 +8249,14 @@
         "Siggerwiesen",
         "Siggerwiesen",
         "Siggerwiesen",
+        "Siggerwiesen",
         "Siggerwiesen"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "12e4440fbbbe.36": {
+    "25a1d27970116.36": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -8184,7 +8289,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         133.40053571428572,
@@ -8207,7 +8313,8 @@
         0,
         30.093857142857143,
         9.23525,
-        12.387857142857143
+        12.387857142857143,
+        3.145607142857143
       ],
       "name": "Kapfenberg/Mürz",
       "line": {
@@ -8239,13 +8346,14 @@
         "Kapfenberg/Mürz",
         "Kapfenberg/Mürz",
         "Kapfenberg/Mürz",
+        "Kapfenberg/Mürz",
         "Kapfenberg/Mürz"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "12e4440fbbbe.37": {
+    "25a1d27970116.37": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -8278,7 +8386,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         158.78993875554158,
@@ -8301,7 +8410,8 @@
         12.818398705048137,
         18.964582100189652,
         9.464865974898228,
-        13.942237536692316
+        13.942237536692316,
+        4.014456470531389
       ],
       "name": "Graz-Gössendorf",
       "line": {
@@ -8333,13 +8443,14 @@
         "Graz-Gössendorf",
         "Graz-Gössendorf",
         "Graz-Gössendorf",
+        "Graz-Gössendorf",
         "Graz-Gössendorf"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "12e4440fbbbe.38": {
+    "25a1d27970116.38": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -8370,7 +8481,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         240.9880372324339,
@@ -8391,7 +8503,8 @@
         15.536325145334185,
         19.101280284955813,
         9.255435330488256,
-        16.520363587486138
+        16.520363587486138,
+        5.751974192681206
       ],
       "name": "Wildon",
       "line": {
@@ -8421,13 +8534,14 @@
         "Wildon",
         "Wildon",
         "Wildon",
+        "Wildon",
         "Wildon"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "12e4440fbbbe.39": {
+    "25a1d27970116.39": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -8459,7 +8573,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         233.98481570535813,
@@ -8481,7 +8596,8 @@
         11.05767851301798,
         11.878869957936175,
         9.027941168031493,
-        4.084667076019029
+        4.084667076019029,
+        0
       ],
       "name": "Innsbruck",
       "line": {
@@ -8512,13 +8628,14 @@
         "Innsbruck",
         "Innsbruck",
         "Innsbruck",
+        "Innsbruck",
         "Innsbruck"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "12e4440fbbbe.40": {
+    "25a1d27970116.40": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -8550,7 +8667,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         222.31830387372452,
@@ -8572,7 +8690,8 @@
         65.05111261587317,
         86.754687463516,
         19.68178952529946,
-        14.158965138814299
+        14.158965138814299,
+        39.7683704205291
       ],
       "name": "Kirchbichl",
       "line": {
@@ -8603,13 +8722,14 @@
         "Kirchbichl",
         "Kirchbichl",
         "Kirchbichl",
+        "Kirchbichl",
         "Kirchbichl"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "12e4440fbbbe.41": {
+    "25a1d27970116.41": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -8639,7 +8759,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         106.5813543741382,
@@ -8658,6 +8779,7 @@
         8.807338746744293,
         0,
         36.26311858434197,
+        0,
         0,
         0
       ],
@@ -8688,13 +8810,14 @@
         "Strass",
         "Strass",
         "Strass",
+        "Strass",
         "Strass"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "12e4440fbbbe.42": {
+    "25a1d27970116.42": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -8727,7 +8850,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         757.6862242776104,
@@ -8750,6 +8874,7 @@
         8.615773626337065,
         0,
         9.883386289155425,
+        0,
         0
       ],
       "name": "Meiningen",
@@ -8782,13 +8907,14 @@
         "Meiningen",
         "Meiningen",
         "Meiningen",
+        "Meiningen",
         "Meiningen"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "12e4440fbbbe.43": {
+    "25a1d27970116.43": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -8820,7 +8946,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         160.15125238108777,
@@ -8842,7 +8969,8 @@
         0,
         0,
         0,
-        11.104639922667955
+        11.104639922667955,
+        0
       ],
       "name": "Hofsteig",
       "line": {
@@ -8873,13 +9001,14 @@
         "Hofsteig",
         "Hofsteig",
         "Hofsteig",
+        "Hofsteig",
         "Hofsteig"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "12e4440fbbbe.44": {
+    "25a1d27970116.44": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -8913,7 +9042,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         392.7399374369324,
@@ -8937,7 +9067,8 @@
         16.52259889001009,
         20.904400100908173,
         10.747921291624621,
-        15.830005549949545
+        15.830005549949545,
+        5.134034308779011
       ],
       "name": "Wien",
       "line": {
@@ -8949,6 +9080,7 @@
       },
       "showlegend": true,
       "text": [
+        "Wien",
         "Wien",
         "Wien",
         "Wien",
@@ -8992,8 +9124,8 @@
       "automargin": true,
       "title": "",
       "range": [
-        "2025-02-13",
-        "2026-04-14"
+        "2025-02-20",
+        "2026-04-21"
       ],
       "rangeselector": {
         "buttons": [
@@ -9124,7 +9256,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         325.97060611323377,
@@ -9143,6 +9276,7 @@
         34.07641542202153,
         0,
         15.742271622091003,
+        0,
         0,
         0,
         0,
@@ -9182,9 +9316,11 @@
         "Wulkaprodersdorf",
         "Wulkaprodersdorf",
         "Wulkaprodersdorf",
+        "Wulkaprodersdorf",
         "Wulkaprodersdorf"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -9243,7 +9379,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         498.90181818181816,
@@ -9267,6 +9404,7 @@
         0,
         15.731418181818182,
         14.133236363636364,
+        0,
         0
       ],
       "name": "Millstätter See",
@@ -9282,6 +9420,7 @@
       },
       "showlegend": false,
       "text": [
+        "Millstätter See",
         "Millstätter See",
         "Millstätter See",
         "Millstätter See",
@@ -9327,6 +9466,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "opacity": 0.2,
@@ -9365,7 +9505,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         557.2472758620689,
@@ -9389,7 +9530,8 @@
         26.805572413793104,
         47.59655172413793,
         0,
-        10.926551724137932
+        10.926551724137932,
+        0
       ],
       "name": "Wörthersee Ost",
       "line": {
@@ -9404,6 +9546,7 @@
       },
       "showlegend": false,
       "text": [
+        "Wörthersee Ost",
         "Wörthersee Ost",
         "Wörthersee Ost",
         "Wörthersee Ost",
@@ -9449,6 +9592,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "opacity": 0.2,
@@ -9487,7 +9631,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         166.08305970303368,
@@ -9511,7 +9656,8 @@
         0,
         55.02550440906181,
         0,
-        0
+        0,
+        27.715445139706336
       ],
       "name": "An der Traisen",
       "line": {
@@ -9526,6 +9672,7 @@
       },
       "showlegend": false,
       "text": [
+        "An der Traisen",
         "An der Traisen",
         "An der Traisen",
         "An der Traisen",
@@ -9571,6 +9718,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "opacity": 0.2,
@@ -9608,7 +9756,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         632.895589361935,
@@ -9631,6 +9780,7 @@
         0,
         0,
         19.397898653825106,
+        0,
         0
       ],
       "name": "Amstetten",
@@ -9646,6 +9796,7 @@
       },
       "showlegend": false,
       "text": [
+        "Amstetten",
         "Amstetten",
         "Amstetten",
         "Amstetten",
@@ -9689,6 +9840,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "opacity": 0.2,
@@ -9726,7 +9878,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         228.2416,
@@ -9749,7 +9902,8 @@
         0,
         0,
         0,
-        11.862666666666666
+        11.862666666666666,
+        4.916211111111111
       ],
       "name": "Wr. Neustadt-Süd",
       "line": {
@@ -9784,9 +9938,11 @@
         "Wr. Neustadt-Süd",
         "Wr. Neustadt-Süd",
         "Wr. Neustadt-Süd",
+        "Wr. Neustadt-Süd",
         "Wr. Neustadt-Süd"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -9845,7 +10001,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         481.05051333333336,
@@ -9869,6 +10026,7 @@
         0,
         15.795333333333334,
         0,
+        0,
         0
       ],
       "name": "Asten",
@@ -9884,6 +10042,7 @@
       },
       "showlegend": false,
       "text": [
+        "Asten",
         "Asten",
         "Asten",
         "Asten",
@@ -9929,6 +10088,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "opacity": 0.2,
@@ -9967,7 +10127,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         475.5392731823424,
@@ -9991,6 +10152,7 @@
         28.21355483031924,
         0,
         19.262189286678282,
+        0,
         0
       ],
       "name": "Traunsee-Nord",
@@ -10006,6 +10168,7 @@
       },
       "showlegend": false,
       "text": [
+        "Traunsee-Nord",
         "Traunsee-Nord",
         "Traunsee-Nord",
         "Traunsee-Nord",
@@ -10051,6 +10214,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "opacity": 0.2,
@@ -10087,7 +10251,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         255.11633333333333,
@@ -10109,7 +10274,8 @@
         0,
         10.166228571428572,
         8.066542857142856,
-        7.002857142857143
+        7.002857142857143,
+        0
       ],
       "name": "Welser Heide",
       "line": {
@@ -10143,9 +10309,11 @@
         "Welser Heide",
         "Welser Heide",
         "Welser Heide",
+        "Welser Heide",
         "Welser Heide"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -10203,7 +10371,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         306.76316376894266,
@@ -10227,7 +10396,8 @@
         8.596046528931769,
         14.75505344874625,
         8.2683350281505,
-        3.1352960142860686
+        3.1352960142860686,
+        0
       ],
       "name": "Salzach-Pongau",
       "line": {
@@ -10242,6 +10412,7 @@
       },
       "showlegend": false,
       "text": [
+        "Salzach-Pongau",
         "Salzach-Pongau",
         "Salzach-Pongau",
         "Salzach-Pongau",
@@ -10287,6 +10458,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "opacity": 0.2,
@@ -10324,7 +10496,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         268.2252336448598,
@@ -10347,7 +10520,8 @@
         0,
         9.244504672897197,
         0,
-        6.254968847352025
+        6.254968847352025,
+        0
       ],
       "name": "Siggerwiesen",
       "line": {
@@ -10362,6 +10536,7 @@
       },
       "showlegend": false,
       "text": [
+        "Siggerwiesen",
         "Siggerwiesen",
         "Siggerwiesen",
         "Siggerwiesen",
@@ -10405,6 +10580,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "opacity": 0.2,
@@ -10442,7 +10618,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         133.40053571428572,
@@ -10465,7 +10642,8 @@
         0,
         30.093857142857143,
         9.23525,
-        12.387857142857143
+        12.387857142857143,
+        3.145607142857143
       ],
       "name": "Kapfenberg/Mürz",
       "line": {
@@ -10480,6 +10658,7 @@
       },
       "showlegend": false,
       "text": [
+        "Kapfenberg/Mürz",
         "Kapfenberg/Mürz",
         "Kapfenberg/Mürz",
         "Kapfenberg/Mürz",
@@ -10523,6 +10702,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "opacity": 0.2,
@@ -10560,7 +10740,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         158.78993875554158,
@@ -10583,7 +10764,8 @@
         12.818398705048137,
         18.964582100189652,
         9.464865974898228,
-        13.942237536692316
+        13.942237536692316,
+        4.014456470531389
       ],
       "name": "Graz-Gössendorf",
       "line": {
@@ -10598,6 +10780,7 @@
       },
       "showlegend": false,
       "text": [
+        "Graz-Gössendorf",
         "Graz-Gössendorf",
         "Graz-Gössendorf",
         "Graz-Gössendorf",
@@ -10641,6 +10824,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "opacity": 0.2,
@@ -10676,7 +10860,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         240.9880372324339,
@@ -10697,7 +10882,8 @@
         15.536325145334185,
         19.101280284955813,
         9.255435330488256,
-        16.520363587486138
+        16.520363587486138,
+        5.751974192681206
       ],
       "name": "Wildon",
       "line": {
@@ -10730,9 +10916,11 @@
         "Wildon",
         "Wildon",
         "Wildon",
+        "Wildon",
         "Wildon"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -10787,7 +10975,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         233.98481570535813,
@@ -10809,7 +10998,8 @@
         11.05767851301798,
         11.878869957936175,
         9.027941168031493,
-        4.084667076019029
+        4.084667076019029,
+        0
       ],
       "name": "Innsbruck",
       "line": {
@@ -10824,6 +11014,7 @@
       },
       "showlegend": false,
       "text": [
+        "Innsbruck",
         "Innsbruck",
         "Innsbruck",
         "Innsbruck",
@@ -10865,6 +11056,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "opacity": 0.2,
@@ -10901,7 +11093,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         222.31830387372452,
@@ -10923,7 +11116,8 @@
         65.05111261587317,
         86.754687463516,
         19.68178952529946,
-        14.158965138814299
+        14.158965138814299,
+        39.7683704205291
       ],
       "name": "Kirchbichl",
       "line": {
@@ -10938,6 +11132,7 @@
       },
       "showlegend": false,
       "text": [
+        "Kirchbichl",
         "Kirchbichl",
         "Kirchbichl",
         "Kirchbichl",
@@ -10979,6 +11174,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "opacity": 0.2,
@@ -11013,7 +11209,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         106.5813543741382,
@@ -11032,6 +11229,7 @@
         8.807338746744293,
         0,
         36.26311858434197,
+        0,
         0,
         0
       ],
@@ -11065,9 +11263,11 @@
         "Strass",
         "Strass",
         "Strass",
+        "Strass",
         "Strass"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -11122,7 +11322,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         757.6862242776104,
@@ -11145,6 +11346,7 @@
         8.615773626337065,
         0,
         9.883386289155425,
+        0,
         0
       ],
       "name": "Meiningen",
@@ -11160,6 +11362,7 @@
       },
       "showlegend": false,
       "text": [
+        "Meiningen",
         "Meiningen",
         "Meiningen",
         "Meiningen",
@@ -11203,6 +11406,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "opacity": 0.2,
@@ -11239,7 +11443,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         160.15125238108777,
@@ -11261,7 +11466,8 @@
         0,
         0,
         0,
-        11.104639922667955
+        11.104639922667955,
+        0
       ],
       "name": "Hofsteig",
       "line": {
@@ -11295,9 +11501,11 @@
         "Hofsteig",
         "Hofsteig",
         "Hofsteig",
+        "Hofsteig",
         "Hofsteig"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -11355,7 +11563,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         392.7399374369324,
@@ -11379,7 +11588,8 @@
         16.52259889001009,
         20.904400100908173,
         10.747921291624621,
-        15.830005549949545
+        15.830005549949545,
+        5.134034308779011
       ],
       "name": "Wien",
       "line": {
@@ -11415,9 +11625,11 @@
         "Wien",
         "Wien",
         "Wien",
+        "Wien",
         "Wien"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -11880,7 +12092,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         151.63265620561592,
@@ -12307,7 +12520,8 @@
         13.497880315119648,
         23.201764361395416,
         10.099520039772724,
-        11.993964285714284
+        11.993964285714284,
+        4.239895130676319
       ],
       "line": {
         "color": "transparent"
@@ -12739,9 +12953,11 @@
         "3. Quartil Österreich",
         "3. Quartil Österreich",
         "3. Quartil Österreich",
+        "3. Quartil Österreich",
         "3. Quartil Österreich"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -13613,7 +13829,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         92.42378420958539,
@@ -14037,6 +14254,7 @@
         10.303938775842635,
         10.456590585593778,
         2.44035,
+        0,
         0,
         0,
         0,
@@ -14473,9 +14691,11 @@
         "1. Quartil Österreich",
         "1. Quartil Österreich",
         "1. Quartil Österreich",
+        "1. Quartil Österreich",
         "1. Quartil Österreich"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -15346,7 +15566,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         92.42378420958539,
@@ -15770,6 +15991,7 @@
         10.303938775842635,
         10.456590585593778,
         2.44035,
+        0,
         0,
         0,
         0,
@@ -16205,9 +16427,11 @@
         "1. Quartil Österreich",
         "1. Quartil Österreich",
         "1. Quartil Österreich",
+        "1. Quartil Österreich",
         "1. Quartil Österreich"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -17078,7 +17302,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         122.02822020760064,
@@ -17505,7 +17730,8 @@
         0,
         15.243235815282215,
         8.648138098090996,
-        5.169817961685527
+        5.169817961685527,
+        0
       ],
       "name": "Österreich",
       "line": {
@@ -17514,6 +17740,7 @@
       },
       "showlegend": false,
       "text": [
+        "Österreich",
         "Österreich",
         "Österreich",
         "Österreich",
@@ -18365,6 +18592,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "visible": true,
@@ -18408,7 +18636,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         325.97060611323377,
@@ -18427,6 +18656,7 @@
         34.07641542202153,
         0,
         15.742271622091003,
+        0,
         0,
         0,
         0,
@@ -18466,9 +18696,11 @@
         "Wulkaprodersdorf",
         "Wulkaprodersdorf",
         "Wulkaprodersdorf",
+        "Wulkaprodersdorf",
         "Wulkaprodersdorf"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -18527,7 +18759,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         498.90181818181816,
@@ -18551,6 +18784,7 @@
         0,
         15.731418181818182,
         14.133236363636364,
+        0,
         0
       ],
       "name": "Millstätter See",
@@ -18566,6 +18800,7 @@
       },
       "showlegend": true,
       "text": [
+        "Millstätter See",
         "Millstätter See",
         "Millstätter See",
         "Millstätter See",
@@ -18611,6 +18846,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "visible": "legendonly",
@@ -18649,7 +18885,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         557.2472758620689,
@@ -18673,7 +18910,8 @@
         26.805572413793104,
         47.59655172413793,
         0,
-        10.926551724137932
+        10.926551724137932,
+        0
       ],
       "name": "Wörthersee Ost",
       "line": {
@@ -18688,6 +18926,7 @@
       },
       "showlegend": true,
       "text": [
+        "Wörthersee Ost",
         "Wörthersee Ost",
         "Wörthersee Ost",
         "Wörthersee Ost",
@@ -18733,6 +18972,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "visible": "legendonly",
@@ -18771,7 +19011,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         166.08305970303368,
@@ -18795,7 +19036,8 @@
         0,
         55.02550440906181,
         0,
-        0
+        0,
+        27.715445139706336
       ],
       "name": "An der Traisen",
       "line": {
@@ -18810,6 +19052,7 @@
       },
       "showlegend": true,
       "text": [
+        "An der Traisen",
         "An der Traisen",
         "An der Traisen",
         "An der Traisen",
@@ -18855,6 +19098,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "visible": "legendonly",
@@ -18892,7 +19136,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         632.895589361935,
@@ -18915,6 +19160,7 @@
         0,
         0,
         19.397898653825106,
+        0,
         0
       ],
       "name": "Amstetten",
@@ -18930,6 +19176,7 @@
       },
       "showlegend": true,
       "text": [
+        "Amstetten",
         "Amstetten",
         "Amstetten",
         "Amstetten",
@@ -18973,6 +19220,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "visible": "legendonly",
@@ -19010,7 +19258,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         228.2416,
@@ -19033,7 +19282,8 @@
         0,
         0,
         0,
-        11.862666666666666
+        11.862666666666666,
+        4.916211111111111
       ],
       "name": "Wr. Neustadt-Süd",
       "line": {
@@ -19068,9 +19318,11 @@
         "Wr. Neustadt-Süd",
         "Wr. Neustadt-Süd",
         "Wr. Neustadt-Süd",
+        "Wr. Neustadt-Süd",
         "Wr. Neustadt-Süd"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -19129,7 +19381,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         481.05051333333336,
@@ -19153,6 +19406,7 @@
         0,
         15.795333333333334,
         0,
+        0,
         0
       ],
       "name": "Asten",
@@ -19168,6 +19422,7 @@
       },
       "showlegend": true,
       "text": [
+        "Asten",
         "Asten",
         "Asten",
         "Asten",
@@ -19213,6 +19468,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "visible": "legendonly",
@@ -19251,7 +19507,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         475.5392731823424,
@@ -19275,6 +19532,7 @@
         28.21355483031924,
         0,
         19.262189286678282,
+        0,
         0
       ],
       "name": "Traunsee-Nord",
@@ -19290,6 +19548,7 @@
       },
       "showlegend": true,
       "text": [
+        "Traunsee-Nord",
         "Traunsee-Nord",
         "Traunsee-Nord",
         "Traunsee-Nord",
@@ -19335,6 +19594,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "visible": "legendonly",
@@ -19371,7 +19631,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         255.11633333333333,
@@ -19393,7 +19654,8 @@
         0,
         10.166228571428572,
         8.066542857142856,
-        7.002857142857143
+        7.002857142857143,
+        0
       ],
       "name": "Welser Heide",
       "line": {
@@ -19427,9 +19689,11 @@
         "Welser Heide",
         "Welser Heide",
         "Welser Heide",
+        "Welser Heide",
         "Welser Heide"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -19487,7 +19751,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         306.76316376894266,
@@ -19511,7 +19776,8 @@
         8.596046528931769,
         14.75505344874625,
         8.2683350281505,
-        3.1352960142860686
+        3.1352960142860686,
+        0
       ],
       "name": "Salzach-Pongau",
       "line": {
@@ -19526,6 +19792,7 @@
       },
       "showlegend": true,
       "text": [
+        "Salzach-Pongau",
         "Salzach-Pongau",
         "Salzach-Pongau",
         "Salzach-Pongau",
@@ -19571,6 +19838,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "visible": "legendonly",
@@ -19608,7 +19876,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         268.2252336448598,
@@ -19631,7 +19900,8 @@
         0,
         9.244504672897197,
         0,
-        6.254968847352025
+        6.254968847352025,
+        0
       ],
       "name": "Siggerwiesen",
       "line": {
@@ -19646,6 +19916,7 @@
       },
       "showlegend": true,
       "text": [
+        "Siggerwiesen",
         "Siggerwiesen",
         "Siggerwiesen",
         "Siggerwiesen",
@@ -19689,6 +19960,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "visible": "legendonly",
@@ -19726,7 +19998,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         133.40053571428572,
@@ -19749,7 +20022,8 @@
         0,
         30.093857142857143,
         9.23525,
-        12.387857142857143
+        12.387857142857143,
+        3.145607142857143
       ],
       "name": "Kapfenberg/Mürz",
       "line": {
@@ -19764,6 +20038,7 @@
       },
       "showlegend": true,
       "text": [
+        "Kapfenberg/Mürz",
         "Kapfenberg/Mürz",
         "Kapfenberg/Mürz",
         "Kapfenberg/Mürz",
@@ -19807,6 +20082,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "visible": "legendonly",
@@ -19844,7 +20120,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         158.78993875554158,
@@ -19867,7 +20144,8 @@
         12.818398705048137,
         18.964582100189652,
         9.464865974898228,
-        13.942237536692316
+        13.942237536692316,
+        4.014456470531389
       ],
       "name": "Graz-Gössendorf",
       "line": {
@@ -19882,6 +20160,7 @@
       },
       "showlegend": true,
       "text": [
+        "Graz-Gössendorf",
         "Graz-Gössendorf",
         "Graz-Gössendorf",
         "Graz-Gössendorf",
@@ -19925,6 +20204,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "visible": "legendonly",
@@ -19960,7 +20240,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         240.9880372324339,
@@ -19981,7 +20262,8 @@
         15.536325145334185,
         19.101280284955813,
         9.255435330488256,
-        16.520363587486138
+        16.520363587486138,
+        5.751974192681206
       ],
       "name": "Wildon",
       "line": {
@@ -20014,9 +20296,11 @@
         "Wildon",
         "Wildon",
         "Wildon",
+        "Wildon",
         "Wildon"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -20071,7 +20355,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         233.98481570535813,
@@ -20093,7 +20378,8 @@
         11.05767851301798,
         11.878869957936175,
         9.027941168031493,
-        4.084667076019029
+        4.084667076019029,
+        0
       ],
       "name": "Innsbruck",
       "line": {
@@ -20108,6 +20394,7 @@
       },
       "showlegend": true,
       "text": [
+        "Innsbruck",
         "Innsbruck",
         "Innsbruck",
         "Innsbruck",
@@ -20149,6 +20436,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "visible": "legendonly",
@@ -20185,7 +20473,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         222.31830387372452,
@@ -20207,7 +20496,8 @@
         65.05111261587317,
         86.754687463516,
         19.68178952529946,
-        14.158965138814299
+        14.158965138814299,
+        39.7683704205291
       ],
       "name": "Kirchbichl",
       "line": {
@@ -20222,6 +20512,7 @@
       },
       "showlegend": true,
       "text": [
+        "Kirchbichl",
         "Kirchbichl",
         "Kirchbichl",
         "Kirchbichl",
@@ -20263,6 +20554,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "visible": "legendonly",
@@ -20297,7 +20589,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         106.5813543741382,
@@ -20316,6 +20609,7 @@
         8.807338746744293,
         0,
         36.26311858434197,
+        0,
         0,
         0
       ],
@@ -20349,9 +20643,11 @@
         "Strass",
         "Strass",
         "Strass",
+        "Strass",
         "Strass"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -20406,7 +20702,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         757.6862242776104,
@@ -20429,6 +20726,7 @@
         8.615773626337065,
         0,
         9.883386289155425,
+        0,
         0
       ],
       "name": "Meiningen",
@@ -20444,6 +20742,7 @@
       },
       "showlegend": true,
       "text": [
+        "Meiningen",
         "Meiningen",
         "Meiningen",
         "Meiningen",
@@ -20487,6 +20786,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "visible": "legendonly",
@@ -20523,7 +20823,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         160.15125238108777,
@@ -20545,7 +20846,8 @@
         0,
         0,
         0,
-        11.104639922667955
+        11.104639922667955,
+        0
       ],
       "name": "Hofsteig",
       "line": {
@@ -20579,9 +20881,11 @@
         "Hofsteig",
         "Hofsteig",
         "Hofsteig",
+        "Hofsteig",
         "Hofsteig"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -20639,7 +20943,8 @@
         "2026-03-23",
         "2026-03-30",
         "2026-04-06",
-        "2026-04-13"
+        "2026-04-13",
+        "2026-04-20"
       ],
       "y": [
         392.7399374369324,
@@ -20663,7 +20968,8 @@
         16.52259889001009,
         20.904400100908173,
         10.747921291624621,
-        15.830005549949545
+        15.830005549949545,
+        5.134034308779011
       ],
       "name": "Wien",
       "line": {
@@ -20699,9 +21005,11 @@
         "Wien",
         "Wien",
         "Wien",
+        "Wien",
         "Wien"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
