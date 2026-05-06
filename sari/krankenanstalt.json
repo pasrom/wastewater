@@ -1,7 +1,7 @@
 {
   "source": "https://opendata-files.sozialversicherung.at/sari/SARI_Region_Krankenanstalt_v202307.csv",
   "description": "SARI krankenanstalt data",
-  "fetched_at": "2026-04-29T06:46:01.675222",
+  "fetched_at": "2026-05-06T06:50:48.454883",
   "columns": [
     "KW",
     "BUNDESLAND",
@@ -13,7 +13,7 @@
     "SONSTIGE",
     "AUFNAHMEN"
   ],
-  "row_count": 2790,
+  "row_count": 2808,
   "data": [
     {
       "KW": "19. KW 2023",
@@ -65,7 +65,7 @@
     },
     {
       "KW": "19. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -77,7 +77,7 @@
     },
     {
       "KW": "19. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 28,
       "INFLUENZA": 3,
@@ -89,7 +89,7 @@
     },
     {
       "KW": "19. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -101,7 +101,7 @@
     },
     {
       "KW": "19. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 24,
       "INFLUENZA": 0,
@@ -281,7 +281,7 @@
     },
     {
       "KW": "20. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -293,7 +293,7 @@
     },
     {
       "KW": "20. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 18,
       "INFLUENZA": 2,
@@ -305,7 +305,7 @@
     },
     {
       "KW": "20. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -317,7 +317,7 @@
     },
     {
       "KW": "20. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 17,
       "INFLUENZA": 0,
@@ -497,7 +497,7 @@
     },
     {
       "KW": "21. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -509,7 +509,7 @@
     },
     {
       "KW": "21. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 7,
       "INFLUENZA": 1,
@@ -521,7 +521,7 @@
     },
     {
       "KW": "21. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -533,7 +533,7 @@
     },
     {
       "KW": "21. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 15,
       "INFLUENZA": 0,
@@ -713,7 +713,7 @@
     },
     {
       "KW": "22. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -725,7 +725,7 @@
     },
     {
       "KW": "22. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 7,
       "INFLUENZA": 0,
@@ -737,7 +737,7 @@
     },
     {
       "KW": "22. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -749,7 +749,7 @@
     },
     {
       "KW": "22. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 17,
       "INFLUENZA": 0,
@@ -929,7 +929,7 @@
     },
     {
       "KW": "23. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -941,7 +941,7 @@
     },
     {
       "KW": "23. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 8,
       "INFLUENZA": 0,
@@ -953,7 +953,7 @@
     },
     {
       "KW": "23. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -965,7 +965,7 @@
     },
     {
       "KW": "23. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 15,
       "INFLUENZA": 0,
@@ -1145,7 +1145,7 @@
     },
     {
       "KW": "24. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -1157,7 +1157,7 @@
     },
     {
       "KW": "24. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 8,
       "INFLUENZA": 1,
@@ -1169,7 +1169,7 @@
     },
     {
       "KW": "24. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -1181,7 +1181,7 @@
     },
     {
       "KW": "24. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 14,
       "INFLUENZA": 0,
@@ -1361,7 +1361,7 @@
     },
     {
       "KW": "25. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -1373,7 +1373,7 @@
     },
     {
       "KW": "25. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 9,
       "INFLUENZA": 1,
@@ -1385,7 +1385,7 @@
     },
     {
       "KW": "25. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -1397,7 +1397,7 @@
     },
     {
       "KW": "25. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 10,
       "INFLUENZA": 0,
@@ -1577,7 +1577,7 @@
     },
     {
       "KW": "26. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -1589,7 +1589,7 @@
     },
     {
       "KW": "26. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 10,
       "INFLUENZA": 1,
@@ -1601,7 +1601,7 @@
     },
     {
       "KW": "26. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -1613,7 +1613,7 @@
     },
     {
       "KW": "26. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 9,
       "INFLUENZA": 0,
@@ -1793,7 +1793,7 @@
     },
     {
       "KW": "27. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -1805,7 +1805,7 @@
     },
     {
       "KW": "27. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 13,
       "INFLUENZA": 0,
@@ -1817,7 +1817,7 @@
     },
     {
       "KW": "27. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -1829,7 +1829,7 @@
     },
     {
       "KW": "27. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 10,
       "INFLUENZA": 0,
@@ -2009,7 +2009,7 @@
     },
     {
       "KW": "28. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -2021,7 +2021,7 @@
     },
     {
       "KW": "28. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 7,
       "INFLUENZA": 0,
@@ -2033,7 +2033,7 @@
     },
     {
       "KW": "28. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -2045,7 +2045,7 @@
     },
     {
       "KW": "28. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 6,
       "INFLUENZA": 0,
@@ -2225,7 +2225,7 @@
     },
     {
       "KW": "29. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -2237,7 +2237,7 @@
     },
     {
       "KW": "29. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 8,
       "INFLUENZA": 0,
@@ -2249,7 +2249,7 @@
     },
     {
       "KW": "29. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -2261,7 +2261,7 @@
     },
     {
       "KW": "29. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 7,
       "INFLUENZA": 0,
@@ -2441,7 +2441,7 @@
     },
     {
       "KW": "30. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -2453,7 +2453,7 @@
     },
     {
       "KW": "30. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 11,
       "INFLUENZA": 0,
@@ -2465,7 +2465,7 @@
     },
     {
       "KW": "30. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -2477,7 +2477,7 @@
     },
     {
       "KW": "30. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 6,
       "INFLUENZA": 0,
@@ -2657,7 +2657,7 @@
     },
     {
       "KW": "31. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -2669,7 +2669,7 @@
     },
     {
       "KW": "31. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 12,
       "INFLUENZA": 0,
@@ -2681,7 +2681,7 @@
     },
     {
       "KW": "31. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -2693,7 +2693,7 @@
     },
     {
       "KW": "31. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 7,
       "INFLUENZA": 0,
@@ -2873,7 +2873,7 @@
     },
     {
       "KW": "32. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -2885,7 +2885,7 @@
     },
     {
       "KW": "32. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 18,
       "INFLUENZA": 0,
@@ -2897,7 +2897,7 @@
     },
     {
       "KW": "32. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -2909,7 +2909,7 @@
     },
     {
       "KW": "32. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 18,
       "INFLUENZA": 0,
@@ -3089,7 +3089,7 @@
     },
     {
       "KW": "33. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -3101,7 +3101,7 @@
     },
     {
       "KW": "33. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 19,
       "INFLUENZA": 0,
@@ -3113,7 +3113,7 @@
     },
     {
       "KW": "33. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 0,
@@ -3125,7 +3125,7 @@
     },
     {
       "KW": "33. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 21,
       "INFLUENZA": 1,
@@ -3305,7 +3305,7 @@
     },
     {
       "KW": "34. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -3317,7 +3317,7 @@
     },
     {
       "KW": "34. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 38,
       "INFLUENZA": 1,
@@ -3329,7 +3329,7 @@
     },
     {
       "KW": "34. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -3341,7 +3341,7 @@
     },
     {
       "KW": "34. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 29,
       "INFLUENZA": 0,
@@ -3521,7 +3521,7 @@
     },
     {
       "KW": "35. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -3533,7 +3533,7 @@
     },
     {
       "KW": "35. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 37,
       "INFLUENZA": 0,
@@ -3545,7 +3545,7 @@
     },
     {
       "KW": "35. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 0,
@@ -3557,7 +3557,7 @@
     },
     {
       "KW": "35. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 35,
       "INFLUENZA": 0,
@@ -3737,7 +3737,7 @@
     },
     {
       "KW": "36. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 0,
@@ -3749,7 +3749,7 @@
     },
     {
       "KW": "36. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 57,
       "INFLUENZA": 1,
@@ -3761,7 +3761,7 @@
     },
     {
       "KW": "36. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 0,
@@ -3773,7 +3773,7 @@
     },
     {
       "KW": "36. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 52,
       "INFLUENZA": 0,
@@ -3953,7 +3953,7 @@
     },
     {
       "KW": "37. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 0,
@@ -3965,7 +3965,7 @@
     },
     {
       "KW": "37. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 53,
       "INFLUENZA": 0,
@@ -3977,7 +3977,7 @@
     },
     {
       "KW": "37. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 0,
@@ -3989,7 +3989,7 @@
     },
     {
       "KW": "37. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 44,
       "INFLUENZA": 0,
@@ -4169,7 +4169,7 @@
     },
     {
       "KW": "38. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 0,
@@ -4181,7 +4181,7 @@
     },
     {
       "KW": "38. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 67,
       "INFLUENZA": 1,
@@ -4193,7 +4193,7 @@
     },
     {
       "KW": "38. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -4205,7 +4205,7 @@
     },
     {
       "KW": "38. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 55,
       "INFLUENZA": 0,
@@ -4385,7 +4385,7 @@
     },
     {
       "KW": "39. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 0,
@@ -4397,7 +4397,7 @@
     },
     {
       "KW": "39. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 55,
       "INFLUENZA": 0,
@@ -4409,7 +4409,7 @@
     },
     {
       "KW": "39. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 4,
       "INFLUENZA": 0,
@@ -4421,7 +4421,7 @@
     },
     {
       "KW": "39. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 74,
       "INFLUENZA": 0,
@@ -4601,7 +4601,7 @@
     },
     {
       "KW": "40. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 0,
@@ -4613,7 +4613,7 @@
     },
     {
       "KW": "40. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 83,
       "INFLUENZA": 0,
@@ -4625,7 +4625,7 @@
     },
     {
       "KW": "40. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 7,
       "INFLUENZA": 0,
@@ -4637,7 +4637,7 @@
     },
     {
       "KW": "40. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 89,
       "INFLUENZA": 0,
@@ -4817,7 +4817,7 @@
     },
     {
       "KW": "41. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -4829,7 +4829,7 @@
     },
     {
       "KW": "41. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 104,
       "INFLUENZA": 0,
@@ -4841,7 +4841,7 @@
     },
     {
       "KW": "41. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 4,
       "INFLUENZA": 0,
@@ -4853,7 +4853,7 @@
     },
     {
       "KW": "41. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 129,
       "INFLUENZA": 0,
@@ -5033,7 +5033,7 @@
     },
     {
       "KW": "42. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -5045,7 +5045,7 @@
     },
     {
       "KW": "42. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 129,
       "INFLUENZA": 0,
@@ -5057,7 +5057,7 @@
     },
     {
       "KW": "42. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 1,
@@ -5069,7 +5069,7 @@
     },
     {
       "KW": "42. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 140,
       "INFLUENZA": 1,
@@ -5249,7 +5249,7 @@
     },
     {
       "KW": "43. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 4,
       "INFLUENZA": 0,
@@ -5261,7 +5261,7 @@
     },
     {
       "KW": "43. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 165,
       "INFLUENZA": 1,
@@ -5273,7 +5273,7 @@
     },
     {
       "KW": "43. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 7,
       "INFLUENZA": 0,
@@ -5285,7 +5285,7 @@
     },
     {
       "KW": "43. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 139,
       "INFLUENZA": 0,
@@ -5465,7 +5465,7 @@
     },
     {
       "KW": "44. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 10,
       "INFLUENZA": 0,
@@ -5477,7 +5477,7 @@
     },
     {
       "KW": "44. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 190,
       "INFLUENZA": 0,
@@ -5489,7 +5489,7 @@
     },
     {
       "KW": "44. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 4,
       "INFLUENZA": 0,
@@ -5501,7 +5501,7 @@
     },
     {
       "KW": "44. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 180,
       "INFLUENZA": 1,
@@ -5681,7 +5681,7 @@
     },
     {
       "KW": "45. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 7,
       "INFLUENZA": 0,
@@ -5693,7 +5693,7 @@
     },
     {
       "KW": "45. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 183,
       "INFLUENZA": 3,
@@ -5705,7 +5705,7 @@
     },
     {
       "KW": "45. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 7,
       "INFLUENZA": 0,
@@ -5717,7 +5717,7 @@
     },
     {
       "KW": "45. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 160,
       "INFLUENZA": 1,
@@ -5897,7 +5897,7 @@
     },
     {
       "KW": "46. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 0,
@@ -5909,7 +5909,7 @@
     },
     {
       "KW": "46. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 229,
       "INFLUENZA": 2,
@@ -5921,7 +5921,7 @@
     },
     {
       "KW": "46. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 10,
       "INFLUENZA": 0,
@@ -5933,7 +5933,7 @@
     },
     {
       "KW": "46. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 212,
       "INFLUENZA": 1,
@@ -6113,7 +6113,7 @@
     },
     {
       "KW": "47. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 8,
       "INFLUENZA": 0,
@@ -6125,7 +6125,7 @@
     },
     {
       "KW": "47. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 229,
       "INFLUENZA": 2,
@@ -6137,7 +6137,7 @@
     },
     {
       "KW": "47. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 7,
       "INFLUENZA": 0,
@@ -6149,7 +6149,7 @@
     },
     {
       "KW": "47. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 250,
       "INFLUENZA": 0,
@@ -6329,7 +6329,7 @@
     },
     {
       "KW": "48. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 13,
       "INFLUENZA": 0,
@@ -6341,7 +6341,7 @@
     },
     {
       "KW": "48. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 222,
       "INFLUENZA": 12,
@@ -6353,7 +6353,7 @@
     },
     {
       "KW": "48. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 12,
       "INFLUENZA": 0,
@@ -6365,7 +6365,7 @@
     },
     {
       "KW": "48. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 278,
       "INFLUENZA": 4,
@@ -6545,7 +6545,7 @@
     },
     {
       "KW": "49. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 12,
       "INFLUENZA": 0,
@@ -6557,7 +6557,7 @@
     },
     {
       "KW": "49. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 266,
       "INFLUENZA": 11,
@@ -6569,7 +6569,7 @@
     },
     {
       "KW": "49. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 11,
       "INFLUENZA": 1,
@@ -6581,7 +6581,7 @@
     },
     {
       "KW": "49. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 284,
       "INFLUENZA": 5,
@@ -6761,7 +6761,7 @@
     },
     {
       "KW": "50. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 9,
       "INFLUENZA": 0,
@@ -6773,7 +6773,7 @@
     },
     {
       "KW": "50. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 251,
       "INFLUENZA": 10,
@@ -6785,7 +6785,7 @@
     },
     {
       "KW": "50. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 9,
       "INFLUENZA": 0,
@@ -6797,7 +6797,7 @@
     },
     {
       "KW": "50. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 294,
       "INFLUENZA": 16,
@@ -6977,7 +6977,7 @@
     },
     {
       "KW": "51. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 5,
       "INFLUENZA": 4,
@@ -6989,7 +6989,7 @@
     },
     {
       "KW": "51. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 247,
       "INFLUENZA": 23,
@@ -7001,7 +7001,7 @@
     },
     {
       "KW": "51. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 12,
       "INFLUENZA": 1,
@@ -7013,7 +7013,7 @@
     },
     {
       "KW": "51. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 260,
       "INFLUENZA": 33,
@@ -7193,7 +7193,7 @@
     },
     {
       "KW": "52. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 9,
       "INFLUENZA": 1,
@@ -7205,7 +7205,7 @@
     },
     {
       "KW": "52. KW 2023",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 218,
       "INFLUENZA": 39,
@@ -7217,7 +7217,7 @@
     },
     {
       "KW": "52. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 9,
       "INFLUENZA": 4,
@@ -7229,7 +7229,7 @@
     },
     {
       "KW": "52. KW 2023",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 198,
       "INFLUENZA": 44,
@@ -7409,7 +7409,7 @@
     },
     {
       "KW": "1. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 4,
       "INFLUENZA": 3,
@@ -7421,7 +7421,7 @@
     },
     {
       "KW": "1. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 128,
       "INFLUENZA": 49,
@@ -7433,7 +7433,7 @@
     },
     {
       "KW": "1. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 2,
@@ -7445,7 +7445,7 @@
     },
     {
       "KW": "1. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 152,
       "INFLUENZA": 45,
@@ -7625,7 +7625,7 @@
     },
     {
       "KW": "2. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 1,
@@ -7637,7 +7637,7 @@
     },
     {
       "KW": "2. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 72,
       "INFLUENZA": 46,
@@ -7649,7 +7649,7 @@
     },
     {
       "KW": "2. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 7,
@@ -7661,7 +7661,7 @@
     },
     {
       "KW": "2. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 97,
       "INFLUENZA": 60,
@@ -7841,7 +7841,7 @@
     },
     {
       "KW": "3. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 3,
@@ -7853,7 +7853,7 @@
     },
     {
       "KW": "3. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 64,
       "INFLUENZA": 72,
@@ -7865,7 +7865,7 @@
     },
     {
       "KW": "3. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 3,
@@ -7877,7 +7877,7 @@
     },
     {
       "KW": "3. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 52,
       "INFLUENZA": 68,
@@ -8057,7 +8057,7 @@
     },
     {
       "KW": "4. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 9,
@@ -8069,7 +8069,7 @@
     },
     {
       "KW": "4. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 43,
       "INFLUENZA": 114,
@@ -8081,7 +8081,7 @@
     },
     {
       "KW": "4. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 7,
@@ -8093,7 +8093,7 @@
     },
     {
       "KW": "4. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 40,
       "INFLUENZA": 88,
@@ -8273,7 +8273,7 @@
     },
     {
       "KW": "5. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 3,
@@ -8285,7 +8285,7 @@
     },
     {
       "KW": "5. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 40,
       "INFLUENZA": 140,
@@ -8297,7 +8297,7 @@
     },
     {
       "KW": "5. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 6,
@@ -8309,7 +8309,7 @@
     },
     {
       "KW": "5. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 39,
       "INFLUENZA": 138,
@@ -8489,7 +8489,7 @@
     },
     {
       "KW": "6. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 11,
@@ -8501,7 +8501,7 @@
     },
     {
       "KW": "6. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 24,
       "INFLUENZA": 131,
@@ -8513,7 +8513,7 @@
     },
     {
       "KW": "6. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 5,
@@ -8525,7 +8525,7 @@
     },
     {
       "KW": "6. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 29,
       "INFLUENZA": 97,
@@ -8705,7 +8705,7 @@
     },
     {
       "KW": "7. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 9,
@@ -8717,7 +8717,7 @@
     },
     {
       "KW": "7. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 19,
       "INFLUENZA": 76,
@@ -8729,7 +8729,7 @@
     },
     {
       "KW": "7. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 4,
@@ -8741,7 +8741,7 @@
     },
     {
       "KW": "7. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 21,
       "INFLUENZA": 68,
@@ -8921,7 +8921,7 @@
     },
     {
       "KW": "8. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 2,
@@ -8933,7 +8933,7 @@
     },
     {
       "KW": "8. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 23,
       "INFLUENZA": 44,
@@ -8945,7 +8945,7 @@
     },
     {
       "KW": "8. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 5,
@@ -8957,7 +8957,7 @@
     },
     {
       "KW": "8. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 23,
       "INFLUENZA": 28,
@@ -9137,7 +9137,7 @@
     },
     {
       "KW": "9. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 1,
@@ -9149,7 +9149,7 @@
     },
     {
       "KW": "9. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 7,
       "INFLUENZA": 23,
@@ -9161,7 +9161,7 @@
     },
     {
       "KW": "9. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 2,
@@ -9173,7 +9173,7 @@
     },
     {
       "KW": "9. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 17,
       "INFLUENZA": 15,
@@ -9353,7 +9353,7 @@
     },
     {
       "KW": "10. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -9365,7 +9365,7 @@
     },
     {
       "KW": "10. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 9,
       "INFLUENZA": 17,
@@ -9377,7 +9377,7 @@
     },
     {
       "KW": "10. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -9389,7 +9389,7 @@
     },
     {
       "KW": "10. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 16,
       "INFLUENZA": 11,
@@ -9569,7 +9569,7 @@
     },
     {
       "KW": "11. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 1,
@@ -9581,7 +9581,7 @@
     },
     {
       "KW": "11. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 7,
       "INFLUENZA": 10,
@@ -9593,7 +9593,7 @@
     },
     {
       "KW": "11. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -9605,7 +9605,7 @@
     },
     {
       "KW": "11. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 17,
       "INFLUENZA": 9,
@@ -9785,7 +9785,7 @@
     },
     {
       "KW": "12. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -9797,7 +9797,7 @@
     },
     {
       "KW": "12. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 9,
       "INFLUENZA": 12,
@@ -9809,7 +9809,7 @@
     },
     {
       "KW": "12. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -9821,7 +9821,7 @@
     },
     {
       "KW": "12. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 10,
       "INFLUENZA": 2,
@@ -10001,7 +10001,7 @@
     },
     {
       "KW": "13. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -10013,7 +10013,7 @@
     },
     {
       "KW": "13. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 4,
       "INFLUENZA": 9,
@@ -10025,7 +10025,7 @@
     },
     {
       "KW": "13. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 2,
@@ -10037,7 +10037,7 @@
     },
     {
       "KW": "13. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 16,
       "INFLUENZA": 5,
@@ -10217,7 +10217,7 @@
     },
     {
       "KW": "14. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -10229,7 +10229,7 @@
     },
     {
       "KW": "14. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 9,
       "INFLUENZA": 1,
@@ -10241,7 +10241,7 @@
     },
     {
       "KW": "14. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -10253,7 +10253,7 @@
     },
     {
       "KW": "14. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 11,
       "INFLUENZA": 5,
@@ -10433,7 +10433,7 @@
     },
     {
       "KW": "15. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -10445,7 +10445,7 @@
     },
     {
       "KW": "15. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 3,
       "INFLUENZA": 4,
@@ -10457,7 +10457,7 @@
     },
     {
       "KW": "15. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -10469,7 +10469,7 @@
     },
     {
       "KW": "15. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 4,
       "INFLUENZA": 3,
@@ -10649,7 +10649,7 @@
     },
     {
       "KW": "16. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -10661,7 +10661,7 @@
     },
     {
       "KW": "16. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 5,
       "INFLUENZA": 4,
@@ -10673,7 +10673,7 @@
     },
     {
       "KW": "16. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -10685,7 +10685,7 @@
     },
     {
       "KW": "16. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 10,
       "INFLUENZA": 2,
@@ -10865,7 +10865,7 @@
     },
     {
       "KW": "17. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -10877,7 +10877,7 @@
     },
     {
       "KW": "17. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 6,
       "INFLUENZA": 1,
@@ -10889,7 +10889,7 @@
     },
     {
       "KW": "17. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -10901,7 +10901,7 @@
     },
     {
       "KW": "17. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 7,
       "INFLUENZA": 1,
@@ -11081,7 +11081,7 @@
     },
     {
       "KW": "18. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -11093,7 +11093,7 @@
     },
     {
       "KW": "18. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 4,
       "INFLUENZA": 3,
@@ -11105,7 +11105,7 @@
     },
     {
       "KW": "18. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -11117,7 +11117,7 @@
     },
     {
       "KW": "18. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 6,
       "INFLUENZA": 0,
@@ -11297,7 +11297,7 @@
     },
     {
       "KW": "19. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 1,
@@ -11309,7 +11309,7 @@
     },
     {
       "KW": "19. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 3,
       "INFLUENZA": 0,
@@ -11321,7 +11321,7 @@
     },
     {
       "KW": "19. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -11333,7 +11333,7 @@
     },
     {
       "KW": "19. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 8,
       "INFLUENZA": 3,
@@ -11513,7 +11513,7 @@
     },
     {
       "KW": "20. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -11525,7 +11525,7 @@
     },
     {
       "KW": "20. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 3,
       "INFLUENZA": 1,
@@ -11537,7 +11537,7 @@
     },
     {
       "KW": "20. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -11549,7 +11549,7 @@
     },
     {
       "KW": "20. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 4,
       "INFLUENZA": 2,
@@ -11729,7 +11729,7 @@
     },
     {
       "KW": "21. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -11741,7 +11741,7 @@
     },
     {
       "KW": "21. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 6,
       "INFLUENZA": 0,
@@ -11753,7 +11753,7 @@
     },
     {
       "KW": "21. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -11765,7 +11765,7 @@
     },
     {
       "KW": "21. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 5,
       "INFLUENZA": 1,
@@ -11945,7 +11945,7 @@
     },
     {
       "KW": "22. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -11957,7 +11957,7 @@
     },
     {
       "KW": "22. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 7,
       "INFLUENZA": 1,
@@ -11969,7 +11969,7 @@
     },
     {
       "KW": "22. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -11981,7 +11981,7 @@
     },
     {
       "KW": "22. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 10,
       "INFLUENZA": 0,
@@ -12161,7 +12161,7 @@
     },
     {
       "KW": "23. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -12173,7 +12173,7 @@
     },
     {
       "KW": "23. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 11,
       "INFLUENZA": 0,
@@ -12185,7 +12185,7 @@
     },
     {
       "KW": "23. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -12197,7 +12197,7 @@
     },
     {
       "KW": "23. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 13,
       "INFLUENZA": 0,
@@ -12377,7 +12377,7 @@
     },
     {
       "KW": "24. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -12389,7 +12389,7 @@
     },
     {
       "KW": "24. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 7,
       "INFLUENZA": 0,
@@ -12401,7 +12401,7 @@
     },
     {
       "KW": "24. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -12413,7 +12413,7 @@
     },
     {
       "KW": "24. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 12,
       "INFLUENZA": 1,
@@ -12593,7 +12593,7 @@
     },
     {
       "KW": "25. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -12605,7 +12605,7 @@
     },
     {
       "KW": "25. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 20,
       "INFLUENZA": 2,
@@ -12617,7 +12617,7 @@
     },
     {
       "KW": "25. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -12629,7 +12629,7 @@
     },
     {
       "KW": "25. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 16,
       "INFLUENZA": 1,
@@ -12809,7 +12809,7 @@
     },
     {
       "KW": "26. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -12821,7 +12821,7 @@
     },
     {
       "KW": "26. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 18,
       "INFLUENZA": 0,
@@ -12833,7 +12833,7 @@
     },
     {
       "KW": "26. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -12845,7 +12845,7 @@
     },
     {
       "KW": "26. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 11,
       "INFLUENZA": 2,
@@ -13025,7 +13025,7 @@
     },
     {
       "KW": "27. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 0,
@@ -13037,7 +13037,7 @@
     },
     {
       "KW": "27. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 20,
       "INFLUENZA": 0,
@@ -13049,7 +13049,7 @@
     },
     {
       "KW": "27. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 0,
@@ -13061,7 +13061,7 @@
     },
     {
       "KW": "27. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 14,
       "INFLUENZA": 0,
@@ -13241,7 +13241,7 @@
     },
     {
       "KW": "28. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -13253,7 +13253,7 @@
     },
     {
       "KW": "28. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 19,
       "INFLUENZA": 0,
@@ -13265,7 +13265,7 @@
     },
     {
       "KW": "28. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 0,
@@ -13277,7 +13277,7 @@
     },
     {
       "KW": "28. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 33,
       "INFLUENZA": 0,
@@ -13457,7 +13457,7 @@
     },
     {
       "KW": "29. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 0,
@@ -13469,7 +13469,7 @@
     },
     {
       "KW": "29. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 18,
       "INFLUENZA": 0,
@@ -13481,7 +13481,7 @@
     },
     {
       "KW": "29. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -13493,7 +13493,7 @@
     },
     {
       "KW": "29. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 36,
       "INFLUENZA": 0,
@@ -13673,7 +13673,7 @@
     },
     {
       "KW": "30. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -13685,7 +13685,7 @@
     },
     {
       "KW": "30. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 26,
       "INFLUENZA": 0,
@@ -13697,7 +13697,7 @@
     },
     {
       "KW": "30. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 0,
@@ -13709,7 +13709,7 @@
     },
     {
       "KW": "30. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 27,
       "INFLUENZA": 0,
@@ -13889,7 +13889,7 @@
     },
     {
       "KW": "31. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -13901,7 +13901,7 @@
     },
     {
       "KW": "31. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 34,
       "INFLUENZA": 2,
@@ -13913,7 +13913,7 @@
     },
     {
       "KW": "31. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -13925,7 +13925,7 @@
     },
     {
       "KW": "31. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 29,
       "INFLUENZA": 2,
@@ -14105,7 +14105,7 @@
     },
     {
       "KW": "32. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -14117,7 +14117,7 @@
     },
     {
       "KW": "32. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 46,
       "INFLUENZA": 0,
@@ -14129,7 +14129,7 @@
     },
     {
       "KW": "32. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -14141,7 +14141,7 @@
     },
     {
       "KW": "32. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 34,
       "INFLUENZA": 1,
@@ -14321,7 +14321,7 @@
     },
     {
       "KW": "33. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -14333,7 +14333,7 @@
     },
     {
       "KW": "33. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 40,
       "INFLUENZA": 0,
@@ -14345,7 +14345,7 @@
     },
     {
       "KW": "33. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -14357,7 +14357,7 @@
     },
     {
       "KW": "33. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 35,
       "INFLUENZA": 0,
@@ -14537,7 +14537,7 @@
     },
     {
       "KW": "34. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -14549,7 +14549,7 @@
     },
     {
       "KW": "34. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 57,
       "INFLUENZA": 1,
@@ -14561,7 +14561,7 @@
     },
     {
       "KW": "34. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -14573,7 +14573,7 @@
     },
     {
       "KW": "34. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 42,
       "INFLUENZA": 0,
@@ -14753,7 +14753,7 @@
     },
     {
       "KW": "35. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 0,
@@ -14765,7 +14765,7 @@
     },
     {
       "KW": "35. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 79,
       "INFLUENZA": 1,
@@ -14777,7 +14777,7 @@
     },
     {
       "KW": "35. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -14789,7 +14789,7 @@
     },
     {
       "KW": "35. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 73,
       "INFLUENZA": 0,
@@ -14915,8 +14915,8 @@
       "INFLUENZA": 0,
       "RSV": 0,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 135,
-      "AUFNAHMEN": 177,
+      "SONSTIGE": 136,
+      "AUFNAHMEN": 178,
       "date": "2024-08-26"
     },
     {
@@ -14969,7 +14969,7 @@
     },
     {
       "KW": "36. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 0,
@@ -14981,7 +14981,7 @@
     },
     {
       "KW": "36. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 67,
       "INFLUENZA": 0,
@@ -14993,7 +14993,7 @@
     },
     {
       "KW": "36. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -15005,7 +15005,7 @@
     },
     {
       "KW": "36. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 72,
       "INFLUENZA": 0,
@@ -15185,7 +15185,7 @@
     },
     {
       "KW": "37. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -15197,7 +15197,7 @@
     },
     {
       "KW": "37. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 80,
       "INFLUENZA": 0,
@@ -15209,7 +15209,7 @@
     },
     {
       "KW": "37. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 4,
       "INFLUENZA": 0,
@@ -15221,7 +15221,7 @@
     },
     {
       "KW": "37. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 76,
       "INFLUENZA": 0,
@@ -15401,7 +15401,7 @@
     },
     {
       "KW": "38. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 0,
@@ -15413,7 +15413,7 @@
     },
     {
       "KW": "38. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 103,
       "INFLUENZA": 0,
@@ -15425,7 +15425,7 @@
     },
     {
       "KW": "38. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 5,
       "INFLUENZA": 1,
@@ -15437,7 +15437,7 @@
     },
     {
       "KW": "38. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 142,
       "INFLUENZA": 1,
@@ -15617,7 +15617,7 @@
     },
     {
       "KW": "39. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 7,
       "INFLUENZA": 0,
@@ -15629,7 +15629,7 @@
     },
     {
       "KW": "39. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 131,
       "INFLUENZA": 0,
@@ -15641,7 +15641,7 @@
     },
     {
       "KW": "39. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 4,
       "INFLUENZA": 0,
@@ -15653,7 +15653,7 @@
     },
     {
       "KW": "39. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 158,
       "INFLUENZA": 0,
@@ -15833,7 +15833,7 @@
     },
     {
       "KW": "40. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 0,
@@ -15845,7 +15845,7 @@
     },
     {
       "KW": "40. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 158,
       "INFLUENZA": 1,
@@ -15857,7 +15857,7 @@
     },
     {
       "KW": "40. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 5,
       "INFLUENZA": 0,
@@ -15869,7 +15869,7 @@
     },
     {
       "KW": "40. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 168,
       "INFLUENZA": 1,
@@ -16049,7 +16049,7 @@
     },
     {
       "KW": "41. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 9,
       "INFLUENZA": 0,
@@ -16061,7 +16061,7 @@
     },
     {
       "KW": "41. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 191,
       "INFLUENZA": 0,
@@ -16073,7 +16073,7 @@
     },
     {
       "KW": "41. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 10,
       "INFLUENZA": 0,
@@ -16085,7 +16085,7 @@
     },
     {
       "KW": "41. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 169,
       "INFLUENZA": 2,
@@ -16265,7 +16265,7 @@
     },
     {
       "KW": "42. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 0,
@@ -16277,7 +16277,7 @@
     },
     {
       "KW": "42. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 159,
       "INFLUENZA": 1,
@@ -16289,7 +16289,7 @@
     },
     {
       "KW": "42. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 6,
       "INFLUENZA": 0,
@@ -16301,7 +16301,7 @@
     },
     {
       "KW": "42. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 144,
       "INFLUENZA": 0,
@@ -16481,7 +16481,7 @@
     },
     {
       "KW": "43. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 0,
@@ -16493,7 +16493,7 @@
     },
     {
       "KW": "43. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 145,
       "INFLUENZA": 2,
@@ -16505,7 +16505,7 @@
     },
     {
       "KW": "43. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 4,
       "INFLUENZA": 0,
@@ -16517,7 +16517,7 @@
     },
     {
       "KW": "43. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 116,
       "INFLUENZA": 3,
@@ -16697,7 +16697,7 @@
     },
     {
       "KW": "44. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 7,
       "INFLUENZA": 0,
@@ -16709,7 +16709,7 @@
     },
     {
       "KW": "44. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 85,
       "INFLUENZA": 0,
@@ -16721,7 +16721,7 @@
     },
     {
       "KW": "44. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 4,
       "INFLUENZA": 0,
@@ -16733,7 +16733,7 @@
     },
     {
       "KW": "44. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 73,
       "INFLUENZA": 2,
@@ -16913,7 +16913,7 @@
     },
     {
       "KW": "45. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 5,
       "INFLUENZA": 0,
@@ -16925,7 +16925,7 @@
     },
     {
       "KW": "45. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 80,
       "INFLUENZA": 0,
@@ -16937,7 +16937,7 @@
     },
     {
       "KW": "45. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -16949,7 +16949,7 @@
     },
     {
       "KW": "45. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 67,
       "INFLUENZA": 3,
@@ -17129,7 +17129,7 @@
     },
     {
       "KW": "46. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -17141,7 +17141,7 @@
     },
     {
       "KW": "46. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 68,
       "INFLUENZA": 0,
@@ -17153,7 +17153,7 @@
     },
     {
       "KW": "46. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -17165,7 +17165,7 @@
     },
     {
       "KW": "46. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 63,
       "INFLUENZA": 0,
@@ -17345,7 +17345,7 @@
     },
     {
       "KW": "47. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -17357,7 +17357,7 @@
     },
     {
       "KW": "47. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 64,
       "INFLUENZA": 5,
@@ -17369,7 +17369,7 @@
     },
     {
       "KW": "47. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 0,
@@ -17381,7 +17381,7 @@
     },
     {
       "KW": "47. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 63,
       "INFLUENZA": 3,
@@ -17561,7 +17561,7 @@
     },
     {
       "KW": "48. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 0,
@@ -17573,7 +17573,7 @@
     },
     {
       "KW": "48. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 60,
       "INFLUENZA": 2,
@@ -17585,7 +17585,7 @@
     },
     {
       "KW": "48. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 0,
@@ -17597,7 +17597,7 @@
     },
     {
       "KW": "48. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 62,
       "INFLUENZA": 4,
@@ -17777,7 +17777,7 @@
     },
     {
       "KW": "49. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 0,
@@ -17789,7 +17789,7 @@
     },
     {
       "KW": "49. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 51,
       "INFLUENZA": 3,
@@ -17801,7 +17801,7 @@
     },
     {
       "KW": "49. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 0,
@@ -17813,7 +17813,7 @@
     },
     {
       "KW": "49. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 66,
       "INFLUENZA": 3,
@@ -17993,7 +17993,7 @@
     },
     {
       "KW": "50. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 6,
       "INFLUENZA": 1,
@@ -18005,7 +18005,7 @@
     },
     {
       "KW": "50. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 52,
       "INFLUENZA": 10,
@@ -18017,7 +18017,7 @@
     },
     {
       "KW": "50. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 0,
@@ -18029,7 +18029,7 @@
     },
     {
       "KW": "50. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 56,
       "INFLUENZA": 6,
@@ -18209,7 +18209,7 @@
     },
     {
       "KW": "51. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 2,
@@ -18221,7 +18221,7 @@
     },
     {
       "KW": "51. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 43,
       "INFLUENZA": 11,
@@ -18233,7 +18233,7 @@
     },
     {
       "KW": "51. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 1,
@@ -18245,7 +18245,7 @@
     },
     {
       "KW": "51. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 47,
       "INFLUENZA": 10,
@@ -18425,7 +18425,7 @@
     },
     {
       "KW": "52. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 4,
       "INFLUENZA": 5,
@@ -18437,7 +18437,7 @@
     },
     {
       "KW": "52. KW 2024",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 40,
       "INFLUENZA": 34,
@@ -18449,7 +18449,7 @@
     },
     {
       "KW": "52. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 1,
@@ -18461,7 +18461,7 @@
     },
     {
       "KW": "52. KW 2024",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 38,
       "INFLUENZA": 27,
@@ -18641,7 +18641,7 @@
     },
     {
       "KW": "1. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 2,
@@ -18653,7 +18653,7 @@
     },
     {
       "KW": "1. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 44,
       "INFLUENZA": 54,
@@ -18665,7 +18665,7 @@
     },
     {
       "KW": "1. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 3,
@@ -18677,7 +18677,7 @@
     },
     {
       "KW": "1. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 35,
       "INFLUENZA": 33,
@@ -18857,7 +18857,7 @@
     },
     {
       "KW": "2. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 1,
@@ -18869,7 +18869,7 @@
     },
     {
       "KW": "2. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 29,
       "INFLUENZA": 70,
@@ -18881,7 +18881,7 @@
     },
     {
       "KW": "2. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 1,
@@ -18893,7 +18893,7 @@
     },
     {
       "KW": "2. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 36,
       "INFLUENZA": 31,
@@ -19019,8 +19019,8 @@
       "INFLUENZA": 97,
       "RSV": 21,
       "PNEUMOKOKKEN": 4,
-      "SONSTIGE": 246,
-      "AUFNAHMEN": 381,
+      "SONSTIGE": 247,
+      "AUFNAHMEN": 382,
       "date": "2025-01-06"
     },
     {
@@ -19073,7 +19073,7 @@
     },
     {
       "KW": "3. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 2,
@@ -19085,7 +19085,7 @@
     },
     {
       "KW": "3. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 20,
       "INFLUENZA": 76,
@@ -19097,7 +19097,7 @@
     },
     {
       "KW": "3. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 5,
@@ -19109,7 +19109,7 @@
     },
     {
       "KW": "3. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 32,
       "INFLUENZA": 68,
@@ -19289,7 +19289,7 @@
     },
     {
       "KW": "4. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 2,
@@ -19301,7 +19301,7 @@
     },
     {
       "KW": "4. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 33,
       "INFLUENZA": 100,
@@ -19313,7 +19313,7 @@
     },
     {
       "KW": "4. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 5,
@@ -19325,7 +19325,7 @@
     },
     {
       "KW": "4. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 28,
       "INFLUENZA": 93,
@@ -19505,7 +19505,7 @@
     },
     {
       "KW": "5. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 5,
@@ -19517,7 +19517,7 @@
     },
     {
       "KW": "5. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 31,
       "INFLUENZA": 129,
@@ -19529,7 +19529,7 @@
     },
     {
       "KW": "5. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 7,
@@ -19541,7 +19541,7 @@
     },
     {
       "KW": "5. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 32,
       "INFLUENZA": 135,
@@ -19721,7 +19721,7 @@
     },
     {
       "KW": "6. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 8,
@@ -19733,7 +19733,7 @@
     },
     {
       "KW": "6. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 16,
       "INFLUENZA": 117,
@@ -19745,7 +19745,7 @@
     },
     {
       "KW": "6. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 13,
@@ -19757,7 +19757,7 @@
     },
     {
       "KW": "6. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 24,
       "INFLUENZA": 154,
@@ -19937,7 +19937,7 @@
     },
     {
       "KW": "7. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 3,
@@ -19949,7 +19949,7 @@
     },
     {
       "KW": "7. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 14,
       "INFLUENZA": 74,
@@ -19961,7 +19961,7 @@
     },
     {
       "KW": "7. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 10,
@@ -19973,7 +19973,7 @@
     },
     {
       "KW": "7. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 25,
       "INFLUENZA": 163,
@@ -20153,7 +20153,7 @@
     },
     {
       "KW": "8. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 5,
@@ -20165,7 +20165,7 @@
     },
     {
       "KW": "8. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 10,
       "INFLUENZA": 87,
@@ -20177,7 +20177,7 @@
     },
     {
       "KW": "8. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 6,
@@ -20189,7 +20189,7 @@
     },
     {
       "KW": "8. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 25,
       "INFLUENZA": 106,
@@ -20369,7 +20369,7 @@
     },
     {
       "KW": "9. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 4,
@@ -20381,7 +20381,7 @@
     },
     {
       "KW": "9. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 6,
       "INFLUENZA": 86,
@@ -20393,7 +20393,7 @@
     },
     {
       "KW": "9. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 6,
@@ -20405,7 +20405,7 @@
     },
     {
       "KW": "9. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 20,
       "INFLUENZA": 89,
@@ -20585,7 +20585,7 @@
     },
     {
       "KW": "10. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 3,
@@ -20597,7 +20597,7 @@
     },
     {
       "KW": "10. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 5,
       "INFLUENZA": 43,
@@ -20609,7 +20609,7 @@
     },
     {
       "KW": "10. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 6,
@@ -20621,7 +20621,7 @@
     },
     {
       "KW": "10. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 8,
       "INFLUENZA": 64,
@@ -20801,7 +20801,7 @@
     },
     {
       "KW": "11. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 3,
@@ -20813,7 +20813,7 @@
     },
     {
       "KW": "11. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 1,
       "INFLUENZA": 47,
@@ -20825,7 +20825,7 @@
     },
     {
       "KW": "11. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 1,
@@ -20837,7 +20837,7 @@
     },
     {
       "KW": "11. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 11,
       "INFLUENZA": 59,
@@ -21017,7 +21017,7 @@
     },
     {
       "KW": "12. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -21029,7 +21029,7 @@
     },
     {
       "KW": "12. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 10,
       "INFLUENZA": 34,
@@ -21041,7 +21041,7 @@
     },
     {
       "KW": "12. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 2,
@@ -21053,7 +21053,7 @@
     },
     {
       "KW": "12. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 12,
       "INFLUENZA": 36,
@@ -21233,7 +21233,7 @@
     },
     {
       "KW": "13. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 1,
@@ -21245,7 +21245,7 @@
     },
     {
       "KW": "13. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 6,
       "INFLUENZA": 16,
@@ -21257,7 +21257,7 @@
     },
     {
       "KW": "13. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 2,
@@ -21269,7 +21269,7 @@
     },
     {
       "KW": "13. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 21,
       "INFLUENZA": 18,
@@ -21449,7 +21449,7 @@
     },
     {
       "KW": "14. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 2,
@@ -21461,7 +21461,7 @@
     },
     {
       "KW": "14. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 3,
       "INFLUENZA": 11,
@@ -21473,7 +21473,7 @@
     },
     {
       "KW": "14. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -21485,7 +21485,7 @@
     },
     {
       "KW": "14. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 7,
       "INFLUENZA": 10,
@@ -21665,7 +21665,7 @@
     },
     {
       "KW": "15. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -21677,7 +21677,7 @@
     },
     {
       "KW": "15. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 5,
       "INFLUENZA": 9,
@@ -21689,7 +21689,7 @@
     },
     {
       "KW": "15. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -21701,7 +21701,7 @@
     },
     {
       "KW": "15. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 4,
       "INFLUENZA": 7,
@@ -21881,7 +21881,7 @@
     },
     {
       "KW": "16. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -21893,7 +21893,7 @@
     },
     {
       "KW": "16. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 2,
       "INFLUENZA": 6,
@@ -21905,7 +21905,7 @@
     },
     {
       "KW": "16. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -21917,7 +21917,7 @@
     },
     {
       "KW": "16. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 7,
       "INFLUENZA": 7,
@@ -22097,7 +22097,7 @@
     },
     {
       "KW": "17. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -22109,7 +22109,7 @@
     },
     {
       "KW": "17. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 3,
       "INFLUENZA": 5,
@@ -22121,7 +22121,7 @@
     },
     {
       "KW": "17. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -22133,7 +22133,7 @@
     },
     {
       "KW": "17. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 8,
       "INFLUENZA": 7,
@@ -22313,7 +22313,7 @@
     },
     {
       "KW": "18. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -22325,7 +22325,7 @@
     },
     {
       "KW": "18. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 1,
       "INFLUENZA": 4,
@@ -22337,7 +22337,7 @@
     },
     {
       "KW": "18. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -22349,7 +22349,7 @@
     },
     {
       "KW": "18. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 5,
       "INFLUENZA": 2,
@@ -22529,7 +22529,7 @@
     },
     {
       "KW": "19. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -22541,7 +22541,7 @@
     },
     {
       "KW": "19. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 2,
       "INFLUENZA": 2,
@@ -22553,7 +22553,7 @@
     },
     {
       "KW": "19. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -22565,7 +22565,7 @@
     },
     {
       "KW": "19. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 3,
       "INFLUENZA": 0,
@@ -22745,7 +22745,7 @@
     },
     {
       "KW": "20. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -22757,7 +22757,7 @@
     },
     {
       "KW": "20. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 5,
       "INFLUENZA": 2,
@@ -22769,7 +22769,7 @@
     },
     {
       "KW": "20. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -22781,7 +22781,7 @@
     },
     {
       "KW": "20. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 7,
       "INFLUENZA": 0,
@@ -22961,7 +22961,7 @@
     },
     {
       "KW": "21. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -22973,7 +22973,7 @@
     },
     {
       "KW": "21. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 8,
       "INFLUENZA": 0,
@@ -22985,7 +22985,7 @@
     },
     {
       "KW": "21. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -22997,7 +22997,7 @@
     },
     {
       "KW": "21. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 8,
       "INFLUENZA": 3,
@@ -23177,7 +23177,7 @@
     },
     {
       "KW": "22. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -23189,7 +23189,7 @@
     },
     {
       "KW": "22. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 8,
       "INFLUENZA": 0,
@@ -23201,7 +23201,7 @@
     },
     {
       "KW": "22. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -23213,7 +23213,7 @@
     },
     {
       "KW": "22. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 9,
       "INFLUENZA": 1,
@@ -23393,7 +23393,7 @@
     },
     {
       "KW": "23. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -23405,7 +23405,7 @@
     },
     {
       "KW": "23. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 4,
       "INFLUENZA": 0,
@@ -23417,7 +23417,7 @@
     },
     {
       "KW": "23. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -23429,7 +23429,7 @@
     },
     {
       "KW": "23. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 9,
       "INFLUENZA": 1,
@@ -23609,7 +23609,7 @@
     },
     {
       "KW": "24. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -23621,7 +23621,7 @@
     },
     {
       "KW": "24. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 14,
       "INFLUENZA": 0,
@@ -23633,7 +23633,7 @@
     },
     {
       "KW": "24. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -23645,7 +23645,7 @@
     },
     {
       "KW": "24. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 4,
       "INFLUENZA": 1,
@@ -23825,7 +23825,7 @@
     },
     {
       "KW": "25. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -23837,7 +23837,7 @@
     },
     {
       "KW": "25. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 6,
       "INFLUENZA": 0,
@@ -23849,7 +23849,7 @@
     },
     {
       "KW": "25. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 0,
@@ -23861,7 +23861,7 @@
     },
     {
       "KW": "25. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 7,
       "INFLUENZA": 1,
@@ -24035,13 +24035,13 @@
       "INFLUENZA": 0,
       "RSV": 1,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 64,
-      "AUFNAHMEN": 66,
+      "SONSTIGE": 63,
+      "AUFNAHMEN": 65,
       "date": "2025-06-23"
     },
     {
       "KW": "26. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 1,
@@ -24053,7 +24053,7 @@
     },
     {
       "KW": "26. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 7,
       "INFLUENZA": 0,
@@ -24065,7 +24065,7 @@
     },
     {
       "KW": "26. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -24077,7 +24077,7 @@
     },
     {
       "KW": "26. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 5,
       "INFLUENZA": 1,
@@ -24257,7 +24257,7 @@
     },
     {
       "KW": "27. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 1,
@@ -24269,7 +24269,7 @@
     },
     {
       "KW": "27. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 8,
       "INFLUENZA": 0,
@@ -24281,7 +24281,7 @@
     },
     {
       "KW": "27. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -24293,7 +24293,7 @@
     },
     {
       "KW": "27. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 5,
       "INFLUENZA": 1,
@@ -24473,7 +24473,7 @@
     },
     {
       "KW": "28. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -24485,7 +24485,7 @@
     },
     {
       "KW": "28. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 4,
       "INFLUENZA": 0,
@@ -24497,7 +24497,7 @@
     },
     {
       "KW": "28. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -24509,7 +24509,7 @@
     },
     {
       "KW": "28. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 7,
       "INFLUENZA": 2,
@@ -24689,7 +24689,7 @@
     },
     {
       "KW": "29. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -24701,7 +24701,7 @@
     },
     {
       "KW": "29. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 3,
       "INFLUENZA": 0,
@@ -24713,7 +24713,7 @@
     },
     {
       "KW": "29. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -24725,7 +24725,7 @@
     },
     {
       "KW": "29. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 9,
       "INFLUENZA": 0,
@@ -24905,7 +24905,7 @@
     },
     {
       "KW": "30. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -24917,7 +24917,7 @@
     },
     {
       "KW": "30. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 3,
       "INFLUENZA": 0,
@@ -24929,7 +24929,7 @@
     },
     {
       "KW": "30. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -24941,7 +24941,7 @@
     },
     {
       "KW": "30. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 6,
       "INFLUENZA": 1,
@@ -25121,7 +25121,7 @@
     },
     {
       "KW": "31. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -25133,7 +25133,7 @@
     },
     {
       "KW": "31. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 6,
       "INFLUENZA": 1,
@@ -25145,7 +25145,7 @@
     },
     {
       "KW": "31. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -25157,7 +25157,7 @@
     },
     {
       "KW": "31. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 6,
       "INFLUENZA": 1,
@@ -25337,7 +25337,7 @@
     },
     {
       "KW": "32. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -25349,7 +25349,7 @@
     },
     {
       "KW": "32. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 6,
       "INFLUENZA": 0,
@@ -25361,7 +25361,7 @@
     },
     {
       "KW": "32. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -25373,7 +25373,7 @@
     },
     {
       "KW": "32. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 8,
       "INFLUENZA": 2,
@@ -25553,7 +25553,7 @@
     },
     {
       "KW": "33. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -25565,7 +25565,7 @@
     },
     {
       "KW": "33. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 14,
       "INFLUENZA": 1,
@@ -25577,7 +25577,7 @@
     },
     {
       "KW": "33. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -25589,7 +25589,7 @@
     },
     {
       "KW": "33. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 8,
       "INFLUENZA": 0,
@@ -25769,7 +25769,7 @@
     },
     {
       "KW": "34. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -25781,7 +25781,7 @@
     },
     {
       "KW": "34. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 10,
       "INFLUENZA": 0,
@@ -25793,7 +25793,7 @@
     },
     {
       "KW": "34. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -25805,7 +25805,7 @@
     },
     {
       "KW": "34. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 13,
       "INFLUENZA": 1,
@@ -25985,7 +25985,7 @@
     },
     {
       "KW": "35. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -25997,7 +25997,7 @@
     },
     {
       "KW": "35. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 18,
       "INFLUENZA": 1,
@@ -26009,7 +26009,7 @@
     },
     {
       "KW": "35. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 1,
@@ -26021,7 +26021,7 @@
     },
     {
       "KW": "35. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 13,
       "INFLUENZA": 2,
@@ -26201,7 +26201,7 @@
     },
     {
       "KW": "36. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -26213,7 +26213,7 @@
     },
     {
       "KW": "36. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 19,
       "INFLUENZA": 0,
@@ -26225,7 +26225,7 @@
     },
     {
       "KW": "36. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -26237,7 +26237,7 @@
     },
     {
       "KW": "36. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 13,
       "INFLUENZA": 0,
@@ -26417,7 +26417,7 @@
     },
     {
       "KW": "37. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -26429,7 +26429,7 @@
     },
     {
       "KW": "37. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 23,
       "INFLUENZA": 1,
@@ -26441,7 +26441,7 @@
     },
     {
       "KW": "37. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -26453,7 +26453,7 @@
     },
     {
       "KW": "37. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 26,
       "INFLUENZA": 1,
@@ -26633,7 +26633,7 @@
     },
     {
       "KW": "38. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -26645,7 +26645,7 @@
     },
     {
       "KW": "38. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 24,
       "INFLUENZA": 0,
@@ -26657,7 +26657,7 @@
     },
     {
       "KW": "38. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -26669,7 +26669,7 @@
     },
     {
       "KW": "38. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 32,
       "INFLUENZA": 1,
@@ -26849,7 +26849,7 @@
     },
     {
       "KW": "39. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -26861,7 +26861,7 @@
     },
     {
       "KW": "39. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 43,
       "INFLUENZA": 1,
@@ -26873,7 +26873,7 @@
     },
     {
       "KW": "39. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -26885,7 +26885,7 @@
     },
     {
       "KW": "39. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 44,
       "INFLUENZA": 0,
@@ -27065,7 +27065,7 @@
     },
     {
       "KW": "40. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -27077,7 +27077,7 @@
     },
     {
       "KW": "40. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 43,
       "INFLUENZA": 0,
@@ -27089,7 +27089,7 @@
     },
     {
       "KW": "40. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -27101,7 +27101,7 @@
     },
     {
       "KW": "40. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 46,
       "INFLUENZA": 3,
@@ -27281,7 +27281,7 @@
     },
     {
       "KW": "41. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -27293,7 +27293,7 @@
     },
     {
       "KW": "41. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 55,
       "INFLUENZA": 1,
@@ -27305,7 +27305,7 @@
     },
     {
       "KW": "41. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 0,
@@ -27317,7 +27317,7 @@
     },
     {
       "KW": "41. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 77,
       "INFLUENZA": 1,
@@ -27497,7 +27497,7 @@
     },
     {
       "KW": "42. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 1,
@@ -27509,7 +27509,7 @@
     },
     {
       "KW": "42. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 69,
       "INFLUENZA": 0,
@@ -27521,7 +27521,7 @@
     },
     {
       "KW": "42. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -27533,7 +27533,7 @@
     },
     {
       "KW": "42. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 67,
       "INFLUENZA": 0,
@@ -27713,7 +27713,7 @@
     },
     {
       "KW": "43. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -27725,7 +27725,7 @@
     },
     {
       "KW": "43. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 69,
       "INFLUENZA": 2,
@@ -27737,7 +27737,7 @@
     },
     {
       "KW": "43. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 4,
       "INFLUENZA": 0,
@@ -27749,7 +27749,7 @@
     },
     {
       "KW": "43. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 49,
       "INFLUENZA": 1,
@@ -27929,7 +27929,7 @@
     },
     {
       "KW": "44. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 0,
@@ -27941,7 +27941,7 @@
     },
     {
       "KW": "44. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 72,
       "INFLUENZA": 2,
@@ -27953,7 +27953,7 @@
     },
     {
       "KW": "44. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 0,
@@ -27965,7 +27965,7 @@
     },
     {
       "KW": "44. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 47,
       "INFLUENZA": 1,
@@ -28145,7 +28145,7 @@
     },
     {
       "KW": "45. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 0,
@@ -28157,7 +28157,7 @@
     },
     {
       "KW": "45. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 45,
       "INFLUENZA": 5,
@@ -28169,7 +28169,7 @@
     },
     {
       "KW": "45. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 0,
@@ -28181,7 +28181,7 @@
     },
     {
       "KW": "45. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 35,
       "INFLUENZA": 2,
@@ -28361,7 +28361,7 @@
     },
     {
       "KW": "46. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 0,
@@ -28373,7 +28373,7 @@
     },
     {
       "KW": "46. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 47,
       "INFLUENZA": 5,
@@ -28385,7 +28385,7 @@
     },
     {
       "KW": "46. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 0,
@@ -28397,7 +28397,7 @@
     },
     {
       "KW": "46. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 46,
       "INFLUENZA": 9,
@@ -28577,7 +28577,7 @@
     },
     {
       "KW": "47. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -28589,7 +28589,7 @@
     },
     {
       "KW": "47. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 56,
       "INFLUENZA": 4,
@@ -28601,7 +28601,7 @@
     },
     {
       "KW": "47. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 0,
@@ -28613,7 +28613,7 @@
     },
     {
       "KW": "47. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 54,
       "INFLUENZA": 15,
@@ -28793,7 +28793,7 @@
     },
     {
       "KW": "48. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 0,
@@ -28805,7 +28805,7 @@
     },
     {
       "KW": "48. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 55,
       "INFLUENZA": 15,
@@ -28817,7 +28817,7 @@
     },
     {
       "KW": "48. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 1,
@@ -28829,7 +28829,7 @@
     },
     {
       "KW": "48. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 50,
       "INFLUENZA": 20,
@@ -29009,7 +29009,7 @@
     },
     {
       "KW": "49. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 3,
@@ -29021,7 +29021,7 @@
     },
     {
       "KW": "49. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 61,
       "INFLUENZA": 33,
@@ -29033,7 +29033,7 @@
     },
     {
       "KW": "49. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 0,
@@ -29045,7 +29045,7 @@
     },
     {
       "KW": "49. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 75,
       "INFLUENZA": 40,
@@ -29225,7 +29225,7 @@
     },
     {
       "KW": "50. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 2,
@@ -29237,7 +29237,7 @@
     },
     {
       "KW": "50. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 53,
       "INFLUENZA": 47,
@@ -29249,7 +29249,7 @@
     },
     {
       "KW": "50. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 1,
@@ -29261,7 +29261,7 @@
     },
     {
       "KW": "50. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 66,
       "INFLUENZA": 79,
@@ -29441,7 +29441,7 @@
     },
     {
       "KW": "51. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 3,
@@ -29453,7 +29453,7 @@
     },
     {
       "KW": "51. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 67,
       "INFLUENZA": 88,
@@ -29465,7 +29465,7 @@
     },
     {
       "KW": "51. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 4,
@@ -29477,7 +29477,7 @@
     },
     {
       "KW": "51. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 61,
       "INFLUENZA": 112,
@@ -29657,7 +29657,7 @@
     },
     {
       "KW": "52. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 5,
@@ -29669,7 +29669,7 @@
     },
     {
       "KW": "52. KW 2025",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 57,
       "INFLUENZA": 118,
@@ -29681,7 +29681,7 @@
     },
     {
       "KW": "52. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 10,
@@ -29693,7 +29693,7 @@
     },
     {
       "KW": "52. KW 2025",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 69,
       "INFLUENZA": 219,
@@ -29866,14 +29866,14 @@
       "COVID": 23,
       "INFLUENZA": 59,
       "RSV": 4,
-      "PNEUMOKOKKEN": 1,
+      "PNEUMOKOKKEN": 2,
       "SONSTIGE": 101,
-      "AUFNAHMEN": 180,
+      "AUFNAHMEN": 181,
       "date": "2025-12-29"
     },
     {
       "KW": "1. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 5,
@@ -29885,7 +29885,7 @@
     },
     {
       "KW": "1. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 55,
       "INFLUENZA": 126,
@@ -29897,7 +29897,7 @@
     },
     {
       "KW": "1. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 15,
@@ -29909,7 +29909,7 @@
     },
     {
       "KW": "1. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 62,
       "INFLUENZA": 202,
@@ -30089,7 +30089,7 @@
     },
     {
       "KW": "2. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 6,
@@ -30101,7 +30101,7 @@
     },
     {
       "KW": "2. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 42,
       "INFLUENZA": 74,
@@ -30113,7 +30113,7 @@
     },
     {
       "KW": "2. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 7,
@@ -30125,7 +30125,7 @@
     },
     {
       "KW": "2. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 38,
       "INFLUENZA": 126,
@@ -30251,8 +30251,8 @@
       "INFLUENZA": 128,
       "RSV": 16,
       "PNEUMOKOKKEN": 15,
-      "SONSTIGE": 242,
-      "AUFNAHMEN": 418,
+      "SONSTIGE": 243,
+      "AUFNAHMEN": 419,
       "date": "2026-01-05"
     },
     {
@@ -30305,7 +30305,7 @@
     },
     {
       "KW": "3. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 2,
@@ -30317,7 +30317,7 @@
     },
     {
       "KW": "3. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 18,
       "INFLUENZA": 51,
@@ -30329,7 +30329,7 @@
     },
     {
       "KW": "3. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 3,
       "INFLUENZA": 5,
@@ -30341,7 +30341,7 @@
     },
     {
       "KW": "3. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 38,
       "INFLUENZA": 112,
@@ -30467,8 +30467,8 @@
       "INFLUENZA": 107,
       "RSV": 19,
       "PNEUMOKOKKEN": 4,
-      "SONSTIGE": 196,
-      "AUFNAHMEN": 343,
+      "SONSTIGE": 197,
+      "AUFNAHMEN": 344,
       "date": "2026-01-12"
     },
     {
@@ -30521,7 +30521,7 @@
     },
     {
       "KW": "4. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 1,
@@ -30533,7 +30533,7 @@
     },
     {
       "KW": "4. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 17,
       "INFLUENZA": 56,
@@ -30545,7 +30545,7 @@
     },
     {
       "KW": "4. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 2,
       "INFLUENZA": 9,
@@ -30557,7 +30557,7 @@
     },
     {
       "KW": "4. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 15,
       "INFLUENZA": 74,
@@ -30737,7 +30737,7 @@
     },
     {
       "KW": "5. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -30749,7 +30749,7 @@
     },
     {
       "KW": "5. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 19,
       "INFLUENZA": 55,
@@ -30761,7 +30761,7 @@
     },
     {
       "KW": "5. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 5,
@@ -30773,7 +30773,7 @@
     },
     {
       "KW": "5. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 28,
       "INFLUENZA": 87,
@@ -30953,7 +30953,7 @@
     },
     {
       "KW": "6. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 1,
@@ -30965,7 +30965,7 @@
     },
     {
       "KW": "6. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 19,
       "INFLUENZA": 43,
@@ -30977,7 +30977,7 @@
     },
     {
       "KW": "6. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 9,
@@ -30989,7 +30989,7 @@
     },
     {
       "KW": "6. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 12,
       "INFLUENZA": 91,
@@ -31089,9 +31089,9 @@
       "STATION": "N",
       "COVID": 2,
       "INFLUENZA": 11,
-      "RSV": 23,
+      "RSV": 24,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 47,
+      "SONSTIGE": 46,
       "AUFNAHMEN": 82,
       "date": "2026-02-02"
     },
@@ -31115,8 +31115,8 @@
       "INFLUENZA": 46,
       "RSV": 40,
       "PNEUMOKOKKEN": 5,
-      "SONSTIGE": 204,
-      "AUFNAHMEN": 300,
+      "SONSTIGE": 205,
+      "AUFNAHMEN": 301,
       "date": "2026-02-02"
     },
     {
@@ -31151,8 +31151,8 @@
       "INFLUENZA": 1,
       "RSV": 0,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 3,
-      "AUFNAHMEN": 4,
+      "SONSTIGE": 4,
+      "AUFNAHMEN": 5,
       "date": "2026-02-09"
     },
     {
@@ -31169,7 +31169,7 @@
     },
     {
       "KW": "7. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 1,
@@ -31181,7 +31181,7 @@
     },
     {
       "KW": "7. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 12,
       "INFLUENZA": 22,
@@ -31193,7 +31193,7 @@
     },
     {
       "KW": "7. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -31205,14 +31205,14 @@
     },
     {
       "KW": "7. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 14,
       "INFLUENZA": 50,
       "RSV": 65,
       "PNEUMOKOKKEN": 6,
-      "SONSTIGE": 162,
-      "AUFNAHMEN": 283,
+      "SONSTIGE": 163,
+      "AUFNAHMEN": 284,
       "date": "2026-02-09"
     },
     {
@@ -31331,8 +31331,8 @@
       "INFLUENZA": 20,
       "RSV": 37,
       "PNEUMOKOKKEN": 8,
-      "SONSTIGE": 212,
-      "AUFNAHMEN": 274,
+      "SONSTIGE": 213,
+      "AUFNAHMEN": 275,
       "date": "2026-02-09"
     },
     {
@@ -31385,7 +31385,7 @@
     },
     {
       "KW": "8. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -31397,19 +31397,19 @@
     },
     {
       "KW": "8. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 14,
       "INFLUENZA": 17,
       "RSV": 40,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 132,
-      "AUFNAHMEN": 196,
+      "SONSTIGE": 133,
+      "AUFNAHMEN": 197,
       "date": "2026-02-16"
     },
     {
       "KW": "8. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 3,
@@ -31421,14 +31421,14 @@
     },
     {
       "KW": "8. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 14,
       "INFLUENZA": 40,
       "RSV": 75,
-      "PNEUMOKOKKEN": 8,
-      "SONSTIGE": 152,
-      "AUFNAHMEN": 276,
+      "PNEUMOKOKKEN": 9,
+      "SONSTIGE": 153,
+      "AUFNAHMEN": 278,
       "date": "2026-02-16"
     },
     {
@@ -31601,19 +31601,19 @@
     },
     {
       "KW": "9. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 1,
       "RSV": 1,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 7,
-      "AUFNAHMEN": 9,
+      "SONSTIGE": 8,
+      "AUFNAHMEN": 10,
       "date": "2026-02-23"
     },
     {
       "KW": "9. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 5,
       "INFLUENZA": 25,
@@ -31625,7 +31625,7 @@
     },
     {
       "KW": "9. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 1,
@@ -31637,7 +31637,7 @@
     },
     {
       "KW": "9. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 16,
       "INFLUENZA": 27,
@@ -31667,8 +31667,8 @@
       "INFLUENZA": 9,
       "RSV": 16,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 52,
-      "AUFNAHMEN": 77,
+      "SONSTIGE": 53,
+      "AUFNAHMEN": 78,
       "date": "2026-02-23"
     },
     {
@@ -31761,10 +31761,10 @@
       "STATION": "N",
       "COVID": 23,
       "INFLUENZA": 15,
-      "RSV": 38,
+      "RSV": 39,
       "PNEUMOKOKKEN": 4,
-      "SONSTIGE": 218,
-      "AUFNAHMEN": 280,
+      "SONSTIGE": 219,
+      "AUFNAHMEN": 282,
       "date": "2026-02-23"
     },
     {
@@ -31817,7 +31817,7 @@
     },
     {
       "KW": "10. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -31829,7 +31829,7 @@
     },
     {
       "KW": "10. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 7,
       "INFLUENZA": 15,
@@ -31841,7 +31841,7 @@
     },
     {
       "KW": "10. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -31853,14 +31853,14 @@
     },
     {
       "KW": "10. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 13,
       "INFLUENZA": 11,
       "RSV": 36,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 128,
-      "AUFNAHMEN": 183,
+      "SONSTIGE": 130,
+      "AUFNAHMEN": 185,
       "date": "2026-03-02"
     },
     {
@@ -31929,10 +31929,10 @@
       "STATION": "N",
       "COVID": 4,
       "INFLUENZA": 9,
-      "RSV": 34,
+      "RSV": 33,
       "PNEUMOKOKKEN": 5,
       "SONSTIGE": 94,
-      "AUFNAHMEN": 145,
+      "AUFNAHMEN": 144,
       "date": "2026-03-02"
     },
     {
@@ -31979,8 +31979,8 @@
       "INFLUENZA": 4,
       "RSV": 30,
       "PNEUMOKOKKEN": 3,
-      "SONSTIGE": 204,
-      "AUFNAHMEN": 242,
+      "SONSTIGE": 205,
+      "AUFNAHMEN": 243,
       "date": "2026-03-02"
     },
     {
@@ -32025,15 +32025,15 @@
       "STATION": "N",
       "COVID": 1,
       "INFLUENZA": 1,
-      "RSV": 21,
+      "RSV": 22,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 91,
-      "AUFNAHMEN": 114,
+      "SONSTIGE": 92,
+      "AUFNAHMEN": 116,
       "date": "2026-03-09"
     },
     {
       "KW": "11. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 1,
@@ -32045,7 +32045,7 @@
     },
     {
       "KW": "11. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 5,
       "INFLUENZA": 9,
@@ -32057,7 +32057,7 @@
     },
     {
       "KW": "11. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 1,
@@ -32069,14 +32069,14 @@
     },
     {
       "KW": "11. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 7,
       "INFLUENZA": 6,
       "RSV": 39,
       "PNEUMOKOKKEN": 3,
-      "SONSTIGE": 145,
-      "AUFNAHMEN": 195,
+      "SONSTIGE": 146,
+      "AUFNAHMEN": 196,
       "date": "2026-03-09"
     },
     {
@@ -32123,8 +32123,8 @@
       "INFLUENZA": 0,
       "RSV": 47,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 134,
-      "AUFNAHMEN": 182,
+      "SONSTIGE": 135,
+      "AUFNAHMEN": 183,
       "date": "2026-03-09"
     },
     {
@@ -32147,8 +32147,8 @@
       "INFLUENZA": 7,
       "RSV": 18,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 133,
-      "AUFNAHMEN": 159,
+      "SONSTIGE": 136,
+      "AUFNAHMEN": 162,
       "date": "2026-03-09"
     },
     {
@@ -32171,8 +32171,8 @@
       "INFLUENZA": 5,
       "RSV": 8,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 42,
-      "AUFNAHMEN": 54,
+      "SONSTIGE": 43,
+      "AUFNAHMEN": 55,
       "date": "2026-03-09"
     },
     {
@@ -32183,8 +32183,8 @@
       "INFLUENZA": 1,
       "RSV": 0,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 15,
-      "AUFNAHMEN": 16,
+      "SONSTIGE": 16,
+      "AUFNAHMEN": 17,
       "date": "2026-03-09"
     },
     {
@@ -32193,10 +32193,10 @@
       "STATION": "N",
       "COVID": 9,
       "INFLUENZA": 8,
-      "RSV": 27,
+      "RSV": 28,
       "PNEUMOKOKKEN": 3,
-      "SONSTIGE": 225,
-      "AUFNAHMEN": 261,
+      "SONSTIGE": 226,
+      "AUFNAHMEN": 262,
       "date": "2026-03-09"
     },
     {
@@ -32231,8 +32231,8 @@
       "INFLUENZA": 0,
       "RSV": 2,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 2,
-      "AUFNAHMEN": 4,
+      "SONSTIGE": 3,
+      "AUFNAHMEN": 5,
       "date": "2026-03-16"
     },
     {
@@ -32249,7 +32249,7 @@
     },
     {
       "KW": "12. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 1,
       "INFLUENZA": 0,
@@ -32261,19 +32261,19 @@
     },
     {
       "KW": "12. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 4,
       "INFLUENZA": 2,
-      "RSV": 21,
+      "RSV": 22,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 166,
-      "AUFNAHMEN": 194,
+      "SONSTIGE": 168,
+      "AUFNAHMEN": 197,
       "date": "2026-03-16"
     },
     {
       "KW": "12. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -32285,14 +32285,14 @@
     },
     {
       "KW": "12. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 7,
       "INFLUENZA": 4,
       "RSV": 28,
       "PNEUMOKOKKEN": 6,
-      "SONSTIGE": 150,
-      "AUFNAHMEN": 189,
+      "SONSTIGE": 151,
+      "AUFNAHMEN": 190,
       "date": "2026-03-16"
     },
     {
@@ -32351,8 +32351,8 @@
       "INFLUENZA": 1,
       "RSV": 2,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 8,
-      "AUFNAHMEN": 10,
+      "SONSTIGE": 9,
+      "AUFNAHMEN": 11,
       "date": "2026-03-16"
     },
     {
@@ -32411,8 +32411,8 @@
       "INFLUENZA": 6,
       "RSV": 17,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 220,
-      "AUFNAHMEN": 243,
+      "SONSTIGE": 222,
+      "AUFNAHMEN": 245,
       "date": "2026-03-16"
     },
     {
@@ -32435,8 +32435,8 @@
       "INFLUENZA": 0,
       "RSV": 7,
       "PNEUMOKOKKEN": 4,
-      "SONSTIGE": 39,
-      "AUFNAHMEN": 48,
+      "SONSTIGE": 41,
+      "AUFNAHMEN": 50,
       "date": "2026-03-23"
     },
     {
@@ -32457,15 +32457,15 @@
       "STATION": "N",
       "COVID": 0,
       "INFLUENZA": 1,
-      "RSV": 17,
+      "RSV": 18,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 80,
-      "AUFNAHMEN": 97,
+      "SONSTIGE": 81,
+      "AUFNAHMEN": 99,
       "date": "2026-03-23"
     },
     {
       "KW": "13. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -32477,19 +32477,19 @@
     },
     {
       "KW": "13. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 5,
       "INFLUENZA": 0,
-      "RSV": 17,
+      "RSV": 18,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 149,
-      "AUFNAHMEN": 171,
+      "SONSTIGE": 150,
+      "AUFNAHMEN": 173,
       "date": "2026-03-23"
     },
     {
       "KW": "13. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -32501,14 +32501,14 @@
     },
     {
       "KW": "13. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 3,
-      "INFLUENZA": 0,
-      "RSV": 16,
-      "PNEUMOKOKKEN": 3,
-      "SONSTIGE": 131,
-      "AUFNAHMEN": 151,
+      "INFLUENZA": 1,
+      "RSV": 17,
+      "PNEUMOKOKKEN": 4,
+      "SONSTIGE": 136,
+      "AUFNAHMEN": 159,
       "date": "2026-03-23"
     },
     {
@@ -32531,8 +32531,8 @@
       "INFLUENZA": 0,
       "RSV": 8,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 50,
-      "AUFNAHMEN": 59,
+      "SONSTIGE": 51,
+      "AUFNAHMEN": 60,
       "date": "2026-03-23"
     },
     {
@@ -32543,8 +32543,8 @@
       "INFLUENZA": 0,
       "RSV": 0,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 11,
-      "AUFNAHMEN": 11,
+      "SONSTIGE": 12,
+      "AUFNAHMEN": 12,
       "date": "2026-03-23"
     },
     {
@@ -32567,8 +32567,8 @@
       "INFLUENZA": 0,
       "RSV": 1,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 6,
-      "AUFNAHMEN": 6,
+      "SONSTIGE": 7,
+      "AUFNAHMEN": 7,
       "date": "2026-03-23"
     },
     {
@@ -32579,8 +32579,8 @@
       "INFLUENZA": 1,
       "RSV": 14,
       "PNEUMOKOKKEN": 4,
-      "SONSTIGE": 109,
-      "AUFNAHMEN": 130,
+      "SONSTIGE": 110,
+      "AUFNAHMEN": 131,
       "date": "2026-03-23"
     },
     {
@@ -32603,8 +32603,8 @@
       "INFLUENZA": 3,
       "RSV": 10,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 49,
-      "AUFNAHMEN": 63,
+      "SONSTIGE": 50,
+      "AUFNAHMEN": 64,
       "date": "2026-03-23"
     },
     {
@@ -32613,10 +32613,10 @@
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
-      "RSV": 0,
+      "RSV": 1,
       "PNEUMOKOKKEN": 2,
       "SONSTIGE": 18,
-      "AUFNAHMEN": 18,
+      "AUFNAHMEN": 19,
       "date": "2026-03-23"
     },
     {
@@ -32625,10 +32625,10 @@
       "STATION": "N",
       "COVID": 10,
       "INFLUENZA": 4,
-      "RSV": 15,
+      "RSV": 16,
       "PNEUMOKOKKEN": 7,
-      "SONSTIGE": 209,
-      "AUFNAHMEN": 240,
+      "SONSTIGE": 216,
+      "AUFNAHMEN": 248,
       "date": "2026-03-23"
     },
     {
@@ -32651,8 +32651,8 @@
       "INFLUENZA": 1,
       "RSV": 6,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 30,
-      "AUFNAHMEN": 35,
+      "SONSTIGE": 33,
+      "AUFNAHMEN": 38,
       "date": "2026-03-30"
     },
     {
@@ -32675,13 +32675,13 @@
       "INFLUENZA": 1,
       "RSV": 15,
       "PNEUMOKOKKEN": 4,
-      "SONSTIGE": 77,
-      "AUFNAHMEN": 96,
+      "SONSTIGE": 80,
+      "AUFNAHMEN": 99,
       "date": "2026-03-30"
     },
     {
       "KW": "14. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -32693,19 +32693,19 @@
     },
     {
       "KW": "14. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 1,
       "INFLUENZA": 3,
       "RSV": 8,
       "PNEUMOKOKKEN": 3,
-      "SONSTIGE": 135,
-      "AUFNAHMEN": 148,
+      "SONSTIGE": 138,
+      "AUFNAHMEN": 151,
       "date": "2026-03-30"
     },
     {
       "KW": "14. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -32717,14 +32717,14 @@
     },
     {
       "KW": "14. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
-      "COVID": 0,
-      "INFLUENZA": 2,
+      "COVID": 1,
+      "INFLUENZA": 3,
       "RSV": 21,
       "PNEUMOKOKKEN": 3,
-      "SONSTIGE": 112,
-      "AUFNAHMEN": 136,
+      "SONSTIGE": 122,
+      "AUFNAHMEN": 148,
       "date": "2026-03-30"
     },
     {
@@ -32747,8 +32747,8 @@
       "INFLUENZA": 0,
       "RSV": 12,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 58,
-      "AUFNAHMEN": 69,
+      "SONSTIGE": 60,
+      "AUFNAHMEN": 71,
       "date": "2026-03-30"
     },
     {
@@ -32771,8 +32771,8 @@
       "INFLUENZA": 0,
       "RSV": 21,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 149,
-      "AUFNAHMEN": 167,
+      "SONSTIGE": 150,
+      "AUFNAHMEN": 168,
       "date": "2026-03-30"
     },
     {
@@ -32795,8 +32795,8 @@
       "INFLUENZA": 4,
       "RSV": 6,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 106,
-      "AUFNAHMEN": 117,
+      "SONSTIGE": 108,
+      "AUFNAHMEN": 119,
       "date": "2026-03-30"
     },
     {
@@ -32827,12 +32827,12 @@
       "KW": "14. KW 2026",
       "BUNDESLAND": "W",
       "STATION": "I",
-      "COVID": 1,
+      "COVID": 2,
       "INFLUENZA": 1,
       "RSV": 0,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 14,
-      "AUFNAHMEN": 16,
+      "SONSTIGE": 15,
+      "AUFNAHMEN": 18,
       "date": "2026-03-30"
     },
     {
@@ -32843,8 +32843,8 @@
       "INFLUENZA": 6,
       "RSV": 9,
       "PNEUMOKOKKEN": 10,
-      "SONSTIGE": 196,
-      "AUFNAHMEN": 217,
+      "SONSTIGE": 202,
+      "AUFNAHMEN": 223,
       "date": "2026-03-30"
     },
     {
@@ -32867,8 +32867,8 @@
       "INFLUENZA": 0,
       "RSV": 5,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 23,
-      "AUFNAHMEN": 27,
+      "SONSTIGE": 24,
+      "AUFNAHMEN": 28,
       "date": "2026-04-06"
     },
     {
@@ -32891,56 +32891,56 @@
       "INFLUENZA": 0,
       "RSV": 5,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 60,
-      "AUFNAHMEN": 65,
+      "SONSTIGE": 65,
+      "AUFNAHMEN": 70,
       "date": "2026-04-06"
     },
     {
       "KW": "15. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
       "RSV": 0,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 8,
-      "AUFNAHMEN": 9,
+      "SONSTIGE": 9,
+      "AUFNAHMEN": 10,
       "date": "2026-04-06"
     },
     {
       "KW": "15. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 1,
       "INFLUENZA": 2,
-      "RSV": 13,
+      "RSV": 15,
       "PNEUMOKOKKEN": 4,
-      "SONSTIGE": 152,
-      "AUFNAHMEN": 172,
+      "SONSTIGE": 159,
+      "AUFNAHMEN": 181,
       "date": "2026-04-06"
     },
     {
       "KW": "15. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
       "RSV": 0,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 7,
-      "AUFNAHMEN": 7,
+      "SONSTIGE": 10,
+      "AUFNAHMEN": 10,
       "date": "2026-04-06"
     },
     {
       "KW": "15. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 6,
-      "INFLUENZA": 1,
-      "RSV": 14,
-      "PNEUMOKOKKEN": 4,
-      "SONSTIGE": 143,
-      "AUFNAHMEN": 165,
+      "INFLUENZA": 2,
+      "RSV": 18,
+      "PNEUMOKOKKEN": 6,
+      "SONSTIGE": 154,
+      "AUFNAHMEN": 182,
       "date": "2026-04-06"
     },
     {
@@ -32963,8 +32963,8 @@
       "INFLUENZA": 1,
       "RSV": 3,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 41,
-      "AUFNAHMEN": 47,
+      "SONSTIGE": 44,
+      "AUFNAHMEN": 50,
       "date": "2026-04-06"
     },
     {
@@ -32985,10 +32985,10 @@
       "STATION": "N",
       "COVID": 2,
       "INFLUENZA": 1,
-      "RSV": 29,
+      "RSV": 30,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 125,
-      "AUFNAHMEN": 154,
+      "SONSTIGE": 129,
+      "AUFNAHMEN": 159,
       "date": "2026-04-06"
     },
     {
@@ -33011,8 +33011,8 @@
       "INFLUENZA": 0,
       "RSV": 12,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 87,
-      "AUFNAHMEN": 101,
+      "SONSTIGE": 94,
+      "AUFNAHMEN": 108,
       "date": "2026-04-06"
     },
     {
@@ -33035,8 +33035,8 @@
       "INFLUENZA": 0,
       "RSV": 4,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 33,
-      "AUFNAHMEN": 39,
+      "SONSTIGE": 36,
+      "AUFNAHMEN": 42,
       "date": "2026-04-06"
     },
     {
@@ -33047,8 +33047,8 @@
       "INFLUENZA": 0,
       "RSV": 0,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 7,
-      "AUFNAHMEN": 8,
+      "SONSTIGE": 9,
+      "AUFNAHMEN": 10,
       "date": "2026-04-06"
     },
     {
@@ -33058,9 +33058,9 @@
       "COVID": 4,
       "INFLUENZA": 3,
       "RSV": 6,
-      "PNEUMOKOKKEN": 6,
-      "SONSTIGE": 166,
-      "AUFNAHMEN": 183,
+      "PNEUMOKOKKEN": 7,
+      "SONSTIGE": 176,
+      "AUFNAHMEN": 193,
       "date": "2026-04-06"
     },
     {
@@ -33083,8 +33083,8 @@
       "INFLUENZA": 0,
       "RSV": 6,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 26,
-      "AUFNAHMEN": 31,
+      "SONSTIGE": 34,
+      "AUFNAHMEN": 39,
       "date": "2026-04-13"
     },
     {
@@ -33095,8 +33095,8 @@
       "INFLUENZA": 0,
       "RSV": 0,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 2,
-      "AUFNAHMEN": 2,
+      "SONSTIGE": 1,
+      "AUFNAHMEN": 1,
       "date": "2026-04-13"
     },
     {
@@ -33105,15 +33105,15 @@
       "STATION": "N",
       "COVID": 0,
       "INFLUENZA": 0,
-      "RSV": 4,
+      "RSV": 5,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 63,
-      "AUFNAHMEN": 67,
+      "SONSTIGE": 75,
+      "AUFNAHMEN": 80,
       "date": "2026-04-13"
     },
     {
       "KW": "16. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
@@ -33125,38 +33125,38 @@
     },
     {
       "KW": "16. KW 2026",
-      "BUNDESLAND": "NÃ",
+      "BUNDESLAND": "NÖ",
       "STATION": "N",
       "COVID": 2,
-      "INFLUENZA": 0,
-      "RSV": 8,
-      "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 129,
-      "AUFNAHMEN": 140,
+      "INFLUENZA": 1,
+      "RSV": 11,
+      "PNEUMOKOKKEN": 3,
+      "SONSTIGE": 153,
+      "AUFNAHMEN": 170,
       "date": "2026-04-13"
     },
     {
       "KW": "16. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
-      "RSV": 1,
+      "RSV": 2,
       "PNEUMOKOKKEN": 1,
       "SONSTIGE": 2,
-      "AUFNAHMEN": 4,
+      "AUFNAHMEN": 5,
       "date": "2026-04-13"
     },
     {
       "KW": "16. KW 2026",
-      "BUNDESLAND": "OÃ",
+      "BUNDESLAND": "OÖ",
       "STATION": "N",
       "COVID": 3,
       "INFLUENZA": 1,
-      "RSV": 6,
-      "PNEUMOKOKKEN": 3,
-      "SONSTIGE": 96,
-      "AUFNAHMEN": 109,
+      "RSV": 7,
+      "PNEUMOKOKKEN": 6,
+      "SONSTIGE": 116,
+      "AUFNAHMEN": 133,
       "date": "2026-04-13"
     },
     {
@@ -33167,8 +33167,8 @@
       "INFLUENZA": 0,
       "RSV": 0,
       "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 4,
-      "AUFNAHMEN": 4,
+      "SONSTIGE": 5,
+      "AUFNAHMEN": 5,
       "date": "2026-04-13"
     },
     {
@@ -33177,10 +33177,10 @@
       "STATION": "N",
       "COVID": 1,
       "INFLUENZA": 2,
-      "RSV": 3,
+      "RSV": 4,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 54,
-      "AUFNAHMEN": 59,
+      "SONSTIGE": 60,
+      "AUFNAHMEN": 66,
       "date": "2026-04-13"
     },
     {
@@ -33189,9 +33189,9 @@
       "STATION": "I",
       "COVID": 0,
       "INFLUENZA": 0,
-      "RSV": 3,
+      "RSV": 2,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 4,
+      "SONSTIGE": 5,
       "AUFNAHMEN": 8,
       "date": "2026-04-13"
     },
@@ -33201,10 +33201,10 @@
       "STATION": "N",
       "COVID": 0,
       "INFLUENZA": 1,
-      "RSV": 24,
+      "RSV": 27,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 142,
-      "AUFNAHMEN": 167,
+      "SONSTIGE": 153,
+      "AUFNAHMEN": 181,
       "date": "2026-04-13"
     },
     {
@@ -33225,10 +33225,10 @@
       "STATION": "N",
       "COVID": 0,
       "INFLUENZA": 0,
-      "RSV": 3,
-      "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 93,
-      "AUFNAHMEN": 96,
+      "RSV": 2,
+      "PNEUMOKOKKEN": 2,
+      "SONSTIGE": 113,
+      "AUFNAHMEN": 116,
       "date": "2026-04-13"
     },
     {
@@ -33249,14 +33249,446 @@
       "STATION": "N",
       "COVID": 0,
       "INFLUENZA": 0,
-      "RSV": 0,
+      "RSV": 2,
       "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 28,
-      "AUFNAHMEN": 30,
+      "SONSTIGE": 32,
+      "AUFNAHMEN": 36,
       "date": "2026-04-13"
     },
     {
       "KW": "16. KW 2026",
+      "BUNDESLAND": "W",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 11,
+      "AUFNAHMEN": 11,
+      "date": "2026-04-13"
+    },
+    {
+      "KW": "16. KW 2026",
+      "BUNDESLAND": "W",
+      "STATION": "N",
+      "COVID": 4,
+      "INFLUENZA": 3,
+      "RSV": 5,
+      "PNEUMOKOKKEN": 4,
+      "SONSTIGE": 183,
+      "AUFNAHMEN": 194,
+      "date": "2026-04-13"
+    },
+    {
+      "KW": "17. KW 2026",
+      "BUNDESLAND": "BGL",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 0,
+      "AUFNAHMEN": 0,
+      "date": "2026-04-20"
+    },
+    {
+      "KW": "17. KW 2026",
+      "BUNDESLAND": "BGL",
+      "STATION": "N",
+      "COVID": 1,
+      "INFLUENZA": 0,
+      "RSV": 3,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 29,
+      "AUFNAHMEN": 33,
+      "date": "2026-04-20"
+    },
+    {
+      "KW": "17. KW 2026",
+      "BUNDESLAND": "KTN",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 1,
+      "AUFNAHMEN": 1,
+      "date": "2026-04-20"
+    },
+    {
+      "KW": "17. KW 2026",
+      "BUNDESLAND": "KTN",
+      "STATION": "N",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 3,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 58,
+      "AUFNAHMEN": 61,
+      "date": "2026-04-20"
+    },
+    {
+      "KW": "17. KW 2026",
+      "BUNDESLAND": "NÖ",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 3,
+      "AUFNAHMEN": 3,
+      "date": "2026-04-20"
+    },
+    {
+      "KW": "17. KW 2026",
+      "BUNDESLAND": "NÖ",
+      "STATION": "N",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 6,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 111,
+      "AUFNAHMEN": 117,
+      "date": "2026-04-20"
+    },
+    {
+      "KW": "17. KW 2026",
+      "BUNDESLAND": "OÖ",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 3,
+      "AUFNAHMEN": 3,
+      "date": "2026-04-20"
+    },
+    {
+      "KW": "17. KW 2026",
+      "BUNDESLAND": "OÖ",
+      "STATION": "N",
+      "COVID": 2,
+      "INFLUENZA": 0,
+      "RSV": 6,
+      "PNEUMOKOKKEN": 4,
+      "SONSTIGE": 99,
+      "AUFNAHMEN": 108,
+      "date": "2026-04-20"
+    },
+    {
+      "KW": "17. KW 2026",
+      "BUNDESLAND": "SBG",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 2,
+      "AUFNAHMEN": 2,
+      "date": "2026-04-20"
+    },
+    {
+      "KW": "17. KW 2026",
+      "BUNDESLAND": "SBG",
+      "STATION": "N",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 2,
+      "PNEUMOKOKKEN": 1,
+      "SONSTIGE": 34,
+      "AUFNAHMEN": 37,
+      "date": "2026-04-20"
+    },
+    {
+      "KW": "17. KW 2026",
+      "BUNDESLAND": "ST",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 10,
+      "AUFNAHMEN": 10,
+      "date": "2026-04-20"
+    },
+    {
+      "KW": "17. KW 2026",
+      "BUNDESLAND": "ST",
+      "STATION": "N",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 9,
+      "PNEUMOKOKKEN": 1,
+      "SONSTIGE": 126,
+      "AUFNAHMEN": 135,
+      "date": "2026-04-20"
+    },
+    {
+      "KW": "17. KW 2026",
+      "BUNDESLAND": "T",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 1,
+      "SONSTIGE": 1,
+      "AUFNAHMEN": 2,
+      "date": "2026-04-20"
+    },
+    {
+      "KW": "17. KW 2026",
+      "BUNDESLAND": "T",
+      "STATION": "N",
+      "COVID": 1,
+      "INFLUENZA": 0,
+      "RSV": 2,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 74,
+      "AUFNAHMEN": 77,
+      "date": "2026-04-20"
+    },
+    {
+      "KW": "17. KW 2026",
+      "BUNDESLAND": "V",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 3,
+      "AUFNAHMEN": 3,
+      "date": "2026-04-20"
+    },
+    {
+      "KW": "17. KW 2026",
+      "BUNDESLAND": "V",
+      "STATION": "N",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 2,
+      "PNEUMOKOKKEN": 1,
+      "SONSTIGE": 39,
+      "AUFNAHMEN": 42,
+      "date": "2026-04-20"
+    },
+    {
+      "KW": "17. KW 2026",
+      "BUNDESLAND": "W",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 4,
+      "AUFNAHMEN": 4,
+      "date": "2026-04-20"
+    },
+    {
+      "KW": "17. KW 2026",
+      "BUNDESLAND": "W",
+      "STATION": "N",
+      "COVID": 1,
+      "INFLUENZA": 3,
+      "RSV": 1,
+      "PNEUMOKOKKEN": 4,
+      "SONSTIGE": 155,
+      "AUFNAHMEN": 163,
+      "date": "2026-04-20"
+    },
+    {
+      "KW": "18. KW 2026",
+      "BUNDESLAND": "BGL",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 0,
+      "AUFNAHMEN": 0,
+      "date": "2026-04-27"
+    },
+    {
+      "KW": "18. KW 2026",
+      "BUNDESLAND": "BGL",
+      "STATION": "N",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 2,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 10,
+      "AUFNAHMEN": 12,
+      "date": "2026-04-27"
+    },
+    {
+      "KW": "18. KW 2026",
+      "BUNDESLAND": "KTN",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 0,
+      "AUFNAHMEN": 0,
+      "date": "2026-04-27"
+    },
+    {
+      "KW": "18. KW 2026",
+      "BUNDESLAND": "KTN",
+      "STATION": "N",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 1,
+      "SONSTIGE": 13,
+      "AUFNAHMEN": 14,
+      "date": "2026-04-27"
+    },
+    {
+      "KW": "18. KW 2026",
+      "BUNDESLAND": "NÖ",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 3,
+      "AUFNAHMEN": 3,
+      "date": "2026-04-27"
+    },
+    {
+      "KW": "18. KW 2026",
+      "BUNDESLAND": "NÖ",
+      "STATION": "N",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 64,
+      "AUFNAHMEN": 64,
+      "date": "2026-04-27"
+    },
+    {
+      "KW": "18. KW 2026",
+      "BUNDESLAND": "OÖ",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 1,
+      "AUFNAHMEN": 1,
+      "date": "2026-04-27"
+    },
+    {
+      "KW": "18. KW 2026",
+      "BUNDESLAND": "OÖ",
+      "STATION": "N",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 4,
+      "PNEUMOKOKKEN": 1,
+      "SONSTIGE": 51,
+      "AUFNAHMEN": 56,
+      "date": "2026-04-27"
+    },
+    {
+      "KW": "18. KW 2026",
+      "BUNDESLAND": "SBG",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 1,
+      "AUFNAHMEN": 1,
+      "date": "2026-04-27"
+    },
+    {
+      "KW": "18. KW 2026",
+      "BUNDESLAND": "SBG",
+      "STATION": "N",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 2,
+      "SONSTIGE": 16,
+      "AUFNAHMEN": 18,
+      "date": "2026-04-27"
+    },
+    {
+      "KW": "18. KW 2026",
+      "BUNDESLAND": "ST",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 2,
+      "AUFNAHMEN": 2,
+      "date": "2026-04-27"
+    },
+    {
+      "KW": "18. KW 2026",
+      "BUNDESLAND": "ST",
+      "STATION": "N",
+      "COVID": 2,
+      "INFLUENZA": 0,
+      "RSV": 5,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 75,
+      "AUFNAHMEN": 82,
+      "date": "2026-04-27"
+    },
+    {
+      "KW": "18. KW 2026",
+      "BUNDESLAND": "T",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 1,
+      "AUFNAHMEN": 1,
+      "date": "2026-04-27"
+    },
+    {
+      "KW": "18. KW 2026",
+      "BUNDESLAND": "T",
+      "STATION": "N",
+      "COVID": 1,
+      "INFLUENZA": 2,
+      "RSV": 1,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 29,
+      "AUFNAHMEN": 33,
+      "date": "2026-04-27"
+    },
+    {
+      "KW": "18. KW 2026",
+      "BUNDESLAND": "V",
+      "STATION": "I",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 0,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 1,
+      "AUFNAHMEN": 1,
+      "date": "2026-04-27"
+    },
+    {
+      "KW": "18. KW 2026",
+      "BUNDESLAND": "V",
+      "STATION": "N",
+      "COVID": 0,
+      "INFLUENZA": 0,
+      "RSV": 1,
+      "PNEUMOKOKKEN": 0,
+      "SONSTIGE": 15,
+      "AUFNAHMEN": 16,
+      "date": "2026-04-27"
+    },
+    {
+      "KW": "18. KW 2026",
       "BUNDESLAND": "W",
       "STATION": "I",
       "COVID": 0,
@@ -33265,235 +33697,19 @@
       "PNEUMOKOKKEN": 0,
       "SONSTIGE": 8,
       "AUFNAHMEN": 8,
-      "date": "2026-04-13"
+      "date": "2026-04-27"
     },
     {
-      "KW": "16. KW 2026",
+      "KW": "18. KW 2026",
       "BUNDESLAND": "W",
-      "STATION": "N",
-      "COVID": 4,
-      "INFLUENZA": 3,
-      "RSV": 4,
-      "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 163,
-      "AUFNAHMEN": 173,
-      "date": "2026-04-13"
-    },
-    {
-      "KW": "17. KW 2026",
-      "BUNDESLAND": "BGL",
-      "STATION": "I",
-      "COVID": 0,
-      "INFLUENZA": 0,
-      "RSV": 0,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 0,
-      "AUFNAHMEN": 0,
-      "date": "2026-04-20"
-    },
-    {
-      "KW": "17. KW 2026",
-      "BUNDESLAND": "BGL",
       "STATION": "N",
       "COVID": 1,
       "INFLUENZA": 0,
-      "RSV": 2,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 21,
-      "AUFNAHMEN": 24,
-      "date": "2026-04-20"
-    },
-    {
-      "KW": "17. KW 2026",
-      "BUNDESLAND": "KTN",
-      "STATION": "I",
-      "COVID": 0,
-      "INFLUENZA": 0,
-      "RSV": 0,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 0,
-      "AUFNAHMEN": 0,
-      "date": "2026-04-20"
-    },
-    {
-      "KW": "17. KW 2026",
-      "BUNDESLAND": "KTN",
-      "STATION": "N",
-      "COVID": 0,
-      "INFLUENZA": 0,
-      "RSV": 1,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 27,
-      "AUFNAHMEN": 28,
-      "date": "2026-04-20"
-    },
-    {
-      "KW": "17. KW 2026",
-      "BUNDESLAND": "NÃ",
-      "STATION": "I",
-      "COVID": 0,
-      "INFLUENZA": 0,
-      "RSV": 0,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 3,
-      "AUFNAHMEN": 3,
-      "date": "2026-04-20"
-    },
-    {
-      "KW": "17. KW 2026",
-      "BUNDESLAND": "NÃ",
-      "STATION": "N",
-      "COVID": 0,
-      "INFLUENZA": 1,
-      "RSV": 2,
-      "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 84,
-      "AUFNAHMEN": 88,
-      "date": "2026-04-20"
-    },
-    {
-      "KW": "17. KW 2026",
-      "BUNDESLAND": "OÃ",
-      "STATION": "I",
-      "COVID": 0,
-      "INFLUENZA": 0,
-      "RSV": 0,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 3,
-      "AUFNAHMEN": 3,
-      "date": "2026-04-20"
-    },
-    {
-      "KW": "17. KW 2026",
-      "BUNDESLAND": "OÃ",
-      "STATION": "N",
-      "COVID": 0,
-      "INFLUENZA": 0,
-      "RSV": 5,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 53,
-      "AUFNAHMEN": 58,
-      "date": "2026-04-20"
-    },
-    {
-      "KW": "17. KW 2026",
-      "BUNDESLAND": "SBG",
-      "STATION": "I",
-      "COVID": 0,
-      "INFLUENZA": 0,
-      "RSV": 0,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 1,
-      "AUFNAHMEN": 1,
-      "date": "2026-04-20"
-    },
-    {
-      "KW": "17. KW 2026",
-      "BUNDESLAND": "SBG",
-      "STATION": "N",
-      "COVID": 0,
-      "INFLUENZA": 0,
-      "RSV": 2,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 22,
-      "AUFNAHMEN": 24,
-      "date": "2026-04-20"
-    },
-    {
-      "KW": "17. KW 2026",
-      "BUNDESLAND": "ST",
-      "STATION": "I",
-      "COVID": 0,
-      "INFLUENZA": 0,
-      "RSV": 0,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 7,
-      "AUFNAHMEN": 7,
-      "date": "2026-04-20"
-    },
-    {
-      "KW": "17. KW 2026",
-      "BUNDESLAND": "ST",
-      "STATION": "N",
-      "COVID": 0,
-      "INFLUENZA": 0,
-      "RSV": 5,
-      "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 89,
-      "AUFNAHMEN": 95,
-      "date": "2026-04-20"
-    },
-    {
-      "KW": "17. KW 2026",
-      "BUNDESLAND": "T",
-      "STATION": "I",
-      "COVID": 0,
-      "INFLUENZA": 0,
       "RSV": 0,
       "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 1,
-      "AUFNAHMEN": 2,
-      "date": "2026-04-20"
-    },
-    {
-      "KW": "17. KW 2026",
-      "BUNDESLAND": "T",
-      "STATION": "N",
-      "COVID": 0,
-      "INFLUENZA": 0,
-      "RSV": 2,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 38,
-      "AUFNAHMEN": 40,
-      "date": "2026-04-20"
-    },
-    {
-      "KW": "17. KW 2026",
-      "BUNDESLAND": "V",
-      "STATION": "I",
-      "COVID": 0,
-      "INFLUENZA": 0,
-      "RSV": 0,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 2,
-      "AUFNAHMEN": 2,
-      "date": "2026-04-20"
-    },
-    {
-      "KW": "17. KW 2026",
-      "BUNDESLAND": "V",
-      "STATION": "N",
-      "COVID": 0,
-      "INFLUENZA": 0,
-      "RSV": 1,
-      "PNEUMOKOKKEN": 1,
-      "SONSTIGE": 30,
-      "AUFNAHMEN": 32,
-      "date": "2026-04-20"
-    },
-    {
-      "KW": "17. KW 2026",
-      "BUNDESLAND": "W",
-      "STATION": "I",
-      "COVID": 0,
-      "INFLUENZA": 0,
-      "RSV": 0,
-      "PNEUMOKOKKEN": 0,
-      "SONSTIGE": 2,
-      "AUFNAHMEN": 2,
-      "date": "2026-04-20"
-    },
-    {
-      "KW": "17. KW 2026",
-      "BUNDESLAND": "W",
-      "STATION": "N",
-      "COVID": 0,
-      "INFLUENZA": 2,
-      "RSV": 0,
-      "PNEUMOKOKKEN": 2,
-      "SONSTIGE": 107,
-      "AUFNAHMEN": 111,
-      "date": "2026-04-20"
+      "SONSTIGE": 92,
+      "AUFNAHMEN": 93,
+      "date": "2026-04-27"
     }
   ]
 }
