@@ -4,105 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abwasser-Monitoring Österreich</title>
-    <link rel="stylesheet" href="style.css?v=5">
-    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <style>
+        .ec-chart { width: 100%; height: 520px; }
+        .ec-chart.tall { height: 650px; }
+        .ec-chart.short { height: 460px; }
+        @media (max-width: 600px) {
+            .ec-chart { height: 420px; }
+            .ec-chart.tall { height: 520px; }
+            .ec-chart.short { height: 380px; }
+        }
+        .loading-msg { text-align: center; padding: 20px; color: #666; }
+    </style>
 </head>
 <body>
     <div class="container">
+        <!-- 1. Viruslast im Abwasser -->
         <section class="sari-section">
             <header>
                 <h2>Viruslast im Abwasser</h2>
                 <p class="subtitle">Daten: AGES Abwasser-Monitoring Österreich</p>
             </header>
-
             <div class="sari-content">
                 <div id="controls">
                     <div class="control-group">
                         <label>Standorte:</label>
                         <div id="location-selector">
-                            <button id="toggle-locations" class="btn">Standorte auswählen</button>
+                            <button id="toggle-locations" class="btn" type="button">Standorte auswählen</button>
                             <div id="location-dropdown" class="dropdown hidden">
                                 <div class="dropdown-header">
-                                    <button id="select-all" class="btn-small">Alle</button>
-                                    <button id="select-none" class="btn-small">Keine</button>
+                                    <button id="select-all" class="btn-small" type="button">Alle</button>
+                                    <button id="select-none" class="btn-small" type="button">Keine</button>
                                 </div>
                                 <div id="location-list"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div id="chart-container">
-                    <div id="loading">Lade Daten...</div>
-                    <div id="chart"></div>
-                </div>
-
-                <div id="error" class="hidden">
-                    <p>Fehler beim Laden der Daten. Bitte später erneut versuchen.</p>
-                </div>
+                <div id="wastewater-chart-ec" class="ec-chart"></div>
+                <div id="ww-loading" class="loading-msg">Lade Daten…</div>
             </div>
         </section>
 
+        <!-- 2. Kombiniertes Virensignal -->
         <section class="sari-section">
             <header>
                 <h2>Kombiniertes Virensignal <span class="experimental-tag">experimentell</span></h2>
                 <p class="subtitle">Z-Score normalisiert aus Abwasser (AGES), Sentinel (MedUni Wien) und SARI-Aufnahmen</p>
             </header>
-
             <div class="sari-content">
-                <div id="combined-signal-chart-container">
-                    <div id="combined-signal-loading">Lade und berechne kombiniertes Signal...</div>
-                    <div id="combined-signal-chart"></div>
-                </div>
-
-                <div id="combined-signal-error" class="hidden">
-                    <p>Fehler beim Berechnen des kombinierten Signals.</p>
-                </div>
+                <div id="combined-chart-ec" class="ec-chart"></div>
+                <div id="combined-loading" class="loading-msg">Lade und berechne kombiniertes Signal…</div>
             </div>
         </section>
 
+        <!-- 3. Virusnachweise im Sentinelsystem -->
         <section class="sari-section">
             <header>
                 <h2>Virusnachweise im Sentinelsystem</h2>
                 <p class="subtitle">Daten: MedUni Wien Sentinelsystem</p>
             </header>
-
             <div class="sari-content">
-                <div id="sentinel-bar-chart-container">
-                    <div id="sentinel-bar-loading">Lade Sentinel-Daten...</div>
-                    <div id="sentinel-bar-chart"></div>
-                </div>
-
-                <div id="sentinel-bar-error" class="hidden">
-                    <p>Fehler beim Laden der Sentinel-Daten. Bitte später erneut versuchen.</p>
-                </div>
+                <div id="sentinel-bar-ec" class="ec-chart tall"></div>
+                <div id="sentinel-bar-loading" class="loading-msg">Lade Sentinel-Daten…</div>
             </div>
         </section>
 
+        <!-- 4. Fallzahlen nach Virustyp (Heatmap) -->
         <section class="sari-section">
             <header>
                 <h2>Fallzahlen nach Virustyp</h2>
                 <p class="subtitle">Heatmap: MedUni Wien Sentinelsystem</p>
             </header>
-
             <div class="sari-content">
-                <div id="sentinel-heatmap-chart-container">
-                    <div id="sentinel-heatmap-loading">Lade Heatmap-Daten...</div>
-                    <div id="sentinel-heatmap-chart"></div>
-                </div>
-
-                <div id="sentinel-heatmap-error" class="hidden">
-                    <p>Fehler beim Laden der Heatmap-Daten. Bitte später erneut versuchen.</p>
-                </div>
+                <div id="sentinel-heatmap-ec" class="ec-chart tall"></div>
+                <div id="sentinel-heatmap-loading" class="loading-msg">Lade Heatmap-Daten…</div>
             </div>
         </section>
 
+        <!-- 5. SARI Krankenhausaufnahmen -->
         <section class="sari-section">
             <header>
                 <h2>Krankenhausaufnahmen (SARI)</h2>
                 <p class="subtitle">Daten: SARI-Dashboard Österreich</p>
             </header>
-
             <div class="sari-content">
                 <div id="sari-controls">
                     <div class="control-group">
@@ -129,26 +115,18 @@
                         </select>
                     </div>
                 </div>
-
-                <div id="sari-chart-container">
-                    <div id="sari-loading">Lade SARI-Daten...</div>
-                    <div id="sari-chart"></div>
-                </div>
-
+                <div id="sari-chart-ec" class="ec-chart"></div>
                 <p class="footnote">*Da laufend mit Korrekturen und Nachmeldungen zu rechnen ist, kann sich der Datenbestand noch verändern.</p>
-
-                <div id="sari-error" class="hidden">
-                    <p>Fehler beim Laden der SARI-Daten. Bitte später erneut versuchen.</p>
-                </div>
+                <div id="sari-loading-ec" class="loading-msg">Lade SARI-Daten…</div>
             </div>
         </section>
 
+        <!-- 6. Aufnahmen nach Alter und Geschlecht -->
         <section class="sari-section">
             <header>
                 <h2>Aufnahmen nach Alter und Geschlecht</h2>
                 <p class="subtitle">Daten: SARI-Dashboard Österreich</p>
             </header>
-
             <div class="sari-content">
                 <div id="sari-demographics-controls">
                     <div class="control-group">
@@ -181,44 +159,20 @@
                         </label>
                     </div>
                 </div>
-
                 <div id="sari-demographics-chart-container">
-                    <div id="sari-demographics-loading">Lade Daten...</div>
-                    <div id="sari-demographics-chart"></div>
-                    <div id="sari-demo-timeline" class="timeline-widget hidden">
-                        <div class="timeline-presets">
-                            <button class="timeline-preset" data-months="3">3m</button>
-                            <button class="timeline-preset" data-months="6">6m</button>
-                            <button class="timeline-preset" data-months="12">1J</button>
-                            <button class="timeline-preset" data-all="true">Alle</button>
-                        </div>
-                        <div class="timeline-slider-wrap">
-                            <svg class="timeline-bars" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
-                            <div class="timeline-mask timeline-mask-left"></div>
-                            <div class="timeline-mask timeline-mask-right"></div>
-                            <input type="range" id="demo-slider-from" class="timeline-input timeline-input-from" min="0" max="100" value="0">
-                            <input type="range" id="demo-slider-to" class="timeline-input timeline-input-to" min="0" max="100" value="100">
-                        </div>
-                        <div class="timeline-labels">
-                            <span id="demo-slider-label-from">—</span>
-                            <span class="timeline-label-sep">Kalenderwoche</span>
-                            <span id="demo-slider-label-to">—</span>
-                        </div>
-                    </div>
+                    <div id="sari-demographics-chart-ec" class="ec-chart"></div>
+                    <div id="sari-demo-timeline-ec" style="width:100%;height:170px;"></div>
                 </div>
-
-                <div id="sari-demographics-error" class="hidden">
-                    <p>Fehler beim Laden der Daten. Bitte später erneut versuchen.</p>
-                </div>
+                <div id="sari-demographics-loading-ec" class="loading-msg">Lade Daten…</div>
             </div>
         </section>
 
+        <!-- 7. Altersgruppen-Heatmap -->
         <section class="sari-section">
             <header>
                 <h2>Altersgruppen im Zeitverlauf</h2>
                 <p class="subtitle">Heatmap: Wann trifft es welche Altersgruppe?</p>
             </header>
-
             <div class="sari-content">
                 <div id="sari-heatmap-controls">
                     <div class="control-group">
@@ -262,15 +216,8 @@
                         </label>
                     </div>
                 </div>
-
-                <div id="sari-heatmap-chart-container">
-                    <div id="sari-heatmap-loading">Lade Daten...</div>
-                    <div id="sari-heatmap-chart"></div>
-                </div>
-
-                <div id="sari-heatmap-error" class="hidden">
-                    <p>Fehler beim Laden der Daten. Bitte später erneut versuchen.</p>
-                </div>
+                <div id="sari-heatmap-ec" class="ec-chart tall"></div>
+                <div id="sari-heatmap-loading-ec" class="loading-msg">Lade Daten…</div>
             </div>
         </section>
 
@@ -288,9 +235,1007 @@
             </p>
         </footer>
     </div>
-
-    <script src="app.js?v=5"></script>
     <script data-goatcounter="https://pasrom.goatcounter.com/count"
             async src="//gc.zgo.at/count.js"></script>
+
+    <script>
+    'use strict';
+
+    // ==================== Konstanten ====================
+    const DATA_BASE = 'https://raw.githubusercontent.com/pasrom/wastewater/data';
+    const SARI_URL = `${DATA_BASE}/sari/krankenanstalt.json`;
+    const SARI_DEMO_URL = `${DATA_BASE}/sari/patient.json`;
+    const SENTINEL_BAR_URL = `${DATA_BASE}/sentinel/barchart.json`;
+    const SENTINEL_HEATMAP_URL = `${DATA_BASE}/sentinel/heatmap.json`;
+    const WW_SOURCES = {
+        sarscov2:  { name: 'SARS-CoV-2', color: '#e87461', url: `${DATA_BASE}/ages/sarscov2.json` },
+        influenza: { name: 'Influenza',  color: '#ffc600', url: `${DATA_BASE}/ages/influenza.json` },
+        rsv:       { name: 'RSV',        color: '#456990', url: `${DATA_BASE}/ages/rsv.json` }
+    };
+
+    const SARI_COLORS = {
+        COVID: '#e87461', INFLUENZA: '#ffc600', PNEUMOKOKKEN: '#51b2a9', RSV: '#456990', SONSTIGE: '#c9c9c9'
+    };
+    const SARI_DIAGNOSE_NAMES = {
+        COVID: 'COVID-19', INFLUENZA: 'Influenza', RSV: 'RSV', PNEUMOKOKKEN: 'Pneumokokken', SONSTIGE: 'Sonstige SARI'
+    };
+    const SARI_DIAGNOSEN = ['COVID', 'INFLUENZA', 'PNEUMOKOKKEN', 'RSV', 'SONSTIGE'];
+
+    const BUNDESLAND_NAMES = {
+        AT: 'Österreich', W: 'Wien', 'NÖ': 'Niederösterreich', 'OÖ': 'Oberösterreich',
+        S: 'Salzburg', T: 'Tirol', V: 'Vorarlberg', K: 'Kärnten', ST: 'Steiermark', BGL: 'Burgenland'
+    };
+    const STATION_NAMES = { ALL: 'Alle Stationen', N: 'Normalstation', I: 'Intensivstation' };
+    const AGE_GROUPS_ORDER = ['0 - 4', '5 - 14', '15 - 29', '30 - 44', '45 - 59', '60 - 69', '70 - 79', '80+'];
+
+    const SENTINEL_COLORS = {
+        Inf_A: '#E63946', Inf_B: '#E07B00', Inf_C: '#A0522D', Metapneumo_V: '#6C757D',
+        'Covid-19': '#FFAA00', Corona: '#16A085', RSV: '#7D47BC', Rhino: '#1CA9C9',
+        Adeno: '#556B2F', ParaInfluenza: '#1D3557', Entero: '#5A2E18'
+    };
+    const SENTINEL_VIRUS_ORDER = ['Entero', 'Inf_A', 'Inf_B', 'Inf_C', 'Metapneumo_V', 'RSV', 'Rhino', 'Adeno', 'ParaInfluenza', 'Corona', 'Covid-19'];
+    const SENTINEL_LABELS = { Inf_A: 'Inf A', Inf_B: 'Inf B', Inf_C: 'Inf C', Metapneumo_V: 'Metapneumo V.' };
+    const SENTINEL_HEATMAP_VIRUS_ORDER = ['Covid19', 'Influenza', 'Entero', 'MPV', 'RSV', 'RH', 'AD', 'Para', 'Corona'];
+
+    // ==================== Helpers ====================
+    async function fetchData(url) {
+        try {
+            const r = await fetch(url);
+            if (r.ok) return await r.json();
+        } catch (_) {}
+        const r2 = await fetch('https://corsproxy.io/?' + encodeURIComponent(url));
+        if (!r2.ok) throw new Error('HTTP ' + r2.status);
+        return await r2.json();
+    }
+
+    function mondayOfISOWeek(year, week) {
+        const jan4 = new Date(year, 0, 4);
+        const day = jan4.getDay() || 7;
+        const mon = new Date(jan4);
+        mon.setDate(jan4.getDate() - day + 1 + (week - 1) * 7);
+        return mon;
+    }
+
+    function parseKW(kwString) {
+        const m = kwString && kwString.match(/(\d+)\.\s*KW\s*(\d+)/);
+        return m ? mondayOfISOWeek(parseInt(m[2]), parseInt(m[1])) : null;
+    }
+
+    function dateToISOWeek(date) {
+        const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+        d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+        const ys = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+        const w = Math.ceil(((d - ys) / 86400000 + 1) / 7);
+        return `${d.getUTCFullYear()}-W${String(w).padStart(2, '0')}`;
+    }
+
+    function isoWeekToDate(iso) {
+        const m = iso.match(/(\d{4})-W(\d{2})/);
+        return m ? mondayOfISOWeek(parseInt(m[1]), parseInt(m[2])) : null;
+    }
+
+    function lightenColor(hex, amount) {
+        const n = parseInt(hex.replace('#', ''), 16);
+        const r = Math.min(255, Math.floor((n >> 16) + (255 - (n >> 16)) * amount));
+        const g = Math.min(255, Math.floor(((n >> 8) & 0xFF) + (255 - ((n >> 8) & 0xFF)) * amount));
+        const b = Math.min(255, Math.floor((n & 0xFF) + (255 - (n & 0xFF)) * amount));
+        return `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`;
+    }
+
+    function hexToRgba(hex, alpha) {
+        const n = parseInt(hex.replace('#', ''), 16);
+        return `rgba(${(n>>16)&0xFF},${(n>>8)&0xFF},${n&0xFF},${alpha})`;
+    }
+
+    function isoToYMD(d) { return d.toISOString().split('T')[0]; }
+
+    const TOOLBOX = {
+        right: 10, top: 10, itemSize: 14, itemGap: 8,
+        feature: {
+            dataZoom: { yAxisIndex: 'none', title: { zoom: 'Bereich auswählen', back: 'Zoom zurück' } },
+            restore: { title: 'Zurücksetzen' }
+        }
+    };
+    const TOOLBOX_RESTORE_ONLY = {
+        right: 10, top: 10, itemSize: 14, itemGap: 8,
+        feature: { restore: { title: 'Zurücksetzen' } }
+    };
+
+    // ==================== Globaler Daten-Pool ====================
+    const dataPool = {
+        wastewater: null,     // { sarscov2: {traces, q1, q3}, ... }
+        sari: null,           // array of row objects with .date
+        sariDemo: null,       // array
+        sentinelBar: null,    // {weeks, viruses, data, einsendungen}
+        sentinelHeatmap: null,// {weeks, viruses, data}
+        locations: new Set()
+    };
+
+    // ==================== 1. Viruslast im Abwasser ====================
+    const wwChart = echarts.init(document.getElementById('wastewater-chart-ec'));
+    let wwSelectedLocations = new Set(['Österreich']);
+
+    function extractWastewaterTraces(plotlyData) {
+        const out = { traces: {}, q1: null, q3: null };
+        if (!plotlyData || !plotlyData.data) return out;
+        for (const t of plotlyData.data) {
+            if (!t.name || !t.x || !t.y) continue;
+            if (t.name === '1. Quartil Österreich') out.q1 = { x: t.x, y: t.y };
+            else if (t.name === '3. Quartil Österreich') out.q3 = { x: t.x, y: t.y };
+            else if (t.type !== 'bar' && t.mode !== 'none') out.traces[t.name] = { x: t.x, y: t.y };
+        }
+        return out;
+    }
+
+    function renderWastewater() {
+        const series = [];
+        const legendNames = [];
+        const showAustria = wwSelectedLocations.has('Österreich');
+
+        for (const [key, src] of Object.entries(WW_SOURCES)) {
+            const d = dataPool.wastewater[key];
+            if (!d) continue;
+
+            if (showAustria && d.q1 && d.q3) {
+                series.push({
+                    name: `__${key}_q1`, type: 'line',
+                    data: d.q1.x.map((x, i) => [x, d.q1.y[i]]),
+                    lineStyle: { opacity: 0 }, showSymbol: false,
+                    stack: `band-${key}`, silent: true, tooltip: { show: false }
+                });
+                series.push({
+                    name: `__${key}_band`, type: 'line',
+                    data: d.q3.x.map((x, i) => [x, Math.max(0, d.q3.y[i] - d.q1.y[i])]),
+                    lineStyle: { opacity: 0 }, showSymbol: false,
+                    stack: `band-${key}`, silent: true, tooltip: { show: false },
+                    areaStyle: { color: hexToRgba(src.color, 0.18) }
+                });
+            }
+
+            for (const loc of wwSelectedLocations) {
+                const tr = d.traces[loc];
+                if (!tr) continue;
+                const isAT = loc === 'Österreich';
+                const name = `${src.name} – ${loc}`;
+                legendNames.push(name);
+                series.push({
+                    name, type: 'line', smooth: true, showSymbol: false,
+                    data: tr.x.map((x, i) => [x, tr.y[i]]),
+                    lineStyle: {
+                        color: src.color, width: isAT ? 2.5 : 1.5,
+                        type: isAT ? 'solid' : 'dotted', opacity: isAT ? 1 : 0.65
+                    },
+                    itemStyle: { color: src.color }
+                });
+            }
+        }
+
+        wwChart.setOption({
+            title: { text: 'Viruslast im Abwasser', left: 'center', textStyle: { fontSize: 16, fontWeight: 600 } },
+            toolbox: TOOLBOX,
+            tooltip: { trigger: 'axis', valueFormatter: v => v == null ? '–' : (+v).toFixed(1) + ' Mio./Einw.' },
+            legend: { top: 30, type: 'scroll', data: legendNames },
+            grid: { left: 60, right: 30, top: 80, bottom: 90, containLabel: true },
+            xAxis: { type: 'time', axisLine: { lineStyle: { color: '#bbb' } } },
+            yAxis: { type: 'value', name: 'Mio. Genkopien/Einw.', splitLine: { lineStyle: { color: '#eee' } } },
+            dataZoom: [
+                { type: 'inside', start: 0, end: 100 },
+                { type: 'slider', height: 30, bottom: 10 }
+            ],
+            series
+        }, { notMerge: true });
+
+        // Toggle Q1/Q3 band along with its Austria line
+        wwChart.off('legendselectchanged');
+        wwChart.on('legendselectchanged', e => {
+            for (const [key, src] of Object.entries(WW_SOURCES)) {
+                if (e.name === `${src.name} – Österreich`) {
+                    const action = e.selected[e.name] ? 'legendSelect' : 'legendUnSelect';
+                    [`__${key}_q1`, `__${key}_band`].forEach(name => {
+                        wwChart.dispatchAction({ type: action, name });
+                    });
+                    return;
+                }
+            }
+        });
+    }
+
+    function buildLocationList() {
+        const list = document.getElementById('location-list');
+        list.innerHTML = '';
+        const sorted = ['Österreich', ...[...dataPool.locations].filter(l => l !== 'Österreich').sort()];
+        for (const loc of sorted) {
+            const item = document.createElement('label');
+            item.className = 'location-item';
+            const cb = document.createElement('input');
+            cb.type = 'checkbox'; cb.value = loc; cb.checked = wwSelectedLocations.has(loc);
+            cb.addEventListener('change', () => {
+                if (cb.checked) wwSelectedLocations.add(loc); else wwSelectedLocations.delete(loc);
+                renderWastewater();
+            });
+            item.appendChild(cb);
+            item.appendChild(document.createTextNode(' ' + loc));
+            list.appendChild(item);
+        }
+    }
+
+    function setupLocationDropdown() {
+        const t = document.getElementById('toggle-locations');
+        const d = document.getElementById('location-dropdown');
+        t.addEventListener('click', () => d.classList.toggle('hidden'));
+        document.addEventListener('click', e => {
+            if (!t.contains(e.target) && !d.contains(e.target)) d.classList.add('hidden');
+        });
+        document.getElementById('select-all').addEventListener('click', () => {
+            wwSelectedLocations = new Set(dataPool.locations);
+            buildLocationList(); renderWastewater();
+        });
+        document.getElementById('select-none').addEventListener('click', () => {
+            wwSelectedLocations = new Set(['Österreich']);
+            buildLocationList(); renderWastewater();
+        });
+    }
+
+    async function loadWastewater() {
+        const entries = await Promise.all(
+            Object.entries(WW_SOURCES).map(async ([key, src]) => {
+                const raw = await fetchData(src.url);
+                const ex = extractWastewaterTraces(raw);
+                Object.keys(ex.traces).forEach(l => dataPool.locations.add(l));
+                return [key, ex];
+            })
+        );
+        dataPool.wastewater = Object.fromEntries(entries);
+    }
+
+    // ==================== 5. SARI Krankenhausaufnahmen ====================
+    const sariChart = echarts.init(document.getElementById('sari-chart-ec'));
+
+    function aggregateSariCombined(bundesland, station) {
+        let f = dataPool.sari;
+        if (bundesland !== 'AT') f = f.filter(r => r.BUNDESLAND === bundesland);
+        if (station !== 'ALL') f = f.filter(r => r.STATION === station);
+        const g = {};
+        for (const row of f) {
+            const k = isoToYMD(row.date);
+            if (!g[k]) { g[k] = { date: row.date }; SARI_DIAGNOSEN.forEach(d => g[k][d] = 0); }
+            SARI_DIAGNOSEN.forEach(d => { g[k][d] += row[d] || 0; });
+        }
+        return Object.values(g).sort((a, b) => a.date - b.date);
+    }
+
+    function renderSari() {
+        const bundesland = document.getElementById('sari-bundesland').value;
+        const station = document.getElementById('sari-station').value;
+
+        let dates = [];
+        const series = [];
+        const legendNames = [];
+
+        if (station === 'ALL') {
+            const normal = aggregateSariCombined(bundesland, 'N');
+            const intensiv = aggregateSariCombined(bundesland, 'I');
+            const allDatesSet = new Set([...normal.map(r => isoToYMD(r.date)), ...intensiv.map(r => isoToYMD(r.date))]);
+            dates = [...allDatesSet].sort();
+            const ix = (arr) => Object.fromEntries(arr.map(r => [isoToYMD(r.date), r]));
+            const nIx = ix(normal), iIx = ix(intensiv);
+
+            for (const d of SARI_DIAGNOSEN) {
+                legendNames.push(SARI_DIAGNOSE_NAMES[d]);
+                series.push({
+                    name: SARI_DIAGNOSE_NAMES[d], type: 'bar', stack: 'total',
+                    itemStyle: { color: SARI_COLORS[d] },
+                    emphasis: { focus: 'series' },
+                    data: dates.map(k => (nIx[k] ? nIx[k][d] : 0))
+                });
+                series.push({
+                    name: SARI_DIAGNOSE_NAMES[d] + ' (Intensiv)', type: 'bar', stack: 'total',
+                    itemStyle: { color: lightenColor(SARI_COLORS[d], 0.4) },
+                    emphasis: { focus: 'series' },
+                    data: dates.map(k => (iIx[k] ? iIx[k][d] : 0))
+                });
+            }
+        } else {
+            const data = aggregateSariCombined(bundesland, station);
+            if (data.length === 0) {
+                sariChart.clear();
+                sariChart.setOption({ title: { text: 'Keine Daten für diese Auswahl', left: 'center' } });
+                return;
+            }
+            dates = data.map(r => isoToYMD(r.date));
+            for (const d of SARI_DIAGNOSEN) {
+                legendNames.push(SARI_DIAGNOSE_NAMES[d]);
+                series.push({
+                    name: SARI_DIAGNOSE_NAMES[d], type: 'bar', stack: 'total',
+                    itemStyle: { color: SARI_COLORS[d] },
+                    emphasis: { focus: 'series' },
+                    data: data.map(r => r[d])
+                });
+            }
+        }
+
+        // Cutoff: 2 weeks before last date
+        let cutoffMark = null;
+        if (dates.length > 0) {
+            const last = new Date(dates[dates.length - 1]);
+            const cutoff = new Date(last);
+            cutoff.setDate(cutoff.getDate() - 14);
+            cutoffMark = isoToYMD(cutoff);
+        }
+
+        const markLine = cutoffMark ? {
+            silent: true,
+            symbol: 'none',
+            lineStyle: { color: '#666', type: 'dotted', width: 1 },
+            label: { formatter: 'Daten bis hierher größtenteils gemeldet*', position: 'insideEndTop', color: '#666', fontSize: 11 },
+            data: [{ xAxis: cutoffMark }]
+        } : null;
+
+        if (markLine && series.length > 0) {
+            series[0] = { ...series[0], markLine };
+        }
+
+        sariChart.setOption({
+            title: {
+                text: `SARI-Aufnahmen – ${BUNDESLAND_NAMES[bundesland]} (${STATION_NAMES[station]})`,
+                left: 'center', textStyle: { fontSize: 16, fontWeight: 600 }
+            },
+            toolbox: TOOLBOX,
+            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+            legend: { top: 30, data: legendNames },
+            grid: { left: 60, right: 30, top: 80, bottom: 90, containLabel: true },
+            xAxis: { type: 'category', data: dates, axisLine: { lineStyle: { color: '#bbb' } }, axisLabel: { color: '#555' } },
+            yAxis: { type: 'value', name: 'Aufnahmen', splitLine: { lineStyle: { color: '#eee' } } },
+            dataZoom: [
+                { type: 'inside', xAxisIndex: 0, start: 0, end: 100 },
+                { type: 'slider', xAxisIndex: 0, height: 30, bottom: 10 }
+            ],
+            series
+        }, { notMerge: true });
+
+        // Sync legend toggle: clicking a diagnosis toggles both Normal and ICU series
+        sariChart.off('legendselectchanged');
+        sariChart.on('legendselectchanged', e => {
+            const icuName = e.name + ' (Intensiv)';
+            const icuSelected = e.selected[icuName];
+            const targetSelected = e.selected[e.name];
+            if (icuSelected !== undefined && icuSelected !== targetSelected) {
+                sariChart.dispatchAction({
+                    type: targetSelected ? 'legendSelect' : 'legendUnSelect',
+                    name: icuName
+                });
+            }
+        });
+    }
+
+    async function loadSari() {
+        const resp = await fetchData(SARI_URL);
+        dataPool.sari = (resp.data || []).map(r => {
+            [...SARI_DIAGNOSEN, 'AUFNAHMEN', 'BEV_ZAHL'].forEach(c => {
+                if (r[c] != null) r[c] = parseInt(r[c]) || 0;
+            });
+            r.date = r.KW ? parseKW(r.KW) : (r.date ? new Date(r.date) : null);
+            return r;
+        }).filter(r => r.date);
+    }
+
+    // ==================== 6. SARI Demographics + Custom Slider ====================
+    const demoChart = echarts.init(document.getElementById('sari-demographics-chart-ec'));
+    let demoTimelineRange = null;
+    const demoRegionCache = new Map();
+    let demoChartScheduled = false;
+
+    function getDemoByRegion(bundesland, station) {
+        const key = `${bundesland}|${station}`;
+        const hit = demoRegionCache.get(key);
+        if (hit) return hit;
+        let d = dataPool.sariDemo;
+        if (bundesland !== 'AT') d = d.filter(r => r.WOHNORT === bundesland);
+        if (station !== 'ALL') d = d.filter(r => r.STATION === station);
+        demoRegionCache.set(key, d);
+        return d;
+    }
+
+    function aggregateDemographics(bundesland, station, startDate, endDate) {
+        let filtered = getDemoByRegion(bundesland, station);
+        if (startDate && endDate) filtered = filtered.filter(r => r.date >= startDate && r.date <= endDate);
+        const agg = {}, pop = {};
+        for (const row of filtered) {
+            const popKey = `${row.ALTERSGRUPPE}_${row.GESCHLECHT}_${row.KW}`;
+            if (!pop[popKey] && row.BEV_ZAHL) pop[popKey] = { ag: row.ALTERSGRUPPE, g: row.GESCHLECHT, pop: row.BEV_ZAHL };
+            for (const d of SARI_DIAGNOSEN) {
+                const k = `${row.ALTERSGRUPPE}_${row.GESCHLECHT}_${d}`;
+                if (!agg[k]) agg[k] = { ag: row.ALTERSGRUPPE, g: row.GESCHLECHT, d, count: 0 };
+                agg[k].count += row[d] || 0;
+            }
+        }
+        const popSums = {}, popCounts = {};
+        for (const p of Object.values(pop)) {
+            const k = `${p.ag}_${p.g}`;
+            popSums[k] = (popSums[k] || 0) + p.pop;
+            popCounts[k] = (popCounts[k] || 0) + 1;
+        }
+        for (const item of Object.values(agg)) {
+            const k = `${item.ag}_${item.g}`;
+            item.population = popCounts[k] ? popSums[k] / popCounts[k] : 0;
+        }
+        return Object.values(agg);
+    }
+
+    function aggregateDemoTimeline(bundesland, station) {
+        const f = getDemoByRegion(bundesland, station);
+        const by = {};
+        for (const row of f) {
+            if (!row.date) continue;
+            const k = row.date.getTime();
+            if (!by[k]) by[k] = Object.fromEntries([['date', row.date], ...SARI_DIAGNOSEN.map(d => [d, 0])]);
+            SARI_DIAGNOSEN.forEach(d => { by[k][d] += row[d] || 0; });
+        }
+        return Object.values(by).sort((a, b) => a.date - b.date);
+    }
+
+    function renderDemographics() {
+        const bundesland = document.getElementById('sari-demo-bundesland').value;
+        const station = document.getElementById('sari-demo-station').value;
+        const per100k = document.getElementById('sari-demo-per100k').checked;
+
+        const startDate = demoTimelineRange ? new Date(demoTimelineRange[0]) : null;
+        const endDate = demoTimelineRange ? new Date(demoTimelineRange[1]) : null;
+        let aggregated = aggregateDemographics(bundesland, station, startDate, endDate);
+
+        if (per100k) aggregated.forEach(it => { if (it.population > 0) it.count = (it.count / it.population) * 100000; });
+
+        if (aggregated.length === 0) {
+            demoChart.clear();
+            demoChart.setOption({ title: { text: 'Keine Daten für diese Auswahl', left: 'center' } });
+            return;
+        }
+
+        // Group: data[gender_diagnosis][ageGroup] = count
+        const data = {};
+        for (const it of aggregated) {
+            const k = `${it.g}_${it.d}`;
+            if (!data[k]) data[k] = {};
+            data[k][it.ag] = it.count;
+        }
+
+        // X-Categories: 16 (8 ages × W/M)
+        const xLabels = [];
+        for (const ag of AGE_GROUPS_ORDER) { xLabels.push(`${ag}|W`); xLabels.push(`${ag}|M`); }
+
+        // One series per diagnosis with per-bar colors (W full, M lightened)
+        const legendNames = SARI_DIAGNOSEN.map(d => SARI_DIAGNOSE_NAMES[d]);
+        const series = SARI_DIAGNOSEN.map(d => {
+            const values = [];
+            for (const ag of AGE_GROUPS_ORDER) {
+                values.push({ value: (data[`W_${d}`] && data[`W_${d}`][ag]) || 0, itemStyle: { color: SARI_COLORS[d] } });
+                values.push({ value: (data[`M_${d}`] && data[`M_${d}`][ag]) || 0, itemStyle: { color: lightenColor(SARI_COLORS[d], 0.4) } });
+            }
+            return {
+                name: SARI_DIAGNOSE_NAMES[d], type: 'bar', stack: 'total',
+                itemStyle: { color: SARI_COLORS[d] },
+                emphasis: { focus: 'series' },
+                data: values
+            };
+        });
+
+        demoChart.setOption({
+            title: {
+                text: `SARI-Aufnahmen nach Alter und Geschlecht — ${BUNDESLAND_NAMES[bundesland]} (${STATION_NAMES[station]})`,
+                left: 'center', textStyle: { fontSize: 16, fontWeight: 600 }
+            },
+            toolbox: TOOLBOX_RESTORE_ONLY,
+            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+            legend: { top: 30, data: legendNames },
+            grid: { left: 70, right: 30, top: 80, bottom: 90, containLabel: true },
+            xAxis: {
+                type: 'category', data: xLabels,
+                name: 'Altersgruppe (dunkel = Weiblich, hell = Männlich)',
+                nameLocation: 'middle', nameGap: 50,
+                axisLabel: { rotate: -45, color: '#555' }
+            },
+            yAxis: { type: 'value', name: per100k ? 'pro 100.000 Einw.' : 'Aufnahmen', splitLine: { lineStyle: { color: '#eee' } } },
+            series
+        }, { notMerge: true });
+    }
+
+    // Native ECharts timeline strip with dataZoom slider
+    const demoTimelineChart = echarts.init(document.getElementById('sari-demo-timeline-ec'));
+    let demoTimelineDates = [];
+
+    function scheduleDemoRender() {
+        if (demoChartScheduled) return;
+        demoChartScheduled = true;
+        requestAnimationFrame(() => { demoChartScheduled = false; renderDemographics(); });
+    }
+
+    function rebuildDemoTimeline() {
+        const bundesland = document.getElementById('sari-demo-bundesland').value;
+        const station = document.getElementById('sari-demo-station').value;
+        const timeline = aggregateDemoTimeline(bundesland, station);
+        if (timeline.length === 0) { demoTimelineChart.clear(); return; }
+
+        demoTimelineDates = timeline.map(t => isoToYMD(t.date));
+
+        const series = SARI_DIAGNOSEN.map(d => ({
+            name: SARI_DIAGNOSE_NAMES[d], type: 'bar', stack: 'total',
+            itemStyle: { color: SARI_COLORS[d] },
+            data: timeline.map(t => t[d]),
+            silent: true, tooltip: { show: false }
+        }));
+
+        // Determine current zoom from demoTimelineRange (if any)
+        let startPct = 0, endPct = 100;
+        if (demoTimelineRange && demoTimelineDates.length > 1) {
+            const fromIdx = demoTimelineDates.indexOf(demoTimelineRange[0]);
+            const toIdx = demoTimelineDates.indexOf(demoTimelineRange[1]);
+            if (fromIdx >= 0 && toIdx >= 0) {
+                startPct = (fromIdx / (demoTimelineDates.length - 1)) * 100;
+                endPct = (toIdx / (demoTimelineDates.length - 1)) * 100;
+            }
+        }
+
+        demoTimelineChart.setOption({
+            grid: { left: 30, right: 30, top: 10, bottom: 50, containLabel: false },
+            xAxis: {
+                type: 'category', data: demoTimelineDates,
+                axisLabel: { show: false }, axisLine: { show: false }, axisTick: { show: false }
+            },
+            yAxis: { type: 'value', show: false, splitLine: { show: false } },
+            dataZoom: [
+                { type: 'inside', xAxisIndex: 0, start: startPct, end: endPct },
+                {
+                    type: 'slider', xAxisIndex: 0, height: 30, bottom: 8,
+                    start: startPct, end: endPct,
+                    labelFormatter: (val, str) => {
+                        const i = Math.max(0, Math.min(demoTimelineDates.length - 1, Math.round(val)));
+                        return demoTimelineDates[i] || '';
+                    }
+                }
+            ],
+            tooltip: { show: false },
+            legend: { show: false },
+            series
+        }, { notMerge: true });
+
+        demoTimelineChart.off('datazoom');
+        demoTimelineChart.on('datazoom', () => {
+            const opt = demoTimelineChart.getOption();
+            const dz = opt.dataZoom.find(d => d.type === 'slider') || opt.dataZoom[0];
+            const fromIdx = Math.max(0, Math.min(demoTimelineDates.length - 1, Math.floor((dz.start / 100) * (demoTimelineDates.length - 1))));
+            const toIdx = Math.max(0, Math.min(demoTimelineDates.length - 1, Math.ceil((dz.end / 100) * (demoTimelineDates.length - 1))));
+            const isFull = fromIdx === 0 && toIdx === demoTimelineDates.length - 1;
+            demoTimelineRange = isFull ? null : [demoTimelineDates[fromIdx], demoTimelineDates[toIdx]];
+            scheduleDemoRender();
+        });
+    }
+    async function loadDemographics() {
+        const resp = await fetchData(SARI_DEMO_URL);
+        dataPool.sariDemo = (resp.data || []).map(r => {
+            [...SARI_DIAGNOSEN, 'AUFNAHMEN', 'BEV_ZAHL'].forEach(c => {
+                if (r[c] != null) r[c] = parseInt(r[c]) || 0;
+            });
+            r.date = r.KW ? parseKW(r.KW) : (r.date ? new Date(r.date) : null);
+            return r;
+        }).filter(r => r.date);
+    }
+
+    // ==================== 7. SARI Altersgruppen-Heatmap ====================
+    const ageHeatmapChart = echarts.init(document.getElementById('sari-heatmap-ec'));
+
+    function aggregateAgeHeatmap(bundesland, station, diagnose) {
+        const f = getDemoByRegion(bundesland, station);
+        const cells = new Map();
+        for (const row of f) {
+            const k = `${row.KW}_${row.ALTERSGRUPPE}`;
+            let it = cells.get(k);
+            if (!it) {
+                it = { kw: row.KW, ag: row.ALTERSGRUPPE, count: 0, pop: 0, pn: 0, date: row.date };
+                cells.set(k, it);
+            }
+            if (diagnose === 'ALL') {
+                it.count += SARI_DIAGNOSEN.reduce((s, d) => s + (row[d] || 0), 0);
+            } else {
+                it.count += row[diagnose] || 0;
+            }
+            if (row.BEV_ZAHL) { it.pop += row.BEV_ZAHL; it.pn++; }
+        }
+        return cells;
+    }
+
+    function renderAgeHeatmap() {
+        const bundesland = document.getElementById('sari-heatmap-bundesland').value;
+        const station = document.getElementById('sari-heatmap-station').value;
+        const diagnose = document.getElementById('sari-heatmap-diagnose').value;
+        const per100k = document.getElementById('sari-heatmap-per100k').checked;
+        const aggregated = aggregateAgeHeatmap(bundesland, station, diagnose);
+        if (aggregated.size === 0) {
+            ageHeatmapChart.clear();
+            ageHeatmapChart.setOption({ title: { text: 'Keine Daten', left: 'center' } });
+            return;
+        }
+        const kwToDate = new Map();
+        for (const it of aggregated.values()) kwToDate.set(it.kw, it.date);
+        const kws = [...kwToDate.entries()].sort((a, b) => a[1] - b[1]).map(e => e[0]);
+        const ageGroups = AGE_GROUPS_ORDER;
+
+        const cells = [];
+        let zMax = 0;
+        ageGroups.forEach((ag, yi) => {
+            kws.forEach((kw, xi) => {
+                const it = aggregated.get(`${kw}_${ag}`);
+                let v = 0;
+                if (it) {
+                    if (per100k && it.pn > 0) {
+                        const avg = it.pop / it.pn;
+                        v = avg > 0 ? (it.count / avg) * 100000 : 0;
+                    } else v = it.count;
+                }
+                if (v > zMax) zMax = v;
+                cells.push([xi, yi, v]);
+            });
+        });
+
+        const diagNamesFull = { ...SARI_DIAGNOSE_NAMES, ALL: 'Alle SARI-Diagnosen' };
+        ageHeatmapChart.setOption({
+            title: {
+                text: `${diagNamesFull[diagnose]} nach Altersgruppe — ${BUNDESLAND_NAMES[bundesland]}`,
+                left: 'center', textStyle: { fontSize: 16, fontWeight: 600 }
+            },
+            toolbox: TOOLBOX,
+            tooltip: {
+                position: 'top',
+                formatter: p => {
+                    const v = p.value[2];
+                    return `${ageGroups[p.value[1]]}<br>${kws[p.value[0]]}<br>${per100k ? v.toFixed(1) + ' pro 100k' : v + ' Aufnahmen'}`;
+                }
+            },
+            grid: { left: 80, right: 100, top: 60, bottom: 80, containLabel: true },
+            xAxis: { type: 'category', data: kws, splitArea: { show: false }, axisLabel: { rotate: -45, interval: Math.max(0, Math.floor(kws.length / 20) - 1) } },
+            yAxis: { type: 'category', data: ageGroups },
+            visualMap: {
+                min: 0, max: zMax || 1, calculable: true, orient: 'vertical',
+                right: 10, top: 50,
+                itemHeight: 140,
+                inRange: { color: ['#f7f7f7', '#fee8c8', '#fdbb84', '#e34a33', '#7f0000'] },
+                text: [per100k ? 'pro 100k' : 'Aufnahmen', '']
+            },
+            dataZoom: [
+                { type: 'inside', xAxisIndex: 0, start: 0, end: 100 },
+                { type: 'slider', xAxisIndex: 0, height: 24, bottom: 20 }
+            ],
+            series: [{
+                type: 'heatmap', data: cells, progressive: 1000,
+                emphasis: { itemStyle: { borderColor: '#333', borderWidth: 1 } }
+            }]
+        }, { notMerge: true });
+    }
+
+    // ==================== 3. Sentinel Bar Chart ====================
+    const sentinelBarChart = echarts.init(document.getElementById('sentinel-bar-ec'));
+
+    function renderSentinelBar() {
+        const data = dataPool.sentinelBar;
+        if (!data) return;
+        const weeks = data.weeks;
+        const series = [];
+        const legendNames = [];
+        for (const v of SENTINEL_VIRUS_ORDER) {
+            if (!data.viruses.includes(v)) continue;
+            const label = SENTINEL_LABELS[v] || v;
+            legendNames.push(label);
+            series.push({
+                name: label, type: 'bar', stack: 'total', yAxisIndex: 0,
+                itemStyle: { color: SENTINEL_COLORS[v] || '#888' },
+                emphasis: { focus: 'series' },
+                data: weeks.map(w => (data.data[w] && data.data[w][v]) || 0)
+            });
+        }
+        const einsValues = weeks.map(w => data.einsendungen[w] || 0);
+        legendNames.push('Einsendungen');
+        // Background area on Y2
+        series.push({
+            name: '__eins_area', type: 'line', yAxisIndex: 1,
+            data: einsValues, showSymbol: false, smooth: false,
+            lineStyle: { opacity: 0 },
+            areaStyle: { color: 'rgba(220,220,220,0.45)' },
+            silent: true, tooltip: { show: false }, z: 0
+        });
+        // Visible Einsendungen line
+        series.push({
+            name: 'Einsendungen', type: 'line', yAxisIndex: 1,
+            data: einsValues, showSymbol: false,
+            lineStyle: { color: 'rgba(120,120,120,0.95)', width: 2 },
+            emphasis: { focus: 'series' }
+        });
+
+        sentinelBarChart.setOption({
+            toolbox: TOOLBOX,
+            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+            legend: { top: 40, type: 'scroll', data: legendNames, padding: [5, 80, 5, 40] },
+            grid: { left: 70, right: 70, top: 100, bottom: 90, containLabel: true },
+            xAxis: { type: 'category', data: weeks, axisLabel: { rotate: -45, interval: Math.max(0, Math.floor(weeks.length / 20) - 1) } },
+            yAxis: [
+                { type: 'value', name: 'N Virusnachweise', nameLocation: 'middle', nameGap: 50, nameRotate: 90, splitLine: { lineStyle: { color: '#eee' } } },
+                { type: 'value', name: 'N Einsendungen', nameLocation: 'middle', nameGap: 50, nameRotate: -90, position: 'right', splitLine: { show: false } }
+            ],
+            dataZoom: [
+                { type: 'inside', xAxisIndex: 0, start: 0, end: 100 },
+                { type: 'slider', xAxisIndex: 0, height: 24, bottom: 10 }
+            ],
+            series
+        }, { notMerge: true });
+    }
+
+    async function loadSentinelBar() {
+        dataPool.sentinelBar = await fetchData(SENTINEL_BAR_URL);
+    }
+
+    // ==================== 4. Sentinel Heatmap ====================
+    const sentinelHeatChart = echarts.init(document.getElementById('sentinel-heatmap-ec'));
+
+    function renderSentinelHeatmap() {
+        const d = dataPool.sentinelHeatmap;
+        if (!d) return;
+        const weeks = d.weeks;
+        const viruses = SENTINEL_HEATMAP_VIRUS_ORDER.filter(v => d.viruses.includes(v));
+        // y-axis bottom-up: put Covid19 at top → reverse the array for ECharts category axis
+        const yAxisData = [...viruses].reverse();
+        const cells = [];
+        yAxisData.forEach((v, yi) => {
+            weeks.forEach((w, xi) => {
+                cells.push([xi, yi, (d.data[v] && d.data[v][w]) || 0]);
+            });
+        });
+        sentinelHeatChart.setOption({
+            toolbox: TOOLBOX,
+            tooltip: {
+                position: 'top',
+                formatter: p => `${yAxisData[p.value[1]]}<br>${weeks[p.value[0]]}: ${(+p.value[2]).toFixed(1)}`
+            },
+            grid: { left: 100, right: 100, top: 50, bottom: 80, containLabel: true },
+            xAxis: { type: 'category', data: weeks, axisLabel: { rotate: -45, interval: Math.max(0, Math.floor(weeks.length / 20) - 1) } },
+            yAxis: { type: 'category', data: yAxisData },
+            visualMap: {
+                min: 0, max: 120, calculable: true, orient: 'vertical',
+                right: 10, top: 50,
+                itemHeight: 140,
+                inRange: { color: ['#ffffcc', '#ffeda0', '#feb24c', '#f03b20', '#bd0026'] },
+                text: ['Fallzahl', '']
+            },
+            dataZoom: [
+                { type: 'inside', xAxisIndex: 0, start: 0, end: 100 },
+                { type: 'slider', xAxisIndex: 0, height: 24, bottom: 20 }
+            ],
+            series: [{ type: 'heatmap', data: cells, progressive: 1000 }]
+        }, { notMerge: true });
+    }
+
+    async function loadSentinelHeatmap() {
+        dataPool.sentinelHeatmap = await fetchData(SENTINEL_HEATMAP_URL);
+    }
+
+    // ==================== 2. Kombiniertes Virensignal ====================
+    const combinedChart = echarts.init(document.getElementById('combined-chart-ec'));
+    // ~6-month rolling baseline — captures one full season without diluting recent trend
+    const ZSCORE_WINDOW = 26;
+    const ZSCORE_MIN_WEEKS = 8;
+
+    function calculateZScores(weeklyData) {
+        const sorted = Object.keys(weeklyData).sort();
+        const out = {};
+        for (let i = 0; i < sorted.length; i++) {
+            const w = sorted[i], v = weeklyData[w];
+            if (v == null || isNaN(v)) continue;
+            const winStart = Math.max(0, i - ZSCORE_WINDOW);
+            const vals = [];
+            for (let j = winStart; j < i; j++) {
+                const x = weeklyData[sorted[j]];
+                if (x != null && !isNaN(x)) vals.push(x);
+            }
+            if (vals.length < ZSCORE_MIN_WEEKS) { out[w] = 0; continue; }
+            const m = vals.reduce((a, b) => a + b, 0) / vals.length;
+            const variance = vals.reduce((s, x) => s + (x - m) ** 2, 0) / vals.length;
+            const sd = Math.sqrt(variance);
+            out[w] = sd > 0 ? (v - m) / sd : 0;
+        }
+        return out;
+    }
+
+    function getWastewaterWeekly() {
+        const result = {};
+        for (const [key, src] of Object.entries(dataPool.wastewater)) {
+            const at = src.traces['Österreich'];
+            if (!at) continue;
+            const groups = {};
+            for (let i = 0; i < at.x.length; i++) {
+                const date = new Date(at.x[i]);
+                const w = dateToISOWeek(date);
+                if (!groups[w]) groups[w] = [];
+                groups[w].push(at.y[i]);
+            }
+            const wkly = {};
+            for (const [w, vals] of Object.entries(groups)) {
+                const v = vals.filter(x => x != null && !isNaN(x));
+                if (v.length > 0) wkly[w] = v.reduce((a, b) => a + b, 0) / v.length;
+            }
+            result[key] = wkly;
+        }
+        return result;
+    }
+    function getSariWeekly() {
+        const f = dataPool.sari.filter(r => r.date);
+        const g = {};
+        for (const row of f) {
+            const w = dateToISOWeek(row.date);
+            if (!g[w]) g[w] = { COVID: 0, INFLUENZA: 0, RSV: 0 };
+            g[w].COVID += row.COVID || 0;
+            g[w].INFLUENZA += row.INFLUENZA || 0;
+            g[w].RSV += row.RSV || 0;
+        }
+        return {
+            sarscov2: Object.fromEntries(Object.entries(g).map(([w, d]) => [w, d.COVID])),
+            influenza: Object.fromEntries(Object.entries(g).map(([w, d]) => [w, d.INFLUENZA])),
+            rsv: Object.fromEntries(Object.entries(g).map(([w, d]) => [w, d.RSV]))
+        };
+    }
+    function getSentinelWeekly() {
+        if (!dataPool.sentinelBar) return { sarscov2: {}, influenza: {}, rsv: {} };
+        const out = { sarscov2: {}, influenza: {}, rsv: {} };
+        for (const wl of dataPool.sentinelBar.weeks) {
+            const m = wl.match(/KW(\d+)\/(\d+)/);
+            if (!m) continue;
+            const iso = `${m[2]}-W${m[1].padStart(2, '0')}`;
+            const wd = dataPool.sentinelBar.data[wl] || {};
+            out.sarscov2[iso] = wd['Covid-19'] || 0;
+            out.influenza[iso] = (wd['Inf_A'] || 0) + (wd['Inf_B'] || 0) + (wd['Inf_C'] || 0);
+            out.rsv[iso] = wd['RSV'] || 0;
+        }
+        return out;
+    }
+
+    function computeCombinedSignals() {
+        const ww = getWastewaterWeekly();
+        const sari = getSariWeekly();
+        const sent = getSentinelWeekly();
+        const viruses = ['sarscov2', 'influenza', 'rsv'];
+        const sources = [{ d: ww }, { d: sari }, { d: sent }];
+        const z = {};
+        for (const v of viruses) {
+            z[v] = [];
+            for (const s of sources) {
+                const w = s.d[v];
+                if (w && Object.keys(w).length > 0) z[v].push(calculateZScores(w));
+            }
+        }
+        const allWeeks = new Set();
+        for (const v of viruses) for (const s of z[v]) Object.keys(s).forEach(w => allWeeks.add(w));
+        const sortedWeeks = [...allWeeks].sort();
+        const perVirus = {};
+        for (const v of viruses) {
+            perVirus[v] = {};
+            for (const w of sortedWeeks) {
+                const vals = z[v].map(s => s[w]).filter(x => x != null && !isNaN(x));
+                if (vals.length > 0) perVirus[v][w] = vals.reduce((a, b) => a + b, 0) / vals.length;
+            }
+        }
+        const gesamt = {};
+        for (const w of sortedWeeks) {
+            const vals = viruses.map(v => perVirus[v][w]).filter(x => x != null && !isNaN(x));
+            if (vals.length > 0) gesamt[w] = vals.reduce((a, b) => a + b, 0) / vals.length;
+        }
+        return { perVirus, gesamt, sortedWeeks };
+    }
+
+    function renderCombinedSignal() {
+        const { perVirus, gesamt, sortedWeeks } = computeCombinedSignals();
+        const labels = { sarscov2: 'SARS-CoV-2', influenza: 'Influenza', rsv: 'RSV' };
+        const colors = { sarscov2: SARI_COLORS.COVID, influenza: SARI_COLORS.INFLUENZA, rsv: SARI_COLORS.RSV };
+        const legendNames = [];
+        const series = [];
+        for (const v of ['sarscov2', 'influenza', 'rsv']) {
+            const data = sortedWeeks.filter(w => perVirus[v][w] != null).map(w => {
+                const d = isoWeekToDate(w);
+                return [d ? isoToYMD(d) : null, perVirus[v][w]];
+            }).filter(p => p[0]);
+            legendNames.push(labels[v]);
+            series.push({
+                name: labels[v], type: 'line', smooth: true, showSymbol: false,
+                lineStyle: { color: colors[v], width: 2 }, itemStyle: { color: colors[v] },
+                data
+            });
+        }
+        const gesamtData = sortedWeeks.filter(w => gesamt[w] != null).map(w => {
+            const d = isoWeekToDate(w);
+            return [d ? isoToYMD(d) : null, gesamt[w]];
+        }).filter(p => p[0]);
+        legendNames.push('Gesamt');
+        series.push({
+            name: 'Gesamt', type: 'line', showSymbol: false,
+            lineStyle: { color: '#2c3e50', width: 3, type: 'dashed' },
+            itemStyle: { color: '#2c3e50' },
+            data: gesamtData
+        });
+
+        combinedChart.setOption({
+            toolbox: TOOLBOX,
+            tooltip: { trigger: 'axis', valueFormatter: v => v == null ? '–' : (+v).toFixed(2) },
+            legend: { top: 40, data: legendNames, padding: [5, 80, 5, 10] },
+            grid: { left: 60, right: 30, top: 90, bottom: 90, containLabel: true },
+            xAxis: { type: 'time' },
+            yAxis: { type: 'value', name: 'Z-Score (0 = Durchschnitt)', splitLine: { lineStyle: { color: '#eee' } } },
+            dataZoom: [
+                { type: 'inside', start: 0, end: 100 },
+                { type: 'slider', height: 30, bottom: 10 }
+            ],
+            series
+        }, { notMerge: true });
+    }
+
+    // ==================== Boot ====================
+    (async () => {
+        // Resize handling
+        const charts = [wwChart, combinedChart, sentinelBarChart, sentinelHeatChart, sariChart, demoChart, demoTimelineChart, ageHeatmapChart];
+        window.addEventListener('resize', () => charts.forEach(c => c.resize()));
+
+        // Load each data source in parallel; render sections as they arrive
+        const tasks = [
+            loadWastewater().then(() => {
+                document.getElementById('ww-loading').style.display = 'none';
+                setupLocationDropdown();
+                buildLocationList();
+                renderWastewater();
+            }).catch(e => { document.getElementById('ww-loading').textContent = 'Fehler: ' + e.message; }),
+
+            loadSari().then(() => {
+                document.getElementById('sari-loading-ec').style.display = 'none';
+                document.getElementById('sari-bundesland').addEventListener('change', renderSari);
+                document.getElementById('sari-station').addEventListener('change', renderSari);
+                renderSari();
+            }).catch(e => { document.getElementById('sari-loading-ec').textContent = 'Fehler: ' + e.message; }),
+
+            loadDemographics().then(() => {
+                document.getElementById('sari-demographics-loading-ec').style.display = 'none';
+                const refreshBoth = () => { rebuildDemoTimeline(); renderDemographics(); };
+                document.getElementById('sari-demo-bundesland').addEventListener('change', refreshBoth);
+                document.getElementById('sari-demo-station').addEventListener('change', refreshBoth);
+                document.getElementById('sari-demo-per100k').addEventListener('change', renderDemographics);
+                rebuildDemoTimeline();
+                renderDemographics();
+                demoChart.off('restore');
+                demoChart.on('restore', () => {
+                    demoTimelineRange = null;
+                    rebuildDemoTimeline();
+                    renderDemographics();
+                });
+                // Section 7 also depends on demographics data
+                document.getElementById('sari-heatmap-loading-ec').style.display = 'none';
+                ['sari-heatmap-bundesland', 'sari-heatmap-station', 'sari-heatmap-diagnose', 'sari-heatmap-per100k']
+                    .forEach(id => document.getElementById(id).addEventListener('change', renderAgeHeatmap));
+                renderAgeHeatmap();
+            }).catch(e => { document.getElementById('sari-demographics-loading-ec').textContent = 'Fehler: ' + e.message; }),
+
+            loadSentinelBar().then(() => {
+                document.getElementById('sentinel-bar-loading').style.display = 'none';
+                renderSentinelBar();
+            }).catch(e => { document.getElementById('sentinel-bar-loading').textContent = 'Fehler: ' + e.message; }),
+
+            loadSentinelHeatmap().then(() => {
+                document.getElementById('sentinel-heatmap-loading').style.display = 'none';
+                renderSentinelHeatmap();
+            }).catch(e => { document.getElementById('sentinel-heatmap-loading').textContent = 'Fehler: ' + e.message; })
+        ];
+
+        // Combined signal needs wastewater + sari + sentinelBar
+        Promise.all([tasks[0], tasks[1], tasks[3]]).then(() => {
+            try {
+                document.getElementById('combined-loading').style.display = 'none';
+                renderCombinedSignal();
+            } catch (e) {
+                document.getElementById('combined-loading').textContent = 'Fehler: ' + e.message;
+            }
+        });
+    })();
+    </script>
 </body>
 </html>
