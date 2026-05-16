@@ -19,6 +19,7 @@
     </style>
 </head>
 <body>
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Hell-/Dunkelmodus wechseln" title="Hell-/Dunkelmodus">☾</button>
     <div class="container">
         <!-- 1. Viruslast im Abwasser -->
         <section class="sari-section">
@@ -338,6 +339,59 @@
         return String(n);
     }
 
+    // ECharts theme is baked in at init; switching theme requires dispose + re-init of every chart
+    echarts.registerTheme('darkTheme', {
+        backgroundColor: 'transparent',
+        textStyle: { color: '#e4e6eb' },
+        title: { textStyle: { color: '#f0f2f5' } },
+        categoryAxis: {
+            axisLine: { lineStyle: { color: '#5a5e64' } },
+            axisTick: { lineStyle: { color: '#5a5e64' } },
+            axisLabel: { color: '#a8adb5' },
+            splitLine: { lineStyle: { color: '#2a2d31' } },
+            nameTextStyle: { color: '#a8adb5' }
+        },
+        valueAxis: {
+            axisLine: { lineStyle: { color: '#5a5e64' } },
+            axisTick: { lineStyle: { color: '#5a5e64' } },
+            axisLabel: { color: '#a8adb5' },
+            splitLine: { lineStyle: { color: '#2a2d31' } },
+            nameTextStyle: { color: '#a8adb5' }
+        },
+        timeAxis: {
+            axisLine: { lineStyle: { color: '#5a5e64' } },
+            axisTick: { lineStyle: { color: '#5a5e64' } },
+            axisLabel: { color: '#a8adb5' },
+            splitLine: { lineStyle: { color: '#2a2d31' } },
+            nameTextStyle: { color: '#a8adb5' }
+        },
+        legend: { textStyle: { color: '#e4e6eb' }, pageTextStyle: { color: '#a8adb5' } },
+        tooltip: { backgroundColor: '#25282d', borderColor: '#383b40', textStyle: { color: '#e4e6eb' } },
+        toolbox: { iconStyle: { borderColor: '#a8adb5' }, emphasis: { iconStyle: { borderColor: '#5dade2' } } },
+        dataZoom: {
+            textStyle: { color: '#a8adb5' },
+            dataBackground: { lineStyle: { color: '#5a5e64' }, areaStyle: { color: '#2a2d31' } },
+            fillerColor: 'rgba(93, 173, 226, 0.18)',
+            handleStyle: { color: '#5dade2', borderColor: '#5dade2' },
+            moveHandleStyle: { color: '#5dade2' },
+            borderColor: '#5a5e64'
+        },
+        visualMap: { textStyle: { color: '#a8adb5' } }
+    });
+    const THEME_STORAGE_KEY = 'theme';
+    const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    function effectiveTheme() {
+        return localStorage.getItem(THEME_STORAGE_KEY) || (darkQuery.matches ? 'dark' : 'light');
+    }
+    function applyThemeAttr() {
+        const t = effectiveTheme();
+        document.documentElement.dataset.theme = t;
+        if (themeToggleBtn) themeToggleBtn.textContent = t === 'dark' ? '☀' : '☾';
+    }
+    applyThemeAttr();
+    const initChart = id => echarts.init(document.getElementById(id), effectiveTheme() === 'dark' ? 'darkTheme' : null);
+
     const TOOLBOX = {
         right: 10, top: 10, itemSize: 14, itemGap: 8,
         feature: {
@@ -361,7 +415,7 @@
     };
 
     // ==================== 1. Viruslast im Abwasser ====================
-    const wwChart = echarts.init(document.getElementById('wastewater-chart-ec'));
+    let wwChart = initChart('wastewater-chart-ec');
     let wwSelectedLocations = new Set(['Österreich']);
 
     function extractWastewaterTraces(plotlyData) {
@@ -499,7 +553,7 @@
     }
 
     // ==================== 5. SARI Krankenhausaufnahmen ====================
-    const sariChart = echarts.init(document.getElementById('sari-chart-ec'));
+    let sariChart = initChart('sari-chart-ec');
 
     function aggregateSariCombined(bundesland, station) {
         let f = dataPool.sari;
@@ -633,7 +687,7 @@
     }
 
     // ==================== 6. SARI Demographics + Custom Slider ====================
-    const demoChart = echarts.init(document.getElementById('sari-demographics-chart-ec'));
+    let demoChart = initChart('sari-demographics-chart-ec');
     let demoTimelineRange = null;
     const demoRegionCache = new Map();
     let demoChartScheduled = false;
@@ -758,10 +812,17 @@
             },
             series
         }, { notMerge: true });
+
+        demoChart.off('restore');
+        demoChart.on('restore', () => {
+            demoTimelineRange = null;
+            rebuildDemoTimeline();
+            renderDemographics();
+        });
     }
 
     // Native ECharts timeline strip with dataZoom slider
-    const demoTimelineChart = echarts.init(document.getElementById('sari-demo-timeline-ec'));
+    let demoTimelineChart = initChart('sari-demo-timeline-ec');
     let demoTimelineDates = [];
 
     function scheduleDemoRender() {
@@ -842,7 +903,7 @@
     }
 
     // ==================== 7. SARI Altersgruppen-Heatmap ====================
-    const ageHeatmapChart = echarts.init(document.getElementById('sari-heatmap-ec'));
+    let ageHeatmapChart = initChart('sari-heatmap-ec');
 
     function aggregateAgeHeatmap(bundesland, station, diagnose) {
         const f = getDemoByRegion(bundesland, station);
@@ -941,7 +1002,7 @@
     }
 
     // ==================== 3. Sentinel Bar Chart ====================
-    const sentinelBarChart = echarts.init(document.getElementById('sentinel-bar-ec'));
+    let sentinelBarChart = initChart('sentinel-bar-ec');
 
     function renderSentinelBar() {
         const data = dataPool.sentinelBar;
@@ -1007,7 +1068,7 @@
     }
 
     // ==================== 4. Sentinel Heatmap ====================
-    const sentinelHeatChart = echarts.init(document.getElementById('sentinel-heatmap-ec'));
+    let sentinelHeatChart = initChart('sentinel-heatmap-ec');
 
     function renderSentinelHeatmap() {
         const d = dataPool.sentinelHeatmap;
@@ -1058,7 +1119,7 @@
     }
 
     // ==================== 2. Kombiniertes Virensignal ====================
-    const combinedChart = echarts.init(document.getElementById('combined-chart-ec'));
+    let combinedChart = initChart('combined-chart-ec');
     // ~6-month rolling baseline — captures one full season without diluting recent trend
     const ZSCORE_WINDOW = 26;
     const ZSCORE_MIN_WEEKS = 8;
@@ -1218,7 +1279,7 @@
     // ==================== Boot ====================
     (async () => {
         // Resize handling
-        const charts = [wwChart, combinedChart, sentinelBarChart, sentinelHeatChart, sariChart, demoChart, demoTimelineChart, ageHeatmapChart];
+        let charts = [wwChart, combinedChart, sentinelBarChart, sentinelHeatChart, sariChart, demoChart, demoTimelineChart, ageHeatmapChart];
         const responsiveRenderers = [
             ['wastewater', renderWastewater],
             ['sari', renderSari],
@@ -1242,6 +1303,35 @@
                 }
                 if (dataPool.wastewater && dataPool.sari && dataPool.sentinelBar) renderCombinedSignal();
             }, 120);
+        });
+
+        function reinitChartsForTheme() {
+            charts.forEach(c => c.dispose());
+            wwChart = initChart('wastewater-chart-ec');
+            combinedChart = initChart('combined-chart-ec');
+            sentinelBarChart = initChart('sentinel-bar-ec');
+            sentinelHeatChart = initChart('sentinel-heatmap-ec');
+            sariChart = initChart('sari-chart-ec');
+            demoChart = initChart('sari-demographics-chart-ec');
+            demoTimelineChart = initChart('sari-demo-timeline-ec');
+            ageHeatmapChart = initChart('sari-heatmap-ec');
+            charts = [wwChart, combinedChart, sentinelBarChart, sentinelHeatChart, sariChart, demoChart, demoTimelineChart, ageHeatmapChart];
+            for (const [dep, render] of responsiveRenderers) {
+                if (dataPool[dep]) render();
+            }
+            if (dataPool.sariDemo) rebuildDemoTimeline();
+            if (dataPool.wastewater && dataPool.sari && dataPool.sentinelBar) renderCombinedSignal();
+        }
+        function setTheme(value, persist) {
+            if (persist) localStorage.setItem(THEME_STORAGE_KEY, value);
+            applyThemeAttr();
+            reinitChartsForTheme();
+        }
+        darkQuery.addEventListener('change', () => {
+            if (!localStorage.getItem(THEME_STORAGE_KEY)) setTheme(darkQuery.matches ? 'dark' : 'light', false);
+        });
+        themeToggleBtn.addEventListener('click', () => {
+            setTheme(effectiveTheme() === 'dark' ? 'light' : 'dark', true);
         });
 
         // Load each data source in parallel; render sections as they arrive
@@ -1268,12 +1358,6 @@
                 document.getElementById('sari-demo-per100k').addEventListener('change', renderDemographics);
                 rebuildDemoTimeline();
                 renderDemographics();
-                demoChart.off('restore');
-                demoChart.on('restore', () => {
-                    demoTimelineRange = null;
-                    rebuildDemoTimeline();
-                    renderDemographics();
-                });
                 // Section 7 also depends on demographics data
                 document.getElementById('sari-heatmap-loading-ec').style.display = 'none';
                 ['sari-heatmap-bundesland', 'sari-heatmap-station', 'sari-heatmap-diagnose', 'sari-heatmap-per100k']
