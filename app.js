@@ -202,17 +202,14 @@ function createChart() {
             rangemode: 'tozero'
         },
         legend: {
-            orientation: 'v',
-            yanchor: 'top',
-            y: 1,
-            xanchor: 'left',
-            x: 1.02,
-            bgcolor: 'rgba(255,255,255,0.9)',
-            bordercolor: '#ddd',
-            borderwidth: 1
+            orientation: 'h',
+            yanchor: 'bottom',
+            y: 1.02,
+            xanchor: 'center',
+            x: 0.5
         },
         hovermode: 'x unified',
-        margin: { t: 50, b: 60, l: 60, r: 150 }
+        margin: { t: 60, b: 60, l: 60, r: 30 }
     };
 
     const config = {
