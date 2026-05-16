@@ -838,14 +838,186 @@ function aggregateDemographicsData(bundesland, station, startDate, endDate) {
     return Object.values(aggregated);
 }
 
+// Currently-selected date range from the timeline slider, as ISO date strings
+let demoTimelineRange = null;
+let demoTimelineWeeks = [];
+
+// Aggregates weekly admissions per diagnosis for the timeline strip
+function aggregateDemoTimeline(bundesland, station) {
+    let filtered = sariDemographicsData;
+    if (bundesland !== 'AT') filtered = filtered.filter(r => r.WOHNORT === bundesland);
+    if (station !== 'ALL') filtered = filtered.filter(r => r.STATION === station);
+
+    const diagnosen = ['COVID', 'INFLUENZA', 'RSV', 'PNEUMOKOKKEN', 'SONSTIGE'];
+    const byKW = {};
+    filtered.forEach(row => {
+        if (!row.date) return;
+        const key = row.date.getTime();
+        if (!byKW[key]) {
+            byKW[key] = { date: row.date, COVID: 0, INFLUENZA: 0, RSV: 0, PNEUMOKOKKEN: 0, SONSTIGE: 0 };
+        }
+        diagnosen.forEach(d => { byKW[key][d] += row[d] || 0; });
+    });
+    return Object.values(byKW).sort((a, b) => a.date - b.date);
+}
+
+function findClosestWeekIdx(date) {
+    let best = 0;
+    let bestDiff = Infinity;
+    demoTimelineWeeks.forEach((w, i) => {
+        const diff = Math.abs(w.date - date);
+        if (diff < bestDiff) { bestDiff = diff; best = i; }
+    });
+    return best;
+}
+
+function formatTimelineLabel(date) {
+    const dd = String(date.getDate()).padStart(2, '0');
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    return `${dd}.${mm}.${date.getFullYear()}`;
+}
+
+function updateTimelineFillAndLabels(fromIdx, toIdx) {
+    const max = demoTimelineWeeks.length - 1;
+    if (max < 1) return;
+    const leftPct = (fromIdx / max) * 100;
+    const rightPct = 100 - (toIdx / max) * 100;
+    document.querySelector('.timeline-mask-left').style.width = `${leftPct}%`;
+    document.querySelector('.timeline-mask-right').style.width = `${rightPct}%`;
+    document.getElementById('demo-slider-label-from').textContent = formatTimelineLabel(demoTimelineWeeks[fromIdx].date);
+    document.getElementById('demo-slider-label-to').textContent = formatTimelineLabel(demoTimelineWeeks[toIdx].date);
+}
+
+function applyTimelineRangeFromSliders(fromIdx, toIdx) {
+    if (demoTimelineWeeks.length === 0) return;
+    const startDate = demoTimelineWeeks[fromIdx].date;
+    const endDate = demoTimelineWeeks[toIdx].date;
+    const isFullRange = fromIdx === 0 && toIdx === demoTimelineWeeks.length - 1;
+    demoTimelineRange = isFullRange ? null : [startDate.toISOString().split('T')[0], endDate.toISOString().split('T')[0]];
+    updateTimelineFillAndLabels(fromIdx, toIdx);
+    createSariDemographicsChart();
+}
+
+function applyTimelinePreset(months) {
+    if (demoTimelineWeeks.length === 0) return;
+    const fromInput = document.getElementById('demo-slider-from');
+    const toInput = document.getElementById('demo-slider-to');
+    const max = demoTimelineWeeks.length - 1;
+
+    if (months === null) {
+        fromInput.value = 0;
+        toInput.value = max;
+        applyTimelineRangeFromSliders(0, max);
+        return;
+    }
+
+    const lastDate = demoTimelineWeeks[max].date;
+    const startDate = new Date(lastDate);
+    startDate.setMonth(startDate.getMonth() - months);
+    const fromIdx = findClosestWeekIdx(startDate);
+    const toIdx = max;
+    fromInput.value = fromIdx;
+    toInput.value = toIdx;
+    applyTimelineRangeFromSliders(fromIdx, toIdx);
+}
+
+function renderTimelineBars() {
+    const svg = document.querySelector('.timeline-bars');
+    svg.innerHTML = '';
+    if (demoTimelineWeeks.length === 0) return;
+
+    const maxVal = Math.max(...demoTimelineWeeks.map(w => w.total), 1);
+    const n = demoTimelineWeeks.length;
+    const barWidth = 100 / n;
+
+    demoTimelineWeeks.forEach((w, i) => {
+        const h = (w.total / maxVal) * 100;
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rect.setAttribute('x', i * barWidth);
+        rect.setAttribute('y', 100 - h);
+        rect.setAttribute('width', barWidth);
+        rect.setAttribute('height', h);
+        rect.setAttribute('fill', '#bdbdbd');
+        svg.appendChild(rect);
+    });
+}
+
+function initDemoTimelineWidget() {
+    const fromInput = document.getElementById('demo-slider-from');
+    const toInput = document.getElementById('demo-slider-to');
+
+    const onSliderChange = (e) => {
+        let from = parseInt(fromInput.value);
+        let to = parseInt(toInput.value);
+        if (from > to) {
+            if (e.target === fromInput) {
+                toInput.value = from;
+                to = from;
+            } else {
+                fromInput.value = to;
+                from = to;
+            }
+        }
+        applyTimelineRangeFromSliders(from, to);
+    };
+    fromInput.addEventListener('input', onSliderChange);
+    toInput.addEventListener('input', onSliderChange);
+
+    document.querySelectorAll('.timeline-preset').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const months = btn.dataset.all === 'true' ? null : parseInt(btn.dataset.months);
+            applyTimelinePreset(months);
+        });
+    });
+}
+
+// Rebuilds the timeline widget for the current bundesland/station selection
+function createDemoTimeline() {
+    const bundesland = document.getElementById('sari-demo-bundesland').value;
+    const station = document.getElementById('sari-demo-station').value;
+    const timeline = aggregateDemoTimeline(bundesland, station);
+
+    const widget = document.getElementById('sari-demo-timeline');
+    if (timeline.length === 0) {
+        widget.classList.add('hidden');
+        return;
+    }
+    widget.classList.remove('hidden');
+
+    demoTimelineWeeks = timeline.map(t => ({
+        date: t.date,
+        total: t.COVID + t.INFLUENZA + t.RSV + t.PNEUMOKOKKEN + t.SONSTIGE
+    }));
+
+    renderTimelineBars();
+
+    const max = demoTimelineWeeks.length - 1;
+    const fromInput = document.getElementById('demo-slider-from');
+    const toInput = document.getElementById('demo-slider-to');
+    fromInput.min = 0; fromInput.max = max;
+    toInput.min = 0; toInput.max = max;
+
+    let fromIdx = 0;
+    let toIdx = max;
+    if (demoTimelineRange) {
+        fromIdx = findClosestWeekIdx(new Date(demoTimelineRange[0]));
+        toIdx = findClosestWeekIdx(new Date(demoTimelineRange[1]));
+    }
+    fromInput.value = fromIdx;
+    toInput.value = toIdx;
+    updateTimelineFillAndLabels(fromIdx, toIdx);
+}
+
 // Creates the demographics chart with stacked diagnoses per gender
 function createSariDemographicsChart() {
     const bundesland = document.getElementById('sari-demo-bundesland').value;
     const station = document.getElementById('sari-demo-station').value;
     const per100k = document.getElementById('sari-demo-per100k').checked;
 
-    // Show all data (no time filtering)
-    const aggregated = aggregateDemographicsData(bundesland, station, null, null);
+    const startDate = demoTimelineRange ? new Date(demoTimelineRange[0]) : null;
+    const endDate = demoTimelineRange ? new Date(demoTimelineRange[1]) : null;
+
+    const aggregated = aggregateDemographicsData(bundesland, station, startDate, endDate);
 
     // Calculate per 100k if enabled
     if (per100k) {
@@ -974,9 +1146,13 @@ function createSariDemographicsChart() {
 
 // Initializes demographics UI
 function initSariDemographicsUI() {
-    // Event listeners for dropdowns
-    document.getElementById('sari-demo-bundesland').addEventListener('change', createSariDemographicsChart);
-    document.getElementById('sari-demo-station').addEventListener('change', createSariDemographicsChart);
+    initDemoTimelineWidget();
+    const refreshBoth = () => {
+        createDemoTimeline();
+        createSariDemographicsChart();
+    };
+    document.getElementById('sari-demo-bundesland').addEventListener('change', refreshBoth);
+    document.getElementById('sari-demo-station').addEventListener('change', refreshBoth);
     document.getElementById('sari-demo-per100k').addEventListener('change', createSariDemographicsChart);
 }
 
@@ -1002,6 +1178,7 @@ async function loadSariDemographicsData() {
 
         loading.classList.add('hidden');
         initSariDemographicsUI();
+        createDemoTimeline();
         createSariDemographicsChart();
 
     } catch (error) {

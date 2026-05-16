@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abwasser-Monitoring Österreich</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=3">
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
 </head>
 <body>
@@ -185,6 +185,26 @@
                 <div id="sari-demographics-chart-container">
                     <div id="sari-demographics-loading">Lade Daten...</div>
                     <div id="sari-demographics-chart"></div>
+                    <div id="sari-demo-timeline" class="timeline-widget hidden">
+                        <div class="timeline-presets">
+                            <button class="timeline-preset" data-months="3">3m</button>
+                            <button class="timeline-preset" data-months="6">6m</button>
+                            <button class="timeline-preset" data-months="12">1J</button>
+                            <button class="timeline-preset" data-all="true">Alle</button>
+                        </div>
+                        <div class="timeline-slider-wrap">
+                            <svg class="timeline-bars" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
+                            <div class="timeline-mask timeline-mask-left"></div>
+                            <div class="timeline-mask timeline-mask-right"></div>
+                            <input type="range" id="demo-slider-from" class="timeline-input timeline-input-from" min="0" max="100" value="0">
+                            <input type="range" id="demo-slider-to" class="timeline-input timeline-input-to" min="0" max="100" value="100">
+                        </div>
+                        <div class="timeline-labels">
+                            <span id="demo-slider-label-from">—</span>
+                            <span class="timeline-label-sep">Kalenderwoche</span>
+                            <span id="demo-slider-label-to">—</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="sari-demographics-error" class="hidden">
@@ -269,7 +289,7 @@
         </footer>
     </div>
 
-    <script src="app.js"></script>
+    <script src="app.js?v=4"></script>
     <script data-goatcounter="https://pasrom.goatcounter.com/count"
             async src="//gc.zgo.at/count.js"></script>
 </body>
