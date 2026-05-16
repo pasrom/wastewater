@@ -257,6 +257,16 @@ footer a:hover {
     text-decoration: underline;
 }
 
+footer .data-freshness {
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    color: var(--text-muted);
+}
+
+footer .data-freshness:empty {
+    display: none;
+}
+
 footer .impressum {
     font-size: 0.75rem;
     margin-top: 10px;

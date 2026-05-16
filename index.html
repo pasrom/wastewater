@@ -223,6 +223,7 @@
         </section>
 
         <footer>
+            <p id="data-freshness" class="data-freshness"></p>
             <p>
                 Datenquellen:
                 <a href="https://abwasser.ages.at" target="_blank" rel="noopener">AGES Abwasser-Monitoring</a> |
@@ -302,12 +303,16 @@
         return m ? mondayOfISOWeek(parseInt(m[2]), parseInt(m[1])) : null;
     }
 
-    function dateToISOWeek(date) {
+    function dateToISOWeekParts(date) {
         const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
         d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
         const ys = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-        const w = Math.ceil(((d - ys) / 86400000 + 1) / 7);
-        return `${d.getUTCFullYear()}-W${String(w).padStart(2, '0')}`;
+        return { year: d.getUTCFullYear(), week: Math.ceil(((d - ys) / 86400000 + 1) / 7) };
+    }
+
+    function dateToISOWeek(date) {
+        const { year, week } = dateToISOWeekParts(date);
+        return `${year}-W${String(week).padStart(2, '0')}`;
     }
 
     function isoWeekToDate(iso) {
@@ -391,6 +396,27 @@
     }
     applyThemeAttr();
     const initChart = id => echarts.init(document.getElementById(id), effectiveTheme() === 'dark' ? 'darkTheme' : null);
+
+    const freshness = { Abwasser: null, Sentinel: null, SARI: null };
+    const freshnessEl = document.getElementById('data-freshness');
+    function formatKW(date) {
+        const { year, week } = dateToISOWeekParts(date);
+        return `KW ${String(week).padStart(2, '0')}/${year}`;
+    }
+    const lastFromRows = rows => rows.reduce((m, r) => (!m || (r.date && r.date > m) ? (r.date || m) : m), null);
+    const lastFromWeeks = weeks => {
+        const m = weeks && weeks.length && weeks[weeks.length - 1].match(/KW(\d+)\/(\d+)/);
+        return m ? mondayOfISOWeek(parseInt(m[2]), parseInt(m[1])) : null;
+    };
+    function bumpFreshness(source, date) {
+        if (!date) return;
+        if (!freshness[source] || date > freshness[source]) freshness[source] = date;
+        if (!freshnessEl) return;
+        const parts = Object.entries(freshness)
+            .filter(([, d]) => d)
+            .map(([name, d]) => `${name}: ${formatKW(d)}`);
+        freshnessEl.textContent = parts.length ? 'Datenstand · ' + parts.join(' · ') : '';
+    }
 
     const TOOLBOX = {
         right: 10, top: 10, itemSize: 14, itemGap: 8,
@@ -1341,6 +1367,10 @@
                 setupLocationDropdown();
                 buildLocationList();
                 renderWastewater();
+                for (const src of Object.values(dataPool.wastewater)) {
+                    const at = src.traces['Österreich'];
+                    if (at && at.x.length) bumpFreshness('Abwasser', new Date(at.x[at.x.length - 1]));
+                }
             }).catch(e => { document.getElementById('ww-loading').textContent = 'Fehler: ' + e.message; }),
 
             loadSari().then(() => {
@@ -1348,6 +1378,7 @@
                 document.getElementById('sari-bundesland').addEventListener('change', renderSari);
                 document.getElementById('sari-station').addEventListener('change', renderSari);
                 renderSari();
+                bumpFreshness('SARI', lastFromRows(dataPool.sari));
             }).catch(e => { document.getElementById('sari-loading-ec').textContent = 'Fehler: ' + e.message; }),
 
             loadDemographics().then(() => {
@@ -1363,16 +1394,19 @@
                 ['sari-heatmap-bundesland', 'sari-heatmap-station', 'sari-heatmap-diagnose', 'sari-heatmap-per100k']
                     .forEach(id => document.getElementById(id).addEventListener('change', renderAgeHeatmap));
                 renderAgeHeatmap();
+                bumpFreshness('SARI', lastFromRows(dataPool.sariDemo));
             }).catch(e => { document.getElementById('sari-demographics-loading-ec').textContent = 'Fehler: ' + e.message; }),
 
             loadSentinelBar().then(() => {
                 document.getElementById('sentinel-bar-loading').style.display = 'none';
                 renderSentinelBar();
+                bumpFreshness('Sentinel', lastFromWeeks(dataPool.sentinelBar.weeks));
             }).catch(e => { document.getElementById('sentinel-bar-loading').textContent = 'Fehler: ' + e.message; }),
 
             loadSentinelHeatmap().then(() => {
                 document.getElementById('sentinel-heatmap-loading').style.display = 'none';
                 renderSentinelHeatmap();
+                bumpFreshness('Sentinel', lastFromWeeks(dataPool.sentinelHeatmap.weeks));
             }).catch(e => { document.getElementById('sentinel-heatmap-loading').textContent = 'Fehler: ' + e.message; })
         ];
 
