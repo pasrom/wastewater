@@ -328,6 +328,15 @@
     }
 
     function isoToYMD(d) { return d.toISOString().split('T')[0]; }
+    const isNarrow = () => window.innerWidth < 700;
+    const narrowGrid = (top, bottom, right = 10) => ({ left: 5, right, top, bottom, containLabel: true });
+    const xAxisInterval = arr => Math.max(0, Math.floor(arr.length / 20) - 1);
+    function compactNumber(v) {
+        const n = +v;
+        if (Math.abs(n) >= 1_000_000) return (n / 1_000_000).toFixed(n % 1_000_000 === 0 ? 0 : 1) + 'M';
+        if (Math.abs(n) >= 1_000) return (n / 1_000).toFixed(n % 1_000 === 0 ? 0 : 1) + 'k';
+        return String(n);
+    }
 
     const TOOLBOX = {
         right: 10, top: 10, itemSize: 14, itemGap: 8,
@@ -410,14 +419,15 @@
             }
         }
 
+        const narrow = isNarrow();
         wwChart.setOption({
-            title: { text: 'Viruslast im Abwasser', left: 'center', textStyle: { fontSize: 16, fontWeight: 600 } },
+            title: { text: 'Viruslast im Abwasser', left: 'center', textStyle: { fontSize: 14, fontWeight: 600 } },
             toolbox: TOOLBOX,
             tooltip: { trigger: 'axis', valueFormatter: v => v == null ? '–' : (+v).toFixed(1) + ' Mio./Einw.' },
-            legend: { top: 30, type: 'scroll', data: legendNames },
-            grid: { left: 60, right: 30, top: 80, bottom: 90, containLabel: true },
+            legend: { top: 30, type: 'scroll', data: legendNames, padding: [5, 40, 5, 10] },
+            grid: narrow ? narrowGrid(70, 90) : { left: 60, right: 30, top: 80, bottom: 90, containLabel: true },
             xAxis: { type: 'time', axisLine: { lineStyle: { color: '#bbb' } } },
-            yAxis: { type: 'value', name: 'Mio. Genkopien/Einw.', splitLine: { lineStyle: { color: '#eee' } } },
+            yAxis: { type: 'value', name: narrow ? '' : 'Mio. Genkopien/Einw.', splitLine: { lineStyle: { color: '#eee' } }, axisLabel: { formatter: compactNumber } },
             dataZoom: [
                 { type: 'inside', start: 0, end: 100 },
                 { type: 'slider', height: 30, bottom: 10 }
@@ -575,17 +585,20 @@
             series[0] = { ...series[0], markLine };
         }
 
+        const narrow = isNarrow();
         sariChart.setOption({
             title: {
-                text: `SARI-Aufnahmen – ${BUNDESLAND_NAMES[bundesland]} (${STATION_NAMES[station]})`,
-                left: 'center', textStyle: { fontSize: 16, fontWeight: 600 }
+                text: narrow
+                    ? `SARI-Aufnahmen\n${BUNDESLAND_NAMES[bundesland]} (${STATION_NAMES[station]})`
+                    : `SARI-Aufnahmen – ${BUNDESLAND_NAMES[bundesland]} (${STATION_NAMES[station]})`,
+                left: 'center', textStyle: { fontSize: 14, fontWeight: 600 }
             },
             toolbox: TOOLBOX,
             tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-            legend: { top: 30, data: legendNames },
-            grid: { left: 60, right: 30, top: 80, bottom: 90, containLabel: true },
+            legend: { top: narrow ? 50 : 30, data: legendNames, padding: [5, 40, 5, 10] },
+            grid: narrow ? narrowGrid(90, 90) : { left: 60, right: 30, top: 80, bottom: 90, containLabel: true },
             xAxis: { type: 'category', data: dates, axisLine: { lineStyle: { color: '#bbb' } }, axisLabel: { color: '#555' } },
-            yAxis: { type: 'value', name: 'Aufnahmen', splitLine: { lineStyle: { color: '#eee' } } },
+            yAxis: { type: 'value', name: narrow ? '' : 'Aufnahmen', splitLine: { lineStyle: { color: '#eee' } }, axisLabel: { formatter: compactNumber } },
             dataZoom: [
                 { type: 'inside', xAxisIndex: 0, start: 0, end: 100 },
                 { type: 'slider', xAxisIndex: 0, height: 30, bottom: 10 }
@@ -719,22 +732,30 @@
             };
         });
 
+        const narrow = isNarrow();
         demoChart.setOption({
             title: {
-                text: `SARI-Aufnahmen nach Alter und Geschlecht — ${BUNDESLAND_NAMES[bundesland]} (${STATION_NAMES[station]})`,
-                left: 'center', textStyle: { fontSize: 16, fontWeight: 600 }
+                text: narrow
+                    ? `SARI-Aufnahmen\n${BUNDESLAND_NAMES[bundesland]} (${STATION_NAMES[station]})`
+                    : `SARI-Aufnahmen nach Alter und Geschlecht — ${BUNDESLAND_NAMES[bundesland]} (${STATION_NAMES[station]})`,
+                left: 'center', textStyle: { fontSize: 14, fontWeight: 600 }
             },
             toolbox: TOOLBOX_RESTORE_ONLY,
             tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-            legend: { top: 30, data: legendNames },
-            grid: { left: 70, right: 30, top: 80, bottom: 90, containLabel: true },
+            legend: { top: narrow ? 50 : 30, data: legendNames, padding: [5, 40, 5, 10] },
+            grid: narrow ? narrowGrid(90, 90) : { left: 70, right: 30, top: 80, bottom: 90, containLabel: true },
             xAxis: {
                 type: 'category', data: xLabels,
-                name: 'Altersgruppe (dunkel = Weiblich, hell = Männlich)',
+                name: narrow ? '' : 'Altersgruppe (dunkel = Weiblich, hell = Männlich)',
                 nameLocation: 'middle', nameGap: 50,
                 axisLabel: { rotate: -45, color: '#555' }
             },
-            yAxis: { type: 'value', name: per100k ? 'pro 100.000 Einw.' : 'Aufnahmen', splitLine: { lineStyle: { color: '#eee' } } },
+            yAxis: {
+                type: 'value',
+                name: narrow ? '' : (per100k ? 'pro 100.000 Einw.' : 'Aufnahmen'),
+                splitLine: { lineStyle: { color: '#eee' } },
+                axisLabel: { formatter: compactNumber }
+            },
             series
         }, { notMerge: true });
     }
@@ -877,6 +898,8 @@
         });
 
         const diagNamesFull = { ...SARI_DIAGNOSE_NAMES, ALL: 'Alle SARI-Diagnosen' };
+        const narrow = isNarrow();
+        const visualMapText = per100k ? 'pro 100k' : 'Aufnahmen';
         ageHeatmapChart.setOption({
             title: {
                 text: `${diagNamesFull[diagnose]} nach Altersgruppe — ${BUNDESLAND_NAMES[bundesland]}`,
@@ -890,19 +913,25 @@
                     return `${ageGroups[p.value[1]]}<br>${kws[p.value[0]]}<br>${per100k ? v.toFixed(1) + ' pro 100k' : v + ' Aufnahmen'}`;
                 }
             },
-            grid: { left: 80, right: 100, top: 60, bottom: 80, containLabel: true },
-            xAxis: { type: 'category', data: kws, splitArea: { show: false }, axisLabel: { rotate: -45, interval: Math.max(0, Math.floor(kws.length / 20) - 1) } },
+            grid: narrow ? narrowGrid(60, 130) : { left: 80, right: 100, top: 60, bottom: 80, containLabel: true },
+            xAxis: { type: 'category', data: kws, splitArea: { show: false }, axisLabel: { rotate: -45, interval: xAxisInterval(kws) } },
             yAxis: { type: 'category', data: ageGroups },
-            visualMap: {
-                min: 0, max: zMax || 1, calculable: true, orient: 'vertical',
-                right: 10, top: 50,
-                itemHeight: 140,
-                inRange: { color: ['#f7f7f7', '#fee8c8', '#fdbb84', '#e34a33', '#7f0000'] },
-                text: [per100k ? 'pro 100k' : 'Aufnahmen', '']
-            },
+            visualMap: narrow
+                ? {
+                    min: 0, max: zMax || 1, calculable: true, orient: 'horizontal',
+                    left: 'center', bottom: 5, itemWidth: 16, itemHeight: 180,
+                    inRange: { color: ['#f7f7f7', '#fee8c8', '#fdbb84', '#e34a33', '#7f0000'] },
+                    text: [visualMapText, '']
+                }
+                : {
+                    min: 0, max: zMax || 1, calculable: true, orient: 'vertical',
+                    right: 10, top: 50, itemHeight: 140,
+                    inRange: { color: ['#f7f7f7', '#fee8c8', '#fdbb84', '#e34a33', '#7f0000'] },
+                    text: [visualMapText, '']
+                },
             dataZoom: [
                 { type: 'inside', xAxisIndex: 0, start: 0, end: 100 },
-                { type: 'slider', xAxisIndex: 0, height: 24, bottom: 20 }
+                { type: 'slider', xAxisIndex: 0, height: 24, bottom: narrow ? 50 : 20 }
             ],
             series: [{
                 type: 'heatmap', data: cells, progressive: 1000,
@@ -949,16 +978,22 @@
             emphasis: { focus: 'series' }
         });
 
+        const narrow = isNarrow();
         sentinelBarChart.setOption({
             toolbox: TOOLBOX,
             tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-            legend: { top: 40, type: 'scroll', data: legendNames, padding: [5, 80, 5, 40] },
-            grid: { left: 70, right: 70, top: 100, bottom: 90, containLabel: true },
-            xAxis: { type: 'category', data: weeks, axisLabel: { rotate: -45, interval: Math.max(0, Math.floor(weeks.length / 20) - 1) } },
-            yAxis: [
-                { type: 'value', name: 'N Virusnachweise', nameLocation: 'middle', nameGap: 50, nameRotate: 90, splitLine: { lineStyle: { color: '#eee' } } },
-                { type: 'value', name: 'N Einsendungen', nameLocation: 'middle', nameGap: 50, nameRotate: -90, position: 'right', splitLine: { show: false } }
-            ],
+            legend: { top: 40, type: 'scroll', data: legendNames, padding: [5, narrow ? 40 : 80, 5, narrow ? 10 : 40] },
+            grid: narrow ? narrowGrid(90, 90, 5) : { left: 70, right: 70, top: 100, bottom: 90, containLabel: true },
+            xAxis: { type: 'category', data: weeks, axisLabel: { rotate: -45, interval: xAxisInterval(weeks) } },
+            yAxis: narrow
+                ? [
+                    { type: 'value', splitLine: { lineStyle: { color: '#eee' } }, axisLabel: { formatter: compactNumber } },
+                    { type: 'value', position: 'right', splitLine: { show: false }, axisLabel: { formatter: compactNumber } }
+                  ]
+                : [
+                    { type: 'value', name: 'N Virusnachweise', nameLocation: 'middle', nameGap: 50, nameRotate: 90, splitLine: { lineStyle: { color: '#eee' } } },
+                    { type: 'value', name: 'N Einsendungen', nameLocation: 'middle', nameGap: 50, nameRotate: -90, position: 'right', splitLine: { show: false } }
+                  ],
             dataZoom: [
                 { type: 'inside', xAxisIndex: 0, start: 0, end: 100 },
                 { type: 'slider', xAxisIndex: 0, height: 24, bottom: 10 }
@@ -987,25 +1022,32 @@
                 cells.push([xi, yi, (d.data[v] && d.data[v][w]) || 0]);
             });
         });
+        const narrow = isNarrow();
         sentinelHeatChart.setOption({
             toolbox: TOOLBOX,
             tooltip: {
                 position: 'top',
                 formatter: p => `${yAxisData[p.value[1]]}<br>${weeks[p.value[0]]}: ${(+p.value[2]).toFixed(1)}`
             },
-            grid: { left: 100, right: 100, top: 50, bottom: 80, containLabel: true },
-            xAxis: { type: 'category', data: weeks, axisLabel: { rotate: -45, interval: Math.max(0, Math.floor(weeks.length / 20) - 1) } },
+            grid: narrow ? narrowGrid(50, 130) : { left: 100, right: 100, top: 50, bottom: 80, containLabel: true },
+            xAxis: { type: 'category', data: weeks, axisLabel: { rotate: -45, interval: xAxisInterval(weeks) } },
             yAxis: { type: 'category', data: yAxisData },
-            visualMap: {
-                min: 0, max: 120, calculable: true, orient: 'vertical',
-                right: 10, top: 50,
-                itemHeight: 140,
-                inRange: { color: ['#ffffcc', '#ffeda0', '#feb24c', '#f03b20', '#bd0026'] },
-                text: ['Fallzahl', '']
-            },
+            visualMap: narrow
+                ? {
+                    min: 0, max: 120, calculable: true, orient: 'horizontal',
+                    left: 'center', bottom: 5, itemWidth: 16, itemHeight: 180,
+                    inRange: { color: ['#ffffcc', '#ffeda0', '#feb24c', '#f03b20', '#bd0026'] },
+                    text: ['Fallzahl', '']
+                }
+                : {
+                    min: 0, max: 120, calculable: true, orient: 'vertical',
+                    right: 10, top: 50, itemHeight: 140,
+                    inRange: { color: ['#ffffcc', '#ffeda0', '#feb24c', '#f03b20', '#bd0026'] },
+                    text: ['Fallzahl', '']
+                },
             dataZoom: [
                 { type: 'inside', xAxisIndex: 0, start: 0, end: 100 },
-                { type: 'slider', xAxisIndex: 0, height: 24, bottom: 20 }
+                { type: 'slider', xAxisIndex: 0, height: 24, bottom: narrow ? 50 : 20 }
             ],
             series: [{ type: 'heatmap', data: cells, progressive: 1000 }]
         }, { notMerge: true });
@@ -1157,13 +1199,14 @@
             data: gesamtData
         });
 
+        const narrow = isNarrow();
         combinedChart.setOption({
             toolbox: TOOLBOX,
             tooltip: { trigger: 'axis', valueFormatter: v => v == null ? '–' : (+v).toFixed(2) },
             legend: { top: 40, data: legendNames, padding: [5, 80, 5, 10] },
-            grid: { left: 60, right: 30, top: 90, bottom: 90, containLabel: true },
+            grid: narrow ? narrowGrid(80, 90) : { left: 60, right: 30, top: 90, bottom: 90, containLabel: true },
             xAxis: { type: 'time' },
-            yAxis: { type: 'value', name: 'Z-Score (0 = Durchschnitt)', splitLine: { lineStyle: { color: '#eee' } } },
+            yAxis: { type: 'value', name: narrow ? 'Z-Score' : 'Z-Score (0 = Durchschnitt)', splitLine: { lineStyle: { color: '#eee' } } },
             dataZoom: [
                 { type: 'inside', start: 0, end: 100 },
                 { type: 'slider', height: 30, bottom: 10 }
@@ -1176,7 +1219,30 @@
     (async () => {
         // Resize handling
         const charts = [wwChart, combinedChart, sentinelBarChart, sentinelHeatChart, sariChart, demoChart, demoTimelineChart, ageHeatmapChart];
-        window.addEventListener('resize', () => charts.forEach(c => c.resize()));
+        const responsiveRenderers = [
+            ['wastewater', renderWastewater],
+            ['sari', renderSari],
+            ['sentinelBar', renderSentinelBar],
+            ['sentinelHeatmap', renderSentinelHeatmap],
+            ['sariDemo', renderAgeHeatmap],
+            ['sariDemo', renderDemographics]
+        ];
+        let lastNarrow = isNarrow();
+        let resizeRaf = 0, breakpointTimer = 0;
+        window.addEventListener('resize', () => {
+            cancelAnimationFrame(resizeRaf);
+            resizeRaf = requestAnimationFrame(() => charts.forEach(c => c.resize()));
+            clearTimeout(breakpointTimer);
+            breakpointTimer = setTimeout(() => {
+                const cur = isNarrow();
+                if (cur === lastNarrow) return;
+                lastNarrow = cur;
+                for (const [dep, render] of responsiveRenderers) {
+                    if (dataPool[dep]) render();
+                }
+                if (dataPool.wastewater && dataPool.sari && dataPool.sentinelBar) renderCombinedSignal();
+            }, 120);
+        });
 
         // Load each data source in parallel; render sections as they arrive
         const tasks = [
