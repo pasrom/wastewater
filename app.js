@@ -333,12 +333,13 @@ function lightenColor(hex, amount) {
 
 const SARI_CONFIG = {
     url: `${DATA_BASE}/sari/krankenanstalt.json`,
+    diagnosen: ['COVID', 'INFLUENZA', 'RSV', 'PNEUMOKOKKEN', 'SONSTIGE'],
     colors: {
-        COVID: '#e87461',       // rgb(232, 116, 97)
-        INFLUENZA: '#ffc600',   // rgb(255, 198, 0)
-        PNEUMOKOKKEN: '#51b2a9', // rgb(81, 178, 169)
-        RSV: '#456990',         // rgb(69, 105, 144)
-        SONSTIGE: '#c9c9c9'     // rgb(201, 201, 201)
+        COVID: '#e87461',
+        INFLUENZA: '#ffc600',
+        PNEUMOKOKKEN: '#51b2a9',
+        RSV: '#456990',
+        SONSTIGE: '#c9c9c9'
     },
     diagnoseNames: {
         COVID: 'COVID-19',
@@ -764,29 +765,28 @@ function parseDemographicsCSV(csvText) {
     return data;
 }
 
-// Aggregates data by age group, gender and diagnosis
+let demoRegionFilterCache = null;
+
+function getDemographicsByRegion(bundesland, station) {
+    if (demoRegionFilterCache && demoRegionFilterCache.bundesland === bundesland && demoRegionFilterCache.station === station) {
+        return demoRegionFilterCache.data;
+    }
+    let data = sariDemographicsData;
+    if (bundesland !== 'AT') data = data.filter(row => row.WOHNORT === bundesland);
+    if (station !== 'ALL') data = data.filter(row => row.STATION === station);
+    demoRegionFilterCache = { bundesland, station, data };
+    return data;
+}
+
 function aggregateDemographicsData(bundesland, station, startDate, endDate) {
-    let filtered = sariDemographicsData;
-
-    // Filter by state
-    if (bundesland !== 'AT') {
-        filtered = filtered.filter(row => row.WOHNORT === bundesland);
-    }
-
-    // Filter by station
-    if (station !== 'ALL') {
-        filtered = filtered.filter(row => row.STATION === station);
-    }
-
-    // Filter by time range
+    let filtered = getDemographicsByRegion(bundesland, station);
     if (startDate && endDate) {
         filtered = filtered.filter(row => row.date >= startDate && row.date <= endDate);
     }
 
-    // Aggregate by age group, gender and diagnosis
     const aggregated = {};
     const populationByAgeGender = {};
-    const diagnosen = ['COVID', 'INFLUENZA', 'RSV', 'PNEUMOKOKKEN', 'SONSTIGE'];
+    const diagnosen = SARI_CONFIG.diagnosen;
 
     filtered.forEach(row => {
         // Track population per age group/gender (count only once per KW)
@@ -835,25 +835,20 @@ function aggregateDemographicsData(bundesland, station, startDate, endDate) {
     return Object.values(aggregated);
 }
 
-// Currently-selected date range from the timeline slider, as ISO date strings
 let demoTimelineRange = null;
 let demoTimelineWeeks = [];
+let demoChartUpdateScheduled = false;
 
-// Aggregates weekly admissions per diagnosis for the timeline strip
 function aggregateDemoTimeline(bundesland, station) {
-    let filtered = sariDemographicsData;
-    if (bundesland !== 'AT') filtered = filtered.filter(r => r.WOHNORT === bundesland);
-    if (station !== 'ALL') filtered = filtered.filter(r => r.STATION === station);
-
-    const diagnosen = ['COVID', 'INFLUENZA', 'RSV', 'PNEUMOKOKKEN', 'SONSTIGE'];
+    const filtered = getDemographicsByRegion(bundesland, station);
     const byKW = {};
     filtered.forEach(row => {
         if (!row.date) return;
         const key = row.date.getTime();
         if (!byKW[key]) {
-            byKW[key] = { date: row.date, COVID: 0, INFLUENZA: 0, RSV: 0, PNEUMOKOKKEN: 0, SONSTIGE: 0 };
+            byKW[key] = Object.fromEntries([['date', row.date], ...SARI_CONFIG.diagnosen.map(d => [d, 0])]);
         }
-        diagnosen.forEach(d => { byKW[key][d] += row[d] || 0; });
+        SARI_CONFIG.diagnosen.forEach(d => { byKW[key][d] += row[d] || 0; });
     });
     return Object.values(byKW).sort((a, b) => a.date - b.date);
 }
@@ -885,6 +880,15 @@ function updateTimelineFillAndLabels(fromIdx, toIdx) {
     document.getElementById('demo-slider-label-to').textContent = formatTimelineLabel(demoTimelineWeeks[toIdx].date);
 }
 
+function scheduleDemoChartUpdate() {
+    if (demoChartUpdateScheduled) return;
+    demoChartUpdateScheduled = true;
+    requestAnimationFrame(() => {
+        demoChartUpdateScheduled = false;
+        createSariDemographicsChart();
+    });
+}
+
 function applyTimelineRangeFromSliders(fromIdx, toIdx) {
     if (demoTimelineWeeks.length === 0) return;
     const startDate = demoTimelineWeeks[fromIdx].date;
@@ -892,30 +896,22 @@ function applyTimelineRangeFromSliders(fromIdx, toIdx) {
     const isFullRange = fromIdx === 0 && toIdx === demoTimelineWeeks.length - 1;
     demoTimelineRange = isFullRange ? null : [startDate.toISOString().split('T')[0], endDate.toISOString().split('T')[0]];
     updateTimelineFillAndLabels(fromIdx, toIdx);
-    createSariDemographicsChart();
+    scheduleDemoChartUpdate();
 }
 
 function applyTimelinePreset(months) {
     if (demoTimelineWeeks.length === 0) return;
-    const fromInput = document.getElementById('demo-slider-from');
-    const toInput = document.getElementById('demo-slider-to');
     const max = demoTimelineWeeks.length - 1;
 
-    if (months === null) {
-        fromInput.value = 0;
-        toInput.value = max;
-        applyTimelineRangeFromSliders(0, max);
-        return;
+    let fromIdx = 0;
+    if (months !== null) {
+        const startDate = new Date(demoTimelineWeeks[max].date);
+        startDate.setMonth(startDate.getMonth() - months);
+        fromIdx = findClosestWeekIdx(startDate);
     }
-
-    const lastDate = demoTimelineWeeks[max].date;
-    const startDate = new Date(lastDate);
-    startDate.setMonth(startDate.getMonth() - months);
-    const fromIdx = findClosestWeekIdx(startDate);
-    const toIdx = max;
-    fromInput.value = fromIdx;
-    toInput.value = toIdx;
-    applyTimelineRangeFromSliders(fromIdx, toIdx);
+    document.getElementById('demo-slider-from').value = fromIdx;
+    document.getElementById('demo-slider-to').value = max;
+    applyTimelineRangeFromSliders(fromIdx, max);
 }
 
 function renderTimelineBars() {
@@ -968,7 +964,6 @@ function initDemoTimelineWidget() {
     });
 }
 
-// Rebuilds the timeline widget for the current bundesland/station selection
 function createDemoTimeline() {
     const bundesland = document.getElementById('sari-demo-bundesland').value;
     const station = document.getElementById('sari-demo-station').value;
@@ -1734,8 +1729,6 @@ function getSentinelWeekly() {
     return result;
 }
 
-// Calculates rolling Z-Scores for a weekly data object {week: value}
-// Uses a 52-week lookback window (minimum 8 weeks required)
 const ZSCORE_WINDOW = 26;
 const ZSCORE_MIN_WEEKS = 8;
 
@@ -1749,7 +1742,6 @@ function calculateZScores(weeklyData) {
         const currentValue = weeklyData[currentWeek];
         if (currentValue == null || isNaN(currentValue)) continue;
 
-        // Collect values from the lookback window (up to 52 weeks before current)
         const windowStart = Math.max(0, i - ZSCORE_WINDOW);
         const windowValues = [];
         for (let j = windowStart; j < i; j++) {
@@ -1842,9 +1834,9 @@ function createCombinedSignalChart() {
     const { combinedPerVirus, gesamt, sortedWeeks } = computeCombinedSignals();
 
     const virusConfig = {
-        sarscov2: { name: 'SARS-CoV-2', color: '#e87461' },
-        influenza: { name: 'Influenza', color: '#ffc600' },
-        rsv: { name: 'RSV', color: '#456990' }
+        sarscov2: { name: 'SARS-CoV-2', color: SARI_CONFIG.colors.COVID },
+        influenza: { name: 'Influenza', color: SARI_CONFIG.colors.INFLUENZA },
+        rsv: { name: 'RSV', color: SARI_CONFIG.colors.RSV }
     };
 
     const traces = [];
@@ -1924,7 +1916,9 @@ function createCombinedSignalChart() {
     Plotly.newPlot('combined-signal-chart', traces, layout, config);
 }
 
-// Initializes combined signal chart when all data sources are ready
+const SIGNAL_READY_POLL_MS = 200;
+const SIGNAL_READY_TIMEOUT_MS = 30_000;
+
 function initCombinedSignal() {
     const loading = document.getElementById('combined-signal-loading');
     const errorDiv = document.getElementById('combined-signal-error');
@@ -1945,9 +1939,9 @@ function initCombinedSignal() {
                 errorDiv.classList.remove('hidden');
             }
         }
-    }, 200);
+    }, SIGNAL_READY_POLL_MS);
 
-    // Timeout after 30 seconds - try with whatever data is available
+    // Fallback: render with whatever data arrived in time
     setTimeout(() => {
         clearInterval(checkAllData);
         if (loading && !loading.classList.contains('hidden')) {
@@ -1958,7 +1952,7 @@ function initCombinedSignal() {
                 errorDiv.classList.remove('hidden');
             }
         }
-    }, 30000);
+    }, SIGNAL_READY_TIMEOUT_MS);
 }
 
 document.addEventListener('DOMContentLoaded', initCombinedSignal);
