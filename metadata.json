@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-20T07:07:24.073800",
+  "last_updated": "2026-05-27T07:20:55.977922",
   "sources": {
     "ages": {
       "sarscov2": {
@@ -28,11 +28,11 @@
     "sari": {
       "krankenanstalt": {
         "status": "ok",
-        "rows": 2844
+        "rows": 2862
       },
       "patient": {
         "status": "ok",
-        "rows": 45504
+        "rows": 45792
       }
     }
   }
