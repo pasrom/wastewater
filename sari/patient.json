@@ -1,7 +1,7 @@
 {
   "source": "https://opendata-files.sozialversicherung.at/sari/SARI_Wohnregion_Patient_v202307.csv",
   "description": "SARI patient data",
-  "fetched_at": "2026-06-03T07:35:46.624135",
+  "fetched_at": "2026-06-10T07:23:40.887226",
   "columns": [
     "KW",
     "WOHNORT",
