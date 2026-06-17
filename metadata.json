@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-06-10T07:23:41.416901",
+  "last_updated": "2026-06-17T07:43:14.877480",
   "sources": {
     "ages": {
       "sarscov2": {
@@ -18,11 +18,11 @@
     "sentinel": {
       "heatmap": {
         "status": "ok",
-        "weeks": 95
+        "weeks": 97
       },
       "barchart": {
         "status": "ok",
-        "weeks": 105
+        "weeks": 107
       }
     },
     "sari": {
