@@ -218,7 +218,8 @@
             <p class="impressum">
                 Impressum: Roman P. |
                 <a href="mailto:smarts_toss6o@icloud.com">smarts_toss6o@icloud.com</a> |
-                <a href="https://github.com/pasrom" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://github.com/pasrom" target="_blank" rel="noopener">GitHub</a><span id="version" hidden> |
+                <a id="version-link" target="_blank" rel="noopener" title="Deployter Stand dieser Seite"></a></span>
             </p>
         </footer>
     </div>
@@ -1513,6 +1514,16 @@
             ],
             series
         }, { notMerge: true });
+    }
+
+    // Stamped by the deploy workflow. Stays a placeholder in a local checkout,
+    // where the footer link then simply stays hidden.
+    const COMMIT_SHA = '__COMMIT_SHA__';
+    if (/^[0-9a-f]{7,40}$/.test(COMMIT_SHA)) {
+        const link = document.getElementById('version-link');
+        link.textContent = COMMIT_SHA.slice(0, 7);
+        link.href = `https://github.com/pasrom/wastewater/commit/${COMMIT_SHA}`;
+        document.getElementById('version').hidden = false;
     }
 
     // ==================== Boot ====================
