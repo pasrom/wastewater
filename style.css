@@ -109,7 +109,8 @@ h1 {
     font-size: 0.9rem;
 }
 
-#location-selector {
+#location-selector,
+#incidence-region-selector {
     position: relative;
 }
 
@@ -179,7 +180,8 @@ h1 {
     top: 0;
 }
 
-#location-list {
+#location-list,
+#incidence-region-list {
     padding: 10px;
 }
 
@@ -204,6 +206,13 @@ h1 {
     cursor: pointer;
     flex: 1;
     font-size: 0.9rem;
+}
+
+.region-swatch {
+    width: 14px;
+    height: 3px;
+    border-radius: 2px;
+    flex-shrink: 0;
 }
 
 .location-item.austria {
@@ -296,7 +305,8 @@ footer .impressum a {
     margin-bottom: 8px;
 }
 
-#sari-controls {
+#sari-controls,
+#incidence-controls {
     display: flex;
     gap: 20px;
     margin-bottom: 20px;
@@ -718,6 +728,7 @@ footer .impressum a {
     }
 
     #sari-controls,
+    #incidence-controls,
     #sari-demographics-controls,
     #sari-heatmap-controls {
         flex-direction: column;

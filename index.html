@@ -95,26 +95,11 @@
                 <div id="sari-controls">
                     <div class="control-group">
                         <label for="sari-bundesland">Bundesland:</label>
-                        <select id="sari-bundesland" class="select-input">
-                            <option value="AT">Österreich (Gesamt)</option>
-                            <option value="W">Wien</option>
-                            <option value="NÖ">Niederösterreich</option>
-                            <option value="OÖ">Oberösterreich</option>
-                            <option value="S">Salzburg</option>
-                            <option value="T">Tirol</option>
-                            <option value="V">Vorarlberg</option>
-                            <option value="K">Kärnten</option>
-                            <option value="ST">Steiermark</option>
-                            <option value="BGL">Burgenland</option>
-                        </select>
+                        <select id="sari-bundesland" class="select-input"></select>
                     </div>
                     <div class="control-group">
                         <label for="sari-station">Station:</label>
-                        <select id="sari-station" class="select-input">
-                            <option value="ALL">Alle Stationen</option>
-                            <option value="N">Normalstation</option>
-                            <option value="I">Intensivstation</option>
-                        </select>
+                        <select id="sari-station" class="select-input"></select>
                     </div>
                 </div>
                 <div id="sari-chart-ec" class="ec-chart"></div>
@@ -123,7 +108,43 @@
             </div>
         </section>
 
-        <!-- 6. Aufnahmen nach Alter und Geschlecht -->
+        <!-- 6. SARI-Inzidenz pro 100.000 Einwohner -->
+        <section class="sari-section">
+            <header>
+                <h2>SARI-Inzidenz pro 100.000 Einwohner</h2>
+                <p class="subtitle">Bundesländer im Vergleich – nach Wohnregion der Patient:innen</p>
+            </header>
+            <div class="sari-content">
+                <div id="incidence-controls">
+                    <div class="control-group">
+                        <label>Bundesländer:</label>
+                        <div id="incidence-region-selector">
+                            <button id="toggle-incidence-regions" class="btn" type="button">Bundesländer auswählen</button>
+                            <div id="incidence-region-dropdown" class="dropdown hidden">
+                                <div class="dropdown-header">
+                                    <button id="incidence-select-all" class="btn-small" type="button">Alle</button>
+                                    <button id="incidence-select-none" class="btn-small" type="button">Keine</button>
+                                </div>
+                                <div id="incidence-region-list"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="incidence-diagnose">Diagnose:</label>
+                        <select id="incidence-diagnose" class="select-input"></select>
+                    </div>
+                    <div class="control-group">
+                        <label for="incidence-station">Station:</label>
+                        <select id="incidence-station" class="select-input"></select>
+                    </div>
+                </div>
+                <div id="sari-incidence-ec" class="ec-chart"></div>
+                <p class="footnote">*Da laufend mit Korrekturen und Nachmeldungen zu rechnen ist, kann sich der Datenbestand noch verändern.</p>
+                <div id="sari-incidence-loading" class="loading-msg">Lade Daten…</div>
+            </div>
+        </section>
+
+        <!-- 7. Aufnahmen nach Alter und Geschlecht -->
         <section class="sari-section">
             <header>
                 <h2>Aufnahmen nach Alter und Geschlecht</h2>
@@ -133,26 +154,11 @@
                 <div id="sari-demographics-controls">
                     <div class="control-group">
                         <label for="sari-demo-bundesland">Bundesland:</label>
-                        <select id="sari-demo-bundesland" class="select-input">
-                            <option value="AT">Österreich (Gesamt)</option>
-                            <option value="W">Wien</option>
-                            <option value="NÖ">Niederösterreich</option>
-                            <option value="OÖ">Oberösterreich</option>
-                            <option value="S">Salzburg</option>
-                            <option value="T">Tirol</option>
-                            <option value="V">Vorarlberg</option>
-                            <option value="K">Kärnten</option>
-                            <option value="ST">Steiermark</option>
-                            <option value="BGL">Burgenland</option>
-                        </select>
+                        <select id="sari-demo-bundesland" class="select-input"></select>
                     </div>
                     <div class="control-group">
                         <label for="sari-demo-station">Station:</label>
-                        <select id="sari-demo-station" class="select-input">
-                            <option value="ALL">Alle Stationen</option>
-                            <option value="N">Normalstation</option>
-                            <option value="I">Intensivstation</option>
-                        </select>
+                        <select id="sari-demo-station" class="select-input"></select>
                     </div>
                     <div class="control-group">
                         <label class="toggle-label">
@@ -169,7 +175,7 @@
             </div>
         </section>
 
-        <!-- 7. Altersgruppen-Heatmap -->
+        <!-- 8. Altersgruppen-Heatmap -->
         <section class="sari-section">
             <header>
                 <h2>Altersgruppen im Zeitverlauf</h2>
@@ -179,37 +185,15 @@
                 <div id="sari-heatmap-controls">
                     <div class="control-group">
                         <label for="sari-heatmap-bundesland">Bundesland:</label>
-                        <select id="sari-heatmap-bundesland" class="select-input">
-                            <option value="AT">Österreich (Gesamt)</option>
-                            <option value="W">Wien</option>
-                            <option value="NÖ">Niederösterreich</option>
-                            <option value="OÖ">Oberösterreich</option>
-                            <option value="S">Salzburg</option>
-                            <option value="T">Tirol</option>
-                            <option value="V">Vorarlberg</option>
-                            <option value="K">Kärnten</option>
-                            <option value="ST">Steiermark</option>
-                            <option value="BGL">Burgenland</option>
-                        </select>
+                        <select id="sari-heatmap-bundesland" class="select-input"></select>
                     </div>
                     <div class="control-group">
                         <label for="sari-heatmap-station">Station:</label>
-                        <select id="sari-heatmap-station" class="select-input">
-                            <option value="ALL">Alle Stationen</option>
-                            <option value="N">Normalstation</option>
-                            <option value="I">Intensivstation</option>
-                        </select>
+                        <select id="sari-heatmap-station" class="select-input"></select>
                     </div>
                     <div class="control-group">
                         <label for="sari-heatmap-diagnose">Diagnose:</label>
-                        <select id="sari-heatmap-diagnose" class="select-input">
-                            <option value="ALL">Alle SARI-Diagnosen</option>
-                            <option value="COVID">COVID-19</option>
-                            <option value="INFLUENZA">Influenza</option>
-                            <option value="RSV">RSV</option>
-                            <option value="PNEUMOKOKKEN">Pneumokokken</option>
-                            <option value="SONSTIGE">Sonstige SARI</option>
-                        </select>
+                        <select id="sari-heatmap-diagnose" class="select-input"></select>
                     </div>
                     <div class="control-group">
                         <label class="toggle-label">
@@ -263,11 +247,15 @@
         COVID: 'COVID-19', INFLUENZA: 'Influenza', RSV: 'RSV', PNEUMOKOKKEN: 'Pneumokokken', SONSTIGE: 'Sonstige SARI'
     };
     const SARI_DIAGNOSEN = ['COVID', 'INFLUENZA', 'PNEUMOKOKKEN', 'RSV', 'SONSTIGE'];
+    const HEATMAP_DIAGNOSE_NAMES = { ALL: 'Alle SARI-Diagnosen', ...SARI_DIAGNOSE_NAMES };
 
+    // Codes must match WOHNORT/BUNDESLAND in the SARI data (SBG/KTN, not S/K)
     const BUNDESLAND_NAMES = {
         AT: 'Österreich', W: 'Wien', 'NÖ': 'Niederösterreich', 'OÖ': 'Oberösterreich',
-        S: 'Salzburg', T: 'Tirol', V: 'Vorarlberg', K: 'Kärnten', ST: 'Steiermark', BGL: 'Burgenland'
+        SBG: 'Salzburg', T: 'Tirol', V: 'Vorarlberg', KTN: 'Kärnten', ST: 'Steiermark', BGL: 'Burgenland'
     };
+    // The selectors offer the same codes, but spell out that AT is the aggregate
+    const SARI_REGION_OPTIONS = { ...BUNDESLAND_NAMES, AT: 'Österreich (Gesamt)' };
     const STATION_NAMES = { ALL: 'Alle Stationen', N: 'Normalstation', I: 'Intensivstation' };
     const AGE_GROUPS_ORDER = ['0 - 4', '5 - 14', '15 - 29', '30 - 44', '45 - 59', '60 - 69', '70 - 79', '80+'];
 
@@ -334,7 +322,46 @@
         return `rgba(${(n>>16)&0xFF},${(n>>8)&0xFF},${n&0xFF},${alpha})`;
     }
 
-    function isoToYMD(d) { return d.toISOString().split('T')[0]; }
+    // Open/close plus Alle/Keine wiring shared by the checkbox dropdowns; each
+    // caller keeps its own list builder, since those differ in source and markup.
+    function setupCheckboxDropdown({ toggleId, dropdownId, allId, noneId, onAll, onNone, rebuild }) {
+        const toggle = document.getElementById(toggleId);
+        const dropdown = document.getElementById(dropdownId);
+        toggle.addEventListener('click', () => dropdown.classList.toggle('hidden'));
+        document.addEventListener('click', e => {
+            if (!toggle.contains(e.target) && !dropdown.contains(e.target)) dropdown.classList.add('hidden');
+        });
+        document.getElementById(allId).addEventListener('click', () => { onAll(); rebuild(); });
+        document.getElementById(noneId).addEventListener('click', () => { onNone(); rebuild(); });
+    }
+
+    // Local calendar date. The KW dates are built at local midnight, so going
+    // through toISOString() would report the previous day everywhere east of UTC.
+    function isoToYMD(d) {
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    }
+    // Build a <select> from a code->label map, so option values can never drift
+    // from the codes the data uses. Hand-written lists caused exactly that bug:
+    // Salzburg and Kärnten were S/K in the markup but SBG/KTN in the SARI feed,
+    // and every selection of them silently rendered an empty chart.
+    function fillSelect(id, labels) {
+        const el = document.getElementById(id);
+        el.innerHTML = '';
+        for (const [value, label] of Object.entries(labels)) {
+            const opt = document.createElement('option');
+            opt.value = value;
+            opt.textContent = label;
+            el.appendChild(opt);
+        }
+    }
+
+    // Shift a local YYYY-MM-DD string by whole days. Going through calendar fields
+    // lets the Date constructor normalise the under/overflow and avoids both the
+    // UTC round trip and the wall-clock drift setDate() shows across a DST change.
+    function shiftYMD(ymd, days) {
+        const [y, m, d] = ymd.split('-').map(Number);
+        return isoToYMD(new Date(y, m - 1, d + days));
+    }
     const isNarrow = () => window.innerWidth < 700;
     const narrowGrid = (top, bottom, right = 10) => ({ left: 5, right, top, bottom, containLabel: true });
     const xAxisInterval = arr => Math.max(0, Math.floor(arr.length / 20) - 1);
@@ -551,19 +578,12 @@
     }
 
     function setupLocationDropdown() {
-        const t = document.getElementById('toggle-locations');
-        const d = document.getElementById('location-dropdown');
-        t.addEventListener('click', () => d.classList.toggle('hidden'));
-        document.addEventListener('click', e => {
-            if (!t.contains(e.target) && !d.contains(e.target)) d.classList.add('hidden');
-        });
-        document.getElementById('select-all').addEventListener('click', () => {
-            wwSelectedLocations = new Set(dataPool.locations);
-            buildLocationList(); renderWastewater();
-        });
-        document.getElementById('select-none').addEventListener('click', () => {
-            wwSelectedLocations = new Set(['Österreich']);
-            buildLocationList(); renderWastewater();
+        setupCheckboxDropdown({
+            toggleId: 'toggle-locations', dropdownId: 'location-dropdown',
+            allId: 'select-all', noneId: 'select-none',
+            onAll: () => { wwSelectedLocations = new Set(dataPool.locations); },
+            onNone: () => { wwSelectedLocations = new Set(['Österreich']); },
+            rebuild: () => { buildLocationList(); renderWastewater(); }
         });
     }
 
@@ -646,13 +666,7 @@
         }
 
         // Cutoff: 2 weeks before last date
-        let cutoffMark = null;
-        if (dates.length > 0) {
-            const last = new Date(dates[dates.length - 1]);
-            const cutoff = new Date(last);
-            cutoff.setDate(cutoff.getDate() - 14);
-            cutoffMark = isoToYMD(cutoff);
-        }
+        const cutoffMark = dates.length > 0 ? shiftYMD(dates[dates.length - 1], -14) : null;
 
         const markLine = cutoffMark ? {
             silent: true,
@@ -713,7 +727,206 @@
         }).filter(r => r.date);
     }
 
-    // ==================== 6. SARI Demographics + Custom Slider ====================
+    // ==================== 6. SARI-Inzidenz pro 100.000 ====================
+    let incidenceChart = initChart('sari-incidence-ec');
+    let incidenceSelectedRegions = new Set(['AT']);
+
+    // Fixed slot per region: the colour follows the entity, so filtering the
+    // selection never repaints the remaining lines. Österreich is the reference
+    // line and wears ink rather than a categorical hue; that leaves 9 regions for
+    // 8 slots, so Burgenland folds back onto slot 1 with a dotted line instead of
+    // getting a made-up 9th hue.
+    const INCIDENCE_REGION_ORDER = ['AT', 'W', 'NÖ', 'OÖ', 'ST', 'T', 'KTN', 'SBG', 'V', 'BGL'];
+    const INCIDENCE_PALETTE = {
+        light: ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#008300', '#4a3aa7', '#e34948'],
+        dark:  ['#3987e5', '#d95926', '#199e70', '#c98500', '#d55181', '#008300', '#9085e9', '#e66767']
+    };
+    const INCIDENCE_INK = { light: '#52514e', dark: '#c3c2b7' };
+    const SWATCH_DASH = { dashed: 4, dotted: 2 };  // dash length per line type, in px
+    const INCIDENCE_DIAGNOSE_NAMES = { ALL: 'Alle SARI-Aufnahmen', ...SARI_DIAGNOSE_NAMES };
+
+    // Narrows effectiveTheme() to a palette key; anything unexpected reads as light
+    const themeMode = () => effectiveTheme() === 'dark' ? 'dark' : 'light';
+
+    // mode is hoisted by the callers so a whole render costs one localStorage read
+    function incidenceStyle(region, mode) {
+        const palette = INCIDENCE_PALETTE[mode];
+        if (region === 'AT') return { color: INCIDENCE_INK[mode], type: 'dashed', width: 2.5 };
+        const slot = INCIDENCE_REGION_ORDER.indexOf(region) - 1;
+        return slot < palette.length
+            ? { color: palette[slot], type: 'solid', width: 2 }
+            : { color: palette[0], type: 'dotted', width: 2 };
+    }
+
+    const incidencePopCache = new Map();
+    const incidenceCache = new Map();
+
+    // Denominator per week. Independent of diagnosis and station — the same
+    // age×gender group appears once per station carrying an identical BEV_ZAHL,
+    // so summing the column verbatim would double the population.
+    function incidencePopulation(region) {
+        const hit = incidencePopCache.get(region);
+        if (hit) return hit;
+        // Dedupe inside the week bucket rather than across the whole region: the
+        // group key stays short and each Set holds at most one week's groups.
+        const byWeek = new Map();
+        for (const row of getDemoByRegion(region, 'ALL')) {
+            const k = row.date.getTime();
+            let e = byWeek.get(k);
+            if (!e) { e = { pop: 0, seen: new Set() }; byWeek.set(k, e); }
+            const groupKey = `${row.WOHNORT}|${row.ALTERSGRUPPE}|${row.GESCHLECHT}`;
+            if (e.seen.has(groupKey)) continue;
+            e.seen.add(groupKey);
+            e.pop += row.BEV_ZAHL || 0;
+        }
+        const population = new Map([...byWeek].map(([k, e]) => [k, e.pop]));
+        incidencePopCache.set(region, population);
+        return population;
+    }
+
+    function aggregateIncidence(region, diagnose, station) {
+        const key = `${region}|${diagnose}|${station}`;
+        const hit = incidenceCache.get(key);
+        if (hit) return hit;
+
+        const population = incidencePopulation(region);
+        const cases = new Map();
+        for (const row of getDemoByRegion(region, station)) {
+            const k = row.date.getTime();
+            // AUFNAHMEN is not the sum of the diagnosis columns — a case can carry
+            // several diagnoses, so "alle Aufnahmen" needs its own column.
+            const n = (diagnose === 'ALL' ? row.AUFNAHMEN : row[diagnose]) || 0;
+            cases.set(k, (cases.get(k) || 0) + n);
+        }
+        const out = [...population.keys()].sort((a, b) => a - b).map(k => {
+            const pop = population.get(k);
+            return [isoToYMD(new Date(k)), pop > 0 ? ((cases.get(k) || 0) / pop) * 100000 : null];
+        });
+        incidenceCache.set(key, out);
+        return out;
+    }
+
+    function renderIncidence() {
+        const diagnose = document.getElementById('incidence-diagnose').value;
+        const station = document.getElementById('incidence-station').value;
+        const regions = INCIDENCE_REGION_ORDER.filter(r => incidenceSelectedRegions.has(r));
+
+        if (regions.length === 0) {
+            incidenceChart.clear();
+            incidenceChart.setOption({ title: { text: 'Kein Bundesland ausgewählt', left: 'center' } });
+            return;
+        }
+
+        const narrow = isNarrow();
+        const multi = regions.length > 1;
+        const mode = themeMode();
+        const series = regions.map(r => {
+            const st = incidenceStyle(r, mode);
+            return {
+                name: BUNDESLAND_NAMES[r], type: 'line', smooth: true, showSymbol: false,
+                data: aggregateIncidence(r, diagnose, station),
+                lineStyle: { color: st.color, width: st.width, type: st.type },
+                itemStyle: { color: st.color },
+                emphasis: { focus: 'series' },
+                labelLayout: { moveOverlap: 'shiftY', hideOverlap: false },
+                // Direct labels are the relief for the three light-mode hues below
+                // 3:1 contrast and double as secondary encoding for CVD-adjacent
+                // pairs, so they stay on for every series; shiftY spreads them
+                // instead of dropping any. No room for them on narrow screens.
+                endLabel: narrow
+                    ? { show: false }
+                    : { show: true, formatter: p => p.seriesName, color: st.color, fontSize: 11, offset: [4, 0] }
+            };
+        });
+
+        // Cutoff: 2 weeks before the last reported point
+        const lastDate = series.reduce((m, s) => {
+            const d = s.data.length ? s.data[s.data.length - 1][0] : null;
+            return d && (!m || d > m) ? d : m;
+        }, null);
+        if (lastDate) {
+            series[0] = {
+                ...series[0],
+                markLine: {
+                    silent: true, symbol: 'none',
+                    lineStyle: { color: '#666', type: 'dotted', width: 1 },
+                    label: { formatter: 'Daten bis hierher größtenteils gemeldet*', position: 'insideEndTop', color: '#666', fontSize: 11 },
+                    data: [{ xAxis: shiftYMD(lastDate, -14) }]
+                }
+            };
+        }
+
+        // A single region names itself in the heading; several are named by the legend.
+        const heading = multi ? 'SARI-Inzidenz pro 100.000' : `SARI-Inzidenz ${BUNDESLAND_NAMES[regions[0]]}`;
+        const subject = `${INCIDENCE_DIAGNOSE_NAMES[diagnose]} (${STATION_NAMES[station]})`;
+
+        incidenceChart.setOption({
+            title: {
+                text: heading + (narrow ? '\n' : ' – ') + subject,
+                left: 'center', textStyle: { fontSize: 14, fontWeight: 600 }
+            },
+            toolbox: TOOLBOX,
+            tooltip: { trigger: 'axis', valueFormatter: v => v == null ? '–' : (+v).toFixed(1) + ' /100.000' },
+            legend: multi
+                ? { top: narrow ? 50 : 30, type: 'scroll', data: series.map(s => s.name), padding: [5, 40, 5, 10] }
+                : { show: false },
+            grid: narrow
+                ? narrowGrid(multi ? 90 : 60, 90)
+                : { left: 60, right: 120, top: multi ? 80 : 60, bottom: 90, containLabel: true },
+            xAxis: { type: 'time', axisLine: { lineStyle: { color: '#bbb' } } },
+            yAxis: {
+                type: 'value', name: narrow ? '' : 'Aufnahmen pro 100.000 Einw.',
+                splitLine: { lineStyle: { color: '#eee' } }, axisLabel: { formatter: compactNumber }
+            },
+            dataZoom: [
+                { type: 'inside', start: 0, end: 100 },
+                { type: 'slider', height: 30, bottom: 10 }
+            ],
+            series
+        }, { notMerge: true });
+    }
+
+    function buildIncidenceRegionList() {
+        const list = document.getElementById('incidence-region-list');
+        const mode = themeMode();
+        list.innerHTML = '';
+        for (const code of INCIDENCE_REGION_ORDER) {
+            const item = document.createElement('label');
+            item.className = 'location-item' + (code === 'AT' ? ' austria' : '');
+            const cb = document.createElement('input');
+            cb.type = 'checkbox';
+            cb.value = code;
+            cb.checked = incidenceSelectedRegions.has(code);
+            cb.addEventListener('change', () => {
+                if (cb.checked) incidenceSelectedRegions.add(code); else incidenceSelectedRegions.delete(code);
+                renderIncidence();
+            });
+            // Carry the line type too: Burgenland shares Wien's hue and is told
+            // apart only by being dotted, so a plain colour bar would collide.
+            const st = incidenceStyle(code, mode);
+            const swatch = document.createElement('span');
+            swatch.className = 'region-swatch';
+            swatch.style.background = st.type === 'solid'
+                ? st.color
+                : `repeating-linear-gradient(90deg, ${st.color} 0 ${SWATCH_DASH[st.type]}px, transparent ${SWATCH_DASH[st.type]}px ${SWATCH_DASH[st.type] * 2}px)`;
+            item.appendChild(cb);
+            item.appendChild(swatch);
+            item.appendChild(document.createTextNode(' ' + BUNDESLAND_NAMES[code]));
+            list.appendChild(item);
+        }
+    }
+
+    function setupIncidenceDropdown() {
+        setupCheckboxDropdown({
+            toggleId: 'toggle-incidence-regions', dropdownId: 'incidence-region-dropdown',
+            allId: 'incidence-select-all', noneId: 'incidence-select-none',
+            onAll: () => { incidenceSelectedRegions = new Set(INCIDENCE_REGION_ORDER); },
+            onNone: () => { incidenceSelectedRegions = new Set(['AT']); },
+            rebuild: () => { buildIncidenceRegionList(); renderIncidence(); }
+        });
+    }
+
+    // ==================== 7. SARI Demographics + Custom Slider ====================
     let demoChart = initChart('sari-demographics-chart-ec');
     let demoTimelineRange = null;
     const demoRegionCache = new Map();
@@ -929,7 +1142,7 @@
         }).filter(r => r.date);
     }
 
-    // ==================== 7. SARI Altersgruppen-Heatmap ====================
+    // ==================== 8. SARI Altersgruppen-Heatmap ====================
     let ageHeatmapChart = initChart('sari-heatmap-ec');
 
     function aggregateAgeHeatmap(bundesland, station, diagnose) {
@@ -985,12 +1198,11 @@
             });
         });
 
-        const diagNamesFull = { ...SARI_DIAGNOSE_NAMES, ALL: 'Alle SARI-Diagnosen' };
         const narrow = isNarrow();
         const visualMapText = per100k ? 'pro 100k' : 'Aufnahmen';
         ageHeatmapChart.setOption({
             title: {
-                text: `${diagNamesFull[diagnose]} nach Altersgruppe — ${BUNDESLAND_NAMES[bundesland]}`,
+                text: `${HEATMAP_DIAGNOSE_NAMES[diagnose]} nach Altersgruppe — ${BUNDESLAND_NAMES[bundesland]}`,
                 left: 'center', textStyle: { fontSize: 16, fontWeight: 600 }
             },
             toolbox: TOOLBOX,
@@ -1305,13 +1517,22 @@
 
     // ==================== Boot ====================
     (async () => {
+        // Populate every selector before the first render reads its .value
+        ['sari-bundesland', 'sari-demo-bundesland', 'sari-heatmap-bundesland']
+            .forEach(id => fillSelect(id, SARI_REGION_OPTIONS));
+        ['sari-station', 'incidence-station', 'sari-demo-station', 'sari-heatmap-station']
+            .forEach(id => fillSelect(id, STATION_NAMES));
+        fillSelect('incidence-diagnose', INCIDENCE_DIAGNOSE_NAMES);
+        fillSelect('sari-heatmap-diagnose', HEATMAP_DIAGNOSE_NAMES);
+
         // Resize handling
-        let charts = [wwChart, combinedChart, sentinelBarChart, sentinelHeatChart, sariChart, demoChart, demoTimelineChart, ageHeatmapChart];
+        let charts = [wwChart, combinedChart, sentinelBarChart, sentinelHeatChart, sariChart, incidenceChart, demoChart, demoTimelineChart, ageHeatmapChart];
         const responsiveRenderers = [
             ['wastewater', renderWastewater],
             ['sari', renderSari],
             ['sentinelBar', renderSentinelBar],
             ['sentinelHeatmap', renderSentinelHeatmap],
+            ['sariDemo', renderIncidence],
             ['sariDemo', renderAgeHeatmap],
             ['sariDemo', renderDemographics]
         ];
@@ -1339,14 +1560,16 @@
             sentinelBarChart = initChart('sentinel-bar-ec');
             sentinelHeatChart = initChart('sentinel-heatmap-ec');
             sariChart = initChart('sari-chart-ec');
+            incidenceChart = initChart('sari-incidence-ec');
             demoChart = initChart('sari-demographics-chart-ec');
             demoTimelineChart = initChart('sari-demo-timeline-ec');
             ageHeatmapChart = initChart('sari-heatmap-ec');
-            charts = [wwChart, combinedChart, sentinelBarChart, sentinelHeatChart, sariChart, demoChart, demoTimelineChart, ageHeatmapChart];
+            charts = [wwChart, combinedChart, sentinelBarChart, sentinelHeatChart, sariChart, incidenceChart, demoChart, demoTimelineChart, ageHeatmapChart];
             for (const [dep, render] of responsiveRenderers) {
                 if (dataPool[dep]) render();
             }
-            if (dataPool.sariDemo) rebuildDemoTimeline();
+            // Swatch colours come from the theme-dependent palette
+            if (dataPool.sariDemo) { buildIncidenceRegionList(); rebuildDemoTimeline(); }
             if (dataPool.wastewater && dataPool.sari && dataPool.sentinelBar) renderCombinedSignal();
         }
         function setTheme(value, persist) {
@@ -1360,6 +1583,18 @@
         themeToggleBtn.addEventListener('click', () => {
             setTheme(effectiveTheme() === 'dark' ? 'light' : 'dark', true);
         });
+
+        // Wire up one section, hiding its loading message only once it actually rendered
+        function initSection(loadingId, setup) {
+            const el = document.getElementById(loadingId);
+            try {
+                setup();
+                el.style.display = 'none';
+            } catch (e) {
+                el.style.display = '';
+                el.textContent = 'Fehler: ' + e.message;
+            }
+        }
 
         // Load each data source in parallel; render sections as they arrive
         const tasks = [
@@ -1382,21 +1617,36 @@
                 bumpFreshness('SARI', lastFromRows(dataPool.sari));
             }).catch(e => { document.getElementById('sari-loading-ec').textContent = 'Fehler: ' + e.message; }),
 
+            // Sections 6, 7 and 8 all ride on this one feed, so each is guarded
+            // separately: one failing render must not leave a sibling stuck on
+            // "Lade Daten…" or make it report someone else's error.
             loadDemographics().then(() => {
-                document.getElementById('sari-demographics-loading-ec').style.display = 'none';
-                const refreshBoth = () => { rebuildDemoTimeline(); renderDemographics(); };
-                document.getElementById('sari-demo-bundesland').addEventListener('change', refreshBoth);
-                document.getElementById('sari-demo-station').addEventListener('change', refreshBoth);
-                document.getElementById('sari-demo-per100k').addEventListener('change', renderDemographics);
-                rebuildDemoTimeline();
-                renderDemographics();
-                // Section 7 also depends on demographics data
-                document.getElementById('sari-heatmap-loading-ec').style.display = 'none';
-                ['sari-heatmap-bundesland', 'sari-heatmap-station', 'sari-heatmap-diagnose', 'sari-heatmap-per100k']
-                    .forEach(id => document.getElementById(id).addEventListener('change', renderAgeHeatmap));
-                renderAgeHeatmap();
+                initSection('sari-incidence-loading', () => {
+                    setupIncidenceDropdown();
+                    buildIncidenceRegionList();
+                    ['incidence-diagnose', 'incidence-station']
+                        .forEach(id => document.getElementById(id).addEventListener('change', renderIncidence));
+                    renderIncidence();
+                });
+                initSection('sari-demographics-loading-ec', () => {
+                    const refreshBoth = () => { rebuildDemoTimeline(); renderDemographics(); };
+                    document.getElementById('sari-demo-bundesland').addEventListener('change', refreshBoth);
+                    document.getElementById('sari-demo-station').addEventListener('change', refreshBoth);
+                    document.getElementById('sari-demo-per100k').addEventListener('change', renderDemographics);
+                    rebuildDemoTimeline();
+                    renderDemographics();
+                });
+                initSection('sari-heatmap-loading-ec', () => {
+                    ['sari-heatmap-bundesland', 'sari-heatmap-station', 'sari-heatmap-diagnose', 'sari-heatmap-per100k']
+                        .forEach(id => document.getElementById(id).addEventListener('change', renderAgeHeatmap));
+                    renderAgeHeatmap();
+                });
                 bumpFreshness('SARI', lastFromRows(dataPool.sariDemo));
-            }).catch(e => { document.getElementById('sari-demographics-loading-ec').textContent = 'Fehler: ' + e.message; }),
+            }).catch(e => {
+                // The fetch itself failed — every section on this feed stays empty
+                ['sari-incidence-loading', 'sari-demographics-loading-ec', 'sari-heatmap-loading-ec']
+                    .forEach(id => { document.getElementById(id).textContent = 'Fehler: ' + e.message; });
+            }),
 
             loadSentinelBar().then(() => {
                 document.getElementById('sentinel-bar-loading').style.display = 'none';
