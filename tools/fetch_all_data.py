@@ -66,12 +66,58 @@ SARI_URLS = {
     'patient': f'{SARI_BASE}/SARI_Wohnregion_Patient_v202602.csv',
 }
 
-# A healthy feed sits at age 1: the newest week is the Monday just gone, and the
-# job runs the following Wednesday. 2 means one missed publication is tolerated
-# and the second one raises the alarm.
-SARI_STALE_AFTER_WEEKS = 2
+# A healthy feed sits at age 1: its newest week is the Monday just gone and the
+# job runs the following Wednesday. 2 tolerates one missed publication and raises
+# the alarm on the second. Per source because the cadences may diverge.
+STALE_AFTER_WEEKS = {'ages': 2, 'sentinel': 2, 'sari': 2}
 
 REQUEST_TIMEOUT = 30
+
+
+# =============================================================================
+# Freshness
+# =============================================================================
+
+def check_freshness(source: str, name: str, newest: str | None) -> dict:
+    """Age a feed's newest data point and flag it once publication has stopped.
+
+    A frozen source keeps answering HTTP 200 with its full history, so nothing
+    else in the pipeline notices. This is the only signal that it went quiet -
+    the SARI feed sat frozen for nine weeks behind green weekly runs.
+    """
+    if newest is None:
+        return {'latest_week': None, 'age_weeks': None, 'stale': False}
+
+    age_weeks = (datetime.now() - datetime.strptime(newest, '%Y-%m-%d')).days // 7
+    stale = age_weeks > STALE_AFTER_WEEKS.get(source, 2)
+    if stale:
+        # ::warning:: lands on the run summary; a bare print is invisible in a cron
+        print(f"::warning::{source} {name} has had no new week for {age_weeks} weeks "
+              f"(newest {newest}) - check whether the source moved to a newer file version")
+    return {'latest_week': newest, 'age_weeks': age_weeks, 'stale': stale}
+
+
+def week_label_to_date(label: str) -> str | None:
+    """'KW31/2026' -> ISO date of that week's Monday."""
+    match = re.match(r'KW(\d+)/(\d+)', label or '')
+    if not match:
+        return None
+    try:
+        return datetime.fromisocalendar(int(match.group(2)), int(match.group(1)), 1).strftime('%Y-%m-%d')
+    except ValueError:
+        return None
+
+
+def latest_plotly_date(payload: dict) -> str | None:
+    """Newest x value across all traces of an AGES plotly export."""
+    dates = [x[:10] for trace in payload.get('data', []) for x in (trace.get('x') or [])
+             if isinstance(x, str) and re.match(r'\d{4}-\d{2}-\d{2}', x)]
+    return max(dates) if dates else None
+
+
+def section_failed(section: dict) -> bool:
+    """A hard error or a feed that stopped publishing both fail the run."""
+    return any(r.get('status') == 'error' or r.get('stale') for r in section.values())
 
 
 # =============================================================================
@@ -97,7 +143,8 @@ def fetch_ages_data(output_dir: Path) -> dict:
                 json.dump(data, f, indent=2, ensure_ascii=False)
 
             print(f"  Saved: {output_file}")
-            results[name] = {'status': 'ok', 'file': str(output_file)}
+            results[name] = {'status': 'ok', 'file': str(output_file),
+                             **check_freshness('ages', name, latest_plotly_date(data))}
 
         except requests.RequestException as e:
             print(f"  Error fetching {name}: {e}")
@@ -155,7 +202,11 @@ def fetch_sentinel_data(output_dir: Path) -> dict:
             json.dump(merged, f, indent=2, ensure_ascii=False)
 
         print(f"  Saved: {output_file} ({len(merged['weeks'])} weeks)")
-        results['heatmap'] = {'status': 'ok', 'weeks': len(merged['weeks'])}
+        # merge_with_existing keeps history, so a frozen SVG still yields a
+        # full-looking file - the freshness check is the only thing that notices
+        results['heatmap'] = {'status': 'ok', 'weeks': len(merged['weeks']),
+                              **check_freshness('sentinel', 'heatmap',
+                                                week_label_to_date(merged['weeks'][-1] if merged['weeks'] else ''))}
 
     except Exception as e:
         print(f"  Error fetching heatmap: {e}")
@@ -201,7 +252,9 @@ def fetch_sentinel_data(output_dir: Path) -> dict:
             json.dump(merged, f, indent=2, ensure_ascii=False)
 
         print(f"  Saved: {output_file} ({len(merged['weeks'])} weeks)")
-        results['barchart'] = {'status': 'ok', 'weeks': len(merged['weeks'])}
+        results['barchart'] = {'status': 'ok', 'weeks': len(merged['weeks']),
+                               **check_freshness('sentinel', 'barchart',
+                                                 week_label_to_date(merged['weeks'][-1] if merged['weeks'] else ''))}
 
     except Exception as e:
         print(f"  Error fetching bar chart: {e}")
@@ -320,8 +373,7 @@ def fetch_sari_data(output_dir: Path) -> dict:
                     f"none of the {len(rows)} parsed rows carry a usable week - "
                     "refusing to overwrite; has the CSV format changed?")
 
-            age_weeks = (datetime.now() - datetime.strptime(newest, '%Y-%m-%d')).days // 7
-            stale = age_weeks > SARI_STALE_AFTER_WEEKS
+            freshness = check_freshness('sari', name, newest)
 
             output = {
                 'source': url,
@@ -339,14 +391,7 @@ def fetch_sari_data(output_dir: Path) -> dict:
                 json.dump(output, f, indent=2, ensure_ascii=False)
 
             print(f"  Saved: {output_file} ({len(rows)} rows, newest {newest})")
-            results[name] = {'status': 'stale' if stale else 'ok', 'rows': len(rows),
-                             'latest_week': newest, 'age_weeks': age_weeks}
-
-            if stale:
-                # ::warning:: surfaces on the run summary; a bare print is invisible
-                # in a green weekly cron, which is how nine weeks went unnoticed.
-                print(f"::warning::SARI {name} has had no new week for {age_weeks} weeks "
-                      f"(newest {newest}) - check whether the source moved to a newer file version")
+            results[name] = {'status': 'ok', 'rows': len(rows), **freshness}
 
         except Exception as e:
             print(f"  Error fetching {name}: {e}")
@@ -411,28 +456,27 @@ def main():
     results = {}
     errors = False
 
+    # A stale feed fails the run just like a hard error. The data still publishes
+    # fine, so a passive log line goes unread - exactly as it did for nine weeks.
+    # The workflow pushes anyway, so one dead source cannot block the others.
+
     # 1. AGES Wastewater
     if not args.skip_ages:
         print("\n=== AGES Wastewater Data ===")
         results['ages'] = fetch_ages_data(args.output_dir)
-        if any(r.get('status') == 'error' for r in results['ages'].values()):
-            errors = True
+        errors = section_failed(results['ages']) or errors
 
     # 2. MedUni Sentinel
     if not args.skip_sentinel:
         print("\n=== MedUni Wien Sentinel Data ===")
         results['sentinel'] = fetch_sentinel_data(args.output_dir)
-        if any(r.get('status') == 'error' for r in results['sentinel'].values()):
-            errors = True
+        errors = section_failed(results['sentinel']) or errors
 
     # 3. SARI
     if not args.skip_sari:
         print("\n=== SARI Hospital Data ===")
         results['sari'] = fetch_sari_data(args.output_dir)
-        # 'stale' fails the run too: the data still publishes fine, so a passive
-        # log line would go unread exactly as it did for nine weeks
-        if any(r.get('status') in ('error', 'stale') for r in results['sari'].values()):
-            errors = True
+        errors = section_failed(results['sari']) or errors
 
     # 4. Metadata
     print("\n=== Metadata ===")

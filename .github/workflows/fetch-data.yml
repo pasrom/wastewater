@@ -50,6 +50,11 @@ jobs:
         run: python fetch_all_data.py --output-dir ../../data/
 
       - name: Commit and push data
+        # Runs even when the fetch failed the run, e.g. because one source stopped
+        # publishing: the other feeds are still fresh and must reach the dashboard.
+        # The job stays red, so the stale source is not silently tolerated.
+        # Not always(): a cancelled job may have been interrupted mid-write.
+        if: success() || failure()
         run: |
           cd data
           git config user.name github-actions
