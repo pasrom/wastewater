@@ -66,8 +66,10 @@ SARI_URLS = {
     'patient': f'{SARI_BASE}/SARI_Wohnregion_Patient_v202602.csv',
 }
 
-# Warn when a feed's newest week is older than this
-SARI_STALE_AFTER_WEEKS = 3
+# A healthy feed sits at age 1: the newest week is the Monday just gone, and the
+# job runs the following Wednesday. 2 means one missed publication is tolerated
+# and the second one raises the alarm.
+SARI_STALE_AFTER_WEEKS = 2
 
 REQUEST_TIMEOUT = 30
 
@@ -212,19 +214,15 @@ def fetch_sentinel_data(output_dir: Path) -> dict:
 # SARI Data Fetching (CSV → JSON)
 # =============================================================================
 
-def monday_of_iso_week(year: int, week: int) -> datetime:
-    """Monday of the given ISO week. ISO 8601: week 1 holds the first Thursday."""
-    jan4 = datetime(year, 1, 4)
-    monday_kw1 = jan4 - timedelta(days=jan4.weekday())
-    return monday_kw1 + timedelta(weeks=week - 1)
-
-
 def parse_kw_to_date(kw_string: str) -> str | None:
     """Convert '19. KW 2023' to ISO date string (Monday of that week)."""
     match = re.match(r'(\d+)\.\s*KW\s*(\d+)', kw_string)
     if not match:
         return None
-    return monday_of_iso_week(int(match.group(2)), int(match.group(1))).strftime('%Y-%m-%d')
+    try:
+        return datetime.fromisocalendar(int(match.group(2)), int(match.group(1)), 1).strftime('%Y-%m-%d')
+    except ValueError:
+        return None
 
 
 def normalise_week(row: dict) -> None:
@@ -233,39 +231,64 @@ def normalise_week(row: dict) -> None:
     The v202602 files carry JAHR and a numeric KW; the older ones packed both
     into '19. KW 2023'. Normalising here keeps the emitted JSON identical for
     both, so the dashboard needs no knowledge of which file version it came from.
+    A row that fits neither shape keeps its KW untouched and gets date=None,
+    which fetch_sari_data counts and refuses to publish.
     """
-    if row.get('JAHR'):
+    if 'JAHR' in row:
+        # Read before mutating, and fall back to the packed form: a file that
+        # keeps JAHR but reverts KW would otherwise lose a parsable week.
+        jahr, kw = row.get('JAHR'), row.get('KW')
         try:
-            year, week = int(row.pop('JAHR')), int(row['KW'])
+            year, week = int(jahr), int(kw)
+            date = datetime.fromisocalendar(year, week, 1)
         except (TypeError, ValueError):
-            row.pop('JAHR', None)
-            row['date'] = None
+            row.pop('JAHR')
+            row['date'] = parse_kw_to_date(kw) if isinstance(kw, str) else None
             return
+        row.pop('JAHR')
         row['KW'] = f'{week}. KW {year}'
-        row['date'] = monday_of_iso_week(year, week).strftime('%Y-%m-%d')
+        row['date'] = date.strftime('%Y-%m-%d')
     elif 'KW' in row:
         row['date'] = parse_kw_to_date(row['KW'])
-
-
-def payload_unchanged(rows: list, output_file: Path) -> bool:
-    """True when the fetched rows match what is already on disk.
-
-    Only 'fetched_at' would differ then, and rewriting the file for that alone
-    produces a commit per run - which is how the v202307 feed went unnoticed for
-    nine weeks while the history kept showing weekly 'update data' commits.
-    """
-    if not output_file.exists():
-        return False
-    try:
-        with open(output_file, encoding='utf-8') as f:
-            return json.load(f).get('data') == rows
-    except (json.JSONDecodeError, OSError):
-        return False
 
 
 def latest_week(rows: list) -> str | None:
     dates = [r['date'] for r in rows if r.get('date')]
     return max(dates) if dates else None
+
+
+def parse_sari_csv(text: str) -> tuple[list, list, int]:
+    """Parse a semicolon-separated SARI export into rows, header and drop count.
+
+    Kept free of I/O so both file layouts can be exercised from a fixture - an
+    upstream format change is what went undetected for nine weeks.
+    """
+    lines = text.strip().split('\n')
+    if len(lines) < 2:
+        raise ValueError("CSV has no data rows")
+
+    headers = [h.strip().replace('"', '') for h in lines[0].split(';')]
+    rows, dropped = [], 0
+
+    for line in lines[1:]:
+        values = [v.strip().replace('"', '') for v in line.split(';')]
+        if len(values) != len(headers):
+            dropped += 1
+            continue
+
+        row = dict(zip(headers, values))
+        for col in ['COVID', 'INFLUENZA', 'RSV', 'PNEUMOKOKKEN',
+                    'SONSTIGE', 'AUFNAHMEN', 'BEV_ZAHL']:
+            if col in row and row[col]:
+                try:
+                    row[col] = int(row[col])
+                except ValueError:
+                    row[col] = 0
+
+        normalise_week(row)
+        rows.append(row)
+
+    return rows, headers, dropped
 
 
 def fetch_sari_data(output_dir: Path) -> dict:
@@ -280,68 +303,49 @@ def fetch_sari_data(output_dir: Path) -> dict:
         try:
             response = requests.get(url, timeout=REQUEST_TIMEOUT)
             response.raise_for_status()
+            # Decode explicitly: the server sends application/octet-stream with no
+            # charset, so requests guesses, and a BOM would end up inside the first
+            # header name - silently turning JAHR into a column nothing matches.
+            rows, headers, dropped = parse_sari_csv(response.content.decode('utf-8-sig'))
 
-            # Parse CSV (semicolon-separated)
-            lines = response.text.strip().split('\n')
-            if len(lines) < 2:
-                raise ValueError("CSV has no data rows")
+            if dropped:
+                print(f"  Note: skipped {dropped} rows with an unexpected field count")
 
-            headers = [h.strip().replace('"', '') for h in lines[0].split(';')]
-            rows = []
-
-            for line in lines[1:]:
-                values = [v.strip().replace('"', '') for v in line.split(';')]
-                if len(values) != len(headers):
-                    continue
-
-                row = dict(zip(headers, values))
-
-                # Convert numeric columns
-                for col in ['COVID', 'INFLUENZA', 'RSV', 'PNEUMOKOKKEN',
-                            'SONSTIGE', 'AUFNAHMEN', 'BEV_ZAHL']:
-                    if col in row and row[col]:
-                        try:
-                            row[col] = int(row[col])
-                        except ValueError:
-                            row[col] = 0
-
-                normalise_week(row)
-                rows.append(row)
-
-            if not rows:
-                raise ValueError("no parsable rows - has the CSV format changed?")
-
+            # Refuse to publish rows we could not date. Without this, a maintenance
+            # page served as HTTP 200 parses into a handful of dateless rows, passes
+            # every other check, and overwrites good data with a green build.
             newest = latest_week(rows)
-            age_weeks = None
-            if newest:
-                age = datetime.now() - datetime.strptime(newest, '%Y-%m-%d')
-                age_weeks = age.days // 7
+            if newest is None:
+                raise ValueError(
+                    f"none of the {len(rows)} parsed rows carry a usable week - "
+                    "refusing to overwrite; has the CSV format changed?")
+
+            age_weeks = (datetime.now() - datetime.strptime(newest, '%Y-%m-%d')).days // 7
+            stale = age_weeks > SARI_STALE_AFTER_WEEKS
+
+            output = {
+                'source': url,
+                'description': f'SARI {name} data',
+                # No fetch timestamp: it would make the file differ on every run,
+                # so `git log -- sari/patient.json` could no longer distinguish a
+                # real update from a frozen feed. metadata.json records the run.
+                'columns': headers,
+                'row_count': len(rows),
+                'latest_week': newest,
+                'data': rows
+            }
             output_file = sari_dir / f'{name}.json'
+            with open(output_file, 'w', encoding='utf-8') as f:
+                json.dump(output, f, indent=2, ensure_ascii=False)
 
-            # Leave the file alone when nothing changed, so the git history of
-            # the data branch reflects real updates rather than the timestamp
-            if payload_unchanged(rows, output_file):
-                print(f"  Unchanged: {output_file} ({len(rows)} rows, newest {newest})")
-                results[name] = {'status': 'unchanged', 'rows': len(rows),
-                                 'latest_week': newest, 'age_weeks': age_weeks}
-            else:
-                output = {
-                    'source': url,
-                    'description': f'SARI {name} data',
-                    'fetched_at': datetime.now().isoformat(),
-                    'columns': list(rows[0].keys()),
-                    'row_count': len(rows),
-                    'data': rows
-                }
-                with open(output_file, 'w', encoding='utf-8') as f:
-                    json.dump(output, f, indent=2, ensure_ascii=False)
+            print(f"  Saved: {output_file} ({len(rows)} rows, newest {newest})")
+            results[name] = {'status': 'stale' if stale else 'ok', 'rows': len(rows),
+                             'latest_week': newest, 'age_weeks': age_weeks}
 
-                print(f"  Saved: {output_file} ({len(rows)} rows, newest {newest})")
-                results[name] = {'status': 'ok', 'rows': len(rows),
-                                 'latest_week': newest, 'age_weeks': age_weeks}
-
-            if age_weeks is not None and age_weeks > SARI_STALE_AFTER_WEEKS:
-                print(f"  WARNING: {name} has had no new week for {age_weeks} weeks "
+            if stale:
+                # ::warning:: surfaces on the run summary; a bare print is invisible
+                # in a green weekly cron, which is how nine weeks went unnoticed.
+                print(f"::warning::SARI {name} has had no new week for {age_weeks} weeks "
                       f"(newest {newest}) - check whether the source moved to a newer file version")
 
         except Exception as e:
@@ -425,7 +429,9 @@ def main():
     if not args.skip_sari:
         print("\n=== SARI Hospital Data ===")
         results['sari'] = fetch_sari_data(args.output_dir)
-        if any(r.get('status') == 'error' for r in results['sari'].values()):
+        # 'stale' fails the run too: the data still publishes fine, so a passive
+        # log line would go unread exactly as it did for nine weeks
+        if any(r.get('status') in ('error', 'stale') for r in results['sari'].values()):
             errors = True
 
     # 4. Metadata
