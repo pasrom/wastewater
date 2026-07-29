@@ -57,10 +57,17 @@ AGES_URLS = {
 }
 
 SARI_BASE = 'https://opendata-files.sozialversicherung.at/sari'
+# v202602 replaced v202307 in 2026. The v202307 files still answer with HTTP 200
+# but stopped being filled after KW 22/2026, so a stale feed looks like a healthy
+# one - see the unchanged-payload check below. The new files split the year into
+# its own JAHR column and reduced KW to a plain number.
 SARI_URLS = {
-    'krankenanstalt': f'{SARI_BASE}/SARI_Region_Krankenanstalt_v202307.csv',
-    'patient': f'{SARI_BASE}/SARI_Wohnregion_Patient_v202307.csv',
+    'krankenanstalt': f'{SARI_BASE}/SARI_Region_Krankenanstalt_v202602.csv',
+    'patient': f'{SARI_BASE}/SARI_Wohnregion_Patient_v202602.csv',
 }
+
+# Warn when a feed's newest week is older than this
+SARI_STALE_AFTER_WEEKS = 3
 
 REQUEST_TIMEOUT = 30
 
@@ -205,22 +212,60 @@ def fetch_sentinel_data(output_dir: Path) -> dict:
 # SARI Data Fetching (CSV → JSON)
 # =============================================================================
 
+def monday_of_iso_week(year: int, week: int) -> datetime:
+    """Monday of the given ISO week. ISO 8601: week 1 holds the first Thursday."""
+    jan4 = datetime(year, 1, 4)
+    monday_kw1 = jan4 - timedelta(days=jan4.weekday())
+    return monday_kw1 + timedelta(weeks=week - 1)
+
+
 def parse_kw_to_date(kw_string: str) -> str | None:
     """Convert '19. KW 2023' to ISO date string (Monday of that week)."""
     match = re.match(r'(\d+)\.\s*KW\s*(\d+)', kw_string)
     if not match:
         return None
+    return monday_of_iso_week(int(match.group(2)), int(match.group(1))).strftime('%Y-%m-%d')
 
-    week = int(match.group(1))
-    year = int(match.group(2))
 
-    # ISO 8601: Week 1 contains the first Thursday of the year
-    jan4 = datetime(year, 1, 4)
-    day_of_week = jan4.weekday()  # 0 = Monday
-    monday_kw1 = jan4 - timedelta(days=day_of_week)
-    target_monday = monday_kw1 + timedelta(weeks=week - 1)
+def normalise_week(row: dict) -> None:
+    """Give every row a legacy 'KW' string plus an ISO 'date', in place.
 
-    return target_monday.strftime('%Y-%m-%d')
+    The v202602 files carry JAHR and a numeric KW; the older ones packed both
+    into '19. KW 2023'. Normalising here keeps the emitted JSON identical for
+    both, so the dashboard needs no knowledge of which file version it came from.
+    """
+    if row.get('JAHR'):
+        try:
+            year, week = int(row.pop('JAHR')), int(row['KW'])
+        except (TypeError, ValueError):
+            row.pop('JAHR', None)
+            row['date'] = None
+            return
+        row['KW'] = f'{week}. KW {year}'
+        row['date'] = monday_of_iso_week(year, week).strftime('%Y-%m-%d')
+    elif 'KW' in row:
+        row['date'] = parse_kw_to_date(row['KW'])
+
+
+def payload_unchanged(rows: list, output_file: Path) -> bool:
+    """True when the fetched rows match what is already on disk.
+
+    Only 'fetched_at' would differ then, and rewriting the file for that alone
+    produces a commit per run - which is how the v202307 feed went unnoticed for
+    nine weeks while the history kept showing weekly 'update data' commits.
+    """
+    if not output_file.exists():
+        return False
+    try:
+        with open(output_file, encoding='utf-8') as f:
+            return json.load(f).get('data') == rows
+    except (json.JSONDecodeError, OSError):
+        return False
+
+
+def latest_week(rows: list) -> str | None:
+    dates = [r['date'] for r in rows if r.get('date')]
+    return max(dates) if dates else None
 
 
 def fetch_sari_data(output_dir: Path) -> dict:
@@ -260,28 +305,44 @@ def fetch_sari_data(output_dir: Path) -> dict:
                         except ValueError:
                             row[col] = 0
 
-                # Add ISO date
-                if 'KW' in row:
-                    row['date'] = parse_kw_to_date(row['KW'])
-
+                normalise_week(row)
                 rows.append(row)
 
-            # Create output structure
-            output = {
-                'source': url,
-                'description': f'SARI {name} data',
-                'fetched_at': datetime.now().isoformat(),
-                'columns': headers,
-                'row_count': len(rows),
-                'data': rows
-            }
+            if not rows:
+                raise ValueError("no parsable rows - has the CSV format changed?")
 
+            newest = latest_week(rows)
+            age_weeks = None
+            if newest:
+                age = datetime.now() - datetime.strptime(newest, '%Y-%m-%d')
+                age_weeks = age.days // 7
             output_file = sari_dir / f'{name}.json'
-            with open(output_file, 'w', encoding='utf-8') as f:
-                json.dump(output, f, indent=2, ensure_ascii=False)
 
-            print(f"  Saved: {output_file} ({len(rows)} rows)")
-            results[name] = {'status': 'ok', 'rows': len(rows)}
+            # Leave the file alone when nothing changed, so the git history of
+            # the data branch reflects real updates rather than the timestamp
+            if payload_unchanged(rows, output_file):
+                print(f"  Unchanged: {output_file} ({len(rows)} rows, newest {newest})")
+                results[name] = {'status': 'unchanged', 'rows': len(rows),
+                                 'latest_week': newest, 'age_weeks': age_weeks}
+            else:
+                output = {
+                    'source': url,
+                    'description': f'SARI {name} data',
+                    'fetched_at': datetime.now().isoformat(),
+                    'columns': list(rows[0].keys()),
+                    'row_count': len(rows),
+                    'data': rows
+                }
+                with open(output_file, 'w', encoding='utf-8') as f:
+                    json.dump(output, f, indent=2, ensure_ascii=False)
+
+                print(f"  Saved: {output_file} ({len(rows)} rows, newest {newest})")
+                results[name] = {'status': 'ok', 'rows': len(rows),
+                                 'latest_week': newest, 'age_weeks': age_weeks}
+
+            if age_weeks is not None and age_weeks > SARI_STALE_AFTER_WEEKS:
+                print(f"  WARNING: {name} has had no new week for {age_weeks} weeks "
+                      f"(newest {newest}) - check whether the source moved to a newer file version")
 
         except Exception as e:
             print(f"  Error fetching {name}: {e}")
