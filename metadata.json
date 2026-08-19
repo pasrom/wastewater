@@ -1,25 +1,25 @@
 {
-  "last_updated": "2026-08-12T06:26:12.453555",
+  "last_updated": "2026-08-19T06:06:23.947837",
   "sources": {
     "ages": {
       "sarscov2": {
         "status": "ok",
         "file": "../../data/ages/sarscov2.json",
-        "latest_week": "2026-08-03",
+        "latest_week": "2026-08-10",
         "age_weeks": 1,
         "stale": false
       },
       "influenza": {
         "status": "ok",
         "file": "../../data/ages/influenza.json",
-        "latest_week": "2026-08-03",
+        "latest_week": "2026-08-10",
         "age_weeks": 1,
         "stale": false
       },
       "rsv": {
         "status": "ok",
         "file": "../../data/ages/rsv.json",
-        "latest_week": "2026-08-03",
+        "latest_week": "2026-08-10",
         "age_weeks": 1,
         "stale": false
       }
@@ -27,31 +27,31 @@
     "sentinel": {
       "heatmap": {
         "status": "ok",
-        "weeks": 104,
-        "latest_week": "2026-08-03",
-        "age_weeks": 1,
+        "weeks": 106,
+        "latest_week": "2026-08-17",
+        "age_weeks": 0,
         "stale": false
       },
       "barchart": {
         "status": "ok",
-        "weeks": 114,
-        "latest_week": "2026-08-03",
-        "age_weeks": 1,
+        "weeks": 116,
+        "latest_week": "2026-08-17",
+        "age_weeks": 0,
         "stale": false
       }
     },
     "sari": {
       "krankenanstalt": {
         "status": "ok",
-        "rows": 3060,
-        "latest_week": "2026-08-03",
+        "rows": 3078,
+        "latest_week": "2026-08-10",
         "age_weeks": 1,
         "stale": false
       },
       "patient": {
         "status": "ok",
-        "rows": 48960,
-        "latest_week": "2026-08-03",
+        "rows": 49248,
+        "latest_week": "2026-08-10",
         "age_weeks": 1,
         "stale": false
       }

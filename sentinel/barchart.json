@@ -128,7 +128,9 @@
     "KW29/2026",
     "KW30/2026",
     "KW31/2026",
-    "KW32/2026"
+    "KW32/2026",
+    "KW33/2026",
+    "KW34/2026"
   ],
   "data": {
     "KW23/2024": {
@@ -1575,6 +1577,32 @@
       "ParaInfluenza": 0,
       "RSV": 0,
       "Rhino": 4.0
+    },
+    "KW33/2026": {
+      "Adeno": 0,
+      "Corona": 1.0,
+      "Covid-19": 1.0,
+      "Entero": 0,
+      "Inf_A": 1.0,
+      "Inf_B": 0,
+      "Inf_C": 0,
+      "Metapneumo_V": 0,
+      "ParaInfluenza": 2.0,
+      "RSV": 0,
+      "Rhino": 6.0
+    },
+    "KW34/2026": {
+      "Adeno": 2.0,
+      "Corona": 0,
+      "Covid-19": 2.0,
+      "Entero": 1.0,
+      "Inf_A": 2.0,
+      "Inf_B": 0,
+      "Inf_C": 0,
+      "Metapneumo_V": 1.0,
+      "ParaInfluenza": 0,
+      "RSV": 0,
+      "Rhino": 7.0
     }
   },
   "einsendungen": {
@@ -1691,6 +1719,8 @@
     "KW29/2026": 48.3,
     "KW30/2026": 48.3,
     "KW31/2026": 30.2,
-    "KW32/2026": 37.3
+    "KW32/2026": 37.3,
+    "KW33/2026": 38.3,
+    "KW34/2026": 35.2
   }
 }
