@@ -68,7 +68,16 @@
                 <p class="subtitle">Daten: MedUni Wien Sentinelsystem</p>
             </header>
             <div class="sari-content">
+                <div class="sentinel-mode-controls">
+                    <div class="control-group">
+                        <label class="toggle-label" title="Gilt für Balkendiagramm und Heatmap">
+                            <input type="checkbox" class="sentinel-percent">
+                            <span class="toggle-text">% der Einsendungen (Positivrate)</span>
+                        </label>
+                    </div>
+                </div>
                 <div id="sentinel-bar-ec" class="ec-chart tall"></div>
+                <p id="sentinel-bar-percent-note" class="footnote" hidden>Anteil der Einsendungen mit positivem Nachweis pro Woche. Mehrfachnachweise sind möglich, die Summe kann daher 100 % übersteigen. Die Einsendungen sind aus der MedUni-Grafik ausgelesen (in kleinen Wochen ±1–2 Prozentpunkte).</p>
                 <div id="sentinel-bar-loading" class="loading-msg">Lade Sentinel-Daten…</div>
             </div>
         </section>
@@ -80,7 +89,16 @@
                 <p class="subtitle">Heatmap: MedUni Wien Sentinelsystem</p>
             </header>
             <div class="sari-content">
+                <div class="sentinel-mode-controls">
+                    <div class="control-group">
+                        <label class="toggle-label" title="Gilt für Balkendiagramm und Heatmap">
+                            <input type="checkbox" class="sentinel-percent">
+                            <span class="toggle-text">% der Einsendungen (Positivrate)</span>
+                        </label>
+                    </div>
+                </div>
                 <div id="sentinel-heatmap-ec" class="ec-chart tall"></div>
+                <p id="sentinel-heatmap-percent-note" class="footnote" hidden>Prozentwerte: Nachweise aus dem Balkendiagramm oben (exakte Zahlen) geteilt durch die Einsendungen der Woche – nicht aus der Heatmap selbst, deren Werte nur in Farbstufen vorliegen. Zeitraum wie im Balkendiagramm.</p>
                 <div id="sentinel-heatmap-loading" class="loading-msg">Lade Heatmap-Daten…</div>
             </div>
         </section>
@@ -267,7 +285,13 @@
     };
     const SENTINEL_VIRUS_ORDER = ['Entero', 'Inf_A', 'Inf_B', 'Inf_C', 'Metapneumo_V', 'RSV', 'Rhino', 'Adeno', 'ParaInfluenza', 'Corona', 'Covid-19'];
     const SENTINEL_LABELS = { Inf_A: 'Inf A', Inf_B: 'Inf B', Inf_C: 'Inf C', Metapneumo_V: 'Metapneumo V.' };
-    const SENTINEL_HEATMAP_VIRUS_ORDER = ['Covid19', 'Influenza', 'Entero', 'MPV', 'RSV', 'RH', 'AD', 'Para', 'Corona'];
+    // Heatmap rows in display order, each with the bar-chart viruses it sums;
+    // mirrors HEATMAP_ROW in tools/extract_virus_data.py
+    const SENTINEL_HEATMAP_ROWS = {
+        Covid19: ['Covid-19'], Influenza: ['Inf_A', 'Inf_B', 'Inf_C'], Entero: ['Entero'], MPV: ['Metapneumo_V'],
+        RSV: ['RSV'], RH: ['Rhino'], AD: ['Adeno'], Para: ['ParaInfluenza'], Corona: ['Corona']
+    };
+    const SENTINEL_HEATMAP_VIRUS_ORDER = Object.keys(SENTINEL_HEATMAP_ROWS);
 
     // ==================== Helpers ====================
     async function fetchData(url) {
@@ -371,6 +395,36 @@
         if (Math.abs(n) >= 1_000_000) return (n / 1_000_000).toFixed(n % 1_000_000 === 0 ? 0 : 1) + 'M';
         if (Math.abs(n) >= 1_000) return (n / 1_000).toFixed(n % 1_000 === 0 ? 0 : 1) + 'k';
         return String(n);
+    }
+    const fmtDe = (v, digits = 1) => (+v).toLocaleString('de-AT', { minimumFractionDigits: digits, maximumFractionDigits: digits });
+    const fmtPct = (v, digits = 1) => v == null ? '–' : fmtDe(v, digits) + '\u00a0%';
+    // null, not 0: a week without Einsendungen has no rate
+    const positivity = (n, eins) => eins > 0 ? n / eins * 100 : null;
+    const fmtShareOf = (pct, n, eins) => `${fmtPct(pct)} (${Math.round(n)} von ${Math.round(eins)})`;
+
+    // notMerge re-renders reset zoom and legend. These carry the visible week window
+    // (by label, so it survives an axis of different length) and hidden series across.
+    // Applied via dispatchAction, not baked into the option, so "Zurücksetzen" still
+    // returns to the full range.
+    function captureChartView(chart) {
+        const opt = chart.getOption();
+        if (!opt) return null;
+        const zoom = opt.dataZoom && opt.dataZoom[0];
+        const weeks = opt.xAxis && opt.xAxis[0].data;
+        const zoomed = zoom && weeks && (zoom.start > 0 || zoom.end < 100);
+        return {
+            window: zoomed ? [weeks[zoom.startValue], weeks[zoom.endValue]] : null,
+            hidden: Object.entries((opt.legend && opt.legend[0] && opt.legend[0].selected) || {})
+                .filter(([, on]) => !on).map(([name]) => name)
+        };
+    }
+    function restoreChartView(chart, view, weeks) {
+        if (!view) return;
+        if (view.window) {
+            const [from, to] = view.window.map(w => weeks.indexOf(w));
+            if (from >= 0 && to >= 0) chart.dispatchAction({ type: 'dataZoom', dataZoomIndex: 0, startValue: from, endValue: to });
+        }
+        if (view.hidden.length) chart.dispatchAction({ type: 'legendUnSelect', batch: view.hidden.map(name => ({ name })) });
     }
 
     // ECharts theme is baked in at init; switching theme requires dispose + re-init of every chart
@@ -1249,63 +1303,102 @@
     // ==================== 3. Sentinel Bar Chart ====================
     let sentinelBarChart = initChart('sentinel-bar-ec');
 
+    // Positivity mode, shared by bar chart and heatmap: one state, one checkbox per card
+    const SENTINEL_MODE_STORAGE_KEY = 'sentinelMode';  // 'absolute' | 'percent'
+    let sentinelPercent = false;
+    try { sentinelPercent = localStorage.getItem(SENTINEL_MODE_STORAGE_KEY) === 'percent'; } catch (_) {}
+    const sentinelPercentBoxes = document.querySelectorAll('.sentinel-percent');
+    sentinelPercentBoxes.forEach(cb => {
+        cb.checked = sentinelPercent;
+        cb.addEventListener('change', () => setSentinelMode(cb.checked));
+    });
+    function setSentinelMode(percent) {
+        sentinelPercent = percent;
+        sentinelPercentBoxes.forEach(cb => { cb.checked = percent; });
+        try { localStorage.setItem(SENTINEL_MODE_STORAGE_KEY, percent ? 'percent' : 'absolute'); } catch (_) {}
+        renderSentinelBar();
+        renderSentinelHeatmap();
+    }
+
+    function sentinelPercentTooltip(params) {
+        if (!params || !params.length) return '';
+        const week = params[0].name;
+        const eins = +dataPool.sentinelBar.einsendungen[week] || 0;
+        const rows = params.map(p => `${p.marker} ${p.seriesName}: ${fmtShareOf(p.value, p.data.abs, eins)}`);
+        return `<b>${week}</b> · ${Math.round(eins)} Einsendungen<br>${rows.join('<br>')}`;
+    }
+
     function renderSentinelBar() {
         const data = dataPool.sentinelBar;
         if (!data) return;
+        const percent = sentinelPercent;
+        document.getElementById('sentinel-bar-percent-note').hidden = !percent;
         const weeks = data.weeks;
+        const einsValues = weeks.map(w => +data.einsendungen[w] || 0);
         const series = [];
         const legendNames = [];
         for (const v of SENTINEL_VIRUS_ORDER) {
             if (!data.viruses.includes(v)) continue;
             const label = SENTINEL_LABELS[v] || v;
             legendNames.push(label);
+            const counts = weeks.map(w => (data.data[w] && data.data[w][v]) || 0);
             series.push({
                 name: label, type: 'bar', stack: 'total', yAxisIndex: 0,
                 itemStyle: { color: SENTINEL_COLORS[v] || '#888' },
                 emphasis: { focus: 'series' },
-                data: weeks.map(w => (data.data[w] && data.data[w][v]) || 0)
+                data: percent ? counts.map((n, i) => ({ value: positivity(n, einsValues[i]), abs: n })) : counts
             });
         }
-        const einsValues = weeks.map(w => data.einsendungen[w] || 0);
-        legendNames.push('Einsendungen');
-        // Background area on Y2
-        series.push({
-            name: '__eins_area', type: 'line', yAxisIndex: 1,
-            data: einsValues, showSymbol: false, smooth: false,
-            lineStyle: { opacity: 0 },
-            areaStyle: { color: 'rgba(220,220,220,0.45)' },
-            silent: true, tooltip: { show: false }, z: 0
-        });
-        // Visible Einsendungen line
-        series.push({
-            name: 'Einsendungen', type: 'line', yAxisIndex: 1,
-            data: einsValues, showSymbol: false,
-            lineStyle: { color: 'rgba(120,120,120,0.95)', width: 2 },
-            emphasis: { focus: 'series' }
-        });
+        if (!percent) {
+            legendNames.push('Einsendungen');
+            // Background area on Y2
+            series.push({
+                name: '__eins_area', type: 'line', yAxisIndex: 1,
+                data: einsValues, showSymbol: false, smooth: false,
+                lineStyle: { opacity: 0 },
+                areaStyle: { color: 'rgba(220,220,220,0.45)' },
+                silent: true, tooltip: { show: false }, z: 0
+            });
+            // Visible Einsendungen line
+            series.push({
+                name: 'Einsendungen', type: 'line', yAxisIndex: 1,
+                data: einsValues, showSymbol: false,
+                lineStyle: { color: 'rgba(120,120,120,0.95)', width: 2 },
+                emphasis: { focus: 'series' }
+            });
+        }
 
         const narrow = isNarrow();
+        const absoluteYAxes = narrow
+            ? [
+                { type: 'value', splitLine: { lineStyle: { color: '#eee' } }, axisLabel: { formatter: compactNumber } },
+                { type: 'value', position: 'right', splitLine: { show: false }, axisLabel: { formatter: compactNumber } }
+              ]
+            : [
+                { type: 'value', name: 'N Virusnachweise', nameLocation: 'middle', nameGap: 50, nameRotate: 90, splitLine: { lineStyle: { color: '#eee' } } },
+                { type: 'value', name: 'N Einsendungen', nameLocation: 'middle', nameGap: 50, nameRotate: -90, position: 'right', splitLine: { show: false } }
+              ];
+        const percentYAxis = [{
+            type: 'value', min: 0, name: narrow ? '' : '% der Einsendungen', nameLocation: 'middle', nameGap: 50, nameRotate: 90,
+            splitLine: { lineStyle: { color: '#eee' } }, axisLabel: { formatter: v => fmtPct(v, 0) }
+        }];
+        const view = captureChartView(sentinelBarChart);
         sentinelBarChart.setOption({
             toolbox: TOOLBOX,
-            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, formatter: percent ? sentinelPercentTooltip : undefined },
             legend: { top: 40, type: 'scroll', data: legendNames, padding: [5, narrow ? 40 : 80, 5, narrow ? 10 : 40] },
-            grid: narrow ? narrowGrid(90, 90, 5) : { left: 70, right: 70, top: 100, bottom: 90, containLabel: true },
+            grid: narrow
+                ? narrowGrid(90, 90, percent ? 10 : 5)
+                : { left: 70, right: percent ? 30 : 70, top: 100, bottom: 90, containLabel: true },
             xAxis: { type: 'category', data: weeks, axisLabel: { rotate: -45, interval: xAxisInterval(weeks) } },
-            yAxis: narrow
-                ? [
-                    { type: 'value', splitLine: { lineStyle: { color: '#eee' } }, axisLabel: { formatter: compactNumber } },
-                    { type: 'value', position: 'right', splitLine: { show: false }, axisLabel: { formatter: compactNumber } }
-                  ]
-                : [
-                    { type: 'value', name: 'N Virusnachweise', nameLocation: 'middle', nameGap: 50, nameRotate: 90, splitLine: { lineStyle: { color: '#eee' } } },
-                    { type: 'value', name: 'N Einsendungen', nameLocation: 'middle', nameGap: 50, nameRotate: -90, position: 'right', splitLine: { show: false } }
-                  ],
+            yAxis: percent ? percentYAxis : absoluteYAxes,
             dataZoom: [
                 { type: 'inside', xAxisIndex: 0, start: 0, end: 100 },
                 { type: 'slider', xAxisIndex: 0, height: 24, bottom: 10 }
             ],
             series
         }, { notMerge: true });
+        restoreChartView(sentinelBarChart, view, weeks);
     }
 
     async function loadSentinelBar() {
@@ -1315,48 +1408,86 @@
     // ==================== 4. Sentinel Heatmap ====================
     let sentinelHeatChart = initChart('sentinel-heatmap-ec');
 
+    // Heatmap cells as positivity from the exact bar-chart counts. The heatmap file
+    // only holds colour-decoded steps, too coarse to divide by Einsendungen.
+    function sentinelPercentMatrix(bar) {
+        const rows = SENTINEL_HEATMAP_VIRUS_ORDER.filter(r => SENTINEL_HEATMAP_ROWS[r].some(v => bar.viruses.includes(v)));
+        return {
+            weeks: bar.weeks,
+            rows,
+            value: (row, w) => {
+                const counts = bar.data[w] || {};
+                const n = SENTINEL_HEATMAP_ROWS[row].reduce((sum, v) => sum + (+counts[v] || 0), 0);
+                const eins = +bar.einsendungen[w] || 0;
+                return { pct: positivity(n, eins), abs: n, eins };
+            }
+        };
+    }
+
+    // Fetch errors per Sentinel feed, so the heatmap can report the one it is drawn from
+    const sentinelFeedErrors = {};
+
     function renderSentinelHeatmap() {
-        const d = dataPool.sentinelHeatmap;
-        if (!d) return;
-        const weeks = d.weeks;
-        const viruses = SENTINEL_HEATMAP_VIRUS_ORDER.filter(v => d.viruses.includes(v));
+        const percent = sentinelPercent;
+        const bar = dataPool.sentinelBar, d = dataPool.sentinelHeatmap;
+        document.getElementById('sentinel-heatmap-percent-note').hidden = !percent;
+        // The status line follows the feed this mode draws from, not the heatmap feed
+        const status = document.getElementById('sentinel-heatmap-loading');
+        if (percent ? !bar : !d) {
+            sentinelHeatChart.clear();
+            const error = sentinelFeedErrors[percent ? 'bar' : 'heatmap'];
+            status.textContent = error ? 'Fehler: ' + error : 'Lade Heatmap-Daten…';
+            status.style.display = '';
+            return;
+        }
+        status.style.display = 'none';
+        const matrix = percent && sentinelPercentMatrix(bar);
+        const weeks = percent ? matrix.weeks : d.weeks;
+        const viruses = percent ? matrix.rows : SENTINEL_HEATMAP_VIRUS_ORDER.filter(v => d.viruses.includes(v));
         // y-axis bottom-up: put Covid19 at top → reverse the array for ECharts category axis
         const yAxisData = [...viruses].reverse();
         const cells = [];
         yAxisData.forEach((v, yi) => {
             weeks.forEach((w, xi) => {
-                cells.push([xi, yi, (d.data[v] && d.data[v][w]) || 0]);
+                if (!percent) {
+                    cells.push([xi, yi, (d.data[v] && d.data[v][w]) || 0]);
+                    return;
+                }
+                const { pct, abs, eins } = matrix.value(v, w);
+                cells.push({ value: [xi, yi, pct], abs, eins });
             });
         });
         const narrow = isNarrow();
+        const maxPct = percent ? Math.max(0, ...cells.map(c => c.value[2] || 0)) : 0;
+        const scale = percent
+            ? { min: 0, max: Math.max(50, Math.ceil(maxPct / 10) * 10), text: ['% der Eins.', ''], formatter: v => fmtPct(v, 0) }
+            : { min: 0, max: 120, text: ['Fallzahl', ''] };
+        const view = captureChartView(sentinelHeatChart);
         sentinelHeatChart.setOption({
             toolbox: TOOLBOX,
             tooltip: {
                 position: 'top',
-                formatter: p => `${yAxisData[p.value[1]]}<br>${weeks[p.value[0]]}: ${(+p.value[2]).toFixed(1)}`
+                formatter: percent
+                    ? p => `${yAxisData[p.value[1]]} · ${weeks[p.value[0]]}: ${fmtShareOf(p.value[2], p.data.abs, p.data.eins)}`
+                    : p => `${yAxisData[p.value[1]]}<br>${weeks[p.value[0]]}: ${(+p.value[2]).toFixed(1)}`
             },
             grid: narrow ? narrowGrid(50, 130) : { left: 100, right: 100, top: 50, bottom: 80, containLabel: true },
             xAxis: { type: 'category', data: weeks, axisLabel: { rotate: -45, interval: xAxisInterval(weeks) } },
             yAxis: { type: 'category', data: yAxisData },
-            visualMap: narrow
-                ? {
-                    min: 0, max: 120, calculable: true, orient: 'horizontal',
-                    left: 'center', bottom: 5, itemWidth: 16, itemHeight: 180,
-                    inRange: { color: ['#ffffcc', '#ffeda0', '#feb24c', '#f03b20', '#bd0026'] },
-                    text: ['Fallzahl', '']
-                }
-                : {
-                    min: 0, max: 120, calculable: true, orient: 'vertical',
-                    right: 10, top: 50, itemHeight: 140,
-                    inRange: { color: ['#ffffcc', '#ffeda0', '#feb24c', '#f03b20', '#bd0026'] },
-                    text: ['Fallzahl', '']
-                },
+            visualMap: {
+                ...scale, calculable: true,
+                inRange: { color: ['#ffffcc', '#ffeda0', '#feb24c', '#f03b20', '#bd0026'] },
+                ...(narrow
+                    ? { orient: 'horizontal', left: 'center', bottom: 5, itemWidth: 16, itemHeight: 180 }
+                    : { orient: 'vertical', right: 10, top: 50, itemHeight: 140 })
+            },
             dataZoom: [
                 { type: 'inside', xAxisIndex: 0, start: 0, end: 100 },
                 { type: 'slider', xAxisIndex: 0, height: 24, bottom: narrow ? 50 : 20 }
             ],
             series: [{ type: 'heatmap', data: cells, progressive: 1000 }]
         }, { notMerge: true });
+        restoreChartView(sentinelHeatChart, view, weeks);
     }
 
     async function loadSentinelHeatmap() {
@@ -1547,11 +1678,13 @@
             ['wastewater', renderWastewater],
             ['sari', renderSari],
             ['sentinelBar', renderSentinelBar],
-            ['sentinelHeatmap', renderSentinelHeatmap],
+            // Percent mode draws the heatmap from the bar data, so either feed will do
+            [() => dataPool.sentinelHeatmap || dataPool.sentinelBar, renderSentinelHeatmap],
             ['sariDemo', renderIncidence],
             ['sariDemo', renderAgeHeatmap],
             ['sariDemo', renderDemographics]
         ];
+        const hasData = dep => typeof dep === 'function' ? dep() : dataPool[dep];
         let lastNarrow = isNarrow();
         let resizeRaf = 0, breakpointTimer = 0;
         window.addEventListener('resize', () => {
@@ -1563,7 +1696,7 @@
                 if (cur === lastNarrow) return;
                 lastNarrow = cur;
                 for (const [dep, render] of responsiveRenderers) {
-                    if (dataPool[dep]) render();
+                    if (hasData(dep)) render();
                 }
                 if (dataPool.wastewater && dataPool.sari && dataPool.sentinelBar) renderCombinedSignal();
             }, 120);
@@ -1582,7 +1715,7 @@
             ageHeatmapChart = initChart('sari-heatmap-ec');
             charts = [wwChart, combinedChart, sentinelBarChart, sentinelHeatChart, sariChart, incidenceChart, demoChart, demoTimelineChart, ageHeatmapChart];
             for (const [dep, render] of responsiveRenderers) {
-                if (dataPool[dep]) render();
+                if (hasData(dep)) render();
             }
             // Swatch colours come from the theme-dependent palette
             if (dataPool.sariDemo) { buildIncidenceRegionList(); rebuildDemoTimeline(); }
@@ -1667,14 +1800,23 @@
             loadSentinelBar().then(() => {
                 document.getElementById('sentinel-bar-loading').style.display = 'none';
                 renderSentinelBar();
+                // In percent mode the heatmap waits for this feed
+                if (sentinelPercent) renderSentinelHeatmap();
                 bumpFreshness('Sentinel', lastFromWeeks(dataPool.sentinelBar.weeks));
-            }).catch(e => { document.getElementById('sentinel-bar-loading').textContent = 'Fehler: ' + e.message; }),
+            }).catch(e => {
+                document.getElementById('sentinel-bar-loading').textContent = 'Fehler: ' + e.message;
+                sentinelFeedErrors.bar = e.message;
+                if (sentinelPercent) renderSentinelHeatmap();
+            }),
 
             loadSentinelHeatmap().then(() => {
-                document.getElementById('sentinel-heatmap-loading').style.display = 'none';
-                renderSentinelHeatmap();
+                // Percent mode draws from the bar feed, which renders it on arrival
+                if (!sentinelPercent || dataPool.sentinelBar) renderSentinelHeatmap();
                 bumpFreshness('Sentinel', lastFromWeeks(dataPool.sentinelHeatmap.weeks));
-            }).catch(e => { document.getElementById('sentinel-heatmap-loading').textContent = 'Fehler: ' + e.message; })
+            }).catch(e => {
+                sentinelFeedErrors.heatmap = e.message;
+                renderSentinelHeatmap();
+            })
         ];
 
         // Combined signal needs wastewater + sari + sentinelBar
