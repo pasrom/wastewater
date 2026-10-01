@@ -480,7 +480,12 @@
             if (!t.name || !t.x || !t.y) continue;
             if (t.name === '1. Quartil Österreich') out.q1 = { x: t.x, y: t.y };
             else if (t.name === '3. Quartil Österreich') out.q3 = { x: t.x, y: t.y };
-            else if (t.type !== 'bar' && t.mode !== 'none') out.traces[t.name] = { x: t.x, y: t.y };
+            else if (t.type !== 'bar' && t.mode !== 'none') {
+                // AGES emits each plant several times (faded background, highlight,
+                // and a one-point legend dummy at x=[1]); keep the longest series.
+                const prev = out.traces[t.name];
+                if (!prev || t.x.length > prev.x.length) out.traces[t.name] = { x: t.x, y: t.y };
+            }
         }
         return out;
     }
