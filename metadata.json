@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-30T06:06:37.404201",
+  "last_updated": "2026-10-01T06:19:39.911359",
   "sources": {
     "ages": {
       "sarscov2": {
@@ -28,15 +28,15 @@
       "heatmap": {
         "status": "ok",
         "weeks": 112,
-        "latest_week": "2026-09-28",
-        "age_weeks": 0,
+        "latest_week": "2026-09-21",
+        "age_weeks": 1,
         "stale": false
       },
       "barchart": {
         "status": "ok",
         "weeks": 122,
-        "latest_week": "2026-09-28",
-        "age_weeks": 0,
+        "latest_week": "2026-09-21",
+        "age_weeks": 1,
         "stale": false
       }
     },
