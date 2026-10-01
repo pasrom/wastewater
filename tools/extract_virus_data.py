@@ -16,10 +16,13 @@ Output:
 import argparse
 import csv
 import json
+import math
 import re
+import statistics
 import sys
 from collections import defaultdict
 from dataclasses import dataclass
+from datetime import date, timedelta
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
@@ -52,6 +55,17 @@ BAR_WIDTH_MAX = 15
 # Default values (fallbacks if SVG parsing fails)
 DEFAULT_VALUE_RANGE = 120
 DEFAULT_BASELINE_Y = 360
+
+# Week labels are rotated text; their width is estimated from the font size
+WEEK_LABEL_CHAR_WIDTH_EM = 0.6
+ROTATE_RE = re.compile(r'rotate\(\s*(-?[\d.]+)[\s,]+(-?[\d.]+)[\s,]+(-?[\d.]+)\s*\)')
+
+# Bar chart legend name -> heatmap row name, for the cross-check of both charts
+HEATMAP_ROW = {
+    'Adeno': 'AD', 'Corona': 'Corona', 'Covid-19': 'Covid19', 'Entero': 'Entero',
+    'Inf_A': 'Influenza', 'Inf_B': 'Influenza', 'Inf_C': 'Influenza',
+    'Metapneumo_V': 'MPV', 'ParaInfluenza': 'Para', 'RSV': 'RSV', 'Rhino': 'RH',
+}
 
 
 @dataclass
@@ -151,16 +165,17 @@ def parse_heatmap_svg(svg_content: str) -> tuple[list[HeatmapCell], HeatmapConfi
 
     # Create mappings
     y_to_virus = _map_y_to_virus(rects, virus_labels)
-    x_to_week = _map_x_to_week_heatmap(rects, week_labels)
+    x_to_week, _weeks = _assign_weeks([r['x'] for r in rects],
+                                      statistics.mode(r['width'] for r in rects), week_labels)
 
     # Create cells
     cells = []
     for rect in rects:
         virus = y_to_virus.get(rect['y'])
-        week = x_to_week.get(rect['x'])
+        week = x_to_week[rect['x']]
         color = rect['fill']
 
-        if virus and week:
+        if virus:
             value = _color_to_value(color, config)
             cells.append(HeatmapCell(virus=virus, week=week, value=value, color=color))
 
@@ -188,7 +203,9 @@ def _extract_text_elements(root: ET.Element) -> list[dict]:
         transform = text.get('transform', '')
         if content:
             texts.append({
-                'x': x, 'y': y, 'content': content, 'transform': transform
+                'x': x, 'y': y, 'content': content, 'transform': transform,
+                'font_size': float(text.get('font-size', 12)),
+                'anchor': text.get('text-anchor', 'start'),
             })
     return texts
 
@@ -205,13 +222,9 @@ def _extract_virus_labels(texts: list[dict]) -> dict[float, str]:
     return virus_labels
 
 
-def _extract_week_labels(texts: list[dict]) -> dict[float, str]:
+def _extract_week_labels(texts: list[dict]) -> list[dict]:
     """Extract week labels (rotated text with 'KW')."""
-    week_labels = {}
-    for t in texts:
-        if 'rotate' in str(t['transform']) and 'KW' in t['content']:
-            week_labels[t['x']] = t['content']
-    return week_labels
+    return [t for t in texts if 'rotate' in t['transform'] and 'KW' in t['content']]
 
 
 def _extract_heatmap_rects(root: ET.Element) -> list[dict]:
@@ -227,7 +240,7 @@ def _extract_heatmap_rects(root: ET.Element) -> list[dict]:
         is_valid_size = width > 0 and height > 0
         is_colored = fill and fill != 'white' and 'url' not in fill
         if is_valid_size and is_colored:
-            rects.append({'x': x, 'y': y, 'fill': fill.upper()})
+            rects.append({'x': x, 'y': y, 'width': width, 'fill': fill.upper()})
     return rects
 
 
@@ -244,38 +257,120 @@ def _map_y_to_virus(rects: list[dict], virus_labels: dict[float, str]) -> dict[f
     return y_to_virus
 
 
-def _map_x_to_week_heatmap(rects: list[dict], week_labels: dict[float, str]) -> dict[float, str]:
-    """Map X positions to week strings for heatmap."""
-    x_to_week = {}
-    rect_x_values = sorted(set(r['x'] for r in rects))
-
-    if not week_labels:
-        return x_to_week
-
-    first_week_x = min(week_labels.keys())
-    first_week_str = week_labels[first_week_x]
-    match = re.match(r'KW(\d+)/(\d+)', first_week_str)
-
-    if match:
-        start_kw = int(match.group(1))
-        start_year = int(match.group(2))
-
-        for i, x in enumerate(rect_x_values):
-            kw, year = _calculate_week(start_kw + i, start_year)
-            x_to_week[x] = f"KW{kw:02d}/{year}"
-
-    return x_to_week
+def week_monday(label: str) -> date:
+    """'KW08/2025' -> Monday of that ISO week. Raises ValueError otherwise."""
+    match = re.match(r'KW(\d+)/(\d+)', label or '')
+    if not match:
+        raise ValueError(f"not a week label: {label!r}")
+    return date.fromisocalendar(int(match.group(2)), int(match.group(1)), 1)
 
 
-def _calculate_week(kw: int, year: int) -> tuple[int, int]:
-    """Normalize week number, handling year rollover."""
-    while kw > 52:
-        kw -= 52
-        year += 1
-    while kw < 1:
-        kw += 52
-        year -= 1
-    return kw, year
+def week_label(monday: date) -> str:
+    """ISO week of a date as 'KW08/2025'."""
+    year, week, _ = monday.isocalendar()
+    return f"KW{week:02d}/{year}"
+
+
+def shift_week(label: str, weeks: int) -> str:
+    """'KW01/2026' shifted by whole ISO weeks; follows 53-week years."""
+    return week_label(week_monday(label) + timedelta(weeks=weeks))
+
+
+def _label_tip_x(label: dict) -> float:
+    """X of the rotated label's upper end, the point that sits under its column.
+
+    MedUni turns the week labels by -55 degrees, so each one runs up to the
+    right and ends under the column it names. Neither its x attribute nor the
+    first column is a safe anchor: reading those labelled every week one late.
+    """
+    match = ROTATE_RE.search(label['transform'])
+    if not match:
+        raise ValueError(f"week label {label['content']!r} has no rotate(angle, cx, cy): "
+                         f"{label['transform']!r}")
+    angle = math.radians(float(match.group(1)))
+    cx, cy = float(match.group(2)), float(match.group(3))
+    width = label['font_size'] * WEEK_LABEL_CHAR_WIDTH_EM * len(label['content'])
+    run = {'start': width, 'middle': width / 2, 'end': 0}.get(label['anchor'], width)
+    anchor_x = cx + (label['x'] - cx) * math.cos(angle) - (label['y'] - cy) * math.sin(angle)
+    return anchor_x + run * math.cos(angle)
+
+
+def _assign_weeks(xs: list[float], column_width: float,
+                  labels: list[dict]) -> tuple[dict[float, str], list[str]]:
+    """Map every drawn x to its ISO week, anchored on the axis labels.
+
+    Columns are numbered by their slot on the evenly spaced grid rather than by
+    counting the drawn ones, so a week with nothing drawn cannot shift the
+    weeks before it. Every label must imply the same first week. Returns the
+    mapping and the weeks of all slots, empty ones included.
+    """
+    xs = sorted(set(xs))
+    if len(xs) < 2 or not labels:
+        raise ValueError("no column grid or week labels found")
+    step = statistics.mode(round(b - a, 3) for a, b in zip(xs, xs[1:]))
+    slots = {x: (x - xs[0]) / step for x in xs}
+    off_grid = [x for x, slot in slots.items() if abs(slot - round(slot)) > 0.05]
+    if off_grid:
+        raise ValueError(f"columns off the {step}px grid at x={off_grid}")
+    count = round(slots[xs[-1]]) + 1
+    centers = [xs[0] + i * step + column_width / 2 for i in range(count)]
+
+    first_weeks = set()
+    for label in labels:
+        tip = _label_tip_x(label)
+        index = min(range(count), key=lambda i: abs(centers[i] - tip))
+        first_weeks.add(week_monday(label['content']) - timedelta(weeks=index))
+    if len(first_weeks) != 1:
+        raise ValueError(f"week labels disagree on the first column: "
+                         f"{sorted(week_label(d) for d in first_weeks)}")
+
+    first = first_weeks.pop()
+    weeks = [week_label(first + timedelta(weeks=i)) for i in range(count)]
+    return {x: weeks[round(slot)] for x, slot in slots.items()}, weeks
+
+
+def check_sentinel_charts(cells: list[HeatmapCell], segments: list[BarSegment], today: date):
+    """Raise unless the weeks read from both charts can be trusted.
+
+    MedUni publishes a week on the following days, so a column for the week
+    that is still running means the labels were misread. And both charts plot
+    the same detections under axis labels with different text geometry, so a
+    misread anchor in one shows up as a shift between the two. The heatmap
+    only has coarse colour steps, so they are compared by correlation, which
+    must peak without a shift.
+    """
+    newest = max(week_monday(w) for w in {c.week for c in cells} | {s.week for s in segments})
+    if newest >= today - timedelta(days=today.weekday()):
+        raise ValueError(f"newest column read as {week_label(newest)}, which has not "
+                         f"finished yet - the week labels are misaligned")
+
+    bars = defaultdict(float)
+    for seg in segments:
+        if seg.virus in HEATMAP_ROW:
+            bars[(HEATMAP_ROW[seg.virus], seg.week)] += seg.value
+    bar_weeks = {seg.week for seg in segments}
+
+    def correlation(shift: int) -> float:
+        pairs = [(c.value, bars[(c.virus, week)]) for c in cells
+                 if (week := shift_week(c.week, shift)) in bar_weeks]
+        try:
+            return statistics.correlation(*zip(*pairs))
+        except (statistics.StatisticsError, TypeError):
+            return float('nan')
+
+    scores = {shift: correlation(shift) for shift in (-1, 0, 1)}
+    if not scores[0] > max(scores[-1], scores[1]):
+        raise ValueError(f"heatmap and bar chart weeks do not line up, "
+                         f"correlation by shift: {scores}")
+
+
+def read_sentinel_charts(today: date | None = None) -> tuple[list[HeatmapCell], list[BarSegment], dict]:
+    """Download and parse both charts, raising rather than returning weeks that
+    fail the checks - callers must not write anything when this raises."""
+    cells, _config = parse_heatmap_svg(download_svg(HEATMAP_URL))
+    segments, einsendungen = parse_bar_chart_svg(download_svg(BAR_CHART_URL))
+    check_sentinel_charts(cells, segments, today or date.today())
+    return cells, segments, einsendungen
 
 
 def _color_to_value(hex_color: str, config: HeatmapConfig) -> float:
@@ -432,14 +527,7 @@ def parse_bar_chart_svg(svg_content: str) -> tuple[list[BarSegment], dict]:
     svg_content_clean = re.sub(r'\sxmlns="[^"]+"', '', svg_content)
     root = ET.fromstring(svg_content_clean)
 
-    # Extract text elements
-    texts = []
-    for text in root.iter('text'):
-        x = float(text.get('x', 0))
-        y = float(text.get('y', 0))
-        content = ''.join(text.itertext()).strip()
-        if content:
-            texts.append({'x': x, 'y': y, 'content': content})
+    texts = _extract_text_elements(root)
 
     # Y-axis scale (left side - N Virusnachweise)
     left_axis = {}
@@ -475,11 +563,7 @@ def parse_bar_chart_svg(svg_content: str) -> tuple[list[BarSegment], dict]:
         baseline_y = DEFAULT_BASELINE_Y
         r_pixels_per_unit = 1
 
-    # Week labels
-    week_labels = {}
-    for t in texts:
-        if 'KW' in t['content']:
-            week_labels[t['x']] = t['content']
+    week_labels = _extract_week_labels(texts)
 
     # Extract Einsendungen from polygon
     # Store raw points first, map to weeks later after we know all bar positions
@@ -487,17 +571,13 @@ def parse_bar_chart_svg(svg_content: str) -> tuple[list[BarSegment], dict]:
     for polygon in root.iter('polygon'):
         fill = polygon.get('fill', '')
         if fill.lower() == '#e4e4e4':
-            points_str = polygon.get('points', '')
-            # Parse points: "x1,y1 x2,y2 x3,y3 ..."
-            for point in points_str.strip().split():
-                if ',' in point:
-                    px, py = point.split(',')
-                    px, py = float(px), float(py)
-                    # Skip baseline points (y = 360)
-                    if py < baseline_y - 1:
-                        # Convert y to value using right axis scale
-                        value = (baseline_y - py) / r_pixels_per_unit
-                        einsendungen_raw.append((px, round(value, 1)))
+            numbers = [float(n) for n in re.findall(r'-?[\d.]+', polygon.get('points', ''))]
+            points = list(zip(numbers[0::2], numbers[1::2]))
+            # The first and last points close the area down to the baseline
+            # outside the bar range; every point in between is one week
+            for px, py in points[1:-1]:
+                value = max(0.0, (baseline_y - py) / r_pixels_per_unit)
+                einsendungen_raw.append((px, round(value, 1)))
 
     # Extract rectangles (bar segments)
     rects = []
@@ -523,78 +603,34 @@ def parse_bar_chart_svg(svg_content: str) -> tuple[list[BarSegment], dict]:
             is_in_chart = y > CHART_AREA_Y_MIN
             is_data_bar = fill and fill.lower() not in ['white', '#e4e4e4']
             if is_bar_width and height > 0 and is_in_chart and is_data_bar:
-                rects.append({'x': x, 'y': y, 'height': height, 'fill': fill.upper()})
+                rects.append({'x': x, 'y': y, 'width': width, 'height': height,
+                              'fill': fill.upper()})
         except (ValueError, TypeError):
             continue
 
-    # Map to weeks - generate ALL weeks, not just labeled ones
-    # Labels are every 2nd week, bars exist for every week
-    segments = []
     rects_by_x = defaultdict(list)
     for rect in rects:
         rects_by_x[rect['x']].append(rect)
 
-    # Get all unique bar x positions sorted
-    all_bar_x = sorted(rects_by_x.keys())
+    # The Einsendungen polygon has a point for every week, so together with the
+    # bars it spans the full grid even where a week has no detections
+    x_to_week, weeks = _assign_weeks(list(rects_by_x) + [px for px, _ in einsendungen_raw],
+                                     statistics.mode(r['width'] for r in rects), week_labels)
 
-    # Find first labeled week and its x position
-    week_x_sorted = sorted(week_labels.keys())
-    x_to_week = {}
-
-    if week_x_sorted and all_bar_x:
-        first_label_x = week_x_sorted[0]
-        first_label = week_labels[first_label_x]
-
-        # Parse first week
-        match = re.match(r'KW(\d+)/(\d+)', first_label)
-        if match:
-            first_kw = int(match.group(1))
-            first_year = int(match.group(2))
-
-            # Find which bar index corresponds to first label
-            # Label x is slightly offset from bar x (e.g., bar at 80, label at 82)
-            first_label_bar_idx = min(range(len(all_bar_x)),
-                                      key=lambda j: abs(all_bar_x[j] - first_label_x))
-
-            # Map each bar x to a week
-            for i, x in enumerate(all_bar_x):
-                week_offset = i - first_label_bar_idx
-                kw = first_kw + week_offset
-                year = first_year
-
-                # Handle year rollover
-                while kw > 52:
-                    kw -= 52
-                    year += 1
-                while kw < 1:
-                    kw += 52
-                    year -= 1
-
-                x_to_week[x] = f"KW{kw:02d}/{year}"
-
-    if not x_to_week:
-        x_to_week = {x: f"x={x}" for x in all_bar_x}
-
+    segments = []
     for x, week_rects in rects_by_x.items():
-        week = x_to_week.get(x, f"x={x}")
-
         for rect in week_rects:
             color = rect['fill']
             virus = bar_colors.get(color, f"unknown_{color}")
             value = rect['height'] / pixels_per_unit if pixels_per_unit else rect['height']
-
             segments.append(BarSegment(
-                week=week, virus=virus, value=round(value, 1), color=color
+                week=x_to_week[x], virus=virus, value=round(value, 1), color=color
             ))
 
-    # Map einsendungen_raw to weeks using x_to_week
-    einsendungen = {}
+    # Every week gets an Einsendungen entry, which also carries weeks without bars
+    einsendungen = dict.fromkeys(weeks, 0)
     for px, value in einsendungen_raw:
-        # Find closest bar x position
-        if all_bar_x:
-            closest_x = min(all_bar_x, key=lambda bx: abs(bx - px))
-            week = x_to_week.get(closest_x, f"x={px}")
-            einsendungen[week] = value
+        einsendungen[x_to_week[px]] = value
 
     return segments, einsendungen
 
@@ -729,15 +765,13 @@ def save_bar_chart_data(segments: list[BarSegment], einsendungen: dict,
     """Save bar chart data to file."""
     data = defaultdict(lambda: defaultdict(float))
     viruses = set()
-    weeks = []
 
+    # einsendungen holds every week, including ones without any detection
+    weeks = list(einsendungen)
     for seg in segments:
         viruses.add(seg.virus)
-        if seg.week not in weeks:
-            weeks.append(seg.week)
         data[seg.week][seg.virus] += seg.value
 
-    weeks.sort(key=week_sort_key)
     viruses = sorted(viruses)
 
     if output_format == 'json':
@@ -793,17 +827,16 @@ def main():
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
     try:
+        # Both charts are always read: the week checks need the pair
+        cells, segments, einsendungen = read_sentinel_charts()
+
         if args.chart in ['heatmap', 'both']:
             print("\n=== Extracting Heatmap Data ===")
-            svg_content = download_svg(HEATMAP_URL)
-            cells, _config = parse_heatmap_svg(svg_content)
             print(f"Extracted {len(cells)} cells")
             save_heatmap_data(cells, args.output, args.output_dir)
 
         if args.chart in ['bar', 'both']:
             print("\n=== Extracting Bar Chart Data ===")
-            svg_content = download_svg(BAR_CHART_URL)
-            segments, einsendungen = parse_bar_chart_svg(svg_content)
             print(f"Extracted {len(segments)} bar segments, {len(einsendungen)} Einsendungen points")
             save_bar_chart_data(segments, einsendungen, args.output, args.output_dir)
 
@@ -812,7 +845,7 @@ def main():
     except requests.RequestException as e:
         print(f"Error downloading SVG: {e}", file=sys.stderr)
         sys.exit(1)
-    except ET.ParseError as e:
+    except (ET.ParseError, ValueError) as e:
         print(f"Error parsing SVG: {e}", file=sys.stderr)
         sys.exit(1)
 

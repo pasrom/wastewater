@@ -29,6 +29,7 @@ import argparse
 import json
 import re
 import sys
+from collections import defaultdict
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -36,10 +37,9 @@ import requests
 
 # Import SVG parsing functions from extract_virus_data
 from extract_virus_data import (
-    download_svg,
-    parse_heatmap_svg,
-    parse_bar_chart_svg,
+    read_sentinel_charts,
     merge_with_existing,
+    week_monday,
     week_sort_key,
     HEATMAP_URL,
     BAR_CHART_URL,
@@ -99,11 +99,8 @@ def check_freshness(source: str, name: str, newest: str | None) -> dict:
 
 def week_label_to_date(label: str) -> str | None:
     """'KW31/2026' -> ISO date of that week's Monday."""
-    match = re.match(r'KW(\d+)/(\d+)', label or '')
-    if not match:
-        return None
     try:
-        return datetime.fromisocalendar(int(match.group(2)), int(match.group(1)), 1).strftime('%Y-%m-%d')
+        return week_monday(label).strftime('%Y-%m-%d')
     except ValueError:
         return None
 
@@ -162,14 +159,19 @@ def fetch_sentinel_data(output_dir: Path) -> dict:
     sentinel_dir = output_dir / 'sentinel'
     sentinel_dir.mkdir(parents=True, exist_ok=True)
 
+    # Read and check both charts before writing anything: the workflow
+    # publishes whatever was written even when the run fails
+    print("Fetching Sentinel charts...")
+    try:
+        cells, segments, einsendungen = read_sentinel_charts()
+    except Exception as e:
+        print(f"  Error reading Sentinel charts: {e}")
+        return {chart: {'status': 'error', 'error': str(e)} for chart in ('heatmap', 'barchart')}
+
     results = {}
 
     # Heatmap
-    print("Fetching Sentinel heatmap...")
     try:
-        svg_content = download_svg(HEATMAP_URL)
-        cells, _config = parse_heatmap_svg(svg_content)
-
         # Convert cells to structured JSON
         data = {}
         viruses = set()
@@ -213,27 +215,17 @@ def fetch_sentinel_data(output_dir: Path) -> dict:
         results['heatmap'] = {'status': 'error', 'error': str(e)}
 
     # Bar chart
-    print("Fetching Sentinel bar chart...")
     try:
-        svg_content = download_svg(BAR_CHART_URL)
-        segments, einsendungen = parse_bar_chart_svg(svg_content)
-
-        # Convert segments to structured JSON
-        data = {}
+        # Convert segments to structured JSON. einsendungen holds every week,
+        # including ones without a single detection and hence without segments.
+        data = defaultdict(lambda: defaultdict(int))
         viruses = set()
-        weeks = []
+        weeks = list(einsendungen)
 
         for seg in segments:
             viruses.add(seg.virus)
-            if seg.week not in weeks:
-                weeks.append(seg.week)
-            if seg.week not in data:
-                data[seg.week] = {}
-            if seg.virus not in data[seg.week]:
-                data[seg.week][seg.virus] = 0
             data[seg.week][seg.virus] += seg.value
 
-        weeks.sort(key=week_sort_key)
         viruses = sorted(viruses)
 
         new_data = {
@@ -241,8 +233,8 @@ def fetch_sentinel_data(output_dir: Path) -> dict:
             'description': 'Anzahl der Einsendungen und positiven Virusnachweise',
             'viruses': viruses,
             'weeks': weeks,
-            'data': {w: {v: round(data[w].get(v, 0), 1) for v in viruses} for w in weeks},
-            'einsendungen': {w: einsendungen.get(w, 0) for w in weeks}
+            'data': {w: {v: round(data[w][v], 1) for v in viruses} for w in weeks},
+            'einsendungen': einsendungen
         }
 
         output_file = sentinel_dir / 'barchart.json'
