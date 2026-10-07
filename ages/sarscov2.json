@@ -1,13 +1,13 @@
 {
   "visdat": {
-    "1d9e4332f7830a": [
+    "1d44c07fcd2f26": [
       "function () ",
       "plotlyVisDat"
     ]
   },
-  "cur_data": "1d9e4332f7830a",
+  "cur_data": "1d44c07fcd2f26",
   "attrs": {
-    "1d9e4332f7830a": {
+    "1d44c07fcd2f26": {
       "mode": "lines",
       "alpha_stroke": 1,
       "sizes": [
@@ -20,7 +20,7 @@
       ],
       "type": "scatter"
     },
-    "1d9e4332f7830a.1": {
+    "1d44c07fcd2f26.1": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -76,7 +76,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         325.97060611323377,
@@ -122,7 +123,8 @@
         87.39931399791594,
         45.13285863146926,
         123.90285255296978,
-        82.09230635637374
+        82.09230635637374,
+        122.03004515456756
       ],
       "name": "Wulkaprodersdorf",
       "line": {
@@ -131,6 +133,7 @@
       },
       "marker": {
         "color": [
+          "#E63946",
           "#E63946",
           "#E63946",
           "#E63946",
@@ -220,6 +223,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -260,6 +264,7 @@
           "square-x",
           "square-x",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -313,6 +318,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -353,6 +359,7 @@
             "#810113",
             "#810113",
             "#810113",
+            "#E63946",
             "#E63946",
             "#E63946",
             "#E63946",
@@ -408,13 +415,14 @@
         "Wulkaprodersdorf",
         "Wulkaprodersdorf",
         "Wulkaprodersdorf",
+        "Wulkaprodersdorf",
         "Wulkaprodersdorf"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "1d9e4332f7830a.2": {
+    "1d44c07fcd2f26.2": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -471,7 +479,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         498.90181818181816,
@@ -518,7 +527,8 @@
         42.22134545454546,
         32.11523636363636,
         42.22549090909091,
-        28.046545454545456
+        28.046545454545456,
+        39.62101818181818
       ],
       "name": "Millstätter See",
       "line": {
@@ -571,6 +581,7 @@
           "#F4A261",
           "#F4A261",
           "#F4A261",
+          "#F4A261",
           "#F4A261"
         ],
         "size": [
@@ -618,6 +629,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -659,6 +671,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -713,6 +726,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -754,6 +768,7 @@
             "#F4A261",
             "#F4A261",
             "#804900",
+            "#F4A261",
             "#F4A261",
             "#F4A261",
             "#F4A261",
@@ -810,13 +825,14 @@
         "Millstätter See",
         "Millstätter See",
         "Millstätter See",
+        "Millstätter See",
         "Millstätter See"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "1d9e4332f7830a.3": {
+    "1d44c07fcd2f26.3": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -873,7 +889,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         557.2472758620689,
@@ -920,7 +937,8 @@
         0,
         39.64946206896552,
         36.3570275862069,
-        93.10666896551724
+        93.10666896551724,
+        51.224
       ],
       "name": "Wörthersee Ost",
       "line": {
@@ -973,6 +991,7 @@
           "#F4A261",
           "#F4A261",
           "#F4A261",
+          "#F4A261",
           "#F4A261"
         ],
         "size": [
@@ -1020,6 +1039,7 @@
           5,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -1065,6 +1085,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle"
@@ -1115,6 +1136,7 @@
             1,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -1160,6 +1182,7 @@
             "#F4A261",
             "#F4A261",
             "#804900",
+            "#F4A261",
             "#F4A261",
             "#F4A261",
             "#F4A261"
@@ -1212,13 +1235,14 @@
         "Wörthersee Ost (< NG)",
         "Wörthersee Ost",
         "Wörthersee Ost",
+        "Wörthersee Ost",
         "Wörthersee Ost"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "1d9e4332f7830a.4": {
+    "1d44c07fcd2f26.4": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -1275,7 +1299,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         166.08305970303368,
@@ -1322,7 +1347,8 @@
         0,
         44.112818288829686,
         0,
-        0
+        0,
+        104.73328790037792
       ],
       "name": "An der Traisen",
       "line": {
@@ -1375,401 +1401,6 @@
           "#D0E300",
           "#D0E300",
           "#D0E300",
-          "#D0E300"
-        ],
-        "size": [
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          5,
-          5,
-          5,
-          6,
-          5,
-          5,
-          6,
-          6,
-          6,
-          5,
-          5,
-          5,
-          5,
-          5,
-          5,
-          5,
-          5,
-          5,
-          5,
-          5,
-          6,
-          5,
-          5,
-          5,
-          6,
-          5,
-          6,
-          5,
-          5
-        ],
-        "symbol": [
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "square",
-          "square",
-          "square-x",
-          "circle",
-          "square-x",
-          "square-x",
-          "circle",
-          "circle",
-          "circle",
-          "square-x",
-          "square-x",
-          "square-x",
-          "square-x",
-          "square-x",
-          "square-x",
-          "square-x",
-          "square-x",
-          "square-x",
-          "square-x",
-          "square-x",
-          "circle",
-          "square-x",
-          "square-x",
-          "square-x",
-          "circle",
-          "square-x",
-          "circle",
-          "square-x",
-          "square-x"
-        ],
-        "line": {
-          "width": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            1,
-            1,
-            1,
-            0,
-            1,
-            1,
-            0,
-            0,
-            0,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            0,
-            1,
-            1,
-            1,
-            0,
-            1,
-            0,
-            1,
-            1
-          ],
-          "color": [
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#8C9906",
-            "#8C9906",
-            "#626C02",
-            "#D0E300",
-            "#626C02",
-            "#626C02",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#626C02",
-            "#626C02",
-            "#626C02",
-            "#626C02",
-            "#626C02",
-            "#626C02",
-            "#626C02",
-            "#626C02",
-            "#626C02",
-            "#626C02",
-            "#626C02",
-            "#D0E300",
-            "#626C02",
-            "#626C02",
-            "#626C02",
-            "#D0E300",
-            "#626C02",
-            "#D0E300",
-            "#626C02",
-            "#626C02"
-          ]
-        }
-      },
-      "showlegend": false,
-      "text": [
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen (< BG)",
-        "An der Traisen (< BG)",
-        "An der Traisen (< NG)",
-        "An der Traisen",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen",
-        "An der Traisen (< NG)",
-        "An der Traisen",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)"
-      ],
-      "hoverinfo": "text",
-      "opacity": 0.2,
-      "inherit": true
-    },
-    "1d9e4332f7830a.5": {
-      "mode": "lines+markers",
-      "alpha_stroke": 1,
-      "sizes": [
-        10,
-        100
-      ],
-      "spans": [
-        1,
-        20
-      ],
-      "type": "scatter",
-      "x": [
-        "2025-11-17",
-        "2025-11-24",
-        "2025-12-01",
-        "2025-12-08",
-        "2025-12-15",
-        "2025-12-22",
-        "2025-12-29",
-        "2026-01-05",
-        "2026-01-12",
-        "2026-01-19",
-        "2026-01-26",
-        "2026-02-02",
-        "2026-02-09",
-        "2026-02-16",
-        "2026-02-23",
-        "2026-03-02",
-        "2026-03-16",
-        "2026-03-23",
-        "2026-03-30",
-        "2026-04-06",
-        "2026-04-13",
-        "2026-04-20",
-        "2026-04-27",
-        "2026-05-04",
-        "2026-05-11",
-        "2026-05-18",
-        "2026-05-25",
-        "2026-06-01",
-        "2026-06-08",
-        "2026-06-15",
-        "2026-06-22",
-        "2026-06-29",
-        "2026-07-06",
-        "2026-07-13",
-        "2026-07-20",
-        "2026-07-27",
-        "2026-08-03",
-        "2026-08-10",
-        "2026-08-17",
-        "2026-08-24",
-        "2026-08-31",
-        "2026-09-07",
-        "2026-09-14"
-      ],
-      "y": [
-        632.895589361935,
-        167.30603042574148,
-        254.26332494254132,
-        485.17281383386234,
-        328.7363905001642,
-        147.84809018277335,
-        48.174477399584106,
-        107.60755171281602,
-        241.42333369815037,
-        102.14893291014556,
-        120.03160774871402,
-        49.696837036226334,
-        65.81416219765788,
-        112.69300645726169,
-        46.8338623180475,
-        64.96191310058006,
-        15.64187370033928,
-        0,
-        0,
-        19.397898653825106,
-        0,
-        0,
-        27.425829046733064,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        35.4377147860348,
-        0,
-        13.544927218999671,
-        0,
-        44.02473459560031,
-        114.2419174783846,
-        35.682696727591114,
-        35.94002407792492
-      ],
-      "name": "Amstetten",
-      "line": {
-        "color": "#D0E300",
-        "width": "1,6"
-      },
-      "marker": {
-        "color": [
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
           "#D0E300",
           "#D0E300"
         ],
@@ -1790,32 +1421,35 @@
           6,
           6,
           6,
-          6,
-          5,
-          5,
-          6,
-          5,
-          5,
-          6,
-          5,
-          5,
-          5,
-          5,
-          5,
-          5,
-          5,
-          5,
-          5,
           5,
           5,
           5,
           6,
           5,
-          6,
           5,
           6,
           6,
           6,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          6,
+          5,
+          5,
+          5,
+          6,
+          5,
+          6,
+          5,
+          5,
           6
         ],
         "symbol": [
@@ -1835,15 +1469,16 @@
           "circle",
           "circle",
           "circle",
-          "circle",
-          "square-x",
-          "square-x",
-          "circle",
-          "square-x",
+          "square",
+          "square",
           "square-x",
           "circle",
           "square-x",
           "square-x",
+          "circle",
+          "circle",
+          "circle",
+          "square-x",
           "square-x",
           "square-x",
           "square-x",
@@ -1856,11 +1491,13 @@
           "square-x",
           "circle",
           "square-x",
+          "square-x",
+          "square-x",
           "circle",
           "square-x",
           "circle",
-          "circle",
-          "circle",
+          "square-x",
+          "square-x",
           "circle"
         ],
         "line": {
@@ -1881,32 +1518,35 @@
             0,
             0,
             0,
-            0,
-            1,
-            1,
-            0,
-            1,
-            1,
-            0,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
             1,
             1,
             1,
             0,
             1,
-            0,
             1,
             0,
             0,
             0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            1,
+            0,
+            1,
+            1,
             0
           ],
           "color": [
@@ -1926,15 +1566,16 @@
             "#D0E300",
             "#D0E300",
             "#D0E300",
-            "#D0E300",
-            "#626C02",
-            "#626C02",
-            "#D0E300",
-            "#626C02",
+            "#8C9906",
+            "#8C9906",
             "#626C02",
             "#D0E300",
             "#626C02",
             "#626C02",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#626C02",
             "#626C02",
             "#626C02",
             "#626C02",
@@ -1947,66 +1588,71 @@
             "#626C02",
             "#D0E300",
             "#626C02",
+            "#626C02",
+            "#626C02",
             "#D0E300",
             "#626C02",
             "#D0E300",
-            "#D0E300",
-            "#D0E300",
+            "#626C02",
+            "#626C02",
             "#D0E300"
           ]
         }
       },
       "showlegend": false,
       "text": [
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten",
-        "Amstetten (< NG)",
-        "Amstetten",
-        "Amstetten (< NG)",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten"
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen (< BG)",
+        "An der Traisen (< BG)",
+        "An der Traisen (< NG)",
+        "An der Traisen",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen",
+        "An der Traisen (< NG)",
+        "An der Traisen",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "1d9e4332f7830a.6": {
+    "1d44c07fcd2f26.5": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -2062,7 +1708,402 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-28"
+      ],
+      "y": [
+        632.895589361935,
+        167.30603042574148,
+        254.26332494254132,
+        485.17281383386234,
+        328.7363905001642,
+        147.84809018277335,
+        48.174477399584106,
+        107.60755171281602,
+        241.42333369815037,
+        102.14893291014556,
+        120.03160774871402,
+        49.696837036226334,
+        65.81416219765788,
+        112.69300645726169,
+        46.8338623180475,
+        64.96191310058006,
+        15.64187370033928,
+        0,
+        0,
+        19.397898653825106,
+        0,
+        0,
+        27.425829046733064,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        35.4377147860348,
+        0,
+        13.544927218999671,
+        0,
+        44.02473459560031,
+        114.2419174783846,
+        35.682696727591114,
+        35.94002407792492,
+        113.54265076064354
+      ],
+      "name": "Amstetten",
+      "line": {
+        "color": "#D0E300",
+        "width": "1,6"
+      },
+      "marker": {
+        "color": [
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300"
+        ],
+        "size": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          5,
+          5,
+          6,
+          5,
+          5,
+          6,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          6,
+          5,
+          6,
+          5,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "symbol": [
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "square-x",
+          "square-x",
+          "circle",
+          "square-x",
+          "square-x",
+          "circle",
+          "square-x",
+          "square-x",
+          "square-x",
+          "square-x",
+          "square-x",
+          "square-x",
+          "square-x",
+          "square-x",
+          "square-x",
+          "square-x",
+          "square-x",
+          "square-x",
+          "circle",
+          "square-x",
+          "circle",
+          "square-x",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle"
+        ],
+        "line": {
+          "width": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            1,
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "color": [
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#626C02",
+            "#626C02",
+            "#D0E300",
+            "#626C02",
+            "#626C02",
+            "#D0E300",
+            "#626C02",
+            "#626C02",
+            "#626C02",
+            "#626C02",
+            "#626C02",
+            "#626C02",
+            "#626C02",
+            "#626C02",
+            "#626C02",
+            "#626C02",
+            "#626C02",
+            "#626C02",
+            "#D0E300",
+            "#626C02",
+            "#D0E300",
+            "#626C02",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300"
+          ]
+        }
+      },
+      "showlegend": false,
+      "text": [
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten",
+        "Amstetten (< NG)",
+        "Amstetten",
+        "Amstetten (< NG)",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten"
+      ],
+      "hoverinfo": "text",
+      "opacity": 0.2,
+      "inherit": true
+    },
+    "1d44c07fcd2f26.6": {
+      "mode": "lines+markers",
+      "alpha_stroke": 1,
+      "sizes": [
+        10,
+        100
+      ],
+      "spans": [
+        1,
+        20
+      ],
+      "type": "scatter",
+      "x": [
+        "2025-11-17",
+        "2025-11-24",
+        "2025-12-01",
+        "2025-12-08",
+        "2025-12-15",
+        "2025-12-22",
+        "2025-12-29",
+        "2026-01-05",
+        "2026-01-12",
+        "2026-01-19",
+        "2026-01-26",
+        "2026-02-02",
+        "2026-02-09",
+        "2026-02-16",
+        "2026-02-23",
+        "2026-03-02",
+        "2026-03-16",
+        "2026-03-23",
+        "2026-03-30",
+        "2026-04-06",
+        "2026-04-13",
+        "2026-04-20",
+        "2026-04-27",
+        "2026-05-04",
+        "2026-05-11",
+        "2026-05-18",
+        "2026-05-25",
+        "2026-06-01",
+        "2026-06-08",
+        "2026-06-15",
+        "2026-06-22",
+        "2026-06-29",
+        "2026-07-06",
+        "2026-07-13",
+        "2026-07-20",
+        "2026-07-27",
+        "2026-08-03",
+        "2026-08-10",
+        "2026-08-17",
+        "2026-08-24",
+        "2026-08-31",
+        "2026-09-07",
+        "2026-09-14",
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         228.2416,
@@ -2108,7 +2149,8 @@
         0,
         32.4114,
         77.0381111111111,
-        160.92253333333332
+        160.92253333333332,
+        92.85391111111112
       ],
       "name": "Wr. Neustadt-Süd",
       "line": {
@@ -2117,6 +2159,7 @@
       },
       "marker": {
         "color": [
+          "#D0E300",
           "#D0E300",
           "#D0E300",
           "#D0E300",
@@ -2206,6 +2249,7 @@
           5,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -2250,6 +2294,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle"
@@ -2299,6 +2344,7 @@
             1,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -2343,6 +2389,7 @@
             "#D0E300",
             "#D0E300",
             "#626C02",
+            "#D0E300",
             "#D0E300",
             "#D0E300",
             "#D0E300"
@@ -2394,13 +2441,14 @@
         "Wr. Neustadt-Süd (< NG)",
         "Wr. Neustadt-Süd",
         "Wr. Neustadt-Süd",
+        "Wr. Neustadt-Süd",
         "Wr. Neustadt-Süd"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "1d9e4332f7830a.7": {
+    "1d44c07fcd2f26.7": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -2457,7 +2505,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         481.05051333333336,
@@ -2504,7 +2553,8 @@
         8.13152,
         38.27798,
         79.07299555555555,
-        43.99527111111111
+        43.99527111111111,
+        52.216406666666664
       ],
       "name": "Asten",
       "line": {
@@ -2557,6 +2607,7 @@
           "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
+          "#2A9D8F",
           "#2A9D8F"
         ],
         "size": [
@@ -2604,6 +2655,7 @@
           5,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -2649,6 +2701,7 @@
           "square",
           "circle",
           "square",
+          "circle",
           "circle",
           "circle",
           "circle"
@@ -2699,6 +2752,7 @@
             1,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -2744,6 +2798,7 @@
             "#006D62",
             "#2A9D8F",
             "#006D62",
+            "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F"
@@ -2796,13 +2851,14 @@
         "Asten (< BG)",
         "Asten",
         "Asten",
+        "Asten",
         "Asten"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "1d9e4332f7830a.8": {
+    "1d44c07fcd2f26.8": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -2859,7 +2915,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         475.5392731823424,
@@ -2906,7 +2963,8 @@
         42.47581773120997,
         26.328123082963216,
         42.09275390768778,
-        78.02321301499276
+        78.02321301499276,
+        89.78342698697028
       ],
       "name": "Traunsee-Nord",
       "line": {
@@ -2915,6 +2973,7 @@
       },
       "marker": {
         "color": [
+          "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
@@ -3006,6 +3065,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -3050,6 +3110,7 @@
           "square-x",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -3101,6 +3162,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -3145,6 +3207,7 @@
             "#044E46",
             "#2A9D8F",
             "#044E46",
+            "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
@@ -3198,13 +3261,14 @@
         "Traunsee-Nord",
         "Traunsee-Nord",
         "Traunsee-Nord",
+        "Traunsee-Nord",
         "Traunsee-Nord"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "1d9e4332f7830a.9": {
+    "1d44c07fcd2f26.9": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -3258,7 +3322,8 @@
         "2026-08-24",
         "2026-08-24",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         255.11633333333333,
@@ -3302,7 +3367,8 @@
         20.889885714285715,
         59.38666666666666,
         79.27704761904762,
-        62.912
+        62.912,
+        42.56073333333333
       ],
       "name": "Welser Heide",
       "line": {
@@ -3311,6 +3377,7 @@
       },
       "marker": {
         "color": [
+          "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
@@ -3396,6 +3463,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -3433,6 +3501,7 @@
           "square-x",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -3485,6 +3554,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -3522,6 +3592,7 @@
             "#044E46",
             "#2A9D8F",
             "#044E46",
+            "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
@@ -3576,13 +3647,14 @@
         "Welser Heide",
         "Welser Heide",
         "Welser Heide",
+        "Welser Heide",
         "Welser Heide"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "1d9e4332f7830a.10": {
+    "1d44c07fcd2f26.10": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -3638,7 +3710,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         306.76316376894266,
@@ -3684,7 +3757,8 @@
         90.41816513306381,
         8.426176244450508,
         15.959026761576428,
-        28.885265011533026
+        28.885265011533026,
+        23.61442496093653
       ],
       "name": "Salzach-Pongau",
       "line": {
@@ -3693,6 +3767,7 @@
       },
       "marker": {
         "color": [
+          "#00B4D8",
           "#00B4D8",
           "#00B4D8",
           "#00B4D8",
@@ -3782,6 +3857,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -3820,6 +3896,7 @@
           "square-x",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -3875,6 +3952,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -3913,6 +3991,7 @@
             "#01576A",
             "#00B4D8",
             "#01576A",
+            "#00B4D8",
             "#00B4D8",
             "#00B4D8",
             "#00B4D8",
@@ -3970,13 +4049,14 @@
         "Salzach-Pongau",
         "Salzach-Pongau",
         "Salzach-Pongau",
+        "Salzach-Pongau",
         "Salzach-Pongau"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "1d9e4332f7830a.11": {
+    "1d44c07fcd2f26.11": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -4032,7 +4112,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         268.2252336448598,
@@ -4078,7 +4159,8 @@
         39.24786292834891,
         23.040093457943925,
         26.063856697819315,
-        61.846831775700934
+        61.846831775700934,
+        36.21986292834891
       ],
       "name": "Siggerwiesen",
       "line": {
@@ -4087,6 +4169,7 @@
       },
       "marker": {
         "color": [
+          "#00B4D8",
           "#00B4D8",
           "#00B4D8",
           "#00B4D8",
@@ -4176,6 +4259,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -4217,6 +4301,7 @@
           "circle",
           "circle",
           "square",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -4269,6 +4354,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -4310,6 +4396,7 @@
             "#00B4D8",
             "#00B4D8",
             "#007B94",
+            "#00B4D8",
             "#00B4D8",
             "#00B4D8",
             "#00B4D8",
@@ -4364,13 +4451,14 @@
         "Siggerwiesen",
         "Siggerwiesen",
         "Siggerwiesen",
+        "Siggerwiesen",
         "Siggerwiesen"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "1d9e4332f7830a.12": {
+    "1d44c07fcd2f26.12": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -4426,7 +4514,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         133.40053571428572,
@@ -4472,7 +4561,8 @@
         73.41192857142858,
         20.46785714285714,
         30.90342857142857,
-        32.88814285714286
+        32.88814285714286,
+        33.94875
       ],
       "name": "Kapfenberg/Mürz",
       "line": {
@@ -4481,6 +4571,7 @@
       },
       "marker": {
         "color": [
+          "#457B9D",
           "#457B9D",
           "#457B9D",
           "#457B9D",
@@ -4570,6 +4661,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -4613,6 +4705,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -4663,6 +4756,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -4706,6 +4800,7 @@
             "#457B9D",
             "#457B9D",
             "#1A3E53",
+            "#457B9D",
             "#457B9D",
             "#457B9D",
             "#457B9D",
@@ -4758,13 +4853,14 @@
         "Kapfenberg/Mürz",
         "Kapfenberg/Mürz",
         "Kapfenberg/Mürz",
+        "Kapfenberg/Mürz",
         "Kapfenberg/Mürz"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "1d9e4332f7830a.13": {
+    "1d44c07fcd2f26.13": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -4817,7 +4913,8 @@
         "2026-08-24",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         158.78993875554158,
@@ -4860,7 +4957,8 @@
         34.24228706376913,
         40.12736914583912,
         40.356021163765504,
-        80.4429260838578
+        80.4429260838578,
+        46.33036372202022
       ],
       "name": "Graz-Gössendorf",
       "line": {
@@ -4869,6 +4967,7 @@
       },
       "marker": {
         "color": [
+          "#457B9D",
           "#457B9D",
           "#457B9D",
           "#457B9D",
@@ -4952,6 +5051,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -4992,6 +5092,7 @@
           "circle",
           "square-x",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -5039,6 +5140,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -5079,6 +5181,7 @@
             "#457B9D",
             "#1A3E53",
             "#1A3E53",
+            "#457B9D",
             "#457B9D",
             "#457B9D",
             "#457B9D",
@@ -5128,13 +5231,14 @@
         "Graz-Gössendorf",
         "Graz-Gössendorf",
         "Graz-Gössendorf",
+        "Graz-Gössendorf",
         "Graz-Gössendorf"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "1d9e4332f7830a.14": {
+    "1d44c07fcd2f26.14": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -5188,7 +5292,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         240.9880372324339,
@@ -5232,7 +5337,8 @@
         114.2179508720051,
         33.389831647568805,
         50.30306797943479,
-        32.224520313182566
+        32.224520313182566,
+        26.463523639907255
       ],
       "name": "Wildon",
       "line": {
@@ -5241,6 +5347,7 @@
       },
       "marker": {
         "color": [
+          "#457B9D",
           "#457B9D",
           "#457B9D",
           "#457B9D",
@@ -5326,6 +5433,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -5365,6 +5473,7 @@
           "circle",
           "square-x",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -5415,6 +5524,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -5454,6 +5564,7 @@
             "#457B9D",
             "#1A3E53",
             "#1A3E53",
+            "#457B9D",
             "#457B9D",
             "#457B9D",
             "#457B9D",
@@ -5506,13 +5617,14 @@
         "Wildon",
         "Wildon",
         "Wildon",
+        "Wildon",
         "Wildon"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "1d9e4332f7830a.15": {
+    "1d44c07fcd2f26.15": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -5898,7 +6010,7 @@
       "opacity": 0.2,
       "inherit": true
     },
-    "1d9e4332f7830a.16": {
+    "1d44c07fcd2f26.16": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -5953,7 +6065,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         222.31830387372452,
@@ -5998,7 +6111,8 @@
         80.19865972400588,
         35.48266280617368,
         64.54360566932075,
-        106.5032806407173
+        106.5032806407173,
+        108.95575221238938
       ],
       "name": "Kirchbichl",
       "line": {
@@ -6007,6 +6121,7 @@
       },
       "marker": {
         "color": [
+          "#9D4EDD",
           "#9D4EDD",
           "#9D4EDD",
           "#9D4EDD",
@@ -6094,6 +6209,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -6134,6 +6250,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -6185,6 +6302,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -6225,6 +6343,7 @@
             "#9D4EDD",
             "#9D4EDD",
             "#5D028E",
+            "#9D4EDD",
             "#9D4EDD",
             "#9D4EDD",
             "#9D4EDD",
@@ -6278,13 +6397,14 @@
         "Kirchbichl",
         "Kirchbichl",
         "Kirchbichl",
+        "Kirchbichl",
         "Kirchbichl"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "1d9e4332f7830a.17": {
+    "1d44c07fcd2f26.17": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -6337,7 +6457,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         106.5813543741382,
@@ -6380,7 +6501,8 @@
         190.45196874521218,
         27.087482763903783,
         108.1182013176038,
-        153.15290332465145
+        153.15290332465145,
+        70.92825953730657
       ],
       "name": "Strass",
       "line": {
@@ -6389,6 +6511,7 @@
       },
       "marker": {
         "color": [
+          "#9D4EDD",
           "#9D4EDD",
           "#9D4EDD",
           "#9D4EDD",
@@ -6472,6 +6595,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -6510,6 +6634,7 @@
           "circle",
           "square-x",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -6559,6 +6684,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -6597,6 +6723,7 @@
             "#9D4EDD",
             "#5D028E",
             "#5D028E",
+            "#9D4EDD",
             "#9D4EDD",
             "#9D4EDD",
             "#9D4EDD",
@@ -6648,13 +6775,14 @@
         "Strass",
         "Strass",
         "Strass",
+        "Strass",
         "Strass"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "1d9e4332f7830a.18": {
+    "1d44c07fcd2f26.18": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -6710,7 +6838,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         757.6862242776104,
@@ -6756,7 +6885,8 @@
         80.78415650524845,
         11.623958212034003,
         38.6328414818758,
-        18.109660140069536
+        18.109660140069536,
+        41.344667542794404
       ],
       "name": "Meiningen",
       "line": {
@@ -6808,6 +6938,7 @@
           "#F141A8",
           "#F141A8",
           "#F141A8",
+          "#F141A8",
           "#F141A8"
         ],
         "size": [
@@ -6854,6 +6985,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -6897,6 +7029,7 @@
           "square-x",
           "circle",
           "square",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -6947,6 +7080,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -6990,6 +7124,7 @@
             "#850058",
             "#F141A8",
             "#B60179",
+            "#F141A8",
             "#F141A8",
             "#F141A8",
             "#F141A8",
@@ -7042,13 +7177,14 @@
         "Meiningen",
         "Meiningen",
         "Meiningen",
+        "Meiningen",
         "Meiningen"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "1d9e4332f7830a.19": {
+    "1d44c07fcd2f26.19": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -7102,7 +7238,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         160.15125238108777,
@@ -7146,7 +7283,8 @@
         83.76686663065419,
         25.869033065135188,
         104.87419327324936,
-        52.20744605236972
+        52.20744605236972,
+        23.611889801836636
       ],
       "name": "Hofsteig",
       "line": {
@@ -7155,6 +7293,7 @@
       },
       "marker": {
         "color": [
+          "#F141A8",
           "#F141A8",
           "#F141A8",
           "#F141A8",
@@ -7240,6 +7379,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -7281,6 +7421,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -7329,6 +7470,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -7370,6 +7512,7 @@
             "#F141A8",
             "#F141A8",
             "#850058",
+            "#F141A8",
             "#F141A8",
             "#F141A8",
             "#F141A8",
@@ -7420,13 +7563,14 @@
         "Hofsteig",
         "Hofsteig",
         "Hofsteig",
+        "Hofsteig",
         "Hofsteig"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "1d9e4332f7830a.20": {
+    "1d44c07fcd2f26.20": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -7483,7 +7627,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         392.7399374369324,
@@ -7530,7 +7675,8 @@
         65.94478405650858,
         50.933329969727545,
         79.2821614530777,
-        74.56336074672049
+        74.56336074672049,
+        105.564824419778
       ],
       "name": "Wien",
       "line": {
@@ -7539,6 +7685,7 @@
       },
       "marker": {
         "color": [
+          "#8D6E63",
           "#8D6E63",
           "#8D6E63",
           "#8D6E63",
@@ -7630,6 +7777,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -7665,6 +7813,7 @@
           "square",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -7725,6 +7874,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -7760,6 +7910,7 @@
             "#604D47",
             "#8D6E63",
             "#483731",
+            "#8D6E63",
             "#8D6E63",
             "#8D6E63",
             "#8D6E63",
@@ -7822,13 +7973,14 @@
         "Wien",
         "Wien",
         "Wien",
+        "Wien",
         "Wien"
       ],
       "hoverinfo": "text",
       "opacity": 0.2,
       "inherit": true
     },
-    "1d9e4332f7830a.21": {
+    "1d44c07fcd2f26.21": {
       "mode": "lines",
       "alpha_stroke": 1,
       "sizes": [
@@ -8288,7 +8440,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         151.63265620561592,
@@ -8738,7 +8891,8 @@
         86.4912021561005,
         38.96372103448276,
         79.12400857142856,
-        81.26761622011577
+        81.26761622011577,
+        98.79359950574451
       ],
       "line": {
         "color": "transparent"
@@ -9193,12 +9347,13 @@
         "3. Quartil Österreich",
         "3. Quartil Österreich",
         "3. Quartil Österreich",
+        "3. Quartil Österreich",
         "3. Quartil Österreich"
       ],
       "hoverinfo": "text",
       "inherit": true
     },
-    "1d9e4332f7830a.22": {
+    "1d44c07fcd2f26.22": {
       "mode": "lines",
       "alpha_stroke": 1,
       "sizes": [
@@ -9658,7 +9813,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         92.42378420958539,
@@ -10108,7 +10264,8 @@
         32.057602973205334,
         24.771523516424956,
         34.68087520130083,
-        32.55633158516271
+        32.55633158516271,
+        37.920440555083545
       ],
       "fill": "tonexty",
       "fillcolor": "#b0b0b0b0",
@@ -10565,12 +10722,13 @@
         "1. Quartil Österreich",
         "1. Quartil Österreich",
         "1. Quartil Österreich",
+        "1. Quartil Österreich",
         "1. Quartil Österreich"
       ],
       "hoverinfo": "text",
       "inherit": true
     },
-    "1d9e4332f7830a.23": {
+    "1d44c07fcd2f26.23": {
       "mode": "lines",
       "alpha_stroke": 1,
       "sizes": [
@@ -11030,7 +11188,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         92.42378420958539,
@@ -11480,7 +11639,8 @@
         32.057602973205334,
         24.771523516424956,
         34.68087520130083,
-        32.55633158516271
+        32.55633158516271,
+        37.920440555083545
       ],
       "line": {
         "color": "transparent"
@@ -11935,12 +12095,13 @@
         "1. Quartil Österreich",
         "1. Quartil Österreich",
         "1. Quartil Österreich",
+        "1. Quartil Österreich",
         "1. Quartil Österreich"
       ],
       "hoverinfo": "text",
       "inherit": true
     },
-    "1d9e4332f7830a.24": {
+    "1d44c07fcd2f26.24": {
       "mode": "lines",
       "alpha_stroke": 1,
       "sizes": [
@@ -12400,7 +12561,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         122.02822020760064,
@@ -12850,7 +13012,8 @@
         69.67835631396858,
         32.4114,
         42.159122408389344,
-        61.846831775700934
+        61.846831775700934,
+        51.224
       ],
       "name": "Österreich",
       "line": {
@@ -13307,13 +13470,14 @@
         "Österreich",
         "Österreich",
         "Österreich",
+        "Österreich",
         "Österreich"
       ],
       "hoverinfo": "text",
       "visible": true,
       "inherit": true
     },
-    "1d9e4332f7830a.25": {
+    "1d44c07fcd2f26.25": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -13369,7 +13533,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         325.97060611323377,
@@ -13415,7 +13580,8 @@
         87.39931399791594,
         45.13285863146926,
         123.90285255296978,
-        82.09230635637374
+        82.09230635637374,
+        122.03004515456756
       ],
       "name": "Wulkaprodersdorf",
       "line": {
@@ -13424,6 +13590,7 @@
       },
       "marker": {
         "color": [
+          "#E63946",
           "#E63946",
           "#E63946",
           "#E63946",
@@ -13513,6 +13680,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -13553,6 +13721,7 @@
           "square-x",
           "square-x",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -13606,6 +13775,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -13646,6 +13816,7 @@
             "#810113",
             "#810113",
             "#810113",
+            "#E63946",
             "#E63946",
             "#E63946",
             "#E63946",
@@ -13702,13 +13873,14 @@
         "Wulkaprodersdorf",
         "Wulkaprodersdorf",
         "Wulkaprodersdorf",
+        "Wulkaprodersdorf",
         "Wulkaprodersdorf"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.26": {
+    "1d44c07fcd2f26.26": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -13772,6 +13944,7 @@
           "#E63946",
           "#E63946",
           "#E63946",
+          "#E63946",
           "#E63946"
         ],
         "size": [
@@ -13812,6 +13985,7 @@
           7,
           7,
           7,
+          6,
           6,
           6,
           6,
@@ -13866,6 +14040,7 @@
             "#E63946",
             "#E63946",
             "#E63946",
+            "#E63946",
             "#E63946"
           ],
           "width": 0
@@ -13876,7 +14051,7 @@
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.27": {
+    "1d44c07fcd2f26.27": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -13933,7 +14108,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         498.90181818181816,
@@ -13980,7 +14156,8 @@
         42.22134545454546,
         32.11523636363636,
         42.22549090909091,
-        28.046545454545456
+        28.046545454545456,
+        39.62101818181818
       ],
       "name": "Millstätter See",
       "line": {
@@ -13989,6 +14166,7 @@
       },
       "marker": {
         "color": [
+          "#F4A261",
           "#F4A261",
           "#F4A261",
           "#F4A261",
@@ -14080,6 +14258,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -14121,6 +14300,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -14175,6 +14355,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -14216,6 +14397,7 @@
             "#F4A261",
             "#F4A261",
             "#804900",
+            "#F4A261",
             "#F4A261",
             "#F4A261",
             "#F4A261",
@@ -14273,13 +14455,14 @@
         "Millstätter See",
         "Millstätter See",
         "Millstätter See",
+        "Millstätter See",
         "Millstätter See"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.28": {
+    "1d44c07fcd2f26.28": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -14344,6 +14527,7 @@
           "#F4A261",
           "#F4A261",
           "#F4A261",
+          "#F4A261",
           "#F4A261"
         ],
         "size": [
@@ -14385,6 +14569,7 @@
           6,
           6,
           7,
+          6,
           6,
           6,
           6,
@@ -14440,6 +14625,7 @@
             "#F4A261",
             "#F4A261",
             "#F4A261",
+            "#F4A261",
             "#F4A261"
           ],
           "width": 0
@@ -14450,7 +14636,7 @@
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.29": {
+    "1d44c07fcd2f26.29": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -14507,7 +14693,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         557.2472758620689,
@@ -14554,7 +14741,8 @@
         0,
         39.64946206896552,
         36.3570275862069,
-        93.10666896551724
+        93.10666896551724,
+        51.224
       ],
       "name": "Wörthersee Ost",
       "line": {
@@ -14607,6 +14795,7 @@
           "#F4A261",
           "#F4A261",
           "#F4A261",
+          "#F4A261",
           "#F4A261"
         ],
         "size": [
@@ -14654,6 +14843,7 @@
           7,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -14699,6 +14889,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle"
@@ -14749,6 +14940,7 @@
             1,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -14794,6 +14986,7 @@
             "#F4A261",
             "#F4A261",
             "#804900",
+            "#F4A261",
             "#F4A261",
             "#F4A261",
             "#F4A261"
@@ -14847,13 +15040,14 @@
         "Wörthersee Ost (< NG)",
         "Wörthersee Ost",
         "Wörthersee Ost",
+        "Wörthersee Ost",
         "Wörthersee Ost"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.30": {
+    "1d44c07fcd2f26.30": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -14874,6 +15068,7 @@
       },
       "marker": {
         "color": [
+          "#F4A261",
           "#F4A261",
           "#F4A261",
           "#F4A261",
@@ -14965,11 +15160,13 @@
           7,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#F4A261",
             "#F4A261",
             "#F4A261",
             "#F4A261",
@@ -15024,7 +15221,7 @@
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.31": {
+    "1d44c07fcd2f26.31": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -15081,7 +15278,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         166.08305970303368,
@@ -15128,7 +15326,8 @@
         0,
         44.112818288829686,
         0,
-        0
+        0,
+        104.73328790037792
       ],
       "name": "An der Traisen",
       "line": {
@@ -15181,316 +15380,6 @@
           "#D0E300",
           "#D0E300",
           "#D0E300",
-          "#D0E300"
-        ],
-        "size": [
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          7,
-          7,
-          7,
-          6,
-          7,
-          7,
-          6,
-          6,
-          6,
-          7,
-          7,
-          7,
-          7,
-          7,
-          7,
-          7,
-          7,
-          7,
-          7,
-          7,
-          6,
-          7,
-          7,
-          7,
-          6,
-          7,
-          6,
-          7,
-          7
-        ],
-        "symbol": [
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "circle",
-          "square",
-          "square",
-          "square-x",
-          "circle",
-          "square-x",
-          "square-x",
-          "circle",
-          "circle",
-          "circle",
-          "square-x",
-          "square-x",
-          "square-x",
-          "square-x",
-          "square-x",
-          "square-x",
-          "square-x",
-          "square-x",
-          "square-x",
-          "square-x",
-          "square-x",
-          "circle",
-          "square-x",
-          "square-x",
-          "square-x",
-          "circle",
-          "square-x",
-          "circle",
-          "square-x",
-          "square-x"
-        ],
-        "line": {
-          "width": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            1,
-            1,
-            1,
-            0,
-            1,
-            1,
-            0,
-            0,
-            0,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            0,
-            1,
-            1,
-            1,
-            0,
-            1,
-            0,
-            1,
-            1
-          ],
-          "color": [
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#8C9906",
-            "#8C9906",
-            "#626C02",
-            "#D0E300",
-            "#626C02",
-            "#626C02",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#626C02",
-            "#626C02",
-            "#626C02",
-            "#626C02",
-            "#626C02",
-            "#626C02",
-            "#626C02",
-            "#626C02",
-            "#626C02",
-            "#626C02",
-            "#626C02",
-            "#D0E300",
-            "#626C02",
-            "#626C02",
-            "#626C02",
-            "#D0E300",
-            "#626C02",
-            "#D0E300",
-            "#626C02",
-            "#626C02"
-          ]
-        }
-      },
-      "showlegend": false,
-      "legendgroup": "lineplotgrp-An der Traisen",
-      "text": [
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen (< BG)",
-        "An der Traisen (< BG)",
-        "An der Traisen (< NG)",
-        "An der Traisen",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)",
-        "An der Traisen",
-        "An der Traisen (< NG)",
-        "An der Traisen",
-        "An der Traisen (< NG)",
-        "An der Traisen (< NG)"
-      ],
-      "hoverinfo": "text",
-      "visible": "legendonly",
-      "inherit": true
-    },
-    "1d9e4332f7830a.32": {
-      "mode": "lines+markers",
-      "alpha_stroke": 1,
-      "sizes": [
-        10,
-        100
-      ],
-      "spans": [
-        1,
-        20
-      ],
-      "type": "scatter",
-      "x": 1,
-      "y": 1,
-      "name": "An der Traisen",
-      "line": {
-        "color": "#D0E300",
-        "width": "1,6"
-      },
-      "marker": {
-        "color": [
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
           "#D0E300",
           "#D0E300"
         ],
@@ -15539,261 +15428,7 @@
           7,
           6,
           7,
-          7
-        ],
-        "symbol": "circle",
-        "line": {
-          "color": [
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300",
-            "#D0E300"
-          ],
-          "width": 0
-        }
-      },
-      "showlegend": true,
-      "legendgroup": "lineplotgrp-An der Traisen",
-      "visible": "legendonly",
-      "inherit": true
-    },
-    "1d9e4332f7830a.33": {
-      "mode": "lines+markers",
-      "alpha_stroke": 1,
-      "sizes": [
-        10,
-        100
-      ],
-      "spans": [
-        1,
-        20
-      ],
-      "type": "scatter",
-      "x": [
-        "2025-11-17",
-        "2025-11-24",
-        "2025-12-01",
-        "2025-12-08",
-        "2025-12-15",
-        "2025-12-22",
-        "2025-12-29",
-        "2026-01-05",
-        "2026-01-12",
-        "2026-01-19",
-        "2026-01-26",
-        "2026-02-02",
-        "2026-02-09",
-        "2026-02-16",
-        "2026-02-23",
-        "2026-03-02",
-        "2026-03-16",
-        "2026-03-23",
-        "2026-03-30",
-        "2026-04-06",
-        "2026-04-13",
-        "2026-04-20",
-        "2026-04-27",
-        "2026-05-04",
-        "2026-05-11",
-        "2026-05-18",
-        "2026-05-25",
-        "2026-06-01",
-        "2026-06-08",
-        "2026-06-15",
-        "2026-06-22",
-        "2026-06-29",
-        "2026-07-06",
-        "2026-07-13",
-        "2026-07-20",
-        "2026-07-27",
-        "2026-08-03",
-        "2026-08-10",
-        "2026-08-17",
-        "2026-08-24",
-        "2026-08-31",
-        "2026-09-07",
-        "2026-09-14"
-      ],
-      "y": [
-        632.895589361935,
-        167.30603042574148,
-        254.26332494254132,
-        485.17281383386234,
-        328.7363905001642,
-        147.84809018277335,
-        48.174477399584106,
-        107.60755171281602,
-        241.42333369815037,
-        102.14893291014556,
-        120.03160774871402,
-        49.696837036226334,
-        65.81416219765788,
-        112.69300645726169,
-        46.8338623180475,
-        64.96191310058006,
-        15.64187370033928,
-        0,
-        0,
-        19.397898653825106,
-        0,
-        0,
-        27.425829046733064,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        35.4377147860348,
-        0,
-        13.544927218999671,
-        0,
-        44.02473459560031,
-        114.2419174783846,
-        35.682696727591114,
-        35.94002407792492
-      ],
-      "name": "Amstetten",
-      "line": {
-        "color": "#D0E300",
-        "width": "1,6"
-      },
-      "marker": {
-        "color": [
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300",
-          "#D0E300"
-        ],
-        "size": [
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
-          6,
           7,
-          7,
-          6,
-          7,
-          7,
-          6,
-          7,
-          7,
-          7,
-          7,
-          7,
-          7,
-          7,
-          7,
-          7,
-          7,
-          7,
-          7,
-          6,
-          7,
-          6,
-          7,
-          6,
-          6,
-          6,
           6
         ],
         "symbol": [
@@ -15813,15 +15448,16 @@
           "circle",
           "circle",
           "circle",
-          "circle",
-          "square-x",
-          "square-x",
-          "circle",
-          "square-x",
+          "square",
+          "square",
           "square-x",
           "circle",
           "square-x",
           "square-x",
+          "circle",
+          "circle",
+          "circle",
+          "square-x",
           "square-x",
           "square-x",
           "square-x",
@@ -15834,11 +15470,13 @@
           "square-x",
           "circle",
           "square-x",
+          "square-x",
+          "square-x",
           "circle",
           "square-x",
           "circle",
-          "circle",
-          "circle",
+          "square-x",
+          "square-x",
           "circle"
         ],
         "line": {
@@ -15859,32 +15497,35 @@
             0,
             0,
             0,
-            0,
-            1,
-            1,
-            0,
-            1,
-            1,
-            0,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
             1,
             1,
             1,
             0,
             1,
-            0,
             1,
             0,
             0,
             0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            1,
+            0,
+            1,
+            1,
             0
           ],
           "color": [
@@ -15904,15 +15545,16 @@
             "#D0E300",
             "#D0E300",
             "#D0E300",
-            "#D0E300",
-            "#626C02",
-            "#626C02",
-            "#D0E300",
-            "#626C02",
+            "#8C9906",
+            "#8C9906",
             "#626C02",
             "#D0E300",
             "#626C02",
             "#626C02",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#626C02",
             "#626C02",
             "#626C02",
             "#626C02",
@@ -15925,67 +15567,72 @@
             "#626C02",
             "#D0E300",
             "#626C02",
+            "#626C02",
+            "#626C02",
             "#D0E300",
             "#626C02",
             "#D0E300",
-            "#D0E300",
-            "#D0E300",
+            "#626C02",
+            "#626C02",
             "#D0E300"
           ]
         }
       },
       "showlegend": false,
-      "legendgroup": "lineplotgrp-Amstetten",
+      "legendgroup": "lineplotgrp-An der Traisen",
       "text": [
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten (< NG)",
-        "Amstetten",
-        "Amstetten (< NG)",
-        "Amstetten",
-        "Amstetten (< NG)",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten",
-        "Amstetten"
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen (< BG)",
+        "An der Traisen (< BG)",
+        "An der Traisen (< NG)",
+        "An der Traisen",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen",
+        "An der Traisen (< NG)",
+        "An der Traisen",
+        "An der Traisen (< NG)",
+        "An der Traisen (< NG)",
+        "An der Traisen"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.34": {
+    "1d44c07fcd2f26.32": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -15999,13 +15646,16 @@
       "type": "scatter",
       "x": 1,
       "y": 1,
-      "name": "Amstetten",
+      "name": "An der Traisen",
       "line": {
         "color": "#D0E300",
         "width": "1,6"
       },
       "marker": {
         "color": [
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
           "#D0E300",
           "#D0E300",
           "#D0E300",
@@ -16067,37 +15717,43 @@
           6,
           6,
           6,
-          6,
-          7,
-          7,
-          6,
-          7,
-          7,
-          6,
-          7,
-          7,
-          7,
-          7,
-          7,
-          7,
-          7,
-          7,
-          7,
           7,
           7,
           7,
           6,
           7,
-          6,
           7,
           6,
           6,
           6,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          6,
+          7,
+          7,
+          7,
+          6,
+          7,
+          6,
+          7,
+          7,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
             "#D0E300",
             "#D0E300",
             "#D0E300",
@@ -16146,11 +15802,11 @@
         }
       },
       "showlegend": true,
-      "legendgroup": "lineplotgrp-Amstetten",
+      "legendgroup": "lineplotgrp-An der Traisen",
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.35": {
+    "1d44c07fcd2f26.33": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -16206,7 +15862,571 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-28"
+      ],
+      "y": [
+        632.895589361935,
+        167.30603042574148,
+        254.26332494254132,
+        485.17281383386234,
+        328.7363905001642,
+        147.84809018277335,
+        48.174477399584106,
+        107.60755171281602,
+        241.42333369815037,
+        102.14893291014556,
+        120.03160774871402,
+        49.696837036226334,
+        65.81416219765788,
+        112.69300645726169,
+        46.8338623180475,
+        64.96191310058006,
+        15.64187370033928,
+        0,
+        0,
+        19.397898653825106,
+        0,
+        0,
+        27.425829046733064,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        35.4377147860348,
+        0,
+        13.544927218999671,
+        0,
+        44.02473459560031,
+        114.2419174783846,
+        35.682696727591114,
+        35.94002407792492,
+        113.54265076064354
+      ],
+      "name": "Amstetten",
+      "line": {
+        "color": "#D0E300",
+        "width": "1,6"
+      },
+      "marker": {
+        "color": [
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300"
+        ],
+        "size": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          7,
+          7,
+          6,
+          7,
+          7,
+          6,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          6,
+          7,
+          6,
+          7,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "symbol": [
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "square-x",
+          "square-x",
+          "circle",
+          "square-x",
+          "square-x",
+          "circle",
+          "square-x",
+          "square-x",
+          "square-x",
+          "square-x",
+          "square-x",
+          "square-x",
+          "square-x",
+          "square-x",
+          "square-x",
+          "square-x",
+          "square-x",
+          "square-x",
+          "circle",
+          "square-x",
+          "circle",
+          "square-x",
+          "circle",
+          "circle",
+          "circle",
+          "circle",
+          "circle"
+        ],
+        "line": {
+          "width": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            1,
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "color": [
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#626C02",
+            "#626C02",
+            "#D0E300",
+            "#626C02",
+            "#626C02",
+            "#D0E300",
+            "#626C02",
+            "#626C02",
+            "#626C02",
+            "#626C02",
+            "#626C02",
+            "#626C02",
+            "#626C02",
+            "#626C02",
+            "#626C02",
+            "#626C02",
+            "#626C02",
+            "#626C02",
+            "#D0E300",
+            "#626C02",
+            "#D0E300",
+            "#626C02",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300"
+          ]
+        }
+      },
+      "showlegend": false,
+      "legendgroup": "lineplotgrp-Amstetten",
+      "text": [
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten (< NG)",
+        "Amstetten",
+        "Amstetten (< NG)",
+        "Amstetten",
+        "Amstetten (< NG)",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten",
+        "Amstetten"
+      ],
+      "hoverinfo": "text",
+      "visible": "legendonly",
+      "inherit": true
+    },
+    "1d44c07fcd2f26.34": {
+      "mode": "lines+markers",
+      "alpha_stroke": 1,
+      "sizes": [
+        10,
+        100
+      ],
+      "spans": [
+        1,
+        20
+      ],
+      "type": "scatter",
+      "x": 1,
+      "y": 1,
+      "name": "Amstetten",
+      "line": {
+        "color": "#D0E300",
+        "width": "1,6"
+      },
+      "marker": {
+        "color": [
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300",
+          "#D0E300"
+        ],
+        "size": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          7,
+          7,
+          6,
+          7,
+          7,
+          6,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          6,
+          7,
+          6,
+          7,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "symbol": "circle",
+        "line": {
+          "color": [
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300",
+            "#D0E300"
+          ],
+          "width": 0
+        }
+      },
+      "showlegend": true,
+      "legendgroup": "lineplotgrp-Amstetten",
+      "visible": "legendonly",
+      "inherit": true
+    },
+    "1d44c07fcd2f26.35": {
+      "mode": "lines+markers",
+      "alpha_stroke": 1,
+      "sizes": [
+        10,
+        100
+      ],
+      "spans": [
+        1,
+        20
+      ],
+      "type": "scatter",
+      "x": [
+        "2025-11-17",
+        "2025-11-24",
+        "2025-12-01",
+        "2025-12-08",
+        "2025-12-15",
+        "2025-12-22",
+        "2025-12-29",
+        "2026-01-05",
+        "2026-01-12",
+        "2026-01-19",
+        "2026-01-26",
+        "2026-02-02",
+        "2026-02-09",
+        "2026-02-16",
+        "2026-02-23",
+        "2026-03-02",
+        "2026-03-16",
+        "2026-03-23",
+        "2026-03-30",
+        "2026-04-06",
+        "2026-04-13",
+        "2026-04-20",
+        "2026-04-27",
+        "2026-05-04",
+        "2026-05-11",
+        "2026-05-18",
+        "2026-05-25",
+        "2026-06-01",
+        "2026-06-08",
+        "2026-06-15",
+        "2026-06-22",
+        "2026-06-29",
+        "2026-07-06",
+        "2026-07-13",
+        "2026-07-20",
+        "2026-07-27",
+        "2026-08-03",
+        "2026-08-10",
+        "2026-08-17",
+        "2026-08-24",
+        "2026-08-31",
+        "2026-09-07",
+        "2026-09-14",
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         228.2416,
@@ -16252,7 +16472,8 @@
         0,
         32.4114,
         77.0381111111111,
-        160.92253333333332
+        160.92253333333332,
+        92.85391111111112
       ],
       "name": "Wr. Neustadt-Süd",
       "line": {
@@ -16261,6 +16482,7 @@
       },
       "marker": {
         "color": [
+          "#D0E300",
           "#D0E300",
           "#D0E300",
           "#D0E300",
@@ -16350,6 +16572,7 @@
           7,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -16394,6 +16617,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle"
@@ -16443,6 +16667,7 @@
             1,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -16487,6 +16712,7 @@
             "#D0E300",
             "#D0E300",
             "#626C02",
+            "#D0E300",
             "#D0E300",
             "#D0E300",
             "#D0E300"
@@ -16539,13 +16765,14 @@
         "Wr. Neustadt-Süd (< NG)",
         "Wr. Neustadt-Süd",
         "Wr. Neustadt-Süd",
+        "Wr. Neustadt-Süd",
         "Wr. Neustadt-Süd"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.36": {
+    "1d44c07fcd2f26.36": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -16566,6 +16793,7 @@
       },
       "marker": {
         "color": [
+          "#D0E300",
           "#D0E300",
           "#D0E300",
           "#D0E300",
@@ -16655,11 +16883,13 @@
           7,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#D0E300",
             "#D0E300",
             "#D0E300",
             "#D0E300",
@@ -16713,7 +16943,7 @@
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.37": {
+    "1d44c07fcd2f26.37": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -16770,7 +17000,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         481.05051333333336,
@@ -16817,7 +17048,8 @@
         8.13152,
         38.27798,
         79.07299555555555,
-        43.99527111111111
+        43.99527111111111,
+        52.216406666666664
       ],
       "name": "Asten",
       "line": {
@@ -16826,6 +17058,7 @@
       },
       "marker": {
         "color": [
+          "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
@@ -16917,6 +17150,7 @@
           7,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -16962,6 +17196,7 @@
           "square",
           "circle",
           "square",
+          "circle",
           "circle",
           "circle",
           "circle"
@@ -17012,6 +17247,7 @@
             1,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -17057,6 +17293,7 @@
             "#006D62",
             "#2A9D8F",
             "#006D62",
+            "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F"
@@ -17110,13 +17347,14 @@
         "Asten (< BG)",
         "Asten",
         "Asten",
+        "Asten",
         "Asten"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.38": {
+    "1d44c07fcd2f26.38": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -17181,6 +17419,7 @@
           "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
+          "#2A9D8F",
           "#2A9D8F"
         ],
         "size": [
@@ -17228,11 +17467,13 @@
           7,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
@@ -17287,7 +17528,7 @@
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.39": {
+    "1d44c07fcd2f26.39": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -17344,7 +17585,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         475.5392731823424,
@@ -17391,7 +17633,8 @@
         42.47581773120997,
         26.328123082963216,
         42.09275390768778,
-        78.02321301499276
+        78.02321301499276,
+        89.78342698697028
       ],
       "name": "Traunsee-Nord",
       "line": {
@@ -17400,6 +17643,7 @@
       },
       "marker": {
         "color": [
+          "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
@@ -17491,6 +17735,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -17535,6 +17780,7 @@
           "square-x",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -17586,6 +17832,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -17630,6 +17877,7 @@
             "#044E46",
             "#2A9D8F",
             "#044E46",
+            "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
@@ -17684,13 +17932,14 @@
         "Traunsee-Nord",
         "Traunsee-Nord",
         "Traunsee-Nord",
+        "Traunsee-Nord",
         "Traunsee-Nord"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.40": {
+    "1d44c07fcd2f26.40": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -17755,6 +18004,7 @@
           "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
+          "#2A9D8F",
           "#2A9D8F"
         ],
         "size": [
@@ -17802,11 +18052,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
@@ -17861,7 +18113,7 @@
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.41": {
+    "1d44c07fcd2f26.41": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -17915,7 +18167,8 @@
         "2026-08-24",
         "2026-08-24",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         255.11633333333333,
@@ -17959,7 +18212,8 @@
         20.889885714285715,
         59.38666666666666,
         79.27704761904762,
-        62.912
+        62.912,
+        42.56073333333333
       ],
       "name": "Welser Heide",
       "line": {
@@ -18009,6 +18263,7 @@
           "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
+          "#2A9D8F",
           "#2A9D8F"
         ],
         "size": [
@@ -18053,6 +18308,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -18090,6 +18346,7 @@
           "square-x",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -18142,6 +18399,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -18179,6 +18437,7 @@
             "#044E46",
             "#2A9D8F",
             "#044E46",
+            "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
@@ -18234,13 +18493,14 @@
         "Welser Heide",
         "Welser Heide",
         "Welser Heide",
+        "Welser Heide",
         "Welser Heide"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.42": {
+    "1d44c07fcd2f26.42": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -18261,6 +18521,7 @@
       },
       "marker": {
         "color": [
+          "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
@@ -18346,11 +18607,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
@@ -18402,7 +18665,7 @@
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.43": {
+    "1d44c07fcd2f26.43": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -18458,7 +18721,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         306.76316376894266,
@@ -18504,7 +18768,8 @@
         90.41816513306381,
         8.426176244450508,
         15.959026761576428,
-        28.885265011533026
+        28.885265011533026,
+        23.61442496093653
       ],
       "name": "Salzach-Pongau",
       "line": {
@@ -18513,6 +18778,7 @@
       },
       "marker": {
         "color": [
+          "#00B4D8",
           "#00B4D8",
           "#00B4D8",
           "#00B4D8",
@@ -18602,6 +18868,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -18640,6 +18907,7 @@
           "square-x",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -18695,6 +18963,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -18733,6 +19002,7 @@
             "#01576A",
             "#00B4D8",
             "#01576A",
+            "#00B4D8",
             "#00B4D8",
             "#00B4D8",
             "#00B4D8",
@@ -18791,13 +19061,14 @@
         "Salzach-Pongau",
         "Salzach-Pongau",
         "Salzach-Pongau",
+        "Salzach-Pongau",
         "Salzach-Pongau"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.44": {
+    "1d44c07fcd2f26.44": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -18861,6 +19132,7 @@
           "#00B4D8",
           "#00B4D8",
           "#00B4D8",
+          "#00B4D8",
           "#00B4D8"
         ],
         "size": [
@@ -18899,6 +19171,7 @@
           7,
           6,
           7,
+          6,
           6,
           6,
           6,
@@ -18955,6 +19228,7 @@
             "#00B4D8",
             "#00B4D8",
             "#00B4D8",
+            "#00B4D8",
             "#00B4D8"
           ],
           "width": 0
@@ -18965,7 +19239,7 @@
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.45": {
+    "1d44c07fcd2f26.45": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -19021,7 +19295,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         268.2252336448598,
@@ -19067,7 +19342,8 @@
         39.24786292834891,
         23.040093457943925,
         26.063856697819315,
-        61.846831775700934
+        61.846831775700934,
+        36.21986292834891
       ],
       "name": "Siggerwiesen",
       "line": {
@@ -19076,6 +19352,7 @@
       },
       "marker": {
         "color": [
+          "#00B4D8",
           "#00B4D8",
           "#00B4D8",
           "#00B4D8",
@@ -19165,6 +19442,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -19206,6 +19484,7 @@
           "circle",
           "circle",
           "square",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -19258,6 +19537,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -19299,6 +19579,7 @@
             "#00B4D8",
             "#00B4D8",
             "#007B94",
+            "#00B4D8",
             "#00B4D8",
             "#00B4D8",
             "#00B4D8",
@@ -19354,13 +19635,14 @@
         "Siggerwiesen",
         "Siggerwiesen",
         "Siggerwiesen",
+        "Siggerwiesen",
         "Siggerwiesen"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.46": {
+    "1d44c07fcd2f26.46": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -19381,6 +19663,7 @@
       },
       "marker": {
         "color": [
+          "#00B4D8",
           "#00B4D8",
           "#00B4D8",
           "#00B4D8",
@@ -19470,11 +19753,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#00B4D8",
             "#00B4D8",
             "#00B4D8",
             "#00B4D8",
@@ -19528,7 +19813,7 @@
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.47": {
+    "1d44c07fcd2f26.47": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -19584,7 +19869,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         133.40053571428572,
@@ -19630,7 +19916,8 @@
         73.41192857142858,
         20.46785714285714,
         30.90342857142857,
-        32.88814285714286
+        32.88814285714286,
+        33.94875
       ],
       "name": "Kapfenberg/Mürz",
       "line": {
@@ -19639,6 +19926,7 @@
       },
       "marker": {
         "color": [
+          "#457B9D",
           "#457B9D",
           "#457B9D",
           "#457B9D",
@@ -19728,6 +20016,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -19771,6 +20060,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -19821,6 +20111,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -19864,6 +20155,7 @@
             "#457B9D",
             "#457B9D",
             "#1A3E53",
+            "#457B9D",
             "#457B9D",
             "#457B9D",
             "#457B9D",
@@ -19917,13 +20209,14 @@
         "Kapfenberg/Mürz",
         "Kapfenberg/Mürz",
         "Kapfenberg/Mürz",
+        "Kapfenberg/Mürz",
         "Kapfenberg/Mürz"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.48": {
+    "1d44c07fcd2f26.48": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -19987,6 +20280,7 @@
           "#457B9D",
           "#457B9D",
           "#457B9D",
+          "#457B9D",
           "#457B9D"
         ],
         "size": [
@@ -20033,11 +20327,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#457B9D",
             "#457B9D",
             "#457B9D",
             "#457B9D",
@@ -20091,7 +20387,7 @@
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.49": {
+    "1d44c07fcd2f26.49": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -20144,7 +20440,8 @@
         "2026-08-24",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         158.78993875554158,
@@ -20187,7 +20484,8 @@
         34.24228706376913,
         40.12736914583912,
         40.356021163765504,
-        80.4429260838578
+        80.4429260838578,
+        46.33036372202022
       ],
       "name": "Graz-Gössendorf",
       "line": {
@@ -20196,6 +20494,7 @@
       },
       "marker": {
         "color": [
+          "#457B9D",
           "#457B9D",
           "#457B9D",
           "#457B9D",
@@ -20279,6 +20578,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -20319,6 +20619,7 @@
           "circle",
           "square-x",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -20366,6 +20667,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -20406,6 +20708,7 @@
             "#457B9D",
             "#1A3E53",
             "#1A3E53",
+            "#457B9D",
             "#457B9D",
             "#457B9D",
             "#457B9D",
@@ -20456,13 +20759,14 @@
         "Graz-Gössendorf",
         "Graz-Gössendorf",
         "Graz-Gössendorf",
+        "Graz-Gössendorf",
         "Graz-Gössendorf"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.50": {
+    "1d44c07fcd2f26.50": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -20523,6 +20827,7 @@
           "#457B9D",
           "#457B9D",
           "#457B9D",
+          "#457B9D",
           "#457B9D"
         ],
         "size": [
@@ -20566,11 +20871,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#457B9D",
             "#457B9D",
             "#457B9D",
             "#457B9D",
@@ -20621,7 +20928,7 @@
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.51": {
+    "1d44c07fcd2f26.51": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -20675,7 +20982,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         240.9880372324339,
@@ -20719,7 +21027,8 @@
         114.2179508720051,
         33.389831647568805,
         50.30306797943479,
-        32.224520313182566
+        32.224520313182566,
+        26.463523639907255
       ],
       "name": "Wildon",
       "line": {
@@ -20728,6 +21037,7 @@
       },
       "marker": {
         "color": [
+          "#457B9D",
           "#457B9D",
           "#457B9D",
           "#457B9D",
@@ -20813,6 +21123,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -20852,6 +21163,7 @@
           "circle",
           "square-x",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -20902,6 +21214,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -20941,6 +21254,7 @@
             "#457B9D",
             "#1A3E53",
             "#1A3E53",
+            "#457B9D",
             "#457B9D",
             "#457B9D",
             "#457B9D",
@@ -20994,13 +21308,14 @@
         "Wildon",
         "Wildon",
         "Wildon",
+        "Wildon",
         "Wildon"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.52": {
+    "1d44c07fcd2f26.52": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -21062,6 +21377,7 @@
           "#457B9D",
           "#457B9D",
           "#457B9D",
+          "#457B9D",
           "#457B9D"
         ],
         "size": [
@@ -21101,6 +21417,7 @@
           6,
           7,
           7,
+          6,
           6,
           6,
           6,
@@ -21152,6 +21469,7 @@
             "#457B9D",
             "#457B9D",
             "#457B9D",
+            "#457B9D",
             "#457B9D"
           ],
           "width": 0
@@ -21162,7 +21480,7 @@
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.53": {
+    "1d44c07fcd2f26.53": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -21549,7 +21867,7 @@
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.54": {
+    "1d44c07fcd2f26.54": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -21714,7 +22032,7 @@
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.55": {
+    "1d44c07fcd2f26.55": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -21769,7 +22087,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         222.31830387372452,
@@ -21814,7 +22133,8 @@
         80.19865972400588,
         35.48266280617368,
         64.54360566932075,
-        106.5032806407173
+        106.5032806407173,
+        108.95575221238938
       ],
       "name": "Kirchbichl",
       "line": {
@@ -21823,6 +22143,7 @@
       },
       "marker": {
         "color": [
+          "#9D4EDD",
           "#9D4EDD",
           "#9D4EDD",
           "#9D4EDD",
@@ -21910,6 +22231,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -21950,6 +22272,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -22001,6 +22324,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -22041,6 +22365,7 @@
             "#9D4EDD",
             "#9D4EDD",
             "#5D028E",
+            "#9D4EDD",
             "#9D4EDD",
             "#9D4EDD",
             "#9D4EDD",
@@ -22095,13 +22420,14 @@
         "Kirchbichl",
         "Kirchbichl",
         "Kirchbichl",
+        "Kirchbichl",
         "Kirchbichl"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.56": {
+    "1d44c07fcd2f26.56": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -22164,6 +22490,7 @@
           "#9D4EDD",
           "#9D4EDD",
           "#9D4EDD",
+          "#9D4EDD",
           "#9D4EDD"
         ],
         "size": [
@@ -22204,6 +22531,7 @@
           6,
           6,
           7,
+          6,
           6,
           6,
           6,
@@ -22256,6 +22584,7 @@
             "#9D4EDD",
             "#9D4EDD",
             "#9D4EDD",
+            "#9D4EDD",
             "#9D4EDD"
           ],
           "width": 0
@@ -22266,7 +22595,7 @@
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.57": {
+    "1d44c07fcd2f26.57": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -22319,7 +22648,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         106.5813543741382,
@@ -22362,7 +22692,8 @@
         190.45196874521218,
         27.087482763903783,
         108.1182013176038,
-        153.15290332465145
+        153.15290332465145,
+        70.92825953730657
       ],
       "name": "Strass",
       "line": {
@@ -22371,6 +22702,7 @@
       },
       "marker": {
         "color": [
+          "#9D4EDD",
           "#9D4EDD",
           "#9D4EDD",
           "#9D4EDD",
@@ -22454,6 +22786,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -22492,6 +22825,7 @@
           "circle",
           "square-x",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -22541,6 +22875,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -22579,6 +22914,7 @@
             "#9D4EDD",
             "#5D028E",
             "#5D028E",
+            "#9D4EDD",
             "#9D4EDD",
             "#9D4EDD",
             "#9D4EDD",
@@ -22631,13 +22967,14 @@
         "Strass",
         "Strass",
         "Strass",
+        "Strass",
         "Strass"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.58": {
+    "1d44c07fcd2f26.58": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -22698,6 +23035,7 @@
           "#9D4EDD",
           "#9D4EDD",
           "#9D4EDD",
+          "#9D4EDD",
           "#9D4EDD"
         ],
         "size": [
@@ -22736,6 +23074,7 @@
           6,
           7,
           7,
+          6,
           6,
           6,
           6,
@@ -22786,6 +23125,7 @@
             "#9D4EDD",
             "#9D4EDD",
             "#9D4EDD",
+            "#9D4EDD",
             "#9D4EDD"
           ],
           "width": 0
@@ -22796,7 +23136,7 @@
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.59": {
+    "1d44c07fcd2f26.59": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -22852,7 +23192,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         757.6862242776104,
@@ -22898,7 +23239,8 @@
         80.78415650524845,
         11.623958212034003,
         38.6328414818758,
-        18.109660140069536
+        18.109660140069536,
+        41.344667542794404
       ],
       "name": "Meiningen",
       "line": {
@@ -22907,6 +23249,7 @@
       },
       "marker": {
         "color": [
+          "#F141A8",
           "#F141A8",
           "#F141A8",
           "#F141A8",
@@ -22996,6 +23339,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -23039,6 +23383,7 @@
           "square-x",
           "circle",
           "square",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -23089,6 +23434,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -23132,6 +23478,7 @@
             "#850058",
             "#F141A8",
             "#B60179",
+            "#F141A8",
             "#F141A8",
             "#F141A8",
             "#F141A8",
@@ -23185,13 +23532,14 @@
         "Meiningen",
         "Meiningen",
         "Meiningen",
+        "Meiningen",
         "Meiningen"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.60": {
+    "1d44c07fcd2f26.60": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -23255,6 +23603,7 @@
           "#F141A8",
           "#F141A8",
           "#F141A8",
+          "#F141A8",
           "#F141A8"
         ],
         "size": [
@@ -23301,11 +23650,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#F141A8",
             "#F141A8",
             "#F141A8",
             "#F141A8",
@@ -23359,7 +23710,7 @@
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.61": {
+    "1d44c07fcd2f26.61": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -23413,7 +23764,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         160.15125238108777,
@@ -23457,7 +23809,8 @@
         83.76686663065419,
         25.869033065135188,
         104.87419327324936,
-        52.20744605236972
+        52.20744605236972,
+        23.611889801836636
       ],
       "name": "Hofsteig",
       "line": {
@@ -23466,6 +23819,7 @@
       },
       "marker": {
         "color": [
+          "#F141A8",
           "#F141A8",
           "#F141A8",
           "#F141A8",
@@ -23551,6 +23905,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -23592,6 +23947,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -23640,6 +23996,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -23681,6 +24038,7 @@
             "#F141A8",
             "#F141A8",
             "#850058",
+            "#F141A8",
             "#F141A8",
             "#F141A8",
             "#F141A8",
@@ -23732,13 +24090,14 @@
         "Hofsteig",
         "Hofsteig",
         "Hofsteig",
+        "Hofsteig",
         "Hofsteig"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.62": {
+    "1d44c07fcd2f26.62": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -23800,6 +24159,7 @@
           "#F141A8",
           "#F141A8",
           "#F141A8",
+          "#F141A8",
           "#F141A8"
         ],
         "size": [
@@ -23844,11 +24204,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#F141A8",
             "#F141A8",
             "#F141A8",
             "#F141A8",
@@ -23900,7 +24262,7 @@
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.63": {
+    "1d44c07fcd2f26.63": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -23957,7 +24319,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         392.7399374369324,
@@ -24004,7 +24367,8 @@
         65.94478405650858,
         50.933329969727545,
         79.2821614530777,
-        74.56336074672049
+        74.56336074672049,
+        105.564824419778
       ],
       "name": "Wien",
       "line": {
@@ -24013,6 +24377,7 @@
       },
       "marker": {
         "color": [
+          "#8D6E63",
           "#8D6E63",
           "#8D6E63",
           "#8D6E63",
@@ -24104,6 +24469,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -24139,6 +24505,7 @@
           "square",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -24199,6 +24566,7 @@
             0,
             0,
             0,
+            0,
             0
           ],
           "color": [
@@ -24234,6 +24602,7 @@
             "#604D47",
             "#8D6E63",
             "#483731",
+            "#8D6E63",
             "#8D6E63",
             "#8D6E63",
             "#8D6E63",
@@ -24297,13 +24666,14 @@
         "Wien",
         "Wien",
         "Wien",
+        "Wien",
         "Wien"
       ],
       "hoverinfo": "text",
       "visible": "legendonly",
       "inherit": true
     },
-    "1d9e4332f7830a.64": {
+    "1d44c07fcd2f26.64": {
       "mode": "lines+markers",
       "alpha_stroke": 1,
       "sizes": [
@@ -24324,6 +24694,7 @@
       },
       "marker": {
         "color": [
+          "#8D6E63",
           "#8D6E63",
           "#8D6E63",
           "#8D6E63",
@@ -24415,11 +24786,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#8D6E63",
             "#8D6E63",
             "#8D6E63",
             "#8D6E63",
@@ -24490,8 +24863,8 @@
       "automargin": true,
       "title": "",
       "range": [
-        "2025-07-21",
-        "2026-09-22"
+        "2025-07-28",
+        "2026-09-29"
       ],
       "rangeselector": {
         "buttons": [
@@ -24645,7 +25018,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         325.97060611323377,
@@ -24691,7 +25065,8 @@
         87.39931399791594,
         45.13285863146926,
         123.90285255296978,
-        82.09230635637374
+        82.09230635637374,
+        122.03004515456756
       ],
       "name": "Wulkaprodersdorf",
       "line": {
@@ -24700,6 +25075,7 @@
       },
       "marker": {
         "color": [
+          "#E63946",
           "#E63946",
           "#E63946",
           "#E63946",
@@ -24789,6 +25165,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -24829,6 +25206,7 @@
           "square-x",
           "square-x",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -24882,6 +25260,7 @@
             "#E63946",
             "#E63946",
             "#E63946",
+            "#E63946",
             "#E63946"
           ],
           "width": [
@@ -24922,6 +25301,7 @@
             1,
             1,
             1,
+            0,
             0,
             0,
             0,
@@ -24977,9 +25357,11 @@
         "Wulkaprodersdorf",
         "Wulkaprodersdorf",
         "Wulkaprodersdorf",
+        "Wulkaprodersdorf",
         "Wulkaprodersdorf"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -25084,7 +25466,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         498.90181818181816,
@@ -25131,7 +25514,8 @@
         42.22134545454546,
         32.11523636363636,
         42.22549090909091,
-        28.046545454545456
+        28.046545454545456,
+        39.62101818181818
       ],
       "name": "Millstätter See",
       "line": {
@@ -25140,6 +25524,7 @@
       },
       "marker": {
         "color": [
+          "#F4A261",
           "#F4A261",
           "#F4A261",
           "#F4A261",
@@ -25231,6 +25616,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -25272,6 +25658,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -25326,6 +25713,7 @@
             "#F4A261",
             "#F4A261",
             "#F4A261",
+            "#F4A261",
             "#F4A261"
           ],
           "width": [
@@ -25367,6 +25755,7 @@
             0,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -25417,6 +25806,7 @@
         "Millstätter See",
         "Millstätter See",
         "Millstätter See (< NG)",
+        "Millstätter See",
         "Millstätter See",
         "Millstätter See",
         "Millstätter See",
@@ -25470,6 +25860,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "opacity": 0.2,
@@ -25531,7 +25922,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         557.2472758620689,
@@ -25578,7 +25970,8 @@
         0,
         39.64946206896552,
         36.3570275862069,
-        93.10666896551724
+        93.10666896551724,
+        51.224
       ],
       "name": "Wörthersee Ost",
       "line": {
@@ -25587,6 +25980,7 @@
       },
       "marker": {
         "color": [
+          "#F4A261",
           "#F4A261",
           "#F4A261",
           "#F4A261",
@@ -25678,6 +26072,7 @@
           5,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -25723,6 +26118,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle"
@@ -25773,6 +26169,7 @@
             "#804900",
             "#F4A261",
             "#F4A261",
+            "#F4A261",
             "#F4A261"
           ],
           "width": [
@@ -25818,6 +26215,7 @@
             0,
             0,
             1,
+            0,
             0,
             0,
             0
@@ -25870,9 +26268,11 @@
         "Wörthersee Ost (< NG)",
         "Wörthersee Ost",
         "Wörthersee Ost",
+        "Wörthersee Ost",
         "Wörthersee Ost"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -25978,7 +26378,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         166.08305970303368,
@@ -26025,7 +26426,8 @@
         0,
         44.112818288829686,
         0,
-        0
+        0,
+        104.73328790037792
       ],
       "name": "An der Traisen",
       "line": {
@@ -26078,6 +26480,7 @@
           "#D0E300",
           "#D0E300",
           "#D0E300",
+          "#D0E300",
           "#D0E300"
         ],
         "size": [
@@ -26125,7 +26528,8 @@
           5,
           6,
           5,
-          5
+          5,
+          6
         ],
         "symbol": [
           "circle",
@@ -26172,7 +26576,8 @@
           "square-x",
           "circle",
           "square-x",
-          "square-x"
+          "square-x",
+          "circle"
         ],
         "line": {
           "color": [
@@ -26220,7 +26625,8 @@
             "#626C02",
             "#D0E300",
             "#626C02",
-            "#626C02"
+            "#626C02",
+            "#D0E300"
           ],
           "width": [
             0,
@@ -26267,7 +26673,8 @@
             1,
             0,
             1,
-            1
+            1,
+            0
           ]
         }
       },
@@ -26317,9 +26724,11 @@
         "An der Traisen (< NG)",
         "An der Traisen",
         "An der Traisen (< NG)",
-        "An der Traisen (< NG)"
+        "An der Traisen (< NG)",
+        "An der Traisen"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -26423,7 +26832,8 @@
         "2026-08-24",
         "2026-08-31",
         "2026-09-07",
-        "2026-09-14"
+        "2026-09-14",
+        "2026-09-28"
       ],
       "y": [
         632.895589361935,
@@ -26468,7 +26878,8 @@
         44.02473459560031,
         114.2419174783846,
         35.682696727591114,
-        35.94002407792492
+        35.94002407792492,
+        113.54265076064354
       ],
       "name": "Amstetten",
       "line": {
@@ -26477,6 +26888,7 @@
       },
       "marker": {
         "color": [
+          "#D0E300",
           "#D0E300",
           "#D0E300",
           "#D0E300",
@@ -26564,6 +26976,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -26606,6 +27019,7 @@
           "square-x",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -26655,6 +27069,7 @@
             "#D0E300",
             "#D0E300",
             "#D0E300",
+            "#D0E300",
             "#D0E300"
           ],
           "width": [
@@ -26697,6 +27112,7 @@
             1,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -26748,9 +27164,11 @@
         "Amstetten",
         "Amstetten",
         "Amstetten",
+        "Amstetten",
         "Amstetten"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -26853,7 +27271,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         228.2416,
@@ -26899,7 +27318,8 @@
         0,
         32.4114,
         77.0381111111111,
-        160.92253333333332
+        160.92253333333332,
+        92.85391111111112
       ],
       "name": "Wr. Neustadt-Süd",
       "line": {
@@ -26908,6 +27328,7 @@
       },
       "marker": {
         "color": [
+          "#D0E300",
           "#D0E300",
           "#D0E300",
           "#D0E300",
@@ -26997,6 +27418,7 @@
           5,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -27041,6 +27463,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle"
@@ -27090,6 +27513,7 @@
             "#626C02",
             "#D0E300",
             "#D0E300",
+            "#D0E300",
             "#D0E300"
           ],
           "width": [
@@ -27134,6 +27558,7 @@
             0,
             0,
             1,
+            0,
             0,
             0,
             0
@@ -27185,9 +27610,11 @@
         "Wr. Neustadt-Süd (< NG)",
         "Wr. Neustadt-Süd",
         "Wr. Neustadt-Süd",
+        "Wr. Neustadt-Süd",
         "Wr. Neustadt-Süd"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -27292,7 +27719,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         481.05051333333336,
@@ -27339,7 +27767,8 @@
         8.13152,
         38.27798,
         79.07299555555555,
-        43.99527111111111
+        43.99527111111111,
+        52.216406666666664
       ],
       "name": "Asten",
       "line": {
@@ -27392,6 +27821,7 @@
           "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
+          "#2A9D8F",
           "#2A9D8F"
         ],
         "size": [
@@ -27439,6 +27869,7 @@
           5,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -27484,6 +27915,7 @@
           "square",
           "circle",
           "square",
+          "circle",
           "circle",
           "circle",
           "circle"
@@ -27534,6 +27966,7 @@
             "#006D62",
             "#2A9D8F",
             "#2A9D8F",
+            "#2A9D8F",
             "#2A9D8F"
           ],
           "width": [
@@ -27579,6 +28012,7 @@
             1,
             0,
             1,
+            0,
             0,
             0,
             0
@@ -27631,9 +28065,11 @@
         "Asten (< BG)",
         "Asten",
         "Asten",
+        "Asten",
         "Asten"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -27739,7 +28175,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         475.5392731823424,
@@ -27786,7 +28223,8 @@
         42.47581773120997,
         26.328123082963216,
         42.09275390768778,
-        78.02321301499276
+        78.02321301499276,
+        89.78342698697028
       ],
       "name": "Traunsee-Nord",
       "line": {
@@ -27795,6 +28233,7 @@
       },
       "marker": {
         "color": [
+          "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
@@ -27886,6 +28325,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -27930,6 +28370,7 @@
           "square-x",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -27981,6 +28422,7 @@
             "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
+            "#2A9D8F",
             "#2A9D8F"
           ],
           "width": [
@@ -28025,6 +28467,7 @@
             1,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -28078,9 +28521,11 @@
         "Traunsee-Nord",
         "Traunsee-Nord",
         "Traunsee-Nord",
+        "Traunsee-Nord",
         "Traunsee-Nord"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -28183,7 +28628,8 @@
         "2026-08-24",
         "2026-08-24",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         255.11633333333333,
@@ -28227,7 +28673,8 @@
         20.889885714285715,
         59.38666666666666,
         79.27704761904762,
-        62.912
+        62.912,
+        42.56073333333333
       ],
       "name": "Welser Heide",
       "line": {
@@ -28236,6 +28683,7 @@
       },
       "marker": {
         "color": [
+          "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
@@ -28321,6 +28769,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -28358,6 +28807,7 @@
           "square-x",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -28410,6 +28860,7 @@
             "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
+            "#2A9D8F",
             "#2A9D8F"
           ],
           "width": [
@@ -28447,6 +28898,7 @@
             1,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -28501,9 +28953,11 @@
         "Welser Heide",
         "Welser Heide",
         "Welser Heide",
+        "Welser Heide",
         "Welser Heide"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -28605,7 +29059,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         306.76316376894266,
@@ -28651,7 +29106,8 @@
         90.41816513306381,
         8.426176244450508,
         15.959026761576428,
-        28.885265011533026
+        28.885265011533026,
+        23.61442496093653
       ],
       "name": "Salzach-Pongau",
       "line": {
@@ -28660,6 +29116,7 @@
       },
       "marker": {
         "color": [
+          "#00B4D8",
           "#00B4D8",
           "#00B4D8",
           "#00B4D8",
@@ -28749,6 +29206,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -28787,6 +29245,7 @@
           "square-x",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -28842,6 +29301,7 @@
             "#00B4D8",
             "#00B4D8",
             "#00B4D8",
+            "#00B4D8",
             "#00B4D8"
           ],
           "width": [
@@ -28880,6 +29340,7 @@
             1,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -28929,6 +29390,7 @@
         "Salzach-Pongau (< NG)",
         "Salzach-Pongau",
         "Salzach-Pongau (< NG)",
+        "Salzach-Pongau",
         "Salzach-Pongau",
         "Salzach-Pongau",
         "Salzach-Pongau",
@@ -28983,6 +29445,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "opacity": 0.2,
@@ -29043,7 +29506,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         268.2252336448598,
@@ -29089,7 +29553,8 @@
         39.24786292834891,
         23.040093457943925,
         26.063856697819315,
-        61.846831775700934
+        61.846831775700934,
+        36.21986292834891
       ],
       "name": "Siggerwiesen",
       "line": {
@@ -29098,6 +29563,7 @@
       },
       "marker": {
         "color": [
+          "#00B4D8",
           "#00B4D8",
           "#00B4D8",
           "#00B4D8",
@@ -29187,6 +29653,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -29228,6 +29695,7 @@
           "circle",
           "circle",
           "square",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -29280,6 +29748,7 @@
             "#00B4D8",
             "#00B4D8",
             "#00B4D8",
+            "#00B4D8",
             "#00B4D8"
           ],
           "width": [
@@ -29321,6 +29790,7 @@
             0,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -29375,9 +29845,11 @@
         "Siggerwiesen",
         "Siggerwiesen",
         "Siggerwiesen",
+        "Siggerwiesen",
         "Siggerwiesen"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -29481,7 +29953,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         133.40053571428572,
@@ -29527,7 +30000,8 @@
         73.41192857142858,
         20.46785714285714,
         30.90342857142857,
-        32.88814285714286
+        32.88814285714286,
+        33.94875
       ],
       "name": "Kapfenberg/Mürz",
       "line": {
@@ -29536,6 +30010,7 @@
       },
       "marker": {
         "color": [
+          "#457B9D",
           "#457B9D",
           "#457B9D",
           "#457B9D",
@@ -29625,6 +30100,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -29668,6 +30144,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -29718,6 +30195,7 @@
             "#457B9D",
             "#457B9D",
             "#457B9D",
+            "#457B9D",
             "#457B9D"
           ],
           "width": [
@@ -29761,6 +30239,7 @@
             0,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -29813,9 +30292,11 @@
         "Kapfenberg/Mürz",
         "Kapfenberg/Mürz",
         "Kapfenberg/Mürz",
+        "Kapfenberg/Mürz",
         "Kapfenberg/Mürz"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -29916,7 +30397,8 @@
         "2026-08-24",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         158.78993875554158,
@@ -29959,7 +30441,8 @@
         34.24228706376913,
         40.12736914583912,
         40.356021163765504,
-        80.4429260838578
+        80.4429260838578,
+        46.33036372202022
       ],
       "name": "Graz-Gössendorf",
       "line": {
@@ -29968,6 +30451,7 @@
       },
       "marker": {
         "color": [
+          "#457B9D",
           "#457B9D",
           "#457B9D",
           "#457B9D",
@@ -30051,6 +30535,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -30091,6 +30576,7 @@
           "circle",
           "square-x",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -30138,6 +30624,7 @@
             "#457B9D",
             "#457B9D",
             "#457B9D",
+            "#457B9D",
             "#457B9D"
           ],
           "width": [
@@ -30178,6 +30665,7 @@
             0,
             1,
             1,
+            0,
             0,
             0,
             0,
@@ -30227,9 +30715,11 @@
         "Graz-Gössendorf",
         "Graz-Gössendorf",
         "Graz-Gössendorf",
+        "Graz-Gössendorf",
         "Graz-Gössendorf"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -30328,7 +30818,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         240.9880372324339,
@@ -30372,7 +30863,8 @@
         114.2179508720051,
         33.389831647568805,
         50.30306797943479,
-        32.224520313182566
+        32.224520313182566,
+        26.463523639907255
       ],
       "name": "Wildon",
       "line": {
@@ -30381,6 +30873,7 @@
       },
       "marker": {
         "color": [
+          "#457B9D",
           "#457B9D",
           "#457B9D",
           "#457B9D",
@@ -30466,6 +30959,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -30505,6 +30999,7 @@
           "circle",
           "square-x",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -30555,6 +31050,7 @@
             "#457B9D",
             "#457B9D",
             "#457B9D",
+            "#457B9D",
             "#457B9D"
           ],
           "width": [
@@ -30594,6 +31090,7 @@
             0,
             1,
             1,
+            0,
             0,
             0,
             0,
@@ -30646,9 +31143,11 @@
         "Wildon",
         "Wildon",
         "Wildon",
+        "Wildon",
         "Wildon"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -31178,7 +31677,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         222.31830387372452,
@@ -31223,7 +31723,8 @@
         80.19865972400588,
         35.48266280617368,
         64.54360566932075,
-        106.5032806407173
+        106.5032806407173,
+        108.95575221238938
       ],
       "name": "Kirchbichl",
       "line": {
@@ -31232,6 +31733,7 @@
       },
       "marker": {
         "color": [
+          "#9D4EDD",
           "#9D4EDD",
           "#9D4EDD",
           "#9D4EDD",
@@ -31319,6 +31821,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -31359,6 +31862,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -31410,6 +31914,7 @@
             "#9D4EDD",
             "#9D4EDD",
             "#9D4EDD",
+            "#9D4EDD",
             "#9D4EDD"
           ],
           "width": [
@@ -31450,6 +31955,7 @@
             0,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -31503,9 +32009,11 @@
         "Kirchbichl",
         "Kirchbichl",
         "Kirchbichl",
+        "Kirchbichl",
         "Kirchbichl"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -31605,7 +32113,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         106.5813543741382,
@@ -31648,7 +32157,8 @@
         190.45196874521218,
         27.087482763903783,
         108.1182013176038,
-        153.15290332465145
+        153.15290332465145,
+        70.92825953730657
       ],
       "name": "Strass",
       "line": {
@@ -31657,6 +32167,7 @@
       },
       "marker": {
         "color": [
+          "#9D4EDD",
           "#9D4EDD",
           "#9D4EDD",
           "#9D4EDD",
@@ -31740,6 +32251,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -31778,6 +32290,7 @@
           "circle",
           "square-x",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -31827,6 +32340,7 @@
             "#9D4EDD",
             "#9D4EDD",
             "#9D4EDD",
+            "#9D4EDD",
             "#9D4EDD"
           ],
           "width": [
@@ -31865,6 +32379,7 @@
             0,
             1,
             1,
+            0,
             0,
             0,
             0,
@@ -31916,9 +32431,11 @@
         "Strass",
         "Strass",
         "Strass",
+        "Strass",
         "Strass"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -32019,7 +32536,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         757.6862242776104,
@@ -32065,7 +32583,8 @@
         80.78415650524845,
         11.623958212034003,
         38.6328414818758,
-        18.109660140069536
+        18.109660140069536,
+        41.344667542794404
       ],
       "name": "Meiningen",
       "line": {
@@ -32117,6 +32636,7 @@
           "#F141A8",
           "#F141A8",
           "#F141A8",
+          "#F141A8",
           "#F141A8"
         ],
         "size": [
@@ -32163,6 +32683,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -32206,6 +32727,7 @@
           "square-x",
           "circle",
           "square",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -32256,6 +32778,7 @@
             "#F141A8",
             "#F141A8",
             "#F141A8",
+            "#F141A8",
             "#F141A8"
           ],
           "width": [
@@ -32299,6 +32822,7 @@
             1,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -32351,9 +32875,11 @@
         "Meiningen",
         "Meiningen",
         "Meiningen",
+        "Meiningen",
         "Meiningen"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -32455,7 +32981,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         160.15125238108777,
@@ -32499,7 +33026,8 @@
         83.76686663065419,
         25.869033065135188,
         104.87419327324936,
-        52.20744605236972
+        52.20744605236972,
+        23.611889801836636
       ],
       "name": "Hofsteig",
       "line": {
@@ -32508,6 +33036,7 @@
       },
       "marker": {
         "color": [
+          "#F141A8",
           "#F141A8",
           "#F141A8",
           "#F141A8",
@@ -32593,6 +33122,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -32634,6 +33164,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -32682,6 +33213,7 @@
             "#F141A8",
             "#F141A8",
             "#F141A8",
+            "#F141A8",
             "#F141A8"
           ],
           "width": [
@@ -32723,6 +33255,7 @@
             0,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -32773,9 +33306,11 @@
         "Hofsteig",
         "Hofsteig",
         "Hofsteig",
+        "Hofsteig",
         "Hofsteig"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -32878,7 +33413,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         392.7399374369324,
@@ -32925,7 +33461,8 @@
         65.94478405650858,
         50.933329969727545,
         79.2821614530777,
-        74.56336074672049
+        74.56336074672049,
+        105.564824419778
       ],
       "name": "Wien",
       "line": {
@@ -32934,6 +33471,7 @@
       },
       "marker": {
         "color": [
+          "#8D6E63",
           "#8D6E63",
           "#8D6E63",
           "#8D6E63",
@@ -33025,6 +33563,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -33060,6 +33599,7 @@
           "square",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -33120,6 +33660,7 @@
             "#8D6E63",
             "#8D6E63",
             "#8D6E63",
+            "#8D6E63",
             "#8D6E63"
           ],
           "width": [
@@ -33155,6 +33696,7 @@
             1,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -33217,9 +33759,11 @@
         "Wien",
         "Wien",
         "Wien",
+        "Wien",
         "Wien"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -33728,7 +34272,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         151.63265620561592,
@@ -34178,7 +34723,8 @@
         86.4912021561005,
         38.96372103448276,
         79.12400857142856,
-        81.26761622011577
+        81.26761622011577,
+        98.79359950574451
       ],
       "line": {
         "color": "transparent"
@@ -34633,9 +35179,11 @@
         "3. Quartil Österreich",
         "3. Quartil Österreich",
         "3. Quartil Österreich",
+        "3. Quartil Österreich",
         "3. Quartil Österreich"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -35553,7 +36101,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         92.42378420958539,
@@ -36003,7 +36552,8 @@
         32.057602973205334,
         24.771523516424956,
         34.68087520130083,
-        32.55633158516271
+        32.55633158516271,
+        37.920440555083545
       ],
       "fill": "tonexty",
       "line": {
@@ -36459,9 +37009,11 @@
         "1. Quartil Österreich",
         "1. Quartil Österreich",
         "1. Quartil Österreich",
+        "1. Quartil Österreich",
         "1. Quartil Österreich"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -37378,7 +37930,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         92.42378420958539,
@@ -37828,7 +38381,8 @@
         32.057602973205334,
         24.771523516424956,
         34.68087520130083,
-        32.55633158516271
+        32.55633158516271,
+        37.920440555083545
       ],
       "line": {
         "color": "transparent"
@@ -38283,9 +38837,11 @@
         "1. Quartil Österreich",
         "1. Quartil Österreich",
         "1. Quartil Österreich",
+        "1. Quartil Österreich",
         "1. Quartil Österreich"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -39202,7 +39758,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         122.02822020760064,
@@ -39652,7 +40209,8 @@
         69.67835631396858,
         32.4114,
         42.159122408389344,
-        61.846831775700934
+        61.846831775700934,
+        51.224
       ],
       "name": "Österreich",
       "line": {
@@ -39662,6 +40220,7 @@
       "showlegend": false,
       "legendgroup": "lineplotgrp-Österreich",
       "text": [
+        "Österreich",
         "Österreich",
         "Österreich",
         "Österreich",
@@ -40559,6 +41118,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "visible": true,
@@ -40625,7 +41185,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         325.97060611323377,
@@ -40671,7 +41232,8 @@
         87.39931399791594,
         45.13285863146926,
         123.90285255296978,
-        82.09230635637374
+        82.09230635637374,
+        122.03004515456756
       ],
       "name": "Wulkaprodersdorf",
       "line": {
@@ -40680,6 +41242,7 @@
       },
       "marker": {
         "color": [
+          "#E63946",
           "#E63946",
           "#E63946",
           "#E63946",
@@ -40769,6 +41332,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -40809,6 +41373,7 @@
           "square-x",
           "square-x",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -40862,6 +41427,7 @@
             "#E63946",
             "#E63946",
             "#E63946",
+            "#E63946",
             "#E63946"
           ],
           "width": [
@@ -40902,6 +41468,7 @@
             1,
             1,
             1,
+            0,
             0,
             0,
             0,
@@ -40958,9 +41525,11 @@
         "Wulkaprodersdorf",
         "Wulkaprodersdorf",
         "Wulkaprodersdorf",
+        "Wulkaprodersdorf",
         "Wulkaprodersdorf"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -41076,6 +41645,7 @@
           "#E63946",
           "#E63946",
           "#E63946",
+          "#E63946",
           "#E63946"
         ],
         "size": [
@@ -41122,11 +41692,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#E63946",
             "#E63946",
             "#E63946",
             "#E63946",
@@ -41236,7 +41808,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         498.90181818181816,
@@ -41283,7 +41856,8 @@
         42.22134545454546,
         32.11523636363636,
         42.22549090909091,
-        28.046545454545456
+        28.046545454545456,
+        39.62101818181818
       ],
       "name": "Millstätter See",
       "line": {
@@ -41292,6 +41866,7 @@
       },
       "marker": {
         "color": [
+          "#F4A261",
           "#F4A261",
           "#F4A261",
           "#F4A261",
@@ -41383,6 +41958,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -41424,6 +42000,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -41478,6 +42055,7 @@
             "#F4A261",
             "#F4A261",
             "#F4A261",
+            "#F4A261",
             "#F4A261"
           ],
           "width": [
@@ -41519,6 +42097,7 @@
             0,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -41570,6 +42149,7 @@
         "Millstätter See",
         "Millstätter See",
         "Millstätter See (< NG)",
+        "Millstätter See",
         "Millstätter See",
         "Millstätter See",
         "Millstätter See",
@@ -41623,6 +42203,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "visible": "legendonly",
@@ -41652,6 +42233,7 @@
       },
       "marker": {
         "color": [
+          "#F4A261",
           "#F4A261",
           "#F4A261",
           "#F4A261",
@@ -41743,11 +42325,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#F4A261",
             "#F4A261",
             "#F4A261",
             "#F4A261",
@@ -41858,7 +42442,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         557.2472758620689,
@@ -41905,7 +42490,8 @@
         0,
         39.64946206896552,
         36.3570275862069,
-        93.10666896551724
+        93.10666896551724,
+        51.224
       ],
       "name": "Wörthersee Ost",
       "line": {
@@ -41914,6 +42500,7 @@
       },
       "marker": {
         "color": [
+          "#F4A261",
           "#F4A261",
           "#F4A261",
           "#F4A261",
@@ -42005,6 +42592,7 @@
           7,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -42050,6 +42638,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle"
@@ -42100,6 +42689,7 @@
             "#804900",
             "#F4A261",
             "#F4A261",
+            "#F4A261",
             "#F4A261"
           ],
           "width": [
@@ -42145,6 +42735,7 @@
             0,
             0,
             1,
+            0,
             0,
             0,
             0
@@ -42198,9 +42789,11 @@
         "Wörthersee Ost (< NG)",
         "Wörthersee Ost",
         "Wörthersee Ost",
+        "Wörthersee Ost",
         "Wörthersee Ost"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -42318,6 +42911,7 @@
           "#F4A261",
           "#F4A261",
           "#F4A261",
+          "#F4A261",
           "#F4A261"
         ],
         "size": [
@@ -42365,11 +42959,13 @@
           7,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#F4A261",
             "#F4A261",
             "#F4A261",
             "#F4A261",
@@ -42480,7 +43076,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         166.08305970303368,
@@ -42527,7 +43124,8 @@
         0,
         44.112818288829686,
         0,
-        0
+        0,
+        104.73328790037792
       ],
       "name": "An der Traisen",
       "line": {
@@ -42536,6 +43134,7 @@
       },
       "marker": {
         "color": [
+          "#D0E300",
           "#D0E300",
           "#D0E300",
           "#D0E300",
@@ -42627,7 +43226,8 @@
           7,
           6,
           7,
-          7
+          7,
+          6
         ],
         "symbol": [
           "circle",
@@ -42674,7 +43274,8 @@
           "square-x",
           "circle",
           "square-x",
-          "square-x"
+          "square-x",
+          "circle"
         ],
         "line": {
           "color": [
@@ -42722,7 +43323,8 @@
             "#626C02",
             "#D0E300",
             "#626C02",
-            "#626C02"
+            "#626C02",
+            "#D0E300"
           ],
           "width": [
             0,
@@ -42769,7 +43371,8 @@
             1,
             0,
             1,
-            1
+            1,
+            0
           ]
         }
       },
@@ -42820,9 +43423,11 @@
         "An der Traisen (< NG)",
         "An der Traisen",
         "An der Traisen (< NG)",
-        "An der Traisen (< NG)"
+        "An der Traisen (< NG)",
+        "An der Traisen"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -42940,6 +43545,7 @@
           "#D0E300",
           "#D0E300",
           "#D0E300",
+          "#D0E300",
           "#D0E300"
         ],
         "size": [
@@ -42987,11 +43593,13 @@
           7,
           6,
           7,
-          7
+          7,
+          6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#D0E300",
             "#D0E300",
             "#D0E300",
             "#D0E300",
@@ -43100,7 +43708,8 @@
         "2026-08-24",
         "2026-08-31",
         "2026-09-07",
-        "2026-09-14"
+        "2026-09-14",
+        "2026-09-28"
       ],
       "y": [
         632.895589361935,
@@ -43145,7 +43754,8 @@
         44.02473459560031,
         114.2419174783846,
         35.682696727591114,
-        35.94002407792492
+        35.94002407792492,
+        113.54265076064354
       ],
       "name": "Amstetten",
       "line": {
@@ -43154,6 +43764,7 @@
       },
       "marker": {
         "color": [
+          "#D0E300",
           "#D0E300",
           "#D0E300",
           "#D0E300",
@@ -43241,6 +43852,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -43283,6 +43895,7 @@
           "square-x",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -43332,6 +43945,7 @@
             "#D0E300",
             "#D0E300",
             "#D0E300",
+            "#D0E300",
             "#D0E300"
           ],
           "width": [
@@ -43374,6 +43988,7 @@
             1,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -43426,9 +44041,11 @@
         "Amstetten",
         "Amstetten",
         "Amstetten",
+        "Amstetten",
         "Amstetten"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -43542,6 +44159,7 @@
           "#D0E300",
           "#D0E300",
           "#D0E300",
+          "#D0E300",
           "#D0E300"
         ],
         "size": [
@@ -43587,11 +44205,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#D0E300",
             "#D0E300",
             "#D0E300",
             "#D0E300",
@@ -43699,7 +44319,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         228.2416,
@@ -43745,7 +44366,8 @@
         0,
         32.4114,
         77.0381111111111,
-        160.92253333333332
+        160.92253333333332,
+        92.85391111111112
       ],
       "name": "Wr. Neustadt-Süd",
       "line": {
@@ -43754,6 +44376,7 @@
       },
       "marker": {
         "color": [
+          "#D0E300",
           "#D0E300",
           "#D0E300",
           "#D0E300",
@@ -43843,6 +44466,7 @@
           7,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -43887,6 +44511,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle"
@@ -43936,6 +44561,7 @@
             "#626C02",
             "#D0E300",
             "#D0E300",
+            "#D0E300",
             "#D0E300"
           ],
           "width": [
@@ -43980,6 +44606,7 @@
             0,
             0,
             1,
+            0,
             0,
             0,
             0
@@ -44032,9 +44659,11 @@
         "Wr. Neustadt-Süd (< NG)",
         "Wr. Neustadt-Süd",
         "Wr. Neustadt-Süd",
+        "Wr. Neustadt-Süd",
         "Wr. Neustadt-Süd"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -44150,6 +44779,7 @@
           "#D0E300",
           "#D0E300",
           "#D0E300",
+          "#D0E300",
           "#D0E300"
         ],
         "size": [
@@ -44196,11 +44826,13 @@
           7,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#D0E300",
             "#D0E300",
             "#D0E300",
             "#D0E300",
@@ -44310,7 +44942,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         481.05051333333336,
@@ -44357,7 +44990,8 @@
         8.13152,
         38.27798,
         79.07299555555555,
-        43.99527111111111
+        43.99527111111111,
+        52.216406666666664
       ],
       "name": "Asten",
       "line": {
@@ -44366,6 +45000,7 @@
       },
       "marker": {
         "color": [
+          "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
@@ -44457,6 +45092,7 @@
           7,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -44502,6 +45138,7 @@
           "square",
           "circle",
           "square",
+          "circle",
           "circle",
           "circle",
           "circle"
@@ -44552,6 +45189,7 @@
             "#006D62",
             "#2A9D8F",
             "#2A9D8F",
+            "#2A9D8F",
             "#2A9D8F"
           ],
           "width": [
@@ -44597,6 +45235,7 @@
             1,
             0,
             1,
+            0,
             0,
             0,
             0
@@ -44650,9 +45289,11 @@
         "Asten (< BG)",
         "Asten",
         "Asten",
+        "Asten",
         "Asten"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -44770,6 +45411,7 @@
           "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
+          "#2A9D8F",
           "#2A9D8F"
         ],
         "size": [
@@ -44817,11 +45459,13 @@
           7,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
@@ -44932,7 +45576,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         475.5392731823424,
@@ -44979,7 +45624,8 @@
         42.47581773120997,
         26.328123082963216,
         42.09275390768778,
-        78.02321301499276
+        78.02321301499276,
+        89.78342698697028
       ],
       "name": "Traunsee-Nord",
       "line": {
@@ -44988,6 +45634,7 @@
       },
       "marker": {
         "color": [
+          "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
@@ -45079,6 +45726,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -45123,6 +45771,7 @@
           "square-x",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -45174,6 +45823,7 @@
             "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
+            "#2A9D8F",
             "#2A9D8F"
           ],
           "width": [
@@ -45218,6 +45868,7 @@
             1,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -45272,9 +45923,11 @@
         "Traunsee-Nord",
         "Traunsee-Nord",
         "Traunsee-Nord",
+        "Traunsee-Nord",
         "Traunsee-Nord"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -45392,6 +46045,7 @@
           "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
+          "#2A9D8F",
           "#2A9D8F"
         ],
         "size": [
@@ -45439,11 +46093,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
@@ -45551,7 +46207,8 @@
         "2026-08-24",
         "2026-08-24",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         255.11633333333333,
@@ -45595,7 +46252,8 @@
         20.889885714285715,
         59.38666666666666,
         79.27704761904762,
-        62.912
+        62.912,
+        42.56073333333333
       ],
       "name": "Welser Heide",
       "line": {
@@ -45604,6 +46262,7 @@
       },
       "marker": {
         "color": [
+          "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
@@ -45689,6 +46348,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -45726,6 +46386,7 @@
           "square-x",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -45778,6 +46439,7 @@
             "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
+            "#2A9D8F",
             "#2A9D8F"
           ],
           "width": [
@@ -45815,6 +46477,7 @@
             1,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -45870,9 +46533,11 @@
         "Welser Heide",
         "Welser Heide",
         "Welser Heide",
+        "Welser Heide",
         "Welser Heide"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -45984,6 +46649,7 @@
           "#2A9D8F",
           "#2A9D8F",
           "#2A9D8F",
+          "#2A9D8F",
           "#2A9D8F"
         ],
         "size": [
@@ -46028,11 +46694,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
             "#2A9D8F",
@@ -46139,7 +46807,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         306.76316376894266,
@@ -46185,7 +46854,8 @@
         90.41816513306381,
         8.426176244450508,
         15.959026761576428,
-        28.885265011533026
+        28.885265011533026,
+        23.61442496093653
       ],
       "name": "Salzach-Pongau",
       "line": {
@@ -46194,6 +46864,7 @@
       },
       "marker": {
         "color": [
+          "#00B4D8",
           "#00B4D8",
           "#00B4D8",
           "#00B4D8",
@@ -46283,6 +46954,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -46321,6 +46993,7 @@
           "square-x",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -46376,6 +47049,7 @@
             "#00B4D8",
             "#00B4D8",
             "#00B4D8",
+            "#00B4D8",
             "#00B4D8"
           ],
           "width": [
@@ -46414,6 +47088,7 @@
             1,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -46472,9 +47147,11 @@
         "Salzach-Pongau",
         "Salzach-Pongau",
         "Salzach-Pongau",
+        "Salzach-Pongau",
         "Salzach-Pongau"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -46590,6 +47267,7 @@
           "#00B4D8",
           "#00B4D8",
           "#00B4D8",
+          "#00B4D8",
           "#00B4D8"
         ],
         "size": [
@@ -46636,11 +47314,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#00B4D8",
             "#00B4D8",
             "#00B4D8",
             "#00B4D8",
@@ -46749,7 +47429,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         268.2252336448598,
@@ -46795,7 +47476,8 @@
         39.24786292834891,
         23.040093457943925,
         26.063856697819315,
-        61.846831775700934
+        61.846831775700934,
+        36.21986292834891
       ],
       "name": "Siggerwiesen",
       "line": {
@@ -46804,6 +47486,7 @@
       },
       "marker": {
         "color": [
+          "#00B4D8",
           "#00B4D8",
           "#00B4D8",
           "#00B4D8",
@@ -46893,6 +47576,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -46934,6 +47618,7 @@
           "circle",
           "circle",
           "square",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -46986,6 +47671,7 @@
             "#00B4D8",
             "#00B4D8",
             "#00B4D8",
+            "#00B4D8",
             "#00B4D8"
           ],
           "width": [
@@ -47027,6 +47713,7 @@
             0,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -47082,9 +47769,11 @@
         "Siggerwiesen",
         "Siggerwiesen",
         "Siggerwiesen",
+        "Siggerwiesen",
         "Siggerwiesen"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -47200,6 +47889,7 @@
           "#00B4D8",
           "#00B4D8",
           "#00B4D8",
+          "#00B4D8",
           "#00B4D8"
         ],
         "size": [
@@ -47246,11 +47936,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#00B4D8",
             "#00B4D8",
             "#00B4D8",
             "#00B4D8",
@@ -47359,7 +48051,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         133.40053571428572,
@@ -47405,7 +48098,8 @@
         73.41192857142858,
         20.46785714285714,
         30.90342857142857,
-        32.88814285714286
+        32.88814285714286,
+        33.94875
       ],
       "name": "Kapfenberg/Mürz",
       "line": {
@@ -47414,6 +48108,7 @@
       },
       "marker": {
         "color": [
+          "#457B9D",
           "#457B9D",
           "#457B9D",
           "#457B9D",
@@ -47503,6 +48198,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -47546,6 +48242,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -47596,6 +48293,7 @@
             "#457B9D",
             "#457B9D",
             "#457B9D",
+            "#457B9D",
             "#457B9D"
           ],
           "width": [
@@ -47639,6 +48337,7 @@
             0,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -47692,9 +48391,11 @@
         "Kapfenberg/Mürz",
         "Kapfenberg/Mürz",
         "Kapfenberg/Mürz",
+        "Kapfenberg/Mürz",
         "Kapfenberg/Mürz"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -47810,6 +48511,7 @@
           "#457B9D",
           "#457B9D",
           "#457B9D",
+          "#457B9D",
           "#457B9D"
         ],
         "size": [
@@ -47856,11 +48558,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#457B9D",
             "#457B9D",
             "#457B9D",
             "#457B9D",
@@ -47966,7 +48670,8 @@
         "2026-08-24",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         158.78993875554158,
@@ -48009,7 +48714,8 @@
         34.24228706376913,
         40.12736914583912,
         40.356021163765504,
-        80.4429260838578
+        80.4429260838578,
+        46.33036372202022
       ],
       "name": "Graz-Gössendorf",
       "line": {
@@ -48018,6 +48724,7 @@
       },
       "marker": {
         "color": [
+          "#457B9D",
           "#457B9D",
           "#457B9D",
           "#457B9D",
@@ -48101,6 +48808,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -48141,6 +48849,7 @@
           "circle",
           "square-x",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -48188,6 +48897,7 @@
             "#457B9D",
             "#457B9D",
             "#457B9D",
+            "#457B9D",
             "#457B9D"
           ],
           "width": [
@@ -48228,6 +48938,7 @@
             0,
             1,
             1,
+            0,
             0,
             0,
             0,
@@ -48278,9 +48989,11 @@
         "Graz-Gössendorf",
         "Graz-Gössendorf",
         "Graz-Gössendorf",
+        "Graz-Gössendorf",
         "Graz-Gössendorf"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -48390,6 +49103,7 @@
           "#457B9D",
           "#457B9D",
           "#457B9D",
+          "#457B9D",
           "#457B9D"
         ],
         "size": [
@@ -48433,11 +49147,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#457B9D",
             "#457B9D",
             "#457B9D",
             "#457B9D",
@@ -48541,7 +49257,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         240.9880372324339,
@@ -48585,7 +49302,8 @@
         114.2179508720051,
         33.389831647568805,
         50.30306797943479,
-        32.224520313182566
+        32.224520313182566,
+        26.463523639907255
       ],
       "name": "Wildon",
       "line": {
@@ -48594,6 +49312,7 @@
       },
       "marker": {
         "color": [
+          "#457B9D",
           "#457B9D",
           "#457B9D",
           "#457B9D",
@@ -48679,6 +49398,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -48718,6 +49438,7 @@
           "circle",
           "square-x",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -48768,6 +49489,7 @@
             "#457B9D",
             "#457B9D",
             "#457B9D",
+            "#457B9D",
             "#457B9D"
           ],
           "width": [
@@ -48807,6 +49529,7 @@
             0,
             1,
             1,
+            0,
             0,
             0,
             0,
@@ -48860,9 +49583,11 @@
         "Wildon",
         "Wildon",
         "Wildon",
+        "Wildon",
         "Wildon"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -48974,6 +49699,7 @@
           "#457B9D",
           "#457B9D",
           "#457B9D",
+          "#457B9D",
           "#457B9D"
         ],
         "size": [
@@ -49018,11 +49744,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#457B9D",
             "#457B9D",
             "#457B9D",
             "#457B9D",
@@ -49726,7 +50454,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         222.31830387372452,
@@ -49771,7 +50500,8 @@
         80.19865972400588,
         35.48266280617368,
         64.54360566932075,
-        106.5032806407173
+        106.5032806407173,
+        108.95575221238938
       ],
       "name": "Kirchbichl",
       "line": {
@@ -49780,6 +50510,7 @@
       },
       "marker": {
         "color": [
+          "#9D4EDD",
           "#9D4EDD",
           "#9D4EDD",
           "#9D4EDD",
@@ -49867,6 +50598,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -49907,6 +50639,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -49958,6 +50691,7 @@
             "#9D4EDD",
             "#9D4EDD",
             "#9D4EDD",
+            "#9D4EDD",
             "#9D4EDD"
           ],
           "width": [
@@ -49998,6 +50732,7 @@
             0,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -50047,6 +50782,7 @@
         "Kirchbichl",
         "Kirchbichl",
         "Kirchbichl (< NG)",
+        "Kirchbichl",
         "Kirchbichl",
         "Kirchbichl",
         "Kirchbichl",
@@ -50097,6 +50833,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "visible": "legendonly",
@@ -50126,6 +50863,7 @@
       },
       "marker": {
         "color": [
+          "#9D4EDD",
           "#9D4EDD",
           "#9D4EDD",
           "#9D4EDD",
@@ -50213,11 +50951,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#9D4EDD",
             "#9D4EDD",
             "#9D4EDD",
             "#9D4EDD",
@@ -50322,7 +51062,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         106.5813543741382,
@@ -50365,7 +51106,8 @@
         190.45196874521218,
         27.087482763903783,
         108.1182013176038,
-        153.15290332465145
+        153.15290332465145,
+        70.92825953730657
       ],
       "name": "Strass",
       "line": {
@@ -50374,6 +51116,7 @@
       },
       "marker": {
         "color": [
+          "#9D4EDD",
           "#9D4EDD",
           "#9D4EDD",
           "#9D4EDD",
@@ -50457,6 +51200,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -50495,6 +51239,7 @@
           "circle",
           "square-x",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -50544,6 +51289,7 @@
             "#9D4EDD",
             "#9D4EDD",
             "#9D4EDD",
+            "#9D4EDD",
             "#9D4EDD"
           ],
           "width": [
@@ -50582,6 +51328,7 @@
             0,
             1,
             1,
+            0,
             0,
             0,
             0,
@@ -50634,9 +51381,11 @@
         "Strass",
         "Strass",
         "Strass",
+        "Strass",
         "Strass"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -50746,6 +51495,7 @@
           "#9D4EDD",
           "#9D4EDD",
           "#9D4EDD",
+          "#9D4EDD",
           "#9D4EDD"
         ],
         "size": [
@@ -50789,11 +51539,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#9D4EDD",
             "#9D4EDD",
             "#9D4EDD",
             "#9D4EDD",
@@ -50899,7 +51651,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         757.6862242776104,
@@ -50945,7 +51698,8 @@
         80.78415650524845,
         11.623958212034003,
         38.6328414818758,
-        18.109660140069536
+        18.109660140069536,
+        41.344667542794404
       ],
       "name": "Meiningen",
       "line": {
@@ -50954,6 +51708,7 @@
       },
       "marker": {
         "color": [
+          "#F141A8",
           "#F141A8",
           "#F141A8",
           "#F141A8",
@@ -51043,6 +51798,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -51086,6 +51842,7 @@
           "square-x",
           "circle",
           "square",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -51136,6 +51893,7 @@
             "#F141A8",
             "#F141A8",
             "#F141A8",
+            "#F141A8",
             "#F141A8"
           ],
           "width": [
@@ -51179,6 +51937,7 @@
             1,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -51229,6 +51988,7 @@
         "Meiningen (< NG)",
         "Meiningen",
         "Meiningen (< BG)",
+        "Meiningen",
         "Meiningen",
         "Meiningen",
         "Meiningen",
@@ -51278,6 +52038,7 @@
         "text",
         "text",
         "text",
+        "text",
         "text"
       ],
       "visible": "legendonly",
@@ -51307,6 +52068,7 @@
       },
       "marker": {
         "color": [
+          "#F141A8",
           "#F141A8",
           "#F141A8",
           "#F141A8",
@@ -51396,11 +52158,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#F141A8",
             "#F141A8",
             "#F141A8",
             "#F141A8",
@@ -51507,7 +52271,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         160.15125238108777,
@@ -51551,7 +52316,8 @@
         83.76686663065419,
         25.869033065135188,
         104.87419327324936,
-        52.20744605236972
+        52.20744605236972,
+        23.611889801836636
       ],
       "name": "Hofsteig",
       "line": {
@@ -51560,6 +52326,7 @@
       },
       "marker": {
         "color": [
+          "#F141A8",
           "#F141A8",
           "#F141A8",
           "#F141A8",
@@ -51645,6 +52412,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -51686,6 +52454,7 @@
           "circle",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -51734,6 +52503,7 @@
             "#F141A8",
             "#F141A8",
             "#F141A8",
+            "#F141A8",
             "#F141A8"
           ],
           "width": [
@@ -51775,6 +52545,7 @@
             0,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -51826,9 +52597,11 @@
         "Hofsteig",
         "Hofsteig",
         "Hofsteig",
+        "Hofsteig",
         "Hofsteig"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -51940,6 +52713,7 @@
           "#F141A8",
           "#F141A8",
           "#F141A8",
+          "#F141A8",
           "#F141A8"
         ],
         "size": [
@@ -51984,11 +52758,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#F141A8",
             "#F141A8",
             "#F141A8",
             "#F141A8",
@@ -52096,7 +52872,8 @@
         "2026-08-31",
         "2026-09-07",
         "2026-09-14",
-        "2026-09-21"
+        "2026-09-21",
+        "2026-09-28"
       ],
       "y": [
         392.7399374369324,
@@ -52143,7 +52920,8 @@
         65.94478405650858,
         50.933329969727545,
         79.2821614530777,
-        74.56336074672049
+        74.56336074672049,
+        105.564824419778
       ],
       "name": "Wien",
       "line": {
@@ -52152,6 +52930,7 @@
       },
       "marker": {
         "color": [
+          "#8D6E63",
           "#8D6E63",
           "#8D6E63",
           "#8D6E63",
@@ -52243,6 +53022,7 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": [
@@ -52278,6 +53058,7 @@
           "square",
           "circle",
           "square-x",
+          "circle",
           "circle",
           "circle",
           "circle",
@@ -52338,6 +53119,7 @@
             "#8D6E63",
             "#8D6E63",
             "#8D6E63",
+            "#8D6E63",
             "#8D6E63"
           ],
           "width": [
@@ -52373,6 +53155,7 @@
             1,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -52436,9 +53219,11 @@
         "Wien",
         "Wien",
         "Wien",
+        "Wien",
         "Wien"
       ],
       "hoverinfo": [
+        "text",
         "text",
         "text",
         "text",
@@ -52556,6 +53341,7 @@
           "#8D6E63",
           "#8D6E63",
           "#8D6E63",
+          "#8D6E63",
           "#8D6E63"
         ],
         "size": [
@@ -52603,11 +53389,13 @@
           6,
           6,
           6,
+          6,
           6
         ],
         "symbol": "circle",
         "line": {
           "color": [
+            "#8D6E63",
             "#8D6E63",
             "#8D6E63",
             "#8D6E63",
