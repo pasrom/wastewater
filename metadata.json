@@ -1,25 +1,25 @@
 {
-  "last_updated": "2026-10-28T06:04:45.581120",
+  "last_updated": "2026-11-04T06:03:42.973158",
   "sources": {
     "ages": {
       "sarscov2": {
         "status": "ok",
         "file": "../../data/ages/sarscov2.json",
-        "latest_week": "2026-10-19",
+        "latest_week": "2026-10-26",
         "age_weeks": 1,
         "stale": false
       },
       "influenza": {
         "status": "ok",
         "file": "../../data/ages/influenza.json",
-        "latest_week": "2026-10-19",
+        "latest_week": "2026-10-26",
         "age_weeks": 1,
         "stale": false
       },
       "rsv": {
         "status": "ok",
         "file": "../../data/ages/rsv.json",
-        "latest_week": "2026-10-19",
+        "latest_week": "2026-10-26",
         "age_weeks": 1,
         "stale": false
       }
@@ -27,16 +27,16 @@
     "sentinel": {
       "heatmap": {
         "status": "ok",
-        "weeks": 115,
-        "latest_week": "2026-10-12",
-        "age_weeks": 2,
+        "weeks": 117,
+        "latest_week": "2026-10-26",
+        "age_weeks": 1,
         "stale": false
       },
       "barchart": {
         "status": "ok",
-        "weeks": 125,
-        "latest_week": "2026-10-12",
-        "age_weeks": 2,
+        "weeks": 127,
+        "latest_week": "2026-10-26",
+        "age_weeks": 1,
         "stale": false
       }
     },
@@ -45,15 +45,15 @@
         "status": "ok",
         "rows": 3240,
         "latest_week": "2026-10-12",
-        "age_weeks": 2,
-        "stale": false
+        "age_weeks": 3,
+        "stale": true
       },
       "patient": {
         "status": "ok",
         "rows": 51840,
         "latest_week": "2026-10-12",
-        "age_weeks": 2,
-        "stale": false
+        "age_weeks": 3,
+        "stale": true
       }
     }
   }
