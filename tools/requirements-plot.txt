@@ -1,0 +1,3 @@
+# Local plotting only (plot_virus_data.py); not installed by the data job.
+matplotlib>=3.7.0
+numpy>=1.24.0

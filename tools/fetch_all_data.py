@@ -107,9 +107,28 @@ def week_label_to_date(label: str) -> str | None:
 
 def latest_plotly_date(payload: dict) -> str | None:
     """Newest x value across all traces of an AGES plotly export."""
-    dates = [x[:10] for trace in payload.get('data', []) for x in (trace.get('x') or [])
+    dates = [x[:10] for trace in payload.get('data', []) if isinstance(trace, dict)
+             for x in (trace.get('x') or [])
              if isinstance(x, str) and re.match(r'\d{4}-\d{2}-\d{2}', x)]
     return max(dates) if dates else None
+
+
+def check_ages_payload(payload) -> str:
+    """Refuse an AGES export the dashboard cannot draw, and return its newest date.
+
+    AGES answers maintenance pages and broken exports with HTTP 200 too. Saving
+    one unchecked overwrote the last good file: the wastewater chart went blank
+    with the run still green, because a payload without dates never ages.
+    """
+    if not isinstance(payload, dict) or not isinstance(payload.get('data'), list):
+        raise ValueError('not a plotly export: no "data" trace list')
+    if not any(isinstance(t, dict) and t.get('name') == 'Österreich' and len(t.get('x') or []) > 1
+               for t in payload['data']):
+        raise ValueError('no "Österreich" series')
+    newest = latest_plotly_date(payload)
+    if newest is None:
+        raise ValueError('no dated points')
+    return newest
 
 
 def section_failed(section: dict) -> bool:
@@ -134,6 +153,8 @@ def fetch_ages_data(output_dir: Path) -> dict:
             response = requests.get(url, timeout=REQUEST_TIMEOUT)
             response.raise_for_status()
             data = response.json()
+            # Checked before writing, so a bad export leaves the last good file.
+            newest = check_ages_payload(data)
 
             output_file = ages_dir / f'{name}.json'
             with open(output_file, 'w', encoding='utf-8') as f:
@@ -141,9 +162,10 @@ def fetch_ages_data(output_dir: Path) -> dict:
 
             print(f"  Saved: {output_file}")
             results[name] = {'status': 'ok', 'file': str(output_file),
-                             **check_freshness('ages', name, latest_plotly_date(data))}
+                             **check_freshness('ages', name, newest)}
 
-        except requests.RequestException as e:
+        # ValueError covers a body that is not JSON and one that is the wrong JSON.
+        except (requests.RequestException, ValueError) as e:
             print(f"  Error fetching {name}: {e}")
             results[name] = {'status': 'error', 'error': str(e)}
 
@@ -297,6 +319,26 @@ def normalise_week(row: dict) -> None:
         row['date'] = parse_kw_to_date(row['KW'])
 
 
+# A new SARI export may lose rows against the published file only within this
+# share; anything below means the parser no longer understands the format.
+SARI_MIN_ROW_SHARE = 0.9
+
+
+def previous_row_count(path: Path, url: str) -> int | None:
+    """Row count of the last published SARI file, if it came from the same URL.
+
+    A new file version may legitimately cover fewer seasons; changing SARI_URLS
+    is the deliberate act that resets the comparison.
+    """
+    try:
+        previous = json.loads(path.read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        return None
+    if not isinstance(previous, dict) or previous.get('source') != url:
+        return None
+    return previous.get('row_count')
+
+
 def latest_week(rows: list) -> str | None:
     dates = [r['date'] for r in rows if r.get('date')]
     return max(dates) if dates else None
@@ -365,6 +407,16 @@ def fetch_sari_data(output_dir: Path) -> dict:
                     f"none of the {len(rows)} parsed rows carry a usable week - "
                     "refusing to overwrite; has the CSV format changed?")
 
+            # The export carries the full history, so it only ever grows. A
+            # format change that drops most rows can still leave one dated row,
+            # so compare against what is published instead of trusting any count.
+            output_file = sari_dir / f'{name}.json'
+            previous = previous_row_count(output_file, url)
+            if previous and len(rows) < SARI_MIN_ROW_SHARE * previous:
+                raise ValueError(
+                    f"only {len(rows)} rows against {previous} published - "
+                    "refusing to overwrite; has the CSV format changed?")
+
             freshness = check_freshness('sari', name, newest)
 
             output = {
@@ -378,7 +430,6 @@ def fetch_sari_data(output_dir: Path) -> dict:
                 'latest_week': newest,
                 'data': rows
             }
-            output_file = sari_dir / f'{name}.json'
             with open(output_file, 'w', encoding='utf-8') as f:
                 json.dump(output, f, indent=2, ensure_ascii=False)
 

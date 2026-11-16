@@ -1,0 +1,8 @@
+# Only what the weekly data job imports (fetch_all_data.py, extract_virus_data.py).
+# The job runs with write access to this repository, so requirements.txt pins
+# every package by version and hash: a new or hijacked release cannot slip
+# into a run. Plotting dependencies live in requirements-plot.txt.
+#
+# Regenerate after editing:
+#   uv pip compile requirements.in --generate-hashes --python-version 3.12 -o requirements.txt
+requests
