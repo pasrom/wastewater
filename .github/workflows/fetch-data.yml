@@ -3,8 +3,11 @@ name: Fetch All Data
 
 on:
   schedule:
-    # Every Wednesday at 06:00 UTC (07:00 Vienna time)
+    # Wednesday 06:00 UTC: Sentinel and SARI publish the past week by Tuesday.
     - cron: '0 6 * * 3'
+    # Saturday 06:00 UTC: AGES publishes its wastewater week on Friday, so a
+    # Wednesday-only run kept that feed a week behind.
+    - cron: '0 6 * * 6'
   workflow_dispatch:  # Allow manual trigger
 
 permissions:

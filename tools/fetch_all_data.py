@@ -66,9 +66,9 @@ SARI_URLS = {
     'patient': f'{SARI_BASE}/SARI_Wohnregion_Patient_v202602.csv',
 }
 
-# A healthy feed sits at age 1: its newest week is the Monday just gone and the
-# job runs the following Wednesday. 2 tolerates one missed publication and raises
-# the alarm on the second. Per source because the cadences may diverge.
+# A healthy feed sits at age 0 or 1: its newest week is the Monday just gone, and
+# the job runs on Wednesday and on Saturday. 2 tolerates one missed publication
+# and raises the alarm on the second. Per source because the cadences differ.
 STALE_AFTER_WEEKS = {'ages': 2, 'sentinel': 2, 'sari': 2}
 
 REQUEST_TIMEOUT = 30
