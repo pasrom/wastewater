@@ -6,7 +6,8 @@
     <title>Abwasser-Monitoring Österreich</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"
+            integrity="sha384-o5uz97et3bErHvpKfD4Jz4n0JfhJDWABFuF4NP+iEEDxE1VwMWJ19QGR0lqFZnr6" crossorigin="anonymous"></script>
     <style>
         .ec-chart { width: 100%; height: 520px; }
         .ec-chart.tall { height: 650px; }
@@ -294,15 +295,26 @@
     const SENTINEL_HEATMAP_VIRUS_ORDER = Object.keys(SENTINEL_HEATMAP_ROWS);
 
     // ==================== Helpers ====================
+    // raw.githubusercontent.com sends CORS headers, so no proxy fallback: a
+    // third-party proxy could only ever add a party able to rewrite the data.
     async function fetchData(url) {
-        try {
-            const r = await fetch(url);
-            if (r.ok) return await r.json();
-        } catch (_) {}
-        const r2 = await fetch('https://corsproxy.io/?' + encodeURIComponent(url));
-        if (!r2.ok) throw new Error('HTTP ' + r2.status);
-        return await r2.json();
+        // One retry on a network error (e.g. a reset on mobile); an HTTP error is final
+        const r = await fetch(url).catch(() => fetch(url));
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return await r.json();
     }
+
+    // Checked before the feed enters dataPool: a malformed file then shows its
+    // error instead of throwing inside every later render.
+    async function fetchChecked(url, isValid) {
+        const d = await fetchData(url);
+        if (!d || !isValid(d)) throw new Error('Unerwartetes Datenformat');
+        return d;
+    }
+
+    // ECharts puts a custom tooltip formatter's return value into innerHTML.
+    // Week labels and names there come from the data feeds, so escape them.
+    const escapeHtml = echarts.format.encodeHTML;
 
     function mondayOfISOWeek(year, week) {
         const jan4 = new Date(year, 0, 4);
@@ -380,13 +392,15 @@
         }
     }
 
-    // Shift a local YYYY-MM-DD string by whole days. Going through calendar fields
-    // lets the Date constructor normalise the under/overflow and avoids both the
-    // UTC round trip and the wall-clock drift setDate() shows across a DST change.
-    function shiftYMD(ymd, days) {
-        const [y, m, d] = ymd.split('-').map(Number);
-        return isoToYMD(new Date(y, m - 1, d + days));
+    // Local midnight of a YYYY-MM-DD string, optionally shifted by whole days.
+    // new Date('YYYY-MM-DD') would give UTC midnight, the previous evening west
+    // of UTC. Calendar fields let the constructor normalise day overflow without
+    // the wall-clock drift setDate() shows across a DST change.
+    function parseYMD(ymd, days = 0) {
+        const [y, m, d] = String(ymd).slice(0, 10).split('-').map(Number);
+        return new Date(y, m - 1, d + days);
     }
+    const shiftYMD = (ymd, days) => isoToYMD(parseYMD(ymd, days));
     const isNarrow = () => window.innerWidth < 700;
     const narrowGrid = (top, bottom, right = 10) => ({ left: 5, right, top, bottom, containLabel: true });
     const xAxisInterval = arr => Math.max(0, Math.floor(arr.length / 20) - 1);
@@ -469,8 +483,16 @@
     const THEME_STORAGE_KEY = 'theme';
     const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const themeToggleBtn = document.getElementById('theme-toggle');
+    // Storage can throw (blocked site data, some private modes); unguarded at top
+    // level that stops the whole script before any chart renders.
+    function storageGet(key) {
+        try { return localStorage.getItem(key); } catch (_) { return null; }
+    }
+    function storageSet(key, value) {
+        try { localStorage.setItem(key, value); } catch (_) {}
+    }
     function effectiveTheme() {
-        return localStorage.getItem(THEME_STORAGE_KEY) || (darkQuery.matches ? 'dark' : 'light');
+        return storageGet(THEME_STORAGE_KEY) || (darkQuery.matches ? 'dark' : 'light');
     }
     function applyThemeAttr() {
         const t = effectiveTheme();
@@ -647,16 +669,24 @@
         });
     }
 
+    // Each virus is its own file: one missing file must not blank the other two.
+    // Returns the names of the viruses that failed; throws only if all did.
     async function loadWastewater() {
-        const entries = await Promise.all(
-            Object.entries(WW_SOURCES).map(async ([key, src]) => {
-                const raw = await fetchData(src.url);
-                const ex = extractWastewaterTraces(raw);
-                Object.keys(ex.traces).forEach(l => dataPool.locations.add(l));
-                return [key, ex];
-            })
-        );
-        dataPool.wastewater = Object.fromEntries(entries);
+        const sources = Object.entries(WW_SOURCES);
+        // Extraction runs inside each file's promise, so a malformed file fails alone
+        const settled = await Promise.allSettled(
+            sources.map(([, src]) => fetchData(src.url).then(extractWastewaterTraces)));
+        const loaded = {}, failed = [];
+        settled.forEach((res, i) => {
+            const [key, src] = sources[i];
+            if (res.status === 'rejected') { failed.push(`${src.name} (${res.reason.message})`); return; }
+            Object.keys(res.value.traces).forEach(l => dataPool.locations.add(l));
+            loaded[key] = res.value;
+        });
+        if (!Object.keys(loaded).length) throw new Error(failed.join(', '));
+        dataPool.wastewater = loaded;
+        dataPool.wastewaterFailed = failed;
+        return failed;
     }
 
     // ==================== 5. SARI Krankenhausaufnahmen ====================
@@ -782,7 +812,7 @@
             [...SARI_DIAGNOSEN, 'AUFNAHMEN', 'BEV_ZAHL'].forEach(c => {
                 if (r[c] != null) r[c] = parseInt(r[c]) || 0;
             });
-            r.date = r.KW ? parseKW(r.KW) : (r.date ? new Date(r.date) : null);
+            r.date = r.KW ? parseKW(r.KW) : (r.date ? parseYMD(r.date) : null);
             return r;
         }).filter(r => r.date);
     }
@@ -818,38 +848,14 @@
             : { color: palette[0], type: 'dotted', width: 2 };
     }
 
-    const incidencePopCache = new Map();
     const incidenceCache = new Map();
-
-    // Denominator per week. Independent of diagnosis and station — the same
-    // age×gender group appears once per station carrying an identical BEV_ZAHL,
-    // so summing the column verbatim would double the population.
-    function incidencePopulation(region) {
-        const hit = incidencePopCache.get(region);
-        if (hit) return hit;
-        // Dedupe inside the week bucket rather than across the whole region: the
-        // group key stays short and each Set holds at most one week's groups.
-        const byWeek = new Map();
-        for (const row of getDemoByRegion(region, 'ALL')) {
-            const k = row.date.getTime();
-            let e = byWeek.get(k);
-            if (!e) { e = { pop: 0, seen: new Set() }; byWeek.set(k, e); }
-            const groupKey = `${row.WOHNORT}|${row.ALTERSGRUPPE}|${row.GESCHLECHT}`;
-            if (e.seen.has(groupKey)) continue;
-            e.seen.add(groupKey);
-            e.pop += row.BEV_ZAHL || 0;
-        }
-        const population = new Map([...byWeek].map(([k, e]) => [k, e.pop]));
-        incidencePopCache.set(region, population);
-        return population;
-    }
 
     function aggregateIncidence(region, diagnose, station) {
         const key = `${region}|${diagnose}|${station}`;
         const hit = incidenceCache.get(key);
         if (hit) return hit;
 
-        const population = incidencePopulation(region);
+        const population = new Map([...demoPopulation(region)].map(([k, w]) => [k, w.total]));
         const cases = new Map();
         for (const row of getDemoByRegion(region, station)) {
             const k = row.date.getTime();
@@ -1003,28 +1009,54 @@
         return d;
     }
 
+    // Population per week (ms) — the denominator of every per-100k figure — as a
+    // total, per age group and per age×gender group ('AG|G'). Read from the
+    // station-independent rows, so a station filter never changes it. BEV_ZAHL
+    // repeats on each station's row, so every Bundesland × age × gender group
+    // counts once per week, taken from the first row that carries a value.
+    const demoPopCache = new Map();
+    function demoPopulation(region) {
+        const hit = demoPopCache.get(region);
+        if (hit) return hit;
+        const byWeek = new Map(), seen = new Set();
+        const add = (m, k, v) => m.set(k, (m.get(k) || 0) + v);
+        for (const row of getDemoByRegion(region, 'ALL')) {
+            if (!row.BEV_ZAHL) continue;
+            const k = row.date.getTime();
+            const group = `${row.ALTERSGRUPPE}|${row.GESCHLECHT}`;
+            const key = `${k}|${row.WOHNORT}|${group}`;
+            if (seen.has(key)) continue;
+            seen.add(key);
+            let w = byWeek.get(k);
+            if (!w) byWeek.set(k, w = { total: 0, ages: new Map(), groups: new Map() });
+            w.total += row.BEV_ZAHL;
+            add(w.ages, row.ALTERSGRUPPE, row.BEV_ZAHL);
+            add(w.groups, group, row.BEV_ZAHL);
+        }
+        demoPopCache.set(region, byWeek);
+        return byWeek;
+    }
+
     function aggregateDemographics(bundesland, station, startDate, endDate) {
         let filtered = getDemoByRegion(bundesland, station);
         if (startDate && endDate) filtered = filtered.filter(r => r.date >= startDate && r.date <= endDate);
-        const agg = {}, pop = {};
+        const agg = {};
         for (const row of filtered) {
-            const popKey = `${row.ALTERSGRUPPE}_${row.GESCHLECHT}_${row.KW}`;
-            if (!pop[popKey] && row.BEV_ZAHL) pop[popKey] = { ag: row.ALTERSGRUPPE, g: row.GESCHLECHT, pop: row.BEV_ZAHL };
             for (const d of SARI_DIAGNOSEN) {
-                const k = `${row.ALTERSGRUPPE}_${row.GESCHLECHT}_${d}`;
+                const k = `${row.ALTERSGRUPPE}|${row.GESCHLECHT}|${d}`;
                 if (!agg[k]) agg[k] = { ag: row.ALTERSGRUPPE, g: row.GESCHLECHT, d, count: 0 };
                 agg[k].count += row[d] || 0;
             }
         }
-        const popSums = {}, popCounts = {};
-        for (const p of Object.values(pop)) {
-            const k = `${p.ag}_${p.g}`;
-            popSums[k] = (popSums[k] || 0) + p.pop;
-            popCounts[k] = (popCounts[k] || 0) + 1;
-        }
+        // Counts span the whole range, so the denominator is the group's mean
+        // population over the weeks in that range.
+        const weeks = [...demoPopulation(bundesland)]
+            .filter(([k]) => !startDate || (k >= startDate.getTime() && k <= endDate.getTime()))
+            .map(([, w]) => w.groups);
         for (const item of Object.values(agg)) {
-            const k = `${item.ag}_${item.g}`;
-            item.population = popCounts[k] ? popSums[k] / popCounts[k] : 0;
+            const group = `${item.ag}|${item.g}`;
+            item.population = weeks.length
+                ? weeks.reduce((t, groups) => t + (groups.get(group) || 0), 0) / weeks.length : 0;
         }
         return Object.values(agg);
     }
@@ -1046,8 +1078,8 @@
         const station = document.getElementById('sari-demo-station').value;
         const per100k = document.getElementById('sari-demo-per100k').checked;
 
-        const startDate = demoTimelineRange ? new Date(demoTimelineRange[0]) : null;
-        const endDate = demoTimelineRange ? new Date(demoTimelineRange[1]) : null;
+        const startDate = demoTimelineRange ? parseYMD(demoTimelineRange[0]) : null;
+        const endDate = demoTimelineRange ? parseYMD(demoTimelineRange[1]) : null;
         let aggregated = aggregateDemographics(bundesland, station, startDate, endDate);
 
         if (per100k) aggregated.forEach(it => { if (it.population > 0) it.count = (it.count / it.population) * 100000; });
@@ -1197,7 +1229,7 @@
             [...SARI_DIAGNOSEN, 'AUFNAHMEN', 'BEV_ZAHL'].forEach(c => {
                 if (r[c] != null) r[c] = parseInt(r[c]) || 0;
             });
-            r.date = r.KW ? parseKW(r.KW) : (r.date ? new Date(r.date) : null);
+            r.date = r.KW ? parseKW(r.KW) : (r.date ? parseYMD(r.date) : null);
             return r;
         }).filter(r => r.date);
     }
@@ -1212,7 +1244,7 @@
             const k = `${row.KW}_${row.ALTERSGRUPPE}`;
             let it = cells.get(k);
             if (!it) {
-                it = { kw: row.KW, ag: row.ALTERSGRUPPE, count: 0, pop: 0, pn: 0, date: row.date };
+                it = { kw: row.KW, ag: row.ALTERSGRUPPE, count: 0, date: row.date };
                 cells.set(k, it);
             }
             if (diagnose === 'ALL') {
@@ -1220,8 +1252,10 @@
             } else {
                 it.count += row[diagnose] || 0;
             }
-            if (row.BEV_ZAHL) { it.pop += row.BEV_ZAHL; it.pn++; }
         }
+        // A cell's population: its age group, both genders, all selected Bundesländer
+        const population = demoPopulation(bundesland);
+        for (const it of cells.values()) it.pop = population.get(it.date.getTime())?.ages.get(it.ag) || 0;
         return cells;
     }
 
@@ -1246,13 +1280,7 @@
         ageGroups.forEach((ag, yi) => {
             kws.forEach((kw, xi) => {
                 const it = aggregated.get(`${kw}_${ag}`);
-                let v = 0;
-                if (it) {
-                    if (per100k && it.pn > 0) {
-                        const avg = it.pop / it.pn;
-                        v = avg > 0 ? (it.count / avg) * 100000 : 0;
-                    } else v = it.count;
-                }
+                const v = !it ? 0 : !per100k ? it.count : it.pop > 0 ? (it.count / it.pop) * 100000 : 0;
                 if (v > zMax) zMax = v;
                 cells.push([xi, yi, v]);
             });
@@ -1270,7 +1298,7 @@
                 position: 'top',
                 formatter: p => {
                     const v = p.value[2];
-                    return `${ageGroups[p.value[1]]}<br>${kws[p.value[0]]}<br>${per100k ? v.toFixed(1) + ' pro 100k' : v + ' Aufnahmen'}`;
+                    return `${escapeHtml(ageGroups[p.value[1]])}<br>${escapeHtml(kws[p.value[0]])}<br>${per100k ? v.toFixed(1) + ' pro 100k' : v + ' Aufnahmen'}`;
                 }
             },
             grid: narrow ? narrowGrid(60, 130) : { left: 80, right: 100, top: 60, bottom: 80, containLabel: true },
@@ -1305,8 +1333,7 @@
 
     // Positivity mode, shared by bar chart and heatmap: one state, one checkbox per card
     const SENTINEL_MODE_STORAGE_KEY = 'sentinelMode';  // 'absolute' | 'percent'
-    let sentinelPercent = false;
-    try { sentinelPercent = localStorage.getItem(SENTINEL_MODE_STORAGE_KEY) === 'percent'; } catch (_) {}
+    let sentinelPercent = storageGet(SENTINEL_MODE_STORAGE_KEY) === 'percent';
     const sentinelPercentBoxes = document.querySelectorAll('.sentinel-percent');
     sentinelPercentBoxes.forEach(cb => {
         cb.checked = sentinelPercent;
@@ -1315,7 +1342,7 @@
     function setSentinelMode(percent) {
         sentinelPercent = percent;
         sentinelPercentBoxes.forEach(cb => { cb.checked = percent; });
-        try { localStorage.setItem(SENTINEL_MODE_STORAGE_KEY, percent ? 'percent' : 'absolute'); } catch (_) {}
+        storageSet(SENTINEL_MODE_STORAGE_KEY, percent ? 'percent' : 'absolute');
         renderSentinelBar();
         renderSentinelHeatmap();
     }
@@ -1324,8 +1351,8 @@
         if (!params || !params.length) return '';
         const week = params[0].name;
         const eins = +dataPool.sentinelBar.einsendungen[week] || 0;
-        const rows = params.map(p => `${p.marker} ${p.seriesName}: ${fmtShareOf(p.value, p.data.abs, eins)}`);
-        return `<b>${week}</b> · ${Math.round(eins)} Einsendungen<br>${rows.join('<br>')}`;
+        const rows = params.map(p => `${p.marker} ${escapeHtml(p.seriesName)}: ${fmtShareOf(p.value, p.data.abs, eins)}`);
+        return `<b>${escapeHtml(week)}</b> · ${Math.round(eins)} Einsendungen<br>${rows.join('<br>')}`;
     }
 
     function renderSentinelBar() {
@@ -1402,7 +1429,8 @@
     }
 
     async function loadSentinelBar() {
-        dataPool.sentinelBar = await fetchData(SENTINEL_BAR_URL);
+        dataPool.sentinelBar = await fetchChecked(SENTINEL_BAR_URL,
+            d => Array.isArray(d.weeks) && d.data && d.einsendungen);
     }
 
     // ==================== 4. Sentinel Heatmap ====================
@@ -1468,8 +1496,8 @@
             tooltip: {
                 position: 'top',
                 formatter: percent
-                    ? p => `${yAxisData[p.value[1]]} · ${weeks[p.value[0]]}: ${fmtShareOf(p.value[2], p.data.abs, p.data.eins)}`
-                    : p => `${yAxisData[p.value[1]]}<br>${weeks[p.value[0]]}: ${(+p.value[2]).toFixed(1)}`
+                    ? p => `${escapeHtml(yAxisData[p.value[1]])} · ${escapeHtml(weeks[p.value[0]])}: ${fmtShareOf(p.value[2], p.data.abs, p.data.eins)}`
+                    : p => `${escapeHtml(yAxisData[p.value[1]])}<br>${escapeHtml(weeks[p.value[0]])}: ${(+p.value[2]).toFixed(1)}`
             },
             grid: narrow ? narrowGrid(50, 130) : { left: 100, right: 100, top: 50, bottom: 80, containLabel: true },
             xAxis: { type: 'category', data: weeks, axisLabel: { rotate: -45, interval: xAxisInterval(weeks) } },
@@ -1491,7 +1519,8 @@
     }
 
     async function loadSentinelHeatmap() {
-        dataPool.sentinelHeatmap = await fetchData(SENTINEL_HEATMAP_URL);
+        dataPool.sentinelHeatmap = await fetchChecked(SENTINEL_HEATMAP_URL,
+            d => Array.isArray(d.weeks) && Array.isArray(d.viruses) && d.data);
     }
 
     // ==================== 2. Kombiniertes Virensignal ====================
@@ -1528,8 +1557,7 @@
             if (!at) continue;
             const groups = {};
             for (let i = 0; i < at.x.length; i++) {
-                const date = new Date(at.x[i]);
-                const w = dateToISOWeek(date);
+                const w = dateToISOWeek(parseYMD(at.x[i]));
                 if (!groups[w]) groups[w] = [];
                 groups[w].push(at.y[i]);
             }
@@ -1722,12 +1750,12 @@
             if (dataPool.wastewater && dataPool.sari && dataPool.sentinelBar) renderCombinedSignal();
         }
         function setTheme(value, persist) {
-            if (persist) localStorage.setItem(THEME_STORAGE_KEY, value);
+            if (persist) storageSet(THEME_STORAGE_KEY, value);
             applyThemeAttr();
             reinitChartsForTheme();
         }
         darkQuery.addEventListener('change', () => {
-            if (!localStorage.getItem(THEME_STORAGE_KEY)) setTheme(darkQuery.matches ? 'dark' : 'light', false);
+            if (!storageGet(THEME_STORAGE_KEY)) setTheme(darkQuery.matches ? 'dark' : 'light', false);
         });
         themeToggleBtn.addEventListener('click', () => {
             setTheme(effectiveTheme() === 'dark' ? 'light' : 'dark', true);
@@ -1747,14 +1775,16 @@
 
         // Load each data source in parallel; render sections as they arrive
         const tasks = [
-            loadWastewater().then(() => {
-                document.getElementById('ww-loading').style.display = 'none';
+            loadWastewater().then(failed => {
+                const status = document.getElementById('ww-loading');
+                if (failed.length) status.textContent = 'Nicht geladen: ' + failed.join(', ');
+                else status.style.display = 'none';
                 setupLocationDropdown();
                 buildLocationList();
                 renderWastewater();
                 for (const src of Object.values(dataPool.wastewater)) {
                     const at = src.traces['Österreich'];
-                    if (at && at.x.length) bumpFreshness('Abwasser', new Date(at.x[at.x.length - 1]));
+                    if (at && at.x.length) bumpFreshness('Abwasser', parseYMD(at.x[at.x.length - 1]));
                 }
             }).catch(e => { document.getElementById('ww-loading').textContent = 'Fehler: ' + e.message; }),
 
@@ -1822,7 +1852,10 @@
         // Combined signal needs wastewater + sari + sentinelBar
         Promise.all([tasks[0], tasks[1], tasks[3]]).then(() => {
             try {
-                document.getElementById('combined-loading').style.display = 'none';
+                const status = document.getElementById('combined-loading');
+                const missing = dataPool.wastewaterFailed || [];
+                if (missing.length) status.textContent = 'Ohne Abwasserdaten für: ' + missing.join(', ');
+                else status.style.display = 'none';
                 renderCombinedSignal();
             } catch (e) {
                 document.getElementById('combined-loading').textContent = 'Fehler: ' + e.message;
