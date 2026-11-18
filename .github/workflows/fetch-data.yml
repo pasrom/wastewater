@@ -3,8 +3,10 @@ name: Fetch All Data
 
 on:
   schedule:
-    # Wednesday 06:00 UTC: Sentinel and SARI publish the past week by Tuesday.
-    - cron: '0 6 * * 3'
+    # Wednesday 10:00 UTC: SARI publishes the past week on Tuesday, but MedUni
+    # has updated the Sentinel charts as late as Wednesday 08:30 UTC, so an
+    # earlier run kept Sentinel a week behind.
+    - cron: '0 10 * * 3'
     # Saturday 06:00 UTC: AGES publishes its wastewater week on Friday, so a
     # Wednesday-only run kept that feed a week behind.
     - cron: '0 6 * * 6'
