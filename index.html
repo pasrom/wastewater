@@ -168,7 +168,7 @@
                     </div>
                 </div>
                 <div id="sari-chart-ec" class="ec-chart" role="img" aria-label="Balkendiagramm: SARI-Krankenhausaufnahmen pro Woche nach Diagnose"></div>
-                <p class="footnote">*Grau hinterlegt: die beiden jüngsten Wochen sind vorläufig. Da laufend mit Korrekturen und Nachmeldungen zu rechnen ist, kann sich der Datenbestand noch verändern.</p>
+                <p class="footnote">*Schraffiert: die beiden jüngsten Wochen sind vorläufig. Da laufend mit Korrekturen und Nachmeldungen zu rechnen ist, kann sich der Datenbestand noch verändern.</p>
                 <div id="sari-loading-ec" class="loading-msg">Lade SARI-Daten…</div>
             </div>
         </section>
@@ -204,7 +204,7 @@
                     </div>
                 </div>
                 <div id="sari-incidence-ec" class="ec-chart" role="img" aria-label="Liniendiagramm: SARI-Aufnahmen pro 100.000 Einwohner je Bundesland"></div>
-                <p class="footnote">*Grau hinterlegt: die beiden jüngsten Wochen sind vorläufig. Da laufend mit Korrekturen und Nachmeldungen zu rechnen ist, kann sich der Datenbestand noch verändern.</p>
+                <p class="footnote">*Gestrichelt umrahmt: die beiden jüngsten Wochen sind vorläufig. Da laufend mit Korrekturen und Nachmeldungen zu rechnen ist, kann sich der Datenbestand noch verändern.</p>
                 <div id="sari-incidence-loading" class="loading-msg">Lade Daten…</div>
             </div>
         </section>
@@ -268,9 +268,15 @@
                             <span class="toggle-text">pro 100.000 Einw.</span>
                         </label>
                     </div>
+                    <div class="control-group">
+                        <label class="toggle-label">
+                            <input type="checkbox" id="sari-heatmap-normalize">
+                            <span class="toggle-text">je Altersgruppe normieren</span>
+                        </label>
+                    </div>
                 </div>
                 <div id="sari-heatmap-ec" class="ec-chart tall" role="img" aria-label="Heatmap: SARI-Aufnahmen nach Altersgruppe und Woche"></div>
-                <p class="footnote">*Grau hinterlegt: die beiden jüngsten Wochen sind vorläufig. Da laufend mit Korrekturen und Nachmeldungen zu rechnen ist, kann sich der Datenbestand noch verändern.</p>
+                <p class="footnote">*Schraffiert: die beiden jüngsten Wochen sind vorläufig. Da laufend mit Korrekturen und Nachmeldungen zu rechnen ist, kann sich der Datenbestand noch verändern.</p>
                 <div id="sari-heatmap-loading-ec" class="loading-msg">Lade Daten…</div>
             </div>
         </section>
@@ -323,7 +329,9 @@
         COVID: 'COVID-19', INFLUENZA: 'Influenza', RSV: 'RSV', PNEUMOKOKKEN: 'Pneumokokken', SONSTIGE: 'Sonstige SARI'
     };
     const SARI_DIAGNOSEN = ['COVID', 'INFLUENZA', 'PNEUMOKOKKEN', 'RSV', 'SONSTIGE'];
-    const HEATMAP_DIAGNOSE_NAMES = { ALL: 'Alle SARI-Diagnosen', ...SARI_DIAGNOSE_NAMES };
+    // 'ALL' means every SARI admission (AUFNAHMEN), not the sum of the diagnosis
+    // columns: a case can carry several diagnoses.
+    const DIAGNOSE_OPTIONS = { ALL: 'Alle SARI-Aufnahmen', ...SARI_DIAGNOSE_NAMES };
 
     // Codes must match WOHNORT/BUNDESLAND in the SARI data (SBG/KTN, not S/K)
     const BUNDESLAND_NAMES = {
@@ -1444,7 +1452,6 @@
     };
     const INCIDENCE_INK = { light: '#52514e', dark: '#c3c2b7' };
     const SWATCH_DASH = { dashed: 4, dotted: 2 };  // dash length per line type, in px
-    const INCIDENCE_DIAGNOSE_NAMES = { ALL: 'Alle SARI-Aufnahmen', ...SARI_DIAGNOSE_NAMES };
 
     // Narrows effectiveTheme() to a palette key; anything unexpected reads as light
     const themeMode = () => effectiveTheme() === 'dark' ? 'dark' : 'light';
@@ -1531,7 +1538,7 @@
 
         // A single region names itself in the heading; several are named by the legend.
         const heading = multi ? 'SARI-Inzidenz pro 100.000' : `SARI-Inzidenz ${BUNDESLAND_NAMES[regions[0]]}`;
-        const subject = `${INCIDENCE_DIAGNOSE_NAMES[diagnose]} (${STATION_NAMES[station]})`;
+        const subject = `${DIAGNOSE_OPTIONS[diagnose]} (${STATION_NAMES[station]})`;
 
         incidenceChart.setOption({
             title: narrow ? { show: false } : {
@@ -1868,6 +1875,13 @@
     }
 
     // ==================== 8. SARI Altersgruppen-Heatmap ====================
+    // Zero sits at the card surface in both themes so empty cells recede; in dark
+    // mode "more" gets lighter, so high values stand out against the dark card.
+    const AGE_HEATMAP_NORMALIZE_KEY = 'ageHeatmapNormalize';  // '1' | '0'
+    const AGE_HEATMAP_RAMP = {
+        light: ['#f7f7f7', '#fee8c8', '#fdbb84', '#e34a33', '#7f0000'],
+        dark:  ['#2a2426', '#5a2c22', '#9a3b26', '#d95a33', '#fdae6b']
+    };
     let ageHeatmapChart = initChart('sari-heatmap-ec');
 
     function aggregateAgeHeatmap(bundesland, station, diagnose) {
@@ -1880,11 +1894,7 @@
                 it = { kw: row.KW, ag: row.ALTERSGRUPPE, count: 0, date: row.date };
                 cells.set(k, it);
             }
-            if (diagnose === 'ALL') {
-                it.count += SARI_DIAGNOSEN.reduce((s, d) => s + (row[d] || 0), 0);
-            } else {
-                it.count += row[diagnose] || 0;
-            }
+            it.count += (diagnose === 'ALL' ? row.AUFNAHMEN : row[diagnose]) || 0;
         }
         // A cell's population: its age group, both genders, all selected Bundesländer
         const population = demoPopulation(bundesland);
@@ -1897,6 +1907,7 @@
         const station = document.getElementById('sari-heatmap-station').value;
         const diagnose = document.getElementById('sari-heatmap-diagnose').value;
         const per100k = document.getElementById('sari-heatmap-per100k').checked;
+        const normalize = document.getElementById('sari-heatmap-normalize').checked;
         const aggregated = aggregateAgeHeatmap(bundesland, station, diagnose);
         if (aggregated.size === 0) {
             ageHeatmapChart.clear();
@@ -1908,34 +1919,47 @@
         const kws = [...kwToDate.entries()].sort((a, b) => a[1] - b[1]).map(e => e[0]);
         const ageGroups = AGE_GROUPS_ORDER;
 
+        // Each cell carries [x, y, colour value, count, per-100k]. Normalised, the
+        // colour value is the share of that age group's own maximum, so younger
+        // groups are not washed out by the 80+ row.
         const cells = [];
         let zMax = 0;
         ageGroups.forEach((ag, yi) => {
-            kws.forEach((kw, xi) => {
+            const row = kws.map((kw, xi) => {
                 const it = aggregated.get(`${kw}_${ag}`);
-                const v = !it ? 0 : !per100k ? it.count : it.pop > 0 ? (it.count / it.pop) * 100000 : 0;
-                if (v > zMax) zMax = v;
-                cells.push([xi, yi, v]);
+                const count = it ? it.count : 0;
+                const rate = it && it.pop > 0 ? (count / it.pop) * 100000 : 0;
+                return [xi, yi, per100k ? rate : count, count, rate];
             });
+            const rowMax = Math.max(0, ...row.map(c => c[2]));
+            for (const c of row) {
+                if (normalize) c[2] = rowMax > 0 ? c[2] / rowMax : 0;
+                if (c[2] > zMax) zMax = c[2];
+                cells.push(c);
+            }
         });
 
         const narrow = isNarrow();
-        const visualMapText = per100k ? 'pro 100k' : 'Aufnahmen';
+        const visualMapText = normalize ? 'Anteil am Gruppenmax.' : per100k ? 'pro 100k' : 'Aufnahmen';
+        const ramp = AGE_HEATMAP_RAMP[themeMode()];
+        const scaleMax = normalize ? 1 : zMax || 1;
+        const scaleFmt = normalize ? (v => fmtDe(v * 100, 0) + ' %') : undefined;
         // SARI spells weeks '46. KW 2026'; show them like every other chart
         const kwText = kw => { const d = parseKW(kw); return d ? formatKW(d) : kw; };
         ageHeatmapChart.setOption({
             title: narrow ? { show: false } : {
-                text: `${HEATMAP_DIAGNOSE_NAMES[diagnose]} nach Altersgruppe — ${BUNDESLAND_NAMES[bundesland]}`,
+                text: `${DIAGNOSE_OPTIONS[diagnose]} nach Altersgruppe — ${BUNDESLAND_NAMES[bundesland]}`,
                 left: 'center', textStyle: { fontSize: 14, fontWeight: 600 }
             },
             toolbox: TOOLBOX,
             tooltip: {
                 position: 'top',
                 formatter: p => {
-                    const v = p.value[2], d = parseKW(kws[p.value[0]]);
-                    const week = d ? weekHeader(d) : kws[p.value[0]];
-                    return `<b>${escapeHtml(week)}</b><br>${escapeHtml(ageGroups[p.value[1]])} Jahre: ${per100k ? fmtDe(v) + ' pro 100.000' : fmtDe(v, 0) + ' Aufnahmen'}`
-                        + (p.value[0] >= kws.length - SARI_PROVISIONAL_WEEKS ? '<br><i>vorläufig</i>' : '');
+                    const [x, y, v, count, rate] = p.value, d = parseKW(kws[x]);
+                    const week = d ? weekHeader(d) : kws[x];
+                    return `<b>${escapeHtml(week)}</b><br>${escapeHtml(ageGroups[y])} Jahre: ${fmtDe(count, 0)} Aufnahmen · ${fmtDe(rate)} pro 100.000`
+                        + (normalize ? `<br>${fmtDe(v * 100, 0)} % des Höchstwerts dieser Altersgruppe` : '')
+                        + (x >= kws.length - SARI_PROVISIONAL_WEEKS ? '<br><i>vorläufig</i>' : '');
                 }
             },
             grid: narrow ? narrowGrid(40, 130) : { left: 80, right: 100, top: 60, bottom: 80, containLabel: true },
@@ -1943,15 +1967,15 @@
             yAxis: { type: 'category', data: ageGroups },
             visualMap: narrow
                 ? {
-                    min: 0, max: zMax || 1, calculable: true, orient: 'horizontal',
+                    min: 0, max: scaleMax, calculable: true, orient: 'horizontal',
                     left: 'center', bottom: 5, itemWidth: 16, itemHeight: 180,
-                    inRange: { color: ['#f7f7f7', '#fee8c8', '#fdbb84', '#e34a33', '#7f0000'] },
+                    dimension: 2, inRange: { color: ramp }, formatter: scaleFmt,
                     text: [visualMapText, '']
                 }
                 : {
-                    min: 0, max: zMax || 1, calculable: true, orient: 'vertical',
+                    min: 0, max: scaleMax, calculable: true, orient: 'vertical',
                     right: 10, top: 50, itemHeight: 140,
-                    inRange: { color: ['#f7f7f7', '#fee8c8', '#fdbb84', '#e34a33', '#7f0000'] },
+                    dimension: 2, inRange: { color: ramp }, formatter: scaleFmt,
                     text: [visualMapText, '']
                 },
             dataZoom: [
@@ -1960,7 +1984,7 @@
             series: [{
                 type: 'heatmap', progressive: 1000,
                 data: hatchNewest(cells, c => c[0] >= kws.length - SARI_PROVISIONAL_WEEKS, c => ({ value: c })),
-                emphasis: { itemStyle: { borderColor: '#333', borderWidth: 1 } }
+                emphasis: { itemStyle: { borderColor: CHART_INK[themeMode()].strong, borderWidth: 1 } }
             }]
         }, { notMerge: true });
     }
@@ -2337,8 +2361,8 @@
             .forEach(id => fillSelect(id, SARI_REGION_OPTIONS));
         ['sari-station', 'incidence-station', 'sari-demo-station', 'sari-heatmap-station']
             .forEach(id => fillSelect(id, STATION_NAMES));
-        fillSelect('incidence-diagnose', INCIDENCE_DIAGNOSE_NAMES);
-        fillSelect('sari-heatmap-diagnose', HEATMAP_DIAGNOSE_NAMES);
+        fillSelect('incidence-diagnose', DIAGNOSE_OPTIONS);
+        fillSelect('sari-heatmap-diagnose', DIAGNOSE_OPTIONS);
 
         // Set once the combined signal has rendered from whichever sources loaded
         let combinedReady = false;
@@ -2459,6 +2483,12 @@
                     renderDemographics();
                 });
                 initSection('sari-heatmap-loading-ec', () => {
+                    const normalizeBox = document.getElementById('sari-heatmap-normalize');
+                    normalizeBox.checked = storageGet(AGE_HEATMAP_NORMALIZE_KEY) === '1';
+                    normalizeBox.addEventListener('change', () => {
+                        storageSet(AGE_HEATMAP_NORMALIZE_KEY, normalizeBox.checked ? '1' : '0');
+                        renderAgeHeatmap();
+                    });
                     ['sari-heatmap-bundesland', 'sari-heatmap-station', 'sari-heatmap-diagnose', 'sari-heatmap-per100k']
                         .forEach(id => document.getElementById(id).addEventListener('change', renderAgeHeatmap));
                     renderAgeHeatmap();
