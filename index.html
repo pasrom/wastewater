@@ -35,10 +35,20 @@
             </div>
             <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Hell-/Dunkelmodus wechseln" title="Hell-/Dunkelmodus">☾</button>
         </header>
+        <!-- Sticky jump links: the page is nine charts long, so every group is one tap away -->
+        <nav class="section-nav" aria-label="Abschnitte">
+            <a href="#karte">Karte</a>
+            <a href="#abwasser">Abwasser</a>
+            <a href="#sentinel">Sentinel</a>
+            <a href="#spital">Spital</a>
+            <a href="#alter">Alter</a>
+        </nav>
+
+        <h2 class="group-heading" id="karte">Überblick</h2>
         <!-- 0. Lage nach Bundesland (Karte) -->
         <section class="sari-section">
             <header>
-                <h2>Lage nach Bundesland</h2>
+                <h3>Lage nach Bundesland</h3>
                 <p class="subtitle">SARI-Aufnahmen pro 100.000 (nach Wohnregion) und Abwasser-Trend je Kläranlage</p>
             </header>
             <div class="sari-content">
@@ -52,7 +62,10 @@
                     </div>
                 </div>
                 <p id="map-austria" class="map-austria"></p>
-                <div id="map-chart-ec" class="ec-chart map" role="img" aria-label="Karte: SARI-Aufnahmen pro 100.000 je Bundesland und Abwasser-Trend je Kläranlage"></div>
+                <div class="chart-wrap">
+                    <div id="map-chart-ec" class="ec-chart map" role="img" aria-label="Karte: SARI-Aufnahmen pro 100.000 je Bundesland und Abwasser-Trend je Kläranlage"></div>
+                    <div id="map-loading" class="loading-msg">Lade Karte…</div>
+                </div>
                 <ul class="map-legend" aria-label="Legende Abwasser-Trend">
                     <li><span class="trend-dot" data-trend="down"></span>Abnahme (&lt; −10 %/Woche)</li>
                     <li><span class="trend-dot" data-trend="stable"></span>Stabil (±10 %)</li>
@@ -62,7 +75,6 @@
                     <li><span class="trend-dot" data-trend="none"></span>Keine Daten</li>
                     <li class="legend-note">Kreisgröße: angeschlossene Einwohnerwerte</li>
                 </ul>
-                <div id="map-loading" class="loading-msg">Lade Karte…</div>
                 <details class="map-list">
                     <summary>Alle Bundesländer und Kläranlagen als Liste</summary>
                     <div id="map-list-body"></div>
@@ -71,10 +83,11 @@
             </div>
         </section>
 
+        <h2 class="group-heading" id="abwasser">Abwasser</h2>
         <!-- 1. Viruslast im Abwasser -->
         <section class="sari-section">
             <header>
-                <h2>Viruslast im Abwasser</h2>
+                <h3>Viruslast im Abwasser</h3>
                 <p class="subtitle">Daten: AGES Abwasser-Monitoring Österreich</p>
             </header>
             <div class="sari-content">
@@ -94,71 +107,61 @@
                         </div>
                     </div>
                 </div>
-                <div id="wastewater-chart-ec" class="ec-chart" role="img" aria-label="Liniendiagramm: Viruslast im Abwasser über die Zeit"></div>
-                <div id="ww-loading" class="loading-msg">Lade Daten…</div>
+                <div class="chart-wrap">
+                    <div id="wastewater-chart-ec" class="ec-chart" role="img" aria-label="Liniendiagramm: Viruslast im Abwasser über die Zeit"></div>
+                    <div id="ww-loading" class="loading-msg">Lade Daten…</div>
+                </div>
             </div>
         </section>
 
         <!-- 2. Kombiniertes Virensignal -->
         <section class="sari-section">
             <header>
-                <h2>Kombiniertes Virensignal <span class="experimental-tag">experimentell</span></h2>
+                <h3>Kombiniertes Virensignal <span class="experimental-tag">experimentell</span></h3>
                 <p class="subtitle">Z-Score normalisiert aus Abwasser (AGES), Sentinel (MedUni Wien) und SARI-Aufnahmen</p>
             </header>
             <div class="sari-content">
-                <div id="combined-chart-ec" class="ec-chart" role="img" aria-label="Liniendiagramm: kombiniertes Virensignal als Z-Score über die Zeit"></div>
-                <div id="combined-loading" class="loading-msg">Lade und berechne kombiniertes Signal…</div>
-                <p class="footnote">Lesart: 0 = Mittel der vorangegangenen 26 Wochen, +1 = eine Standardabweichung darüber, ab etwa +2 deutlich über dem Üblichen. Jede Quelle wird für sich normalisiert, danach werden die Quellen je Virus gemittelt. Die beiden jüngsten SARI-Wochen sind vorläufig (grau hinterlegt).</p>
+                <div class="chart-wrap">
+                    <div id="combined-chart-ec" class="ec-chart" role="img" aria-label="Liniendiagramm: kombiniertes Virensignal als Z-Score über die Zeit"></div>
+                    <div id="combined-loading" class="loading-msg">Lade und berechne kombiniertes Signal…</div>
+                </div>
+                <p class="footnote">Lesart: 0 = Mittel der vorangegangenen 26 Wochen, +1 = eine Standardabweichung darüber, ab etwa +2 deutlich über dem Üblichen. Jede Quelle wird für sich normalisiert, danach werden die Quellen je Virus gemittelt. Die beiden jüngsten SARI-Wochen sind vorläufig (gestrichelt umrahmt).</p>
             </div>
         </section>
 
-        <!-- 3. Virusnachweise im Sentinelsystem -->
+        <h2 class="group-heading" id="sentinel">Sentinel (Arztpraxen)</h2>
+        <!-- 3 + 4. Sentinelsystem: bar chart and heatmap in one card with one mode toggle -->
         <section class="sari-section">
             <header>
-                <h2>Virusnachweise im Sentinelsystem</h2>
+                <h3>Virusnachweise im Sentinelsystem</h3>
                 <p class="subtitle">Daten: MedUni Wien Sentinelsystem</p>
             </header>
             <div class="sari-content">
                 <div class="sentinel-mode-controls">
-                    <div class="control-group">
-                        <label class="toggle-label" title="Gilt für Balkendiagramm und Heatmap">
-                            <input type="checkbox" class="sentinel-percent">
-                            <span class="toggle-text">% der Einsendungen (Positivrate)</span>
-                        </label>
-                    </div>
+                    <div class="segmented" role="radiogroup" aria-label="Darstellung" id="sentinel-mode" title="Gilt für Balkendiagramm und Heatmap"></div>
                 </div>
-                <div id="sentinel-bar-ec" class="ec-chart tall" role="img" aria-label="Balkendiagramm: Virusnachweise im Sentinelsystem pro Woche"></div>
+                <div class="chart-wrap">
+                    <div id="sentinel-bar-ec" class="ec-chart tall" role="img" aria-label="Balkendiagramm: Virusnachweise im Sentinelsystem pro Woche"></div>
+                    <div id="sentinel-bar-loading" class="loading-msg">Lade Sentinel-Daten…</div>
+                </div>
                 <p id="sentinel-bar-percent-note" class="footnote" hidden>Anteil der Einsendungen mit positivem Nachweis pro Woche. Mehrfachnachweise sind möglich, die Summe kann daher 100 % übersteigen. Die Einsendungen sind aus der MedUni-Grafik ausgelesen (in kleinen Wochen ±1–2 Prozentpunkte).</p>
-                <div id="sentinel-bar-loading" class="loading-msg">Lade Sentinel-Daten…</div>
-            </div>
-        </section>
 
-        <!-- 4. Fallzahlen nach Virustyp (Heatmap) -->
-        <section class="sari-section">
-            <header>
-                <h2>Fallzahlen nach Virustyp</h2>
-                <p class="subtitle">Heatmap: MedUni Wien Sentinelsystem</p>
-            </header>
-            <div class="sari-content">
-                <div class="sentinel-mode-controls">
-                    <div class="control-group">
-                        <label class="toggle-label" title="Gilt für Balkendiagramm und Heatmap">
-                            <input type="checkbox" class="sentinel-percent">
-                            <span class="toggle-text">% der Einsendungen (Positivrate)</span>
-                        </label>
-                    </div>
+                <h4 class="sub-heading">Fallzahlen nach Virustyp</h4>
+                <div class="chart-wrap">
+                    <div id="sentinel-heatmap-ec" class="ec-chart tall" role="img" aria-label="Heatmap: Fallzahlen nach Virustyp und Woche"></div>
+                    <div id="sentinel-heatmap-loading" class="loading-msg">Lade Heatmap-Daten…</div>
                 </div>
-                <div id="sentinel-heatmap-ec" class="ec-chart tall" role="img" aria-label="Heatmap: Fallzahlen nach Virustyp und Woche"></div>
                 <p class="footnote">Zahlen aus dem Balkendiagramm oben (exakte Nachweise, Influenza = A + B + C), dargestellt in MedUnis Heatmap-Anordnung; Farbe auf Wurzelskala, damit auch kleine Zahlen sichtbar bleiben. Zeitraum wie im Balkendiagramm.</p>
                 <p id="sentinel-heatmap-percent-note" class="footnote" hidden>Prozentwerte: Nachweise geteilt durch die Einsendungen der Woche.</p>
-                <div id="sentinel-heatmap-loading" class="loading-msg">Lade Heatmap-Daten…</div>
             </div>
         </section>
 
+        <h2 class="group-heading" id="spital">Krankenhaus (SARI)</h2>
+        <p class="group-note">Bundesland und Station sind in allen Krankenhaus-Diagrammen verknüpft: eine Auswahl gilt für alle.</p>
         <!-- 5. SARI Krankenhausaufnahmen -->
         <section class="sari-section">
             <header>
-                <h2>Krankenhausaufnahmen (SARI)</h2>
+                <h3>Krankenhausaufnahmen (SARI)</h3>
                 <p class="subtitle">Daten: SARI-Dashboard Österreich</p>
             </header>
             <div class="sari-content">
@@ -179,17 +182,19 @@
                     </div>
                 </div>
                 <p id="sari-icu-note" class="chart-legend-note">Kräftige Farbe = Normalstation, helle Farbe = Intensivstation (oben auf jedem Balkenabschnitt).</p>
-                <div id="sari-chart-ec" class="ec-chart" role="img" aria-label="Balkendiagramm: SARI-Krankenhausaufnahmen pro Woche nach Diagnose"></div>
-                <p class="footnote">Eine Aufnahme mit mehreren Diagnosen zählt in jedem passenden Balkenabschnitt; „Aufnahmen gesamt“ im Tooltip zählt sie einmal.</p>
+                <div class="chart-wrap">
+                    <div id="sari-chart-ec" class="ec-chart" role="img" aria-label="Balkendiagramm: SARI-Krankenhausaufnahmen pro Woche nach Diagnose"></div>
+                    <div id="sari-loading-ec" class="loading-msg">Lade SARI-Daten…</div>
+                </div>
+                <p class="footnote">Bundesland hier = Standort des Krankenhauses; die übrigen Krankenhaus-Diagramme zählen nach Wohnregion der Patient:innen. Eine Aufnahme mit mehreren Diagnosen zählt in jedem passenden Balkenabschnitt; „Aufnahmen gesamt“ im Tooltip zählt sie einmal.</p>
                 <p class="footnote">*Schraffiert: die beiden jüngsten Wochen sind vorläufig. Da laufend mit Korrekturen und Nachmeldungen zu rechnen ist, kann sich der Datenbestand noch verändern.</p>
-                <div id="sari-loading-ec" class="loading-msg">Lade SARI-Daten…</div>
             </div>
         </section>
 
         <!-- 6. SARI-Inzidenz pro 100.000 Einwohner -->
         <section class="sari-section">
             <header>
-                <h2>SARI-Inzidenz pro 100.000 Einwohner</h2>
+                <h3>SARI-Inzidenz pro 100.000 Einwohner</h3>
                 <p class="subtitle">Bundesländer im Vergleich – nach Wohnregion der Patient:innen</p>
             </header>
             <div class="sari-content">
@@ -216,16 +221,18 @@
                         <select id="incidence-station" class="select-input"></select>
                     </div>
                 </div>
-                <div id="sari-incidence-ec" class="ec-chart" role="img" aria-label="Liniendiagramm: SARI-Aufnahmen pro 100.000 Einwohner je Bundesland"></div>
+                <div class="chart-wrap">
+                    <div id="sari-incidence-ec" class="ec-chart" role="img" aria-label="Liniendiagramm: SARI-Aufnahmen pro 100.000 Einwohner je Bundesland"></div>
+                    <div id="sari-incidence-loading" class="loading-msg">Lade Daten…</div>
+                </div>
                 <p class="footnote">*Gestrichelt umrahmt: die beiden jüngsten Wochen sind vorläufig. Da laufend mit Korrekturen und Nachmeldungen zu rechnen ist, kann sich der Datenbestand noch verändern.</p>
-                <div id="sari-incidence-loading" class="loading-msg">Lade Daten…</div>
             </div>
         </section>
 
         <!-- 7. Aufnahmen nach Alter und Geschlecht -->
-        <section class="sari-section">
+        <section class="sari-section" id="alter">
             <header>
-                <h2>Aufnahmen nach Alter und Geschlecht</h2>
+                <h3>Aufnahmen nach Alter und Geschlecht</h3>
                 <p class="subtitle">Daten: SARI-Dashboard Österreich</p>
             </header>
             <div class="sari-content">
@@ -246,19 +253,19 @@
                     </div>
                 </div>
                 <p class="chart-legend-note">Je Altersgruppe zwei Balken: <b>W</b> = weiblich (kräftige Farbe), <b>M</b> = männlich (helle Farbe).</p>
-                <div id="sari-demographics-chart-container">
+                <div id="sari-demographics-chart-container" class="chart-wrap">
                     <div id="sari-demographics-chart-ec" class="ec-chart" role="img" aria-label="Balkendiagramm: SARI-Aufnahmen nach Altersgruppe und Geschlecht im gewählten Zeitraum"></div>
                     <p id="sari-demo-range" class="range-caption"></p>
                     <div id="sari-demo-timeline-ec" class="demo-timeline" role="img" aria-label="Zeitleiste der SARI-Aufnahmen zur Auswahl des Zeitraums"></div>
+                    <div id="sari-demographics-loading-ec" class="loading-msg">Lade Daten…</div>
                 </div>
-                <div id="sari-demographics-loading-ec" class="loading-msg">Lade Daten…</div>
             </div>
         </section>
 
         <!-- 8. Altersgruppen-Heatmap -->
         <section class="sari-section">
             <header>
-                <h2>Altersgruppen im Zeitverlauf</h2>
+                <h3>Altersgruppen im Zeitverlauf</h3>
                 <p class="subtitle">Heatmap: Wann trifft es welche Altersgruppe?</p>
             </header>
             <div class="sari-content">
@@ -288,9 +295,11 @@
                         </label>
                     </div>
                 </div>
-                <div id="sari-heatmap-ec" class="ec-chart tall" role="img" aria-label="Heatmap: SARI-Aufnahmen nach Altersgruppe und Woche"></div>
+                <div class="chart-wrap">
+                    <div id="sari-heatmap-ec" class="ec-chart tall" role="img" aria-label="Heatmap: SARI-Aufnahmen nach Altersgruppe und Woche"></div>
+                    <div id="sari-heatmap-loading-ec" class="loading-msg">Lade Daten…</div>
+                </div>
                 <p class="footnote">*Schraffiert: die beiden jüngsten Wochen sind vorläufig. Da laufend mit Korrekturen und Nachmeldungen zu rechnen ist, kann sich der Datenbestand noch verändern.</p>
-                <div id="sari-heatmap-loading-ec" class="loading-msg">Lade Daten…</div>
             </div>
         </section>
 
@@ -1215,6 +1224,8 @@
         const statusEl = document.getElementById('map-loading');
         statusEl.textContent = status.join(' · ');
         statusEl.style.display = status.length ? '' : 'none';
+        // A notice sits below the map; only "Lade Karte…" overlays the chart area
+        statusEl.classList.toggle('notice-msg', status.length > 0);
 
         document.getElementById('map-week-label').textContent =
             weekRangeLabel(m.week) + (m.provisional ? ' (vorläufig)' : '');
@@ -2173,21 +2184,19 @@
     // ==================== 3. Sentinel Bar Chart ====================
     let sentinelBarChart = initChart('sentinel-bar-ec');
 
-    // Positivity mode, shared by bar chart and heatmap: one state, one checkbox per card
+    // Positivity mode, shared by bar chart and heatmap: both sit in one card
+    // under one toggle, so the two charts can never show different modes
     const SENTINEL_MODE_STORAGE_KEY = 'sentinelMode';  // 'absolute' | 'percent'
     let sentinelPercent = storageGet(SENTINEL_MODE_STORAGE_KEY) === 'percent';
-    const sentinelPercentBoxes = document.querySelectorAll('.sentinel-percent');
-    sentinelPercentBoxes.forEach(cb => {
-        cb.checked = sentinelPercent;
-        cb.addEventListener('change', () => setSentinelMode(cb.checked));
-    });
-    function setSentinelMode(percent) {
-        sentinelPercent = percent;
-        sentinelPercentBoxes.forEach(cb => { cb.checked = percent; });
-        storageSet(SENTINEL_MODE_STORAGE_KEY, percent ? 'percent' : 'absolute');
+    buildSegmented(document.getElementById('sentinel-mode'), 'sentinel-mode', [
+        ['absolute', 'Absolut', 'Anzahl der Nachweise'],
+        ['percent', 'Positivrate', '% der Einsendungen mit positivem Nachweis']
+    ], sentinelPercent ? 'percent' : 'absolute', key => {
+        sentinelPercent = key === 'percent';
+        storageSet(SENTINEL_MODE_STORAGE_KEY, key);
         renderSentinelBar();
         renderSentinelHeatmap();
-    }
+    });
 
     function sentinelPercentTooltip(params) {
         if (!params || !params.length) return '';
@@ -2308,7 +2317,8 @@
         const status = document.getElementById('sentinel-heatmap-loading');
         if (!bar) {
             sentinelHeatChart.clear();
-            if (sentinelBarError) setSectionError(status, sentinelBarError);
+            // Same card as the bar chart, whose status already names the error
+            if (sentinelBarError) status.style.display = 'none';
             else { status.textContent = 'Lade Heatmap-Daten…'; status.style.display = ''; }
             return;
         }
@@ -2536,12 +2546,67 @@
     // ==================== Boot ====================
     (async () => {
         // Populate every selector before the first render reads its .value
-        ['sari-bundesland', 'sari-demo-bundesland', 'sari-heatmap-bundesland']
-            .forEach(id => fillSelect(id, SARI_REGION_OPTIONS));
-        ['sari-station', 'incidence-station', 'sari-demo-station', 'sari-heatmap-station']
-            .forEach(id => fillSelect(id, STATION_NAMES));
+        const SARI_REGION_SELECTS = ['sari-bundesland', 'sari-demo-bundesland', 'sari-heatmap-bundesland'];
+        const SARI_STATION_SELECTS = ['sari-station', 'incidence-station', 'sari-demo-station', 'sari-heatmap-station'];
+        SARI_REGION_SELECTS.forEach(id => fillSelect(id, SARI_REGION_OPTIONS));
+        SARI_STATION_SELECTS.forEach(id => fillSelect(id, STATION_NAMES));
         fillSelect('incidence-diagnose', DIAGNOSE_OPTIONS);
         fillSelect('sari-heatmap-diagnose', DIAGNOSE_OPTIONS);
+
+        // Bundesland and Station had to be set four times to compare the SARI
+        // charts. The selects stay next to their chart (the cards are far apart),
+        // but are linked: a change in one is mirrored to the others, and each
+        // mirrored select fires its own change so its chart re-renders. A chart
+        // whose feed failed has no listener and simply stays collapsed.
+        // The incidence chart keeps its own multi-select of Länder.
+        function linkSelects(ids) {
+            let syncing = false;
+            for (const id of ids) {
+                document.getElementById(id).addEventListener('change', e => {
+                    if (syncing) return;
+                    syncing = true;
+                    for (const other of ids) {
+                        const el = document.getElementById(other);
+                        if (el !== e.target && el.value !== e.target.value) {
+                            el.value = e.target.value;
+                            el.dispatchEvent(new Event('change'));
+                        }
+                    }
+                    syncing = false;
+                });
+            }
+        }
+        linkSelects(SARI_REGION_SELECTS);
+        linkSelects(SARI_STATION_SELECTS);
+
+        // Jump links: mark the group the reader is in. The current group is the
+        // last target whose top has scrolled above the sticky bar.
+        (function setupSectionNav() {
+            const nav = document.querySelector('.section-nav');
+            const links = [...nav.querySelectorAll('a')];
+            const targets = links.map(a => document.getElementById(a.hash.slice(1)));
+            let scheduled = false;
+            function update() {
+                scheduled = false;
+                const line = nav.getBoundingClientRect().bottom + 24;
+                let current = -1;
+                targets.forEach((t, i) => { if (t.getBoundingClientRect().top <= line) current = i; });
+                links.forEach((a, i) => {
+                    if (i === current) a.setAttribute('aria-current', 'true');
+                    else a.removeAttribute('aria-current');
+                });
+                // Keep the active chip visible when the row scrolls sideways on phones
+                if (current >= 0 && nav.scrollWidth > nav.clientWidth) {
+                    const a = links[current];
+                    if (a.offsetLeft < nav.scrollLeft || a.offsetLeft + a.offsetWidth > nav.scrollLeft + nav.clientWidth)
+                        nav.scrollLeft = a.offsetLeft - 8;
+                }
+            }
+            const schedule = () => { if (!scheduled) { scheduled = true; requestAnimationFrame(update); } };
+            window.addEventListener('scroll', schedule, { passive: true });
+            window.addEventListener('resize', schedule);
+            update();
+        })();
 
         // Set once the combined signal has rendered from whichever sources loaded
         let combinedReady = false;

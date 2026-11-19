@@ -327,7 +327,7 @@ footer .impressum a {
     margin-bottom: 20px;
 }
 
-.sari-section h2 {
+.sari-section h3 {
     font-size: 1.5rem;
     color: var(--text-strong);
     margin-bottom: 8px;
@@ -755,7 +755,9 @@ footer .impressum a {
 .sari-section.failed #sari-controls,
 .sari-section.failed #incidence-controls,
 .sari-section.failed #sari-demographics-controls,
-.sari-section.failed #sari-heatmap-controls {
+.sari-section.failed #sari-heatmap-controls,
+.sari-section.failed .sentinel-mode-controls,
+.sari-section.failed .sub-heading {
     display: none;
 }
 
@@ -1042,4 +1044,109 @@ footer .impressum a {
 .location-item:has(input:disabled) {
     cursor: not-allowed;
     opacity: 0.55;
+}
+
+/* Sticky jump links between the page's groups. One slim row: on phones it
+   scrolls sideways inside itself instead of wrapping into a tall block. */
+.section-nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin: 0 -20px 20px;
+    padding: 8px 20px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.section-nav::-webkit-scrollbar {
+    display: none;
+}
+
+.section-nav a {
+    flex: none;
+    padding: 4px 14px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 0.9rem;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.section-nav a:hover {
+    background: var(--hover-bg);
+}
+
+.section-nav a[aria-current="true"] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+:root[data-theme="dark"] .section-nav a[aria-current="true"] {
+    color: #15171a;
+}
+
+/* Jump targets land below the sticky row, not under it */
+.group-heading,
+.sari-section[id] {
+    scroll-margin-top: 64px;
+}
+
+.group-heading {
+    font-size: 1.15rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    margin: 8px 4px 12px;
+}
+
+.group-note {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin: -6px 4px 14px;
+}
+
+.sub-heading {
+    font-size: 1.2rem;
+    color: var(--text-strong);
+    margin: 28px 0 12px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-soft);
+}
+
+/* "Lade …" sits over the reserved chart area instead of below it, so nothing
+   jumps when it disappears. Notices and errors stay in the flow under it. */
+.chart-wrap {
+    position: relative;
+}
+
+.chart-wrap > .loading-msg:not(.error-msg):not(.notice-msg) {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .section-nav {
+        margin: 0 -10px 14px;
+        padding: 6px 10px;
+    }
+
+    .group-heading {
+        font-size: 1rem;
+    }
+
+    .sari-section h3 {
+        font-size: 1.25rem;
+    }
 }
