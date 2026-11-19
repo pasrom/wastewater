@@ -23,7 +23,7 @@ Interactive dashboard displaying virus load in Austrian wastewater, Sentinel vir
 
 ### Sentinel Virus Detections (MedUni Wien)
 - Stacked bar chart of virus detections by type
-- Einsendungen (submissions) shown as background area
+- Einsendungen (submissions) as a background area on the same count axis as the detections
 - Heatmap of virus types over time
 - Interactive time range slider
 

@@ -2163,7 +2163,7 @@
             legendNames.push(label);
             const counts = weeks.map(w => (data.data[w] && data.data[w][v]) || 0);
             series.push({
-                name: label, type: 'bar', stack: 'total', yAxisIndex: 0,
+                name: label, type: 'bar', stack: 'total',
                 itemStyle: { color: SENTINEL_COLORS[v] || '#888' },
                 data: percent ? counts.map((n, i) => ({ value: positivity(n, einsValues[i]), abs: n })) : counts
             });
@@ -2172,10 +2172,13 @@
             legendNames.push('Einsendungen');
             // MedUni draws Einsendungen as a light grey area with a grey legend
             // square; line, legend marker and tooltip dot share one grey here.
+            // Unlike MedUni's chart they share the detections' axis: both are
+            // counts, and on one scale the grey area is the week's submissions
+            // with the positive part stacked inside it. Two independent scales
+            // made the line float above the bars for no reason in the data.
             const einsGrey = themeMode() === 'dark' ? '#9a9da3' : '#8a8a8a';
-            // Background area on Y2
             series.push({
-                name: '__eins_area', type: 'line', yAxisIndex: 1,
+                name: '__eins_area', type: 'line',
                 data: einsValues, showSymbol: false, smooth: false,
                 lineStyle: { opacity: 0 },
                 areaStyle: { color: themeMode() === 'dark' ? 'rgba(160,160,160,0.16)' : 'rgba(220,220,220,0.45)' },
@@ -2183,7 +2186,7 @@
             });
             // Visible Einsendungen line
             series.push({
-                name: 'Einsendungen', type: 'line', yAxisIndex: 1,
+                name: 'Einsendungen', type: 'line',
                 data: einsValues, showSymbol: false,
                 lineStyle: { color: einsGrey, width: 2 },
                 itemStyle: { color: einsGrey }
@@ -2191,19 +2194,14 @@
         }
 
         const narrow = isNarrow();
-        const absoluteYAxes = narrow
-            ? [
-                { type: 'value', axisLabel: { formatter: compactNumber } },
-                { type: 'value', position: 'right', splitLine: { show: false }, axisLabel: { formatter: compactNumber } }
-              ]
-            : [
-                { type: 'value', name: 'N Virusnachweise', nameLocation: 'middle', nameGap: 50, nameRotate: 90 },
-                { type: 'value', name: 'N Einsendungen', nameLocation: 'middle', nameGap: 50, nameRotate: -90, position: 'right', splitLine: { show: false } }
-              ];
-        const percentYAxis = [{
-            type: 'value', min: 0, name: narrow ? '' : '% der Einsendungen', nameLocation: 'middle', nameGap: 50, nameRotate: 90,
-            axisLabel: { formatter: v => fmtPct(v, 0) }
-        }];
+        // On narrow screens the axis name sits above the axis instead of being
+        // dropped, so the unit stays visible.
+        const axisName = (wide, short) => narrow
+            ? { name: short, nameLocation: 'end', nameTextStyle: { align: 'left' } }
+            : { name: wide, nameLocation: 'middle', nameGap: 50, nameRotate: 90 };
+        const yAxis = percent
+            ? { type: 'value', min: 0, ...axisName('% der Einsendungen', '% positiv'), axisLabel: { formatter: v => fmtPct(v, 0) } }
+            : { type: 'value', ...axisName('Anzahl (Nachweise, Einsendungen)', 'Anzahl'), axisLabel: { formatter: narrow ? compactNumber : undefined } };
         const view = captureChartView(sentinelBarChart);
         sentinelBarChart.setOption({
             toolbox: TOOLBOX,
@@ -2214,10 +2212,10 @@
             },
             legend: { top: 40, type: 'scroll', data: legendNames, padding: [5, narrow ? 40 : 80, 5, narrow ? 10 : 40] },
             grid: narrow
-                ? narrowGrid(90, 90, percent ? 10 : 5)
-                : { left: 70, right: percent ? 30 : 70, top: 100, bottom: 90, containLabel: true },
+                ? narrowGrid(90, 90)
+                : { left: 70, right: 30, top: 100, bottom: 90, containLabel: true },
             xAxis: { type: 'category', data: weeks, axisLabel: { rotate: -45, interval: xAxisInterval(weeks), formatter: sentinelAxisLabel } },
-            yAxis: percent ? percentYAxis : absoluteYAxes,
+            yAxis,
             dataZoom: [
                 { type: 'slider', xAxisIndex: 0, height: 24, bottom: 10, ...rangeZoom(weeks, sentinelWeekDate) }
             ],
