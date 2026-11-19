@@ -131,6 +131,31 @@ def check_ages_payload(payload) -> str:
     return newest
 
 
+# Coordinates and catchments of the AGES plants, read by the map on the page.
+# The workflow checks main out next to the data branch, so this file is there.
+PLANTS_FILE = Path(__file__).resolve().parent.parent / 'geo' / 'plants.json'
+
+
+def check_ages_plants(payload: dict, plants_file: Path = PLANTS_FILE) -> dict:
+    """Compare the plant names in an AGES export with the map's coordinate table.
+
+    The map joins plants to geo/plants.json by exact name. A renamed, added or
+    dropped plant is not a broken feed, so the caller warns instead of failing.
+    Returns the differences for metadata.json; {} when the table is unreadable.
+    """
+    try:
+        known = {p['name'] for p in json.loads(plants_file.read_text(encoding='utf-8'))['plants']}
+    except (OSError, ValueError, KeyError, TypeError):
+        return {}
+    # Same filter as extractWastewaterTraces on the page
+    names = {t['name'] for t in payload.get('data', [])
+             if isinstance(t, dict) and isinstance(t.get('name'), str) and t.get('type') != 'bar'
+             and t.get('mode') != 'none' and len(t.get('x') or []) > 1
+             and t['name'] != 'Österreich' and 'Quartil' not in t['name']}
+    unknown, missing = sorted(names - known), sorted(known - names)
+    return {'unknown_plants': unknown, 'missing_plants': missing} if unknown or missing else {}
+
+
 def section_failed(section: dict) -> bool:
     """A hard error or a feed that stopped publishing both fail the run."""
     return any(r.get('status') == 'error' or r.get('stale') for r in section.values())
@@ -146,6 +171,7 @@ def fetch_ages_data(output_dir: Path) -> dict:
     ages_dir.mkdir(parents=True, exist_ok=True)
 
     results = {}
+    warned_drift = set()
 
     for name, url in AGES_URLS.items():
         print(f"Fetching AGES {name}...")
@@ -161,8 +187,16 @@ def fetch_ages_data(output_dir: Path) -> dict:
                 json.dump(data, f, indent=2, ensure_ascii=False)
 
             print(f"  Saved: {output_file}")
+            drift = check_ages_plants(data)
+            # The three virus files list the same plants: warn once per distinct drift
+            key = json.dumps(drift, sort_keys=True)
+            if drift and key not in warned_drift:
+                warned_drift.add(key)
+                print(f"::warning::AGES plants differ from geo/plants.json - not on the map: "
+                      f"{drift['unknown_plants']}, no longer in the feed: {drift['missing_plants']}. "
+                      "Rerun tools/build_geo.py with updated PLANT_CODES.")
             results[name] = {'status': 'ok', 'file': str(output_file),
-                             **check_freshness('ages', name, newest)}
+                             **check_freshness('ages', name, newest), **drift}
 
         # ValueError covers a body that is not JSON and one that is the wrong JSON.
         except (requests.RequestException, ValueError) as e:
