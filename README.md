@@ -13,7 +13,7 @@ Interactive dashboard displaying virus load in Austrian wastewater, Sentinel vir
 - Table view of every Bundesland and plant, including each plant's catchment (served agglomerations)
 
 ### Time Window
-- One control in the page header ("Saison / 1 Jahr / Alles") sets the window of every time chart; the default is the last 12 months, "Saison" starts on 1 September
+- One control in the sticky navigation bar ("Saison / 1 Jahr / Alles") sets the window of every time chart; the default is the last 12 months, "Saison" starts on 1 September
 - The slider under each chart still zooms freely; "Zurücksetzen" returns to the chosen window
 
 ### Wastewater Monitoring

@@ -28,20 +28,24 @@
             <div>
                 <h1>Atemwegsviren in Österreich</h1>
                 <p id="data-freshness" class="data-freshness"></p>
-                <div class="time-range">
-                    <span id="time-range-label">Zeitraum der Diagramme:</span>
-                    <div class="segmented" role="radiogroup" aria-labelledby="time-range-label" id="time-range"></div>
-                </div>
             </div>
             <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Hell-/Dunkelmodus wechseln" title="Hell-/Dunkelmodus">☾</button>
         </header>
-        <!-- Sticky jump links: the page is nine charts long, so every group is one tap away -->
+        <!-- Sticky jump links: the page is nine charts long, so every group is one
+             tap away. The shared time window rides along, so it stays in reach
+             from the lower charts. -->
         <nav class="section-nav" aria-label="Abschnitte">
-            <a href="#karte">Karte</a>
-            <a href="#abwasser">Abwasser</a>
-            <a href="#sentinel">Sentinel</a>
-            <a href="#spital">Spital</a>
-            <a href="#alter">Alter</a>
+            <div class="nav-links">
+                <a href="#karte">Überblick</a>
+                <a href="#abwasser">Abwasser</a>
+                <a href="#sentinel">Sentinel</a>
+                <a href="#spital">Spital</a>
+                <a href="#alter">Alter</a>
+            </div>
+            <div class="time-range">
+                <span id="time-range-label">Zeitraum:</span>
+                <div class="segmented" role="radiogroup" aria-labelledby="time-range-label" id="time-range"></div>
+            </div>
         </nav>
 
         <h2 class="group-heading" id="karte">Überblick</h2>
@@ -83,6 +87,21 @@
             </div>
         </section>
 
+        <!-- 2. Kombiniertes Virensignal -->
+        <section class="sari-section">
+            <header>
+                <h3>Kombiniertes Virensignal <span class="experimental-tag">experimentell</span></h3>
+                <p class="subtitle">Z-Score normalisiert aus Abwasser (AGES), Sentinel (MedUni Wien) und SARI-Aufnahmen</p>
+            </header>
+            <div class="sari-content">
+                <div class="chart-wrap">
+                    <div id="combined-chart-ec" class="ec-chart" role="img" aria-label="Liniendiagramm: kombiniertes Virensignal als Z-Score über die Zeit"></div>
+                    <div id="combined-loading" class="loading-msg">Lade und berechne kombiniertes Signal…</div>
+                </div>
+                <p class="footnote">Lesart: 0 = Mittel der vorangegangenen 26 Wochen, +1 = eine Standardabweichung darüber, ab etwa +2 deutlich über dem Üblichen. Jede Quelle wird für sich normalisiert, danach werden die Quellen je Virus gemittelt. Die beiden jüngsten SARI-Wochen sind vorläufig (gestrichelt umrahmt).</p>
+            </div>
+        </section>
+
         <h2 class="group-heading" id="abwasser">Abwasser</h2>
         <!-- 1. Viruslast im Abwasser -->
         <section class="sari-section">
@@ -114,20 +133,6 @@
             </div>
         </section>
 
-        <!-- 2. Kombiniertes Virensignal -->
-        <section class="sari-section">
-            <header>
-                <h3>Kombiniertes Virensignal <span class="experimental-tag">experimentell</span></h3>
-                <p class="subtitle">Z-Score normalisiert aus Abwasser (AGES), Sentinel (MedUni Wien) und SARI-Aufnahmen</p>
-            </header>
-            <div class="sari-content">
-                <div class="chart-wrap">
-                    <div id="combined-chart-ec" class="ec-chart" role="img" aria-label="Liniendiagramm: kombiniertes Virensignal als Z-Score über die Zeit"></div>
-                    <div id="combined-loading" class="loading-msg">Lade und berechne kombiniertes Signal…</div>
-                </div>
-                <p class="footnote">Lesart: 0 = Mittel der vorangegangenen 26 Wochen, +1 = eine Standardabweichung darüber, ab etwa +2 deutlich über dem Üblichen. Jede Quelle wird für sich normalisiert, danach werden die Quellen je Virus gemittelt. Die beiden jüngsten SARI-Wochen sind vorläufig (gestrichelt umrahmt).</p>
-            </div>
-        </section>
 
         <h2 class="group-heading" id="sentinel">Sentinel (Arztpraxen)</h2>
         <!-- 3 + 4. Sentinelsystem: bar chart and heatmap in one card with one mode toggle -->
@@ -146,13 +151,14 @@
                 </div>
                 <p id="sentinel-bar-percent-note" class="footnote" hidden>Anteil der Einsendungen mit positivem Nachweis pro Woche. Mehrfachnachweise sind möglich, die Summe kann daher 100 % übersteigen. Die Einsendungen sind aus der MedUni-Grafik ausgelesen (in kleinen Wochen ±1–2 Prozentpunkte).</p>
 
-                <h4 class="sub-heading">Fallzahlen nach Virustyp</h4>
+                <h4 class="sub-heading" id="sentinel-heatmap-heading">Fallzahlen nach Virustyp</h4>
                 <div class="chart-wrap">
                     <div id="sentinel-heatmap-ec" class="ec-chart tall" role="img" aria-label="Heatmap: Fallzahlen nach Virustyp und Woche"></div>
                     <div id="sentinel-heatmap-loading" class="loading-msg">Lade Heatmap-Daten…</div>
                 </div>
-                <p class="footnote">Zahlen aus dem Balkendiagramm oben (exakte Nachweise, Influenza = A + B + C), dargestellt in MedUnis Heatmap-Anordnung; Farbe auf Wurzelskala, damit auch kleine Zahlen sichtbar bleiben. Zeitraum wie im Balkendiagramm.</p>
-                <p id="sentinel-heatmap-percent-note" class="footnote" hidden>Prozentwerte: Nachweise geteilt durch die Einsendungen der Woche.</p>
+                <p class="footnote">Zahlen aus dem Balkendiagramm oben (exakte Nachweise, Influenza = A + B + C), dargestellt in MedUnis Heatmap-Anordnung. Zeitraum wie im Balkendiagramm.</p>
+                <p id="sentinel-heatmap-abs-note" class="footnote">Farbe auf Wurzelskala, damit auch kleine Zahlen sichtbar bleiben.</p>
+                <p id="sentinel-heatmap-percent-note" class="footnote" hidden>Prozentwerte: Nachweise geteilt durch die Einsendungen der Woche, Farbe linear.</p>
             </div>
         </section>
 
@@ -508,17 +514,27 @@
     const shiftYMD = (ymd, days) => isoToYMD(parseYMD(ymd, days));
     const isNarrow = () => window.innerWidth < 700;
     const narrowGrid = (top, bottom, right = 10) => ({ left: 5, right, top, bottom, containLabel: true });
+    // Phones: the y-axis unit sits above the axis in a short form instead of
+    // being dropped, so a bare scale never stands without its unit
+    const narrowAxisName = short => ({ name: short, nameLocation: 'end', nameTextStyle: { align: 'left' } });
     // Phones: the legend gets its own row under the toolbox icons
     const narrowLegend = data => ({ top: 36, left: 5, right: 5, type: 'scroll', data });
-    // About 20 rotated week labels fit a desktop chart, about 6 a phone
-    const xAxisInterval = arr => Math.max(0, Math.ceil(arr.length / (isNarrow() ? 6 : 20)) - 1);
+    // German numbers: dot grouping ("1.141", as "100.000" in the page text; de-AT
+    // groups with a space in Chrome), decimal comma and a real minus sign.
+    const NUM_DE = {};
+    const fmtDe = (v, digits = 1) => {
+        const f = NUM_DE[digits] || (NUM_DE[digits] = new Intl.NumberFormat('de-DE', { minimumFractionDigits: digits, maximumFractionDigits: digits }));
+        return f.format(+v).replace('-', '\u2212');
+    };
+    // Axis ticks keep their own precision (0,25 must not become 0,3)
+    const NUM_AXIS = new Intl.NumberFormat('de-DE', { maximumFractionDigits: 3 });
     function compactNumber(v) {
         const n = +v;
-        if (Math.abs(n) >= 1_000_000) return (n / 1_000_000).toFixed(n % 1_000_000 === 0 ? 0 : 1) + 'M';
-        if (Math.abs(n) >= 1_000) return (n / 1_000).toFixed(n % 1_000 === 0 ? 0 : 1) + 'k';
-        return String(n);
+        const short = (x, unit) => fmtDe(x, Number.isInteger(x) ? 0 : 1) + unit;
+        if (Math.abs(n) >= 1_000_000) return short(n / 1_000_000, 'M');
+        if (Math.abs(n) >= 1_000) return short(n / 1_000, 'k');
+        return NUM_AXIS.format(n).replace('-', '\u2212');
     }
-    const fmtDe = (v, digits = 1) => (+v).toLocaleString('de-AT', { minimumFractionDigits: digits, maximumFractionDigits: digits });
     const fmtPct = (v, digits = 1) => v == null ? '–' : fmtDe(v, digits) + '\u00a0%';
     // null, not 0: a week without Einsendungen has no rate
     const positivity = (n, eins) => eins > 0 ? n / eins * 100 : null;
@@ -593,7 +609,14 @@
 
     // German message for a failed load; a network failure surfaces as a bare
     // TypeError ("Failed to fetch") that tells a reader nothing.
-    const errorText = e => e instanceof TypeError ? 'Keine Verbindung zur Datenquelle' : e.message;
+    // Anything else is shown as is and logged, so a render bug is not passed
+    // off as a network failure.
+    const NETWORK_ERROR = /failed to fetch|networkerror|load failed/i;
+    function errorText(e) {
+        if (e instanceof TypeError && NETWORK_ERROR.test(e.message)) return 'Keine Verbindung zur Datenquelle';
+        console.error(e);
+        return (e && e.message) || String(e);
+    }
     // A section whose data is gone collapses its chart area and controls and
     // shows the reason in the error colour with a reload button.
     function setSectionError(statusEl, message) {
@@ -608,10 +631,6 @@
         btn.addEventListener('click', () => location.reload());
         statusEl.appendChild(btn);
     }
-    function clearSectionError(statusEl) {
-        statusEl.closest('section').classList.remove('failed');
-        statusEl.classList.remove('error-msg');
-    }
 
     // notMerge re-renders reset zoom and legend. These carry the visible week window
     // (by label, so it survives an axis of different length) and hidden series across.
@@ -621,13 +640,15 @@
     let timeRangeEpoch = 0;
     const chartRangeEpoch = new WeakMap();
     function captureChartView(chart) {
+        // Stamp the epoch even on a fresh chart, or its first re-render would
+        // treat the window as stale and drop a zoom made in the meantime.
+        const sameEpoch = chartRangeEpoch.get(chart) === timeRangeEpoch;
+        chartRangeEpoch.set(chart, timeRangeEpoch);
         const opt = chart.getOption();
         if (!opt) return null;
         const zoom = opt.dataZoom && opt.dataZoom[0];
         const weeks = opt.xAxis && opt.xAxis[0].data;
-        const zoomed = zoom && weeks && (zoom.start > 0 || zoom.end < 100)
-            && chartRangeEpoch.get(chart) === timeRangeEpoch;
-        chartRangeEpoch.set(chart, timeRangeEpoch);
+        const zoomed = zoom && weeks && (zoom.start > 0 || zoom.end < 100) && sameEpoch;
         return {
             window: zoomed ? [weeks[zoom.startValue], weeks[zoom.endValue]] : null,
             hidden: Object.entries((opt.legend && opt.legend[0] && opt.legend[0].selected) || {})
@@ -691,7 +712,8 @@
         try { localStorage.setItem(key, value); } catch (_) {}
     }
     function effectiveTheme() {
-        return storageGet(THEME_STORAGE_KEY) || (darkQuery.matches ? 'dark' : 'light');
+        const stored = storageGet(THEME_STORAGE_KEY);
+        return stored === 'dark' || stored === 'light' ? stored : (darkQuery.matches ? 'dark' : 'light');
     }
     function applyThemeAttr() {
         const t = effectiveTheme();
@@ -728,21 +750,59 @@
         ['all', 'Alles', 'Gesamter verfügbarer Zeitraum']
     ];
     let timeRange = (v => TIME_RANGES.some(([k]) => k === v) ? v : 'year')(storageGet(TIME_RANGE_KEY));
-    function timeRangeStart() {
+    // A window must hold this much data, or it falls back to an earlier start.
+    // Without it, "Saison" in early September (before the feeds reach 1 Sept)
+    // or a window after the newest data drew empty or one-bar charts.
+    const MIN_RANGE_WEEKS = 8;
+    const WEEK_MS = 7 * 864e5;
+    // Start of the selected window for data ending at `newest` (a Date).
+    function timeRangeStart(newest) {
         if (timeRange === 'all') return null;
         const now = new Date();
-        if (timeRange === 'year') return new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
-        return new Date(now.getMonth() >= 8 ? now.getFullYear() : now.getFullYear() - 1, 8, 1);
+        let start = timeRange === 'year'
+            ? new Date(now.getFullYear() - 1, now.getMonth(), now.getDate())
+            : new Date(now.getMonth() >= 8 ? now.getFullYear() : now.getFullYear() - 1, 8, 1);
+        const tooShort = s => newest - s < MIN_RANGE_WEEKS * WEEK_MS;
+        if (!newest || !tooShort(start)) return start;
+        // Saison: the previous season; 1 Jahr (or still too short): the last 52 weeks of data
+        if (timeRange === 'season') start = new Date(start.getFullYear() - 1, 8, 1);
+        if (tooShort(start)) start = new Date(newest.getTime() - 52 * WEEK_MS);
+        return start;
     }
     // dataZoom start for the selected window, baked into the option so the
-    // toolbox's "Zurücksetzen" returns to it. Time axes take a timestamp,
-    // category axes the first label on or after the start (toDate parses one).
+    // toolbox's "Zurücksetzen" returns to it. Category axes: the first label on
+    // or after the start (toDate parses one).
     function rangeZoom(labels, toDate) {
-        const start = timeRangeStart();
+        const newest = labels.length ? toDate(labels[labels.length - 1]) : null;
+        const start = timeRangeStart(newest);
         if (!start) return {};
-        if (!labels) return { startValue: start.getTime() };
         const i = labels.findIndex(l => { const d = toDate(l); return d && d >= start; });
         return i > 0 ? { startValue: i } : {};
+    }
+    // Time axes with German labels. The bundled ECharts locale is English
+    // ("Oct", "Dec"); its tick levels are kept, only the text is replaced.
+    const MONTHS_DE = ['Jän', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
+    const TIME_X_AXIS = {
+        type: 'time',
+        axisLabel: {
+            hideOverlap: true,
+            formatter: ms => {
+                const d = new Date(ms);
+                if (d.getDate() !== 1) return `${d.getDate()}. ${MONTHS_DE[d.getMonth()]}`;
+                return d.getMonth() === 0 ? String(d.getFullYear()) : MONTHS_DE[d.getMonth()];
+            }
+        }
+    };
+    // Newest x of line series whose points are ['YYYY-MM-DD', y]
+    const newestYmd = series => series.reduce((m, s) => {
+        const d = s.data && s.data.length ? s.data[s.data.length - 1][0] : null;
+        return typeof d === 'string' && (!m || d > m) ? d : m;
+    }, null);
+    // Time axes: a timestamp, clamped against the series' newest point
+    function timeZoom(series) {
+        const newest = newestYmd(series);
+        const start = timeRangeStart(newest ? parseYMD(newest) : null);
+        return start ? { startValue: start.getTime() } : {};
     }
 
     const freshness = { Abwasser: null, Sentinel: null, SARI: null };
@@ -849,7 +909,7 @@
     // One virus at a time: on a shared axis SARS-CoV-2 (up to ~1,000) flattened
     // Influenza and RSV to the baseline. Each virus now gets its own y scale.
     const WW_VIRUS_KEY = 'wwVirus';
-    let wwVirus = (v => v in WW_SOURCES ? v : 'sarscov2')(storageGet(WW_VIRUS_KEY));
+    let wwVirus = (v => Object.hasOwn(WW_SOURCES, v) ? v : 'sarscov2')(storageGet(WW_VIRUS_KEY));
     function setupWastewaterVirus() {
         // Fall back to a virus that loaded if the stored one failed
         if (!dataPool.wastewater[wwVirus]) wwVirus = Object.keys(WW_SOURCES).find(k => dataPool.wastewater[k]) || wwVirus;
@@ -915,11 +975,11 @@
             },
             // At most 9 entries: a plain legend wraps onto a second row on desktop
             legend: narrow ? narrowLegend(legendNames) : { top: 10, data: legendNames, padding: [5, 70, 5, 10] },
-            grid: narrow ? narrowGrid(75, 90) : { left: 60, right: 30, top: legendNames.length > 5 ? 74 : 50, bottom: 90, containLabel: true },
-            xAxis: { type: 'time' },
-            yAxis: { type: 'value', name: narrow ? '' : 'Mio. Genkopien/Einw.', axisLabel: { formatter: compactNumber } },
+            grid: narrow ? narrowGrid(90, 90) : { left: 60, right: 30, top: legendNames.length > 5 ? 74 : 50, bottom: 90, containLabel: true },
+            xAxis: TIME_X_AXIS,
+            yAxis: { type: 'value', ...(narrow ? narrowAxisName('Mio./Einw.') : { name: 'Mio. Genkopien/Einw.' }), axisLabel: { formatter: compactNumber } },
             dataZoom: [
-                { type: 'slider', height: 30, bottom: 10, ...rangeZoom() }
+                { type: 'slider', height: 30, bottom: 10, ...timeZoom(series) }
             ],
             series
         }, { notMerge: true });
@@ -992,7 +1052,7 @@
         const loaded = {}, failed = [];
         settled.forEach((res, i) => {
             const [key, src] = sources[i];
-            if (res.status === 'rejected') { failed.push(`${src.name} (${res.reason.message})`); return; }
+            if (res.status === 'rejected') { failed.push(`${src.name} (${errorText(res.reason)})`); return; }
             Object.keys(res.value.traces).forEach(l => dataPool.locations.add(l));
             loaded[key] = res.value;
         });
@@ -1205,7 +1265,7 @@
         const lines = [
             `<b>${escapeHtml(p.name)}</b> (${escapeHtml(BUNDESLAND_NAMES[p.bundesland])})`,
             `Einzugsgebiet: ${escapeHtml((p.agglomerations || []).join(', ') || '–')}`,
-            p.load ? `${p.load.toLocaleString('de-AT')} Einwohnerwerte angeschlossen` : null,
+            p.load ? `${fmtDe(p.load, 0)} Einwohnerwerte angeschlossen` : null,
             t ? `Trend: ${trendText(t)}${t.n ? ` (aus ${t.n} Messwert${t.n === 1 ? '' : 'en'})` : ''}` : 'Keine Abwasserdaten',
             t ? `Letzter Wert: ${escapeHtml(lastValueText(t.last))}` : null
         ];
@@ -1388,10 +1448,7 @@
             // Runs outside initMapSection's try, so a render bug would otherwise
             // leave "Lade Karte…" on screen with only a console error
             try { renderMap(); } catch (e) {
-                console.error(e);
-                const el = document.getElementById('map-loading');
-                el.textContent = 'Fehler: ' + e.message;
-                el.style.display = '';
+                setSectionError(document.getElementById('map-loading'), errorText(e));
             }
         });
     }
@@ -1565,9 +1622,9 @@
                 formatter: sariTooltip
             },
             legend: { ...(narrow ? narrowLegend(legendNames) : { top: 30, data: legendNames, padding: [5, 40, 5, 10] }), selected },
-            grid: narrow ? narrowGrid(75, 90) : { left: 60, right: 30, top: 80, bottom: 90, containLabel: true },
+            grid: narrow ? narrowGrid(90, 90) : { left: 60, right: 30, top: 80, bottom: 90, containLabel: true },
             xAxis: { type: 'category', data: dates, axisLabel: { formatter: v => formatKW(parseYMD(v)) } },
-            yAxis: { type: 'value', name: narrow ? '' : 'Aufnahmen', axisLabel: { formatter: compactNumber } },
+            yAxis: { type: 'value', ...(narrow ? narrowAxisName('Aufnahmen') : { name: 'Aufnahmen' }), axisLabel: { formatter: compactNumber } },
             dataZoom: [
                 { type: 'slider', xAxisIndex: 0, height: 30, bottom: 10, ...rangeZoom(dates, parseYMD) }
             ],
@@ -1715,10 +1772,8 @@
         });
 
         // Provisional band over the newest weeks
-        const lastDate = series.reduce((m, s) => {
-            const d = s.data.length ? s.data[s.data.length - 1][0] : null;
-            return d && (!m || d > m) ? d : m;
-        }, null);
+        const lastDate = newestYmd(series);
+        const zoom = timeZoom(series);
         if (lastDate) series.push(provisionalTime(lastDate));
 
         // A single region names itself in the heading; several are named by the legend.
@@ -1739,15 +1794,15 @@
                 : narrow ? narrowLegend(regions.map(r => BUNDESLAND_NAMES[r]))
                 : { top: 30, type: 'scroll', data: regions.map(r => BUNDESLAND_NAMES[r]), padding: [5, 70, 5, 10] },
             grid: narrow
-                ? narrowGrid(multi ? 75 : 45, 90)
+                ? narrowGrid(multi ? 90 : 60, 90)
                 : { left: 60, right: 120, top: multi ? 80 : 60, bottom: 90, containLabel: true },
-            xAxis: { type: 'time' },
+            xAxis: TIME_X_AXIS,
             yAxis: {
-                type: 'value', name: narrow ? '' : 'Aufnahmen pro 100.000 Einw.',
+                type: 'value', ...(narrow ? narrowAxisName('pro 100.000') : { name: 'Aufnahmen pro 100.000 Einw.' }),
                 axisLabel: { formatter: compactNumber }
             },
             dataZoom: [
-                { type: 'slider', height: 30, bottom: 10, ...rangeZoom() }
+                { type: 'slider', height: 30, bottom: 10, ...zoom }
             ],
             series
         }, { notMerge: true });
@@ -1938,7 +1993,7 @@
                 }, v => per100k ? fmtDe(v) + ' pro 100.000' : fmtDe(v, 0))
             },
             legend: narrow ? narrowLegend(legendNames) : { top: 30, data: legendNames, padding: [5, 40, 5, 10] },
-            grid: narrow ? narrowGrid(75, 60) : { left: 70, right: 30, top: 80, bottom: 70, containLabel: true },
+            grid: narrow ? narrowGrid(90, 60) : { left: 70, right: 30, top: 80, bottom: 70, containLabel: true },
             xAxis: {
                 type: 'category', data: xLabels,
                 name: narrow ? '' : 'Altersgruppe (Jahre)',
@@ -1950,8 +2005,8 @@
             },
             yAxis: {
                 type: 'value',
-                name: narrow ? '' : `${per100k ? 'Aufnahmen pro 100.000' : 'Aufnahmen'} im gewählten Zeitraum`,
-                nameTextStyle: { align: 'left' },
+                ...(narrow ? narrowAxisName(per100k ? 'pro 100.000' : 'Aufnahmen')
+                    : { name: `${per100k ? 'Aufnahmen pro 100.000' : 'Aufnahmen'} im gewählten Zeitraum`, nameTextStyle: { align: 'left' } }),
                 axisLabel: { formatter: compactNumber }
             },
             series
@@ -2150,12 +2205,12 @@
                     const [x, y, v, count, rate] = p.value, d = parseKW(kws[x]);
                     const week = d ? weekHeader(d) : kws[x];
                     return `<b>${escapeHtml(week)}</b><br>${escapeHtml(ageGroups[y])} Jahre: ${fmtDe(count, 0)} Aufnahmen · ${fmtDe(rate)} pro 100.000`
-                        + (normalize ? `<br>${fmtDe(v * 100, 0)} % des Höchstwerts dieser Altersgruppe` : '')
+                        + (normalize ? `<br>${fmtDe(v * 100, 0)} % des Höchstwerts dieser Altersgruppe (gesamter Zeitraum)` : '')
                         + (x >= kws.length - SARI_PROVISIONAL_WEEKS ? '<br><i>vorläufig</i>' : '');
                 }
             },
             grid: narrow ? narrowGrid(40, 130) : { left: 80, right: 100, top: 60, bottom: 80, containLabel: true },
-            xAxis: { type: 'category', data: kws, splitArea: { show: false }, axisLabel: { rotate: -45, interval: xAxisInterval(kws), formatter: kwText } },
+            xAxis: { type: 'category', data: kws, splitArea: { show: false }, axisLabel: { rotate: -45, interval: 'auto', hideOverlap: true, formatter: kwText } },
             yAxis: { type: 'category', data: ageGroups },
             visualMap: narrow
                 ? {
@@ -2255,7 +2310,7 @@
         // On narrow screens the axis name sits above the axis instead of being
         // dropped, so the unit stays visible.
         const axisName = (wide, short) => narrow
-            ? { name: short, nameLocation: 'end', nameTextStyle: { align: 'left' } }
+            ? narrowAxisName(short)
             : { name: wide, nameLocation: 'middle', nameGap: 50, nameRotate: 90 };
         const yAxis = percent
             ? { type: 'value', min: 0, ...axisName('% der Einsendungen', '% positiv'), axisLabel: { formatter: v => fmtPct(v, 0) } }
@@ -2272,7 +2327,7 @@
             grid: narrow
                 ? narrowGrid(90, 90)
                 : { left: 70, right: 30, top: 100, bottom: 90, containLabel: true },
-            xAxis: { type: 'category', data: weeks, axisLabel: { rotate: -45, interval: xAxisInterval(weeks), formatter: sentinelAxisLabel } },
+            xAxis: { type: 'category', data: weeks, axisLabel: { rotate: -45, interval: 'auto', hideOverlap: true, formatter: sentinelAxisLabel } },
             yAxis,
             dataZoom: [
                 { type: 'slider', xAxisIndex: 0, height: 24, bottom: 10, ...rangeZoom(weeks, sentinelWeekDate) }
@@ -2308,21 +2363,22 @@
     }
 
     // The bar-feed error, so the heatmap (drawn from the same feed) can report it
-    let sentinelBarError = null;
+    let sentinelBarFailed = false;
 
     function renderSentinelHeatmap() {
         const percent = sentinelPercent;
         const bar = dataPool.sentinelBar;
         document.getElementById('sentinel-heatmap-percent-note').hidden = !percent;
+        document.getElementById('sentinel-heatmap-abs-note').hidden = percent;
+        document.getElementById('sentinel-heatmap-heading').textContent = percent ? 'Positivrate nach Virustyp' : 'Fallzahlen nach Virustyp';
         const status = document.getElementById('sentinel-heatmap-loading');
         if (!bar) {
             sentinelHeatChart.clear();
             // Same card as the bar chart, whose status already names the error
-            if (sentinelBarError) status.style.display = 'none';
+            if (sentinelBarFailed) status.style.display = 'none';
             else { status.textContent = 'Lade Heatmap-Daten…'; status.style.display = ''; }
             return;
         }
-        clearSectionError(status);
         status.style.display = 'none';
         const matrix = sentinelHeatMatrix(bar);
         const weeks = matrix.weeks;
@@ -2354,7 +2410,7 @@
                     : p => `<b>${escapeHtml(sentinelWeekText(weeks[p.value[0]]))}</b><br>${escapeHtml(yAxisData[p.value[1]])}: ${fmtDe(p.data.abs, 0)} Nachweise (von ${fmtDe(p.data.eins, 0)} Einsendungen)`
             },
             grid: narrow ? narrowGrid(50, 130) : { left: 100, right: 100, top: 50, bottom: 80, containLabel: true },
-            xAxis: { type: 'category', data: weeks, axisLabel: { rotate: -45, interval: xAxisInterval(weeks), formatter: sentinelAxisLabel } },
+            xAxis: { type: 'category', data: weeks, axisLabel: { rotate: -45, interval: 'auto', hideOverlap: true, formatter: sentinelAxisLabel } },
             yAxis: { type: 'category', data: yAxisData },
             visualMap: {
                 ...scale, calculable: true,
@@ -2516,6 +2572,7 @@
             data: gesamtData
         });
         // SARI's newest weeks are still filling in, which pulls the signal down there
+        const zoom = timeZoom(series);
         if (lastSari) series.push(provisionalTime(isoToYMD(lastSari), 'SARI vorläufig'));
 
         const narrow = isNarrow();
@@ -2524,10 +2581,10 @@
             tooltip: { trigger: 'axis', confine: true, formatter: axisTooltip(ms => weekHeader(new Date(ms)), v => fmtDe(v, 2)) },
             legend: { top: 40, data: legendNames, padding: [5, 80, 5, 10] },
             grid: narrow ? narrowGrid(80, 90) : { left: 60, right: 30, top: 90, bottom: 90, containLabel: true },
-            xAxis: { type: 'time' },
-            yAxis: { type: 'value', name: narrow ? 'Z-Score' : 'Z-Score (0 = Durchschnitt)' },
+            xAxis: TIME_X_AXIS,
+            yAxis: { type: 'value', name: narrow ? 'Z-Score' : 'Z-Score (0 = Durchschnitt)', axisLabel: { formatter: compactNumber } },
             dataZoom: [
-                { type: 'slider', height: 30, bottom: 10, ...rangeZoom() }
+                { type: 'slider', height: 30, bottom: 10, ...zoom }
             ],
             series
         }, { notMerge: true });
@@ -2583,7 +2640,8 @@
         // last target whose top has scrolled above the sticky bar.
         (function setupSectionNav() {
             const nav = document.querySelector('.section-nav');
-            const links = [...nav.querySelectorAll('a')];
+            const row = nav.querySelector('.nav-links');
+            const links = [...row.querySelectorAll('a')];
             const targets = links.map(a => document.getElementById(a.hash.slice(1)));
             let scheduled = false;
             function update() {
@@ -2596,10 +2654,10 @@
                     else a.removeAttribute('aria-current');
                 });
                 // Keep the active chip visible when the row scrolls sideways on phones
-                if (current >= 0 && nav.scrollWidth > nav.clientWidth) {
+                if (current >= 0 && row.scrollWidth > row.clientWidth) {
                     const a = links[current];
-                    if (a.offsetLeft < nav.scrollLeft || a.offsetLeft + a.offsetWidth > nav.scrollLeft + nav.clientWidth)
-                        nav.scrollLeft = a.offsetLeft - 8;
+                    if (a.offsetLeft < row.scrollLeft || a.offsetLeft + a.offsetWidth > row.scrollLeft + row.clientWidth)
+                        row.scrollLeft = a.offsetLeft - 8;
                 }
             }
             const schedule = () => { if (!scheduled) { scheduled = true; requestAnimationFrame(update); } };
@@ -2718,9 +2776,15 @@
                 document.getElementById('sari-station').addEventListener('change', renderSari);
                 const otherBox = document.getElementById('sari-show-other');
                 otherBox.checked = storageGet(SARI_SHOW_OTHER_KEY) !== '0';
+                // Toggled through the legend, not a re-render, which would reset
+                // the zoom and every other hidden diagnosis
                 otherBox.addEventListener('change', () => {
                     storageSet(SARI_SHOW_OTHER_KEY, otherBox.checked ? '1' : '0');
-                    renderSari();
+                    const other = SARI_DIAGNOSE_NAMES.SONSTIGE;
+                    sariChart.dispatchAction({
+                        type: otherBox.checked ? 'legendSelect' : 'legendUnSelect',
+                        batch: [{ name: other }, { name: other + ICU_SUFFIX }]
+                    });
                 });
                 renderSari();
                 bumpFreshness('SARI', lastFromRows(dataPool.sari));
@@ -2771,7 +2835,7 @@
                 bumpFreshness('Sentinel', lastFromWeeks(dataPool.sentinelBar.weeks));
             }).catch(e => {
                 setSectionError(document.getElementById('sentinel-bar-loading'), errorText(e));
-                sentinelBarError = errorText(e);
+                sentinelBarFailed = true;
                 renderSentinelHeatmap();
             })
         ];
@@ -2780,7 +2844,7 @@
         // Every task settles (each catches its own error), so the map renders
         // with whatever loaded and names what is missing.
         const mapAssets = loadMapAssets().then(() => true, e => {
-            document.getElementById('map-loading').textContent = 'Fehler: ' + e.message;
+            setSectionError(document.getElementById('map-loading'), errorText(e));
             return false;
         });
         Promise.all([mapAssets, tasks[0], tasks[2]]).then(([ok]) => {
@@ -2788,9 +2852,7 @@
             try {
                 initMapSection();
             } catch (e) {
-                const status = document.getElementById('map-loading');
-                status.style.display = '';
-                status.textContent = 'Fehler: ' + e.message;
+                setSectionError(document.getElementById('map-loading'), errorText(e));
             }
         });
 

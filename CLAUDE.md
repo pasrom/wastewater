@@ -90,8 +90,11 @@ ci: add GitHub Actions workflow for deployment
 
 ## Sections in index.html
 Each section has its own block in the inline script, headed `// ==================== N. Name`.
-Every time chart takes its initial dataZoom window from `rangeZoom(...)` (shared control
-"Saison / 1 Jahr / Alles" in the page header, `timeRange`); a new time chart should do the same.
+Every time chart takes its initial dataZoom window from `rangeZoom(labels, toDate)` (category axis)
+or `timeZoom(series)` (time axis): shared control "Saison / 1 Jahr / Alles" in the sticky nav,
+`timeRange`, clamped so at least 8 weeks of the chart's own data stay visible. A new time chart
+should do the same and use `TIME_X_AXIS` (German month labels). Numbers in tooltips and labels go
+through `fmtDe`/`compactNumber` (dot grouping, decimal comma, real minus sign).
 0. Map by Bundesland — `loadMapAssets`, `plantTrend` (AGES 4-week trend), `mapModel`, `renderMap`, `renderMapList`
 1. Wastewater — `extractWastewaterTraces`, `renderWastewater`
 2. Combined signal — `computeCombinedSignals`, `renderCombinedSignal`
@@ -100,7 +103,7 @@ Every time chart takes its initial dataZoom window from `rangeZoom(...)` (shared
 6. SARI incidence — `incidenceWeekly` (cases, population, rate per week), `renderIncidence`
 7./8. Demographics and age heatmap — `demoPopulation` (the only per-100k denominator), `renderDemographics`, `renderAgeHeatmap`
 
-Layout: cards are grouped under `h2.group-heading` (Überblick, Abwasser, Sentinel, Krankenhaus) with
+Layout: cards are grouped under `h2.group-heading` (Überblick = map + combined signal, Abwasser, Sentinel, Krankenhaus) with
 card titles as `h3`; the sticky `.section-nav` links to those ids (`#karte`, `#abwasser`, `#sentinel`,
 `#spital`, `#alter`). Each chart and its `.loading-msg` sit in a `.chart-wrap`, so "Lade …" overlays
 the reserved chart area; add `notice-msg`/`error-msg` to a status that stays visible after render, or it

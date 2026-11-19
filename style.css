@@ -757,7 +757,11 @@ footer .impressum a {
 .sari-section.failed #sari-demographics-controls,
 .sari-section.failed #sari-heatmap-controls,
 .sari-section.failed .sentinel-mode-controls,
-.sari-section.failed .sub-heading {
+.sari-section.failed .sub-heading,
+.sari-section.failed #map-controls,
+.sari-section.failed .map-austria,
+.sari-section.failed .map-legend,
+.sari-section.failed .map-list {
     display: none;
 }
 
@@ -1053,17 +1057,32 @@ footer .impressum a {
     top: 0;
     z-index: 20;
     display: flex;
-    gap: 6px;
-    overflow-x: auto;
-    scrollbar-width: none;
+    align-items: center;
+    gap: 6px 16px;
     margin: 0 -20px 20px;
     padding: 8px 20px;
     background: var(--bg);
     border-bottom: 1px solid var(--border-soft);
 }
 
-.section-nav::-webkit-scrollbar {
+/* The chips scroll sideways in their own row; the time window stays put */
+.nav-links {
+    position: relative;
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.nav-links::-webkit-scrollbar {
     display: none;
+}
+
+.section-nav .time-range {
+    flex: none;
+    margin-top: 0;
 }
 
 .section-nav a {
@@ -1138,8 +1157,23 @@ footer .impressum a {
 
 @media (max-width: 768px) {
     .section-nav {
+        flex-wrap: wrap;
         margin: 0 -10px 14px;
         padding: 6px 10px;
+    }
+
+    .nav-links {
+        flex-basis: 100%;
+    }
+
+    /* Two-row sticky bar on phones */
+    .group-heading,
+    .sari-section[id] {
+        scroll-margin-top: 96px;
+    }
+
+    .section-nav .time-range {
+        font-size: 0.8rem;
     }
 
     .group-heading {
