@@ -1,0 +1,227 @@
+{
+ "source": "EEA, Waterbase – UWWTD (Kommunale Abwasserrichtlinie), Tabellen T_UWWTPs, T_UWWTPAgglos, T_Agglomerations, via discodata.eea.europa.eu",
+ "license": "EEA standard re-use policy (re-use permitted with acknowledgement of the source)",
+ "attribution": "Kläranlagen: Standort, Einzugsgebiet und Belastung © EEA, UWWTD-Berichterstattung Österreich",
+ "plants": [
+  {
+   "name": "Wulkaprodersdorf",
+   "uwwCode": "ATTP_1-00000074",
+   "bundesland": "BGL",
+   "lat": 47.8006,
+   "lon": 16.5173,
+   "load": 64958,
+   "agglomerations": [
+    "Wulkaprodersdorf (Wulkatal)"
+   ]
+  },
+  {
+   "name": "Millstätter See",
+   "uwwCode": "ATTP_2-K1949374",
+   "bundesland": "KTN",
+   "lat": 46.7796,
+   "lon": 13.519,
+   "load": 100042,
+   "agglomerations": [
+    "Spittal/Drau (Millstätter See)"
+   ]
+  },
+  {
+   "name": "Wörthersee Ost",
+   "uwwCode": "ATTP_2-K1931629",
+   "bundesland": "KTN",
+   "lat": 46.6061,
+   "lon": 14.3337,
+   "load": 233439,
+   "agglomerations": [
+    "Klagenfurt (Wörthersee Ost)"
+   ]
+  },
+  {
+   "name": "An der Traisen",
+   "uwwCode": "ATTP_3-47",
+   "bundesland": "NÖ",
+   "lat": 48.3632,
+   "lon": 15.7644,
+   "load": 197827,
+   "agglomerations": [
+    "Raum St. Pölten (Traismauer-Stollhofen)"
+   ]
+  },
+  {
+   "name": "Amstetten",
+   "uwwCode": "ATTP_3-104",
+   "bundesland": "NÖ",
+   "lat": 48.1086,
+   "lon": 14.8963,
+   "load": 86572,
+   "agglomerations": [
+    "Raum Amstetten (Amstetten-Schönbichl)"
+   ]
+  },
+  {
+   "name": "Wr. Neustadt-Süd",
+   "uwwCode": "ATTP_3-449",
+   "bundesland": "NÖ",
+   "lat": 47.8335,
+   "lon": 16.2756,
+   "load": 150937,
+   "agglomerations": [
+    "Raum Wiener Neustadt (Wiener Neustadt-Lichtenwörth)"
+   ]
+  },
+  {
+   "name": "Asten",
+   "uwwCode": "ATTP_4-41003001",
+   "bundesland": "OÖ",
+   "lat": 48.2366,
+   "lon": 14.4122,
+   "load": 853007,
+   "agglomerations": [
+    "Linz und Umgebung"
+   ]
+  },
+  {
+   "name": "Traunsee-Nord",
+   "uwwCode": "ATTP_4-40708001",
+   "bundesland": "OÖ",
+   "lat": 47.9421,
+   "lon": 13.8032,
+   "load": 73282,
+   "agglomerations": [
+    "Gmunden und Umgebung"
+   ]
+  },
+  {
+   "name": "Welser Heide",
+   "uwwCode": "ATTP_4-41812001",
+   "bundesland": "OÖ",
+   "lat": 48.1822,
+   "lon": 14.1375,
+   "load": 149546,
+   "agglomerations": [
+    "Wels und Umgebung"
+   ]
+  },
+  {
+   "name": "Salzach-Pongau",
+   "uwwCode": "ATTP_5-A1779244R157",
+   "bundesland": "SBG",
+   "lat": 47.4386,
+   "lon": 13.2109,
+   "load": 96513,
+   "agglomerations": [
+    "Pfarrwerfen (Salzach-Pongau)"
+   ]
+  },
+  {
+   "name": "Siggerwiesen",
+   "uwwCode": "ATTP_5-A1699622R154",
+   "bundesland": "SBG",
+   "lat": 47.8597,
+   "lon": 13.0025,
+   "load": 478900,
+   "agglomerations": [
+    "Salzburg (Siggerwiesen)"
+   ]
+  },
+  {
+   "name": "Kapfenberg/Mürz",
+   "uwwCode": "ATTP_6-M3647058R0",
+   "bundesland": "ST",
+   "lat": 47.4297,
+   "lon": 15.2713,
+   "load": 49259,
+   "agglomerations": [
+    "Kapfenberg (Mürz IV)"
+   ]
+  },
+  {
+   "name": "Graz-Gössendorf",
+   "uwwCode": "ATTP_6-M3489301R0",
+   "bundesland": "ST",
+   "lat": 46.9964,
+   "lon": 15.472,
+   "load": 488484,
+   "agglomerations": [
+    "Graz"
+   ]
+  },
+  {
+   "name": "Wildon",
+   "uwwCode": "ATTP_6-M3223510R0",
+   "bundesland": "ST",
+   "lat": 46.879,
+   "lon": 15.5305,
+   "load": 82808,
+   "agglomerations": [
+    "Wildon - Grazerfeld"
+   ]
+  },
+  {
+   "name": "Innsbruck",
+   "uwwCode": "ATTP_7-7101301",
+   "bundesland": "T",
+   "lat": 47.2637,
+   "lon": 11.4466,
+   "load": 304842,
+   "agglomerations": [
+    "Innsbruck (Innsbruck und Umgebung)"
+   ]
+  },
+  {
+   "name": "Kirchbichl",
+   "uwwCode": "ATTP_7-7511102",
+   "bundesland": "T",
+   "lat": 47.5349,
+   "lon": 12.1086,
+   "load": 69780,
+   "agglomerations": [
+    "Kirchbichl (Wörgl-Kirchbichl und Umgebung)"
+   ]
+  },
+  {
+   "name": "Strass",
+   "uwwCode": "ATTP_7-7930111",
+   "bundesland": "T",
+   "lat": 47.4026,
+   "lon": 11.8354,
+   "load": 161803,
+   "agglomerations": [
+    "Strass/Zillertal (Achental-Inntal-Zillertal)"
+   ]
+  },
+  {
+   "name": "Meiningen",
+   "uwwCode": "ATTP_8-Meiningen",
+   "bundesland": "V",
+   "lat": 47.3085,
+   "lon": 9.5897,
+   "load": 269996,
+   "agglomerations": [
+    "Meiningen (Region Feldkirch)"
+   ]
+  },
+  {
+   "name": "Hofsteig",
+   "uwwCode": "ATTP_8-Hofsteig",
+   "bundesland": "V",
+   "lat": 47.4859,
+   "lon": 9.6765,
+   "load": 118060,
+   "agglomerations": [
+    "Hard (Region Hofsteig)"
+   ]
+  },
+  {
+   "name": "Wien",
+   "uwwCode": "ATTP_9-HKA-Simmering",
+   "bundesland": "W",
+   "lat": 48.1723,
+   "lon": 16.4653,
+   "load": 3095810,
+   "agglomerations": [
+    "Wien (HKA Simmering)"
+   ]
+  }
+ ]
+}
