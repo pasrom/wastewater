@@ -266,13 +266,27 @@ footer a:hover {
     text-decoration: underline;
 }
 
-footer .data-freshness {
-    font-size: 0.85rem;
-    margin-bottom: 8px;
+/* Page header: title, data freshness and theme toggle, above the first card */
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    text-align: left;
+    margin: 4px 0 20px;
+}
+
+.page-header h1 {
+    font-size: 1.6rem;
+    margin-bottom: 2px;
+}
+
+.data-freshness {
+    font-size: 0.9rem;
     color: var(--text-muted);
 }
 
-footer .data-freshness:empty {
+.data-freshness:empty {
     display: none;
 }
 
@@ -676,9 +690,59 @@ footer .impressum a {
 }
 
 .footnote {
-    font-size: 0.7rem;
-    color: var(--footnote);
+    font-size: 0.75rem;
+    color: var(--text-muted);
     margin-top: 8px;
+}
+
+/* Tooltip rows: value right-aligned like ECharts' own tooltip */
+.tt-value {
+    float: right;
+    margin-left: 16px;
+    font-weight: 600;
+}
+
+.range-caption,
+.chart-legend-note {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin: 4px 0;
+}
+
+.demo-timeline {
+    width: 100%;
+    height: 170px;
+}
+
+/* Load failures: the reason in the error colour, the empty chart area gone */
+.loading-msg.error-msg {
+    color: var(--error);
+    font-weight: 600;
+}
+
+.loading-msg.error-msg .btn-small {
+    margin-left: 8px;
+    font-weight: normal;
+}
+
+/* A partial load: the chart is there, but without some of its sources */
+.loading-msg.notice-msg {
+    color: var(--tag-text);
+    padding: 8px;
+}
+
+.sari-section.failed .ec-chart,
+.sari-section.failed .demo-timeline,
+.sari-section.failed .range-caption,
+.sari-section.failed .chart-legend-note,
+.sari-section.failed .footnote,
+.sari-section.failed #controls,
+.sari-section.failed #sari-controls,
+.sari-section.failed #incidence-controls,
+.sari-section.failed #sari-demographics-controls,
+.sari-section.failed #sari-heatmap-controls {
+    display: none;
 }
 
 /* Combined Signal */
@@ -748,10 +812,7 @@ footer .impressum a {
 }
 
 .theme-toggle {
-    position: fixed;
-    top: 14px;
-    right: 14px;
-    z-index: 1000;
+    flex: none;
     width: 38px;
     height: 38px;
     padding: 0;
@@ -930,4 +991,23 @@ footer .impressum a {
 
 .attribution {
     font-size: 0.8rem;
+}
+
+/* Keyboard focus: a clear ring on every control, mouse clicks stay unringed */
+.btn:focus-visible,
+.btn-small:focus-visible,
+.select-input:focus-visible,
+.theme-toggle:focus-visible,
+.toggle-label input:focus-visible,
+.location-item input:focus-visible,
+.week-slider input:focus-visible,
+.map-list summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+    .page-header h1 {
+        font-size: 1.3rem;
+    }
 }

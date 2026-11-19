@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abwasser-Monitoring Österreich</title>
+    <title>Atemwegsviren in Österreich – Abwasser, Sentinel, SARI</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"
@@ -19,12 +19,18 @@
             .ec-chart.tall { height: 520px; }
             .ec-chart.short { height: 380px; }
         }
-        .loading-msg { text-align: center; padding: 20px; color: #666; }
+        .loading-msg { text-align: center; padding: 20px; color: var(--text-muted); }
     </style>
 </head>
 <body>
-    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Hell-/Dunkelmodus wechseln" title="Hell-/Dunkelmodus">☾</button>
     <div class="container">
+        <header class="page-header">
+            <div>
+                <h1>Atemwegsviren in Österreich</h1>
+                <p id="data-freshness" class="data-freshness"></p>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Hell-/Dunkelmodus wechseln" title="Hell-/Dunkelmodus">☾</button>
+        </header>
         <!-- 0. Lage nach Bundesland (Karte) -->
         <section class="sari-section">
             <header>
@@ -42,7 +48,7 @@
                     </div>
                 </div>
                 <p id="map-austria" class="map-austria"></p>
-                <div id="map-chart-ec" class="ec-chart map"></div>
+                <div id="map-chart-ec" class="ec-chart map" role="img" aria-label="Karte: SARI-Aufnahmen pro 100.000 je Bundesland und Abwasser-Trend je Kläranlage"></div>
                 <ul class="map-legend" aria-label="Legende Abwasser-Trend">
                     <li><span class="trend-dot" data-trend="down"></span>Abnahme (&lt; −10 %/Woche)</li>
                     <li><span class="trend-dot" data-trend="stable"></span>Stabil (±10 %)</li>
@@ -70,20 +76,20 @@
             <div class="sari-content">
                 <div id="controls">
                     <div class="control-group">
-                        <label>Standorte:</label>
+                        <label id="locations-label">Standorte:</label>
                         <div id="location-selector">
-                            <button id="toggle-locations" class="btn" type="button">Standorte auswählen</button>
+                            <button id="toggle-locations" class="btn" type="button" aria-expanded="false" aria-controls="location-dropdown">Österreich</button>
                             <div id="location-dropdown" class="dropdown hidden">
                                 <div class="dropdown-header">
                                     <button id="select-all" class="btn-small" type="button">Alle</button>
-                                    <button id="select-none" class="btn-small" type="button">Keine</button>
+                                    <button id="select-none" class="btn-small" type="button">Nur Österreich</button>
                                 </div>
                                 <div id="location-list"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div id="wastewater-chart-ec" class="ec-chart"></div>
+                <div id="wastewater-chart-ec" class="ec-chart" role="img" aria-label="Liniendiagramm: Viruslast im Abwasser über die Zeit"></div>
                 <div id="ww-loading" class="loading-msg">Lade Daten…</div>
             </div>
         </section>
@@ -95,8 +101,9 @@
                 <p class="subtitle">Z-Score normalisiert aus Abwasser (AGES), Sentinel (MedUni Wien) und SARI-Aufnahmen</p>
             </header>
             <div class="sari-content">
-                <div id="combined-chart-ec" class="ec-chart"></div>
+                <div id="combined-chart-ec" class="ec-chart" role="img" aria-label="Liniendiagramm: kombiniertes Virensignal als Z-Score über die Zeit"></div>
                 <div id="combined-loading" class="loading-msg">Lade und berechne kombiniertes Signal…</div>
+                <p class="footnote">Lesart: 0 = Mittel der vorangegangenen 26 Wochen, +1 = eine Standardabweichung darüber, ab etwa +2 deutlich über dem Üblichen. Jede Quelle wird für sich normalisiert, danach werden die Quellen je Virus gemittelt. Die beiden jüngsten SARI-Wochen sind vorläufig (grau hinterlegt).</p>
             </div>
         </section>
 
@@ -115,7 +122,7 @@
                         </label>
                     </div>
                 </div>
-                <div id="sentinel-bar-ec" class="ec-chart tall"></div>
+                <div id="sentinel-bar-ec" class="ec-chart tall" role="img" aria-label="Balkendiagramm: Virusnachweise im Sentinelsystem pro Woche"></div>
                 <p id="sentinel-bar-percent-note" class="footnote" hidden>Anteil der Einsendungen mit positivem Nachweis pro Woche. Mehrfachnachweise sind möglich, die Summe kann daher 100 % übersteigen. Die Einsendungen sind aus der MedUni-Grafik ausgelesen (in kleinen Wochen ±1–2 Prozentpunkte).</p>
                 <div id="sentinel-bar-loading" class="loading-msg">Lade Sentinel-Daten…</div>
             </div>
@@ -136,7 +143,7 @@
                         </label>
                     </div>
                 </div>
-                <div id="sentinel-heatmap-ec" class="ec-chart tall"></div>
+                <div id="sentinel-heatmap-ec" class="ec-chart tall" role="img" aria-label="Heatmap: Fallzahlen nach Virustyp und Woche"></div>
                 <p id="sentinel-heatmap-percent-note" class="footnote" hidden>Prozentwerte: Nachweise aus dem Balkendiagramm oben (exakte Zahlen) geteilt durch die Einsendungen der Woche – nicht aus der Heatmap selbst, deren Werte nur in Farbstufen vorliegen. Zeitraum wie im Balkendiagramm.</p>
                 <div id="sentinel-heatmap-loading" class="loading-msg">Lade Heatmap-Daten…</div>
             </div>
@@ -159,8 +166,8 @@
                         <select id="sari-station" class="select-input"></select>
                     </div>
                 </div>
-                <div id="sari-chart-ec" class="ec-chart"></div>
-                <p class="footnote">*Da laufend mit Korrekturen und Nachmeldungen zu rechnen ist, kann sich der Datenbestand noch verändern.</p>
+                <div id="sari-chart-ec" class="ec-chart" role="img" aria-label="Balkendiagramm: SARI-Krankenhausaufnahmen pro Woche nach Diagnose"></div>
+                <p class="footnote">*Grau hinterlegt: die beiden jüngsten Wochen sind vorläufig. Da laufend mit Korrekturen und Nachmeldungen zu rechnen ist, kann sich der Datenbestand noch verändern.</p>
                 <div id="sari-loading-ec" class="loading-msg">Lade SARI-Daten…</div>
             </div>
         </section>
@@ -174,13 +181,13 @@
             <div class="sari-content">
                 <div id="incidence-controls">
                     <div class="control-group">
-                        <label>Bundesländer:</label>
+                        <label id="incidence-regions-label">Bundesländer:</label>
                         <div id="incidence-region-selector">
-                            <button id="toggle-incidence-regions" class="btn" type="button">Bundesländer auswählen</button>
+                            <button id="toggle-incidence-regions" class="btn" type="button" aria-expanded="false" aria-controls="incidence-region-dropdown">Österreich</button>
                             <div id="incidence-region-dropdown" class="dropdown hidden">
                                 <div class="dropdown-header">
                                     <button id="incidence-select-all" class="btn-small" type="button">Alle</button>
-                                    <button id="incidence-select-none" class="btn-small" type="button">Keine</button>
+                                    <button id="incidence-select-none" class="btn-small" type="button">Nur Österreich</button>
                                 </div>
                                 <div id="incidence-region-list"></div>
                             </div>
@@ -195,8 +202,8 @@
                         <select id="incidence-station" class="select-input"></select>
                     </div>
                 </div>
-                <div id="sari-incidence-ec" class="ec-chart"></div>
-                <p class="footnote">*Da laufend mit Korrekturen und Nachmeldungen zu rechnen ist, kann sich der Datenbestand noch verändern.</p>
+                <div id="sari-incidence-ec" class="ec-chart" role="img" aria-label="Liniendiagramm: SARI-Aufnahmen pro 100.000 Einwohner je Bundesland"></div>
+                <p class="footnote">*Grau hinterlegt: die beiden jüngsten Wochen sind vorläufig. Da laufend mit Korrekturen und Nachmeldungen zu rechnen ist, kann sich der Datenbestand noch verändern.</p>
                 <div id="sari-incidence-loading" class="loading-msg">Lade Daten…</div>
             </div>
         </section>
@@ -224,9 +231,11 @@
                         </label>
                     </div>
                 </div>
+                <p class="chart-legend-note">Je Altersgruppe zwei Balken: <b>W</b> = weiblich (kräftige Farbe), <b>M</b> = männlich (helle Farbe).</p>
                 <div id="sari-demographics-chart-container">
-                    <div id="sari-demographics-chart-ec" class="ec-chart"></div>
-                    <div id="sari-demo-timeline-ec" style="width:100%;height:170px;"></div>
+                    <div id="sari-demographics-chart-ec" class="ec-chart" role="img" aria-label="Balkendiagramm: SARI-Aufnahmen nach Altersgruppe und Geschlecht im gewählten Zeitraum"></div>
+                    <p id="sari-demo-range" class="range-caption"></p>
+                    <div id="sari-demo-timeline-ec" class="demo-timeline" role="img" aria-label="Zeitleiste der SARI-Aufnahmen zur Auswahl des Zeitraums"></div>
                 </div>
                 <div id="sari-demographics-loading-ec" class="loading-msg">Lade Daten…</div>
             </div>
@@ -259,13 +268,13 @@
                         </label>
                     </div>
                 </div>
-                <div id="sari-heatmap-ec" class="ec-chart tall"></div>
+                <div id="sari-heatmap-ec" class="ec-chart tall" role="img" aria-label="Heatmap: SARI-Aufnahmen nach Altersgruppe und Woche"></div>
+                <p class="footnote">*Grau hinterlegt: die beiden jüngsten Wochen sind vorläufig. Da laufend mit Korrekturen und Nachmeldungen zu rechnen ist, kann sich der Datenbestand noch verändern.</p>
                 <div id="sari-heatmap-loading-ec" class="loading-msg">Lade Daten…</div>
             </div>
         </section>
 
         <footer>
-            <p id="data-freshness" class="data-freshness"></p>
             <p>
                 Datenquellen:
                 <a href="https://abwasser.ages.at" target="_blank" rel="noopener">AGES Abwasser-Monitoring</a> |
@@ -411,12 +420,31 @@
     function setupCheckboxDropdown({ toggleId, dropdownId, allId, noneId, onAll, onNone, rebuild }) {
         const toggle = document.getElementById(toggleId);
         const dropdown = document.getElementById(dropdownId);
-        toggle.addEventListener('click', () => dropdown.classList.toggle('hidden'));
+        const setOpen = open => {
+            dropdown.classList.toggle('hidden', !open);
+            toggle.setAttribute('aria-expanded', String(open));
+        };
+        toggle.addEventListener('click', () => setOpen(dropdown.classList.contains('hidden')));
         document.addEventListener('click', e => {
-            if (!toggle.contains(e.target) && !dropdown.contains(e.target)) dropdown.classList.add('hidden');
+            if (!toggle.contains(e.target) && !dropdown.contains(e.target)) setOpen(false);
         });
+        dropdown.addEventListener('keydown', e => {
+            if (e.key === 'Escape') { setOpen(false); toggle.focus(); }
+        });
+        toggle.addEventListener('keydown', e => { if (e.key === 'Escape') setOpen(false); });
         document.getElementById(allId).addEventListener('click', () => { onAll(); rebuild(); });
         document.getElementById(noneId).addEventListener('click', () => { onNone(); rebuild(); });
+    }
+
+    // The dropdown button names the current selection, e.g. "Österreich + 3 Standorte"
+    function updateDropdownLabel(toggleId, selected, one, many, total) {
+        const others = [...selected].filter(c => c !== 'Österreich' && c !== 'AT').length;
+        const hasAT = selected.has('Österreich') || selected.has('AT');
+        const n = others === 1 ? one : many;
+        document.getElementById(toggleId).textContent =
+            selected.size && selected.size === total ? `Alle ${many}`
+            : hasAT ? (others ? `Österreich + ${others} ${n}` : 'Nur Österreich')
+            : others ? `${others} ${n}` : 'Keine Auswahl';
     }
 
     // Local calendar date. The KW dates are built at local midnight, so going
@@ -450,7 +478,10 @@
     const shiftYMD = (ymd, days) => isoToYMD(parseYMD(ymd, days));
     const isNarrow = () => window.innerWidth < 700;
     const narrowGrid = (top, bottom, right = 10) => ({ left: 5, right, top, bottom, containLabel: true });
-    const xAxisInterval = arr => Math.max(0, Math.floor(arr.length / 20) - 1);
+    // Phones: the legend gets its own row under the toolbox icons
+    const narrowLegend = data => ({ top: 36, left: 5, right: 5, type: 'scroll', data });
+    // About 20 rotated week labels fit a desktop chart, about 6 a phone
+    const xAxisInterval = arr => Math.max(0, Math.ceil(arr.length / (isNarrow() ? 6 : 20)) - 1);
     function compactNumber(v) {
         const n = +v;
         if (Math.abs(n) >= 1_000_000) return (n / 1_000_000).toFixed(n % 1_000_000 === 0 ? 0 : 1) + 'M';
@@ -461,7 +492,91 @@
     const fmtPct = (v, digits = 1) => v == null ? '–' : fmtDe(v, digits) + '\u00a0%';
     // null, not 0: a week without Einsendungen has no rate
     const positivity = (n, eins) => eins > 0 ? n / eins * 100 : null;
-    const fmtShareOf = (pct, n, eins) => `${fmtPct(pct)} (${Math.round(n)} von ${Math.round(eins)})`;
+    const fmtShareOf = (pct, n, eins) => `${fmtPct(pct)} (${fmtDe(n, 0)} von ${fmtDe(eins, 0)})`;
+
+    // One week header for every tooltip: "KW 52/2025 (ab 22.12.)"
+    const weekHeader = monday => `${formatKW(monday)} (ab ${monday.getDate()}.${monday.getMonth() + 1}.)`;
+    // Week labels as the feeds spell them: Sentinel 'KW50/2025', SARI '50. KW 2025'
+    function sentinelWeekDate(label) {
+        const m = label && label.match(/KW(\d+)\/(\d+)/);
+        return m ? mondayOfISOWeek(parseInt(m[2]), parseInt(m[1])) : null;
+    }
+    const sentinelWeekText = label => { const d = sentinelWeekDate(label); return d ? weekHeader(d) : label; };
+    const sentinelAxisLabel = label => { const d = sentinelWeekDate(label); return d ? formatKW(d) : label; };
+
+    // Axis-trigger tooltip in German number format. ECharts' default prints
+    // ISO dates and English separators; header(axisValue) names the week.
+    const pointValue = p => Array.isArray(p.value) ? p.value[1] : p.value;
+    function axisTooltip(header, valueText) {
+        return params => {
+            if (!params || !params.length) return '';
+            const rows = params.filter(p => !String(p.seriesName).startsWith('__')).map(p => {
+                const v = pointValue(p);
+                return `${p.marker}${escapeHtml(p.seriesName)}<span class="tt-value">${v == null ? '–' : valueText(+v, p)}</span>`;
+            });
+            return `<b>${escapeHtml(header(params[0].axisValue))}</b><br>${rows.join('<br>')}`;
+        };
+    }
+
+    // Provisional SARI weeks are marked alike in every SARI chart and on the
+    // map: bars and cells of those weeks carry the map's diagonal hatching,
+    // line charts a dashed box, and both a "vorläufig" label.
+    const provisionalDecal = () => ({
+        symbol: 'rect', symbolSize: 1, dashArrayX: [1, 0], dashArrayY: [3, 5],
+        rotation: -Math.PI / 4, color: MAP_PALETTE[themeMode()].hatch
+    });
+    // Hatch the data items of the newest weeks; `toItem` turns a plain value
+    // into an item object (bars: { value }, heatmap cells: { value: [x, y, v] }).
+    function hatchNewest(values, isProvisional, toItem = v => ({ value: v })) {
+        const decal = provisionalDecal();
+        return values.map((v, i) => isProvisional(v, i) ? { ...toItem(v), itemStyle: { decal }, emphasis: { itemStyle: { decal } } } : v);
+    }
+    // The label (and on line charts the box) rides on an empty overlay series:
+    // a series' own markArea would be drawn underneath its data.
+    function provisionalSeries(from, to, { label = 'vorläufig*', boxed = true } = {}) {
+        const mode = themeMode();
+        return {
+            name: '__provisional', type: 'line', data: [], silent: true, z: 10, tooltip: { show: false },
+            markArea: {
+                silent: true,
+                itemStyle: boxed
+                    ? { color: mode === 'dark' ? 'rgba(30,33,37,0.5)' : 'rgba(255,255,255,0.5)',
+                        borderColor: CHART_INK[mode].muted, borderWidth: 1, borderType: 'dashed' }
+                    : { color: 'transparent' },
+                label: { show: !!label, position: 'insideTopRight', formatter: label, color: CHART_INK[mode].muted, fontSize: 11 },
+                data: [[{ xAxis: from }, { xAxis: to }]]
+            }
+        };
+    }
+    // Category axis (the items themselves are hatched): label only
+    const provisionalLabel = cats =>
+        provisionalSeries(cats[Math.max(0, cats.length - SARI_PROVISIONAL_WEEKS)], cats[cats.length - 1], { boxed: false });
+    // Time axis: from half a week before the second-newest week to half a
+    // week after the newest, so the box covers both points.
+    const provisionalTime = (lastYmd, label) =>
+        provisionalSeries(shiftYMD(lastYmd, -(7 * (SARI_PROVISIONAL_WEEKS - 1) + 3)), shiftYMD(lastYmd, 3), { label });
+
+    // German message for a failed load; a network failure surfaces as a bare
+    // TypeError ("Failed to fetch") that tells a reader nothing.
+    const errorText = e => e instanceof TypeError ? 'Keine Verbindung zur Datenquelle' : e.message;
+    // A section whose data is gone collapses its chart area and controls and
+    // shows the reason in the error colour with a reload button.
+    function setSectionError(statusEl, message) {
+        statusEl.closest('section').classList.add('failed');
+        statusEl.classList.add('error-msg');
+        statusEl.style.display = '';
+        statusEl.textContent = 'Daten konnten nicht geladen werden: ' + message + ' ';
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'btn-small';
+        btn.textContent = 'Erneut laden';
+        btn.addEventListener('click', () => location.reload());
+        statusEl.appendChild(btn);
+    }
+    function clearSectionError(statusEl) {
+        statusEl.closest('section').classList.remove('failed');
+        statusEl.classList.remove('error-msg');
+    }
 
     // notMerge re-renders reset zoom and legend. These carry the visible week window
     // (by label, so it survives an axis of different length) and hidden series across.
@@ -488,32 +603,29 @@
         if (view.hidden.length) chart.dispatchAction({ type: 'legendUnSelect', batch: view.hidden.map(name => ({ name })) });
     }
 
+    // Axis styling per theme. It used to be set per chart with fixed light
+    // colours, which drew bright gridlines across every chart in dark mode.
+    const axisStyle = c => ({
+        axisLine: { lineStyle: { color: c.line } },
+        axisTick: { lineStyle: { color: c.line } },
+        axisLabel: { color: c.label },
+        splitLine: { lineStyle: { color: c.grid } },
+        nameTextStyle: { color: c.label }
+    });
+    const LIGHT_AXIS = axisStyle({ line: '#bbbbbb', label: '#555555', grid: '#eeeeee' });
+    echarts.registerTheme('lightTheme', { categoryAxis: LIGHT_AXIS, valueAxis: LIGHT_AXIS, timeAxis: LIGHT_AXIS, logAxis: LIGHT_AXIS });
+    // Ink for headline series and annotations that must read on either surface
+    const CHART_INK = { light: { strong: '#2c3e50', muted: '#666666' }, dark: { strong: '#f0f2f5', muted: '#a8adb5' } };
+
     // ECharts theme is baked in at init; switching theme requires dispose + re-init of every chart
     echarts.registerTheme('darkTheme', {
         backgroundColor: 'transparent',
         textStyle: { color: '#e4e6eb' },
         title: { textStyle: { color: '#f0f2f5' } },
-        categoryAxis: {
-            axisLine: { lineStyle: { color: '#5a5e64' } },
-            axisTick: { lineStyle: { color: '#5a5e64' } },
-            axisLabel: { color: '#a8adb5' },
-            splitLine: { lineStyle: { color: '#2a2d31' } },
-            nameTextStyle: { color: '#a8adb5' }
-        },
-        valueAxis: {
-            axisLine: { lineStyle: { color: '#5a5e64' } },
-            axisTick: { lineStyle: { color: '#5a5e64' } },
-            axisLabel: { color: '#a8adb5' },
-            splitLine: { lineStyle: { color: '#2a2d31' } },
-            nameTextStyle: { color: '#a8adb5' }
-        },
-        timeAxis: {
-            axisLine: { lineStyle: { color: '#5a5e64' } },
-            axisTick: { lineStyle: { color: '#5a5e64' } },
-            axisLabel: { color: '#a8adb5' },
-            splitLine: { lineStyle: { color: '#2a2d31' } },
-            nameTextStyle: { color: '#a8adb5' }
-        },
+        ...(() => {
+            const a = axisStyle({ line: '#5a5e64', label: '#a8adb5', grid: '#2a2d31' });
+            return { categoryAxis: a, valueAxis: a, timeAxis: a, logAxis: a };
+        })(),
         legend: { textStyle: { color: '#e4e6eb' }, pageTextStyle: { color: '#a8adb5' } },
         tooltip: { backgroundColor: '#25282d', borderColor: '#383b40', textStyle: { color: '#e4e6eb' } },
         toolbox: { iconStyle: { borderColor: '#a8adb5' }, emphasis: { iconStyle: { borderColor: '#5dade2' } } },
@@ -547,7 +659,7 @@
         if (themeToggleBtn) themeToggleBtn.textContent = t === 'dark' ? '☀' : '☾';
     }
     applyThemeAttr();
-    const initChart = id => echarts.init(document.getElementById(id), effectiveTheme() === 'dark' ? 'darkTheme' : null);
+    const initChart = id => echarts.init(document.getElementById(id), effectiveTheme() === 'dark' ? 'darkTheme' : 'lightTheme');
 
     const freshness = { Abwasser: null, Sentinel: null, SARI: null };
     const freshnessEl = document.getElementById('data-freshness');
@@ -556,10 +668,7 @@
         return `KW ${String(week).padStart(2, '0')}/${year}`;
     }
     const lastFromRows = rows => rows.reduce((m, r) => (!m || (r.date && r.date > m) ? (r.date || m) : m), null);
-    const lastFromWeeks = weeks => {
-        const m = weeks && weeks.length && weeks[weeks.length - 1].match(/KW(\d+)\/(\d+)/);
-        return m ? mondayOfISOWeek(parseInt(m[2]), parseInt(m[1])) : null;
-    };
+    const lastFromWeeks = weeks => weeks && weeks.length ? sentinelWeekDate(weeks[weeks.length - 1]) : null;
     function bumpFreshness(source, date) {
         if (!date) return;
         if (!freshness[source] || date > freshness[source]) freshness[source] = date;
@@ -570,6 +679,10 @@
         freshnessEl.textContent = parts.length ? 'Datenstand · ' + parts.join(' · ') : '';
     }
 
+    // Zoom is the slider plus this toolbox's area select. There is deliberately
+    // no `inside` dataZoom: with one, ECharts swallows wheel and touch scrolling
+    // over the chart even when its wheel zoom and move are switched off, so the
+    // page got stuck on every chart.
     const TOOLBOX = {
         right: 10, top: 10, itemSize: 14, itemGap: 8,
         feature: {
@@ -623,10 +736,15 @@
         return out;
     }
 
+    // With only Österreich selected the legend names just the virus
+    const wwSeriesName = (src, loc) =>
+        wwSelectedLocations.size === 1 && loc === 'Österreich' ? src.name : `${src.name} – ${loc}`;
+
     function renderWastewater() {
         const series = [];
         const legendNames = [];
         const showAustria = wwSelectedLocations.has('Österreich');
+        updateDropdownLabel('toggle-locations', wwSelectedLocations, 'Standort', 'Standorte', dataPool.locations.size);
 
         for (const [key, src] of Object.entries(WW_SOURCES)) {
             const d = dataPool.wastewater[key];
@@ -652,7 +770,7 @@
                 const tr = d.traces[loc];
                 if (!tr) continue;
                 const isAT = loc === 'Österreich';
-                const name = `${src.name} – ${loc}`;
+                const name = wwSeriesName(src, loc);
                 legendNames.push(name);
                 series.push({
                     name, type: 'line', smooth: true, showSymbol: false,
@@ -667,16 +785,19 @@
         }
 
         const narrow = isNarrow();
+        // No in-canvas title: the section heading above says the same
         wwChart.setOption({
-            title: { text: 'Viruslast im Abwasser', left: 'center', textStyle: { fontSize: 14, fontWeight: 600 } },
             toolbox: TOOLBOX,
-            tooltip: { trigger: 'axis', valueFormatter: v => v == null ? '–' : (+v).toFixed(1) + ' Mio./Einw.' },
-            legend: { top: 30, type: 'scroll', data: legendNames, padding: [5, 40, 5, 10] },
-            grid: narrow ? narrowGrid(70, 90) : { left: 60, right: 30, top: 80, bottom: 90, containLabel: true },
-            xAxis: { type: 'time', axisLine: { lineStyle: { color: '#bbb' } } },
-            yAxis: { type: 'value', name: narrow ? '' : 'Mio. Genkopien/Einw.', splitLine: { lineStyle: { color: '#eee' } }, axisLabel: { formatter: compactNumber } },
+            tooltip: {
+                trigger: 'axis',
+                formatter: axisTooltip(ms => { const d = new Date(ms); return `${formatKW(d)} (Probe ${d.toLocaleDateString('de-AT')})`; },
+                    v => fmtDe(v) + ' Mio./Einw.')
+            },
+            legend: narrow ? narrowLegend(legendNames) : { top: 10, type: 'scroll', data: legendNames, padding: [5, 70, 5, 10] },
+            grid: narrow ? narrowGrid(75, 90) : { left: 60, right: 30, top: 50, bottom: 90, containLabel: true },
+            xAxis: { type: 'time' },
+            yAxis: { type: 'value', name: narrow ? '' : 'Mio. Genkopien/Einw.', axisLabel: { formatter: compactNumber } },
             dataZoom: [
-                { type: 'inside', start: 0, end: 100 },
                 { type: 'slider', height: 30, bottom: 10 }
             ],
             series
@@ -686,7 +807,7 @@
         wwChart.off('legendselectchanged');
         wwChart.on('legendselectchanged', e => {
             for (const [key, src] of Object.entries(WW_SOURCES)) {
-                if (e.name === `${src.name} – Österreich`) {
+                if (e.name === wwSeriesName(src, 'Österreich')) {
                     const action = e.selected[e.name] ? 'legendSelect' : 'legendUnSelect';
                     [`__${key}_q1`, `__${key}_band`].forEach(name => {
                         wwChart.dispatchAction({ type: action, name });
@@ -753,8 +874,9 @@
     const MAP_SARI_COLUMN = { sarscov2: 'COVID', influenza: 'INFLUENZA', rsv: 'RSV' };
     const MAP_VIRUS_STORAGE_KEY = 'mapVirus';
     // SARI keeps filling in its newest weeks: the newest one is about half
-    // reported at first publication, the one before about 85 %.
-    const MAP_PROVISIONAL_WEEKS = 2;
+    // reported at first publication, the one before about 85 %. Shared by the
+    // map and every SARI chart, which all mark these weeks as provisional.
+    const SARI_PROVISIONAL_WEEKS = 2;
     // AGES's method text says two samples suffice, but its own map for
     // 2026-11-09 showed Graz-Gössendorf (2 samples in the window) as "Keine
     // Daten" and Salzach-Pongau (3) with a trend, so the page follows the map.
@@ -973,7 +1095,7 @@
         renderMapAustria(m, pal);
         document.querySelectorAll('.map-legend .trend-dot').forEach(dot => styleTrendDot(dot, dot.dataset.trend, pal));
 
-        const hatch = { symbol: 'rect', symbolSize: 1, dashArrayX: [1, 0], dashArrayY: [3, 5], rotation: -Math.PI / 4, color: pal.hatch };
+        const hatch = provisionalDecal();
         const regionData = m.regions.filter(r => r.code !== 'AT').map(r => ({
             name: r.code, value: r.rate == null ? '-' : r.rate, region: r,
             ...(m.provisional && r.rate != null ? { itemStyle: { decal: hatch }, emphasis: { itemStyle: { decal: hatch } } } : {})
@@ -1155,7 +1277,7 @@
             plantStart ? ` Kläranlagen-Daten ab ${formatKW(parseYMD(plantStart))}.` : '';
         mapState.weeks = [...weeks].sort();
         if (!mapState.weeks.length) throw new Error('Keine Daten für die Karte');
-        mapState.provisional = new Set(sariWeeks.slice(-MAP_PROVISIONAL_WEEKS));
+        mapState.provisional = new Set(sariWeeks.slice(-SARI_PROVISIONAL_WEEKS));
 
         const keys = Object.keys(WW_SOURCES);
         const stored = storageGet(MAP_VIRUS_STORAGE_KEY);
@@ -1226,13 +1348,11 @@
                 series.push({
                     name: SARI_DIAGNOSE_NAMES[d], type: 'bar', stack: 'total',
                     itemStyle: { color: SARI_COLORS[d] },
-                    emphasis: { focus: 'series' },
                     data: dates.map(k => (nIx[k] ? nIx[k][d] : 0))
                 });
                 series.push({
                     name: SARI_DIAGNOSE_NAMES[d] + ' (Intensiv)', type: 'bar', stack: 'total',
                     itemStyle: { color: lightenColor(SARI_COLORS[d], 0.4) },
-                    emphasis: { focus: 'series' },
                     data: dates.map(k => (iIx[k] ? iIx[k][d] : 0))
                 });
             }
@@ -1249,43 +1369,35 @@
                 series.push({
                     name: SARI_DIAGNOSE_NAMES[d], type: 'bar', stack: 'total',
                     itemStyle: { color: SARI_COLORS[d] },
-                    emphasis: { focus: 'series' },
                     data: data.map(r => r[d])
                 });
             }
         }
 
-        // Cutoff: 2 weeks before last date
-        const cutoffMark = dates.length > 0 ? shiftYMD(dates[dates.length - 1], -14) : null;
-
-        const markLine = cutoffMark ? {
-            silent: true,
-            symbol: 'none',
-            lineStyle: { color: '#666', type: 'dotted', width: 1 },
-            label: { formatter: 'Daten bis hierher größtenteils gemeldet*', position: 'insideEndTop', color: '#666', fontSize: 11 },
-            data: [{ xAxis: cutoffMark }]
-        } : null;
-
-        if (markLine && series.length > 0) {
-            series[0] = { ...series[0], markLine };
+        if (dates.length) {
+            const newest = (_, i) => i >= dates.length - SARI_PROVISIONAL_WEEKS;
+            series.forEach(sr => { sr.data = hatchNewest(sr.data, newest); });
+            series.push(provisionalLabel(dates));
         }
 
+        // Narrow screens drop the in-canvas title: the heading and the selects
+        // above say the same, and the title collided with the toolbox there.
         const narrow = isNarrow();
         sariChart.setOption({
-            title: {
-                text: narrow
-                    ? `SARI-Aufnahmen\n${BUNDESLAND_NAMES[bundesland]} (${STATION_NAMES[station]})`
-                    : `SARI-Aufnahmen – ${BUNDESLAND_NAMES[bundesland]} (${STATION_NAMES[station]})`,
+            title: narrow ? { show: false } : {
+                text: `SARI-Aufnahmen – ${BUNDESLAND_NAMES[bundesland]} (${STATION_NAMES[station]})`,
                 left: 'center', textStyle: { fontSize: 14, fontWeight: 600 }
             },
             toolbox: TOOLBOX,
-            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-            legend: { top: narrow ? 50 : 30, data: legendNames, padding: [5, 40, 5, 10] },
-            grid: narrow ? narrowGrid(90, 90) : { left: 60, right: 30, top: 80, bottom: 90, containLabel: true },
-            xAxis: { type: 'category', data: dates, axisLine: { lineStyle: { color: '#bbb' } }, axisLabel: { color: '#555' } },
-            yAxis: { type: 'value', name: narrow ? '' : 'Aufnahmen', splitLine: { lineStyle: { color: '#eee' } }, axisLabel: { formatter: compactNumber } },
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' },
+                formatter: axisTooltip(v => weekHeader(parseYMD(v)), v => fmtDe(v, 0))
+            },
+            legend: narrow ? narrowLegend(legendNames) : { top: 30, data: legendNames, padding: [5, 40, 5, 10] },
+            grid: narrow ? narrowGrid(75, 90) : { left: 60, right: 30, top: 80, bottom: 90, containLabel: true },
+            xAxis: { type: 'category', data: dates, axisLabel: { formatter: v => formatKW(parseYMD(v)) } },
+            yAxis: { type: 'value', name: narrow ? '' : 'Aufnahmen', axisLabel: { formatter: compactNumber } },
             dataZoom: [
-                { type: 'inside', xAxisIndex: 0, start: 0, end: 100 },
                 { type: 'slider', xAxisIndex: 0, height: 30, bottom: 10 }
             ],
             series
@@ -1381,6 +1493,7 @@
         const diagnose = document.getElementById('incidence-diagnose').value;
         const station = document.getElementById('incidence-station').value;
         const regions = INCIDENCE_REGION_ORDER.filter(r => incidenceSelectedRegions.has(r));
+        updateDropdownLabel('toggle-incidence-regions', incidenceSelectedRegions, 'Bundesland', 'Bundesländer', INCIDENCE_REGION_ORDER.length);
 
         if (regions.length === 0) {
             incidenceChart.clear();
@@ -1410,47 +1523,39 @@
             };
         });
 
-        // Cutoff: 2 weeks before the last reported point
+        // Provisional band over the newest weeks
         const lastDate = series.reduce((m, s) => {
             const d = s.data.length ? s.data[s.data.length - 1][0] : null;
             return d && (!m || d > m) ? d : m;
         }, null);
-        if (lastDate) {
-            series[0] = {
-                ...series[0],
-                markLine: {
-                    silent: true, symbol: 'none',
-                    lineStyle: { color: '#666', type: 'dotted', width: 1 },
-                    label: { formatter: 'Daten bis hierher größtenteils gemeldet*', position: 'insideEndTop', color: '#666', fontSize: 11 },
-                    data: [{ xAxis: shiftYMD(lastDate, -14) }]
-                }
-            };
-        }
+        if (lastDate) series.push(provisionalTime(lastDate));
 
         // A single region names itself in the heading; several are named by the legend.
         const heading = multi ? 'SARI-Inzidenz pro 100.000' : `SARI-Inzidenz ${BUNDESLAND_NAMES[regions[0]]}`;
         const subject = `${INCIDENCE_DIAGNOSE_NAMES[diagnose]} (${STATION_NAMES[station]})`;
 
         incidenceChart.setOption({
-            title: {
-                text: heading + (narrow ? '\n' : ' – ') + subject,
+            title: narrow ? { show: false } : {
+                text: `${heading} – ${subject}`,
                 left: 'center', textStyle: { fontSize: 14, fontWeight: 600 }
             },
             toolbox: TOOLBOX,
-            tooltip: { trigger: 'axis', valueFormatter: v => v == null ? '–' : (+v).toFixed(1) + ' /100.000' },
-            legend: multi
-                ? { top: narrow ? 50 : 30, type: 'scroll', data: series.map(s => s.name), padding: [5, 40, 5, 10] }
-                : { show: false },
+            tooltip: {
+                trigger: 'axis',
+                formatter: axisTooltip(ms => weekHeader(new Date(ms)), v => fmtDe(v) + ' pro 100.000')
+            },
+            legend: !multi ? { show: false }
+                : narrow ? narrowLegend(regions.map(r => BUNDESLAND_NAMES[r]))
+                : { top: 30, type: 'scroll', data: regions.map(r => BUNDESLAND_NAMES[r]), padding: [5, 70, 5, 10] },
             grid: narrow
-                ? narrowGrid(multi ? 90 : 60, 90)
+                ? narrowGrid(multi ? 75 : 45, 90)
                 : { left: 60, right: 120, top: multi ? 80 : 60, bottom: 90, containLabel: true },
-            xAxis: { type: 'time', axisLine: { lineStyle: { color: '#bbb' } } },
+            xAxis: { type: 'time' },
             yAxis: {
                 type: 'value', name: narrow ? '' : 'Aufnahmen pro 100.000 Einw.',
-                splitLine: { lineStyle: { color: '#eee' } }, axisLabel: { formatter: compactNumber }
+                axisLabel: { formatter: compactNumber }
             },
             dataZoom: [
-                { type: 'inside', start: 0, end: 100 },
                 { type: 'slider', height: 30, bottom: 10 }
             ],
             series
@@ -1618,37 +1723,47 @@
             return {
                 name: SARI_DIAGNOSE_NAMES[d], type: 'bar', stack: 'total',
                 itemStyle: { color: SARI_COLORS[d] },
-                emphasis: { focus: 'series' },
                 data: values
             };
         });
 
+        // Categories are 'AG|G'. The label shows W/M under each bar and the age
+        // group once under the W bar of its pair, without the feed's spaces.
+        const splitCat = c => { const [ag, g] = String(c).split('|'); return { ag: ag.replace(/\s+/g, ''), g }; };
         const narrow = isNarrow();
         demoChart.setOption({
-            title: {
-                text: narrow
-                    ? `SARI-Aufnahmen\n${BUNDESLAND_NAMES[bundesland]} (${STATION_NAMES[station]})`
-                    : `SARI-Aufnahmen nach Alter und Geschlecht — ${BUNDESLAND_NAMES[bundesland]} (${STATION_NAMES[station]})`,
+            title: narrow ? { show: false } : {
+                text: `SARI-Aufnahmen nach Alter und Geschlecht — ${BUNDESLAND_NAMES[bundesland]} (${STATION_NAMES[station]})`,
                 left: 'center', textStyle: { fontSize: 14, fontWeight: 600 }
             },
             toolbox: TOOLBOX_RESTORE_ONLY,
-            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-            legend: { top: narrow ? 50 : 30, data: legendNames, padding: [5, 40, 5, 10] },
-            grid: narrow ? narrowGrid(90, 90) : { left: 70, right: 30, top: 80, bottom: 90, containLabel: true },
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' },
+                formatter: axisTooltip(c => {
+                    const { ag, g } = splitCat(c);
+                    return `${ag} Jahre · ${g === 'W' ? 'weiblich' : 'männlich'}`;
+                }, v => per100k ? fmtDe(v) + ' pro 100.000' : fmtDe(v, 0))
+            },
+            legend: narrow ? narrowLegend(legendNames) : { top: 30, data: legendNames, padding: [5, 40, 5, 10] },
+            grid: narrow ? narrowGrid(75, 60) : { left: 70, right: 30, top: 80, bottom: 70, containLabel: true },
             xAxis: {
                 type: 'category', data: xLabels,
-                name: narrow ? '' : 'Altersgruppe (dunkel = Weiblich, hell = Männlich)',
-                nameLocation: 'middle', nameGap: 50,
-                axisLabel: { rotate: -45, color: '#555' }
+                name: narrow ? '' : 'Altersgruppe (Jahre)',
+                nameLocation: 'middle', nameGap: 45,
+                axisLabel: {
+                    interval: 0, fontSize: narrow ? 10 : 12, lineHeight: narrow ? 13 : 16,
+                    formatter: c => { const { ag, g } = splitCat(c); return g === 'W' ? `W\n${ag}` : 'M'; }
+                }
             },
             yAxis: {
                 type: 'value',
-                name: narrow ? '' : (per100k ? 'pro 100.000 Einw.' : 'Aufnahmen'),
-                splitLine: { lineStyle: { color: '#eee' } },
+                name: narrow ? '' : `${per100k ? 'Aufnahmen pro 100.000' : 'Aufnahmen'} im gewählten Zeitraum`,
+                nameTextStyle: { align: 'left' },
                 axisLabel: { formatter: compactNumber }
             },
             series
         }, { notMerge: true });
+        renderDemoRangeCaption();
 
         demoChart.off('restore');
         demoChart.on('restore', () => {
@@ -1661,6 +1776,20 @@
     // Native ECharts timeline strip with dataZoom slider
     let demoTimelineChart = initChart('sari-demo-timeline-ec');
     let demoTimelineDates = [];
+
+    // The bars sum over the selected period, so it has to be named: per 100k
+    // over three years otherwise reads as an unexplained five-digit figure.
+    function renderDemoRangeCaption() {
+        const el = document.getElementById('sari-demo-range');
+        const dates = demoTimelineDates;
+        if (!dates.length) { el.textContent = ''; return; }
+        const [from, to] = demoTimelineRange || [dates[0], dates[dates.length - 1]];
+        const i0 = dates.indexOf(from), i1 = dates.indexOf(to);
+        el.textContent = `Zeitraum: ${formatKW(parseYMD(from))} – ${formatKW(parseYMD(to))}`
+            + (i0 >= 0 && i1 >= 0 ? ` (${i1 - i0 + 1} Wochen)` : '')
+            + (i1 >= dates.length - SARI_PROVISIONAL_WEEKS ? ', enthält vorläufige Wochen' : '')
+            + ' · unten mit den Griffen wählen';
+    }
 
     function scheduleDemoRender() {
         if (demoChartScheduled) return;
@@ -1682,6 +1811,7 @@
             data: timeline.map(t => t[d]),
             silent: true, tooltip: { show: false }
         }));
+        series.forEach(sr => { sr.data = hatchNewest(sr.data, (_, i) => i >= demoTimelineDates.length - SARI_PROVISIONAL_WEEKS); });
 
         // Determine current zoom from demoTimelineRange (if any)
         let startPct = 0, endPct = 100;
@@ -1702,13 +1832,12 @@
             },
             yAxis: { type: 'value', show: false, splitLine: { show: false } },
             dataZoom: [
-                { type: 'inside', xAxisIndex: 0, start: startPct, end: endPct },
                 {
                     type: 'slider', xAxisIndex: 0, height: 30, bottom: 8,
                     start: startPct, end: endPct,
-                    labelFormatter: (val, str) => {
+                    labelFormatter: val => {
                         const i = Math.max(0, Math.min(demoTimelineDates.length - 1, Math.round(val)));
-                        return demoTimelineDates[i] || '';
+                        return demoTimelineDates[i] ? formatKW(parseYMD(demoTimelineDates[i])) : '';
                     }
                 }
             ],
@@ -1793,21 +1922,25 @@
 
         const narrow = isNarrow();
         const visualMapText = per100k ? 'pro 100k' : 'Aufnahmen';
+        // SARI spells weeks '46. KW 2026'; show them like every other chart
+        const kwText = kw => { const d = parseKW(kw); return d ? formatKW(d) : kw; };
         ageHeatmapChart.setOption({
-            title: {
+            title: narrow ? { show: false } : {
                 text: `${HEATMAP_DIAGNOSE_NAMES[diagnose]} nach Altersgruppe — ${BUNDESLAND_NAMES[bundesland]}`,
-                left: 'center', textStyle: { fontSize: 16, fontWeight: 600 }
+                left: 'center', textStyle: { fontSize: 14, fontWeight: 600 }
             },
             toolbox: TOOLBOX,
             tooltip: {
                 position: 'top',
                 formatter: p => {
-                    const v = p.value[2];
-                    return `${escapeHtml(ageGroups[p.value[1]])}<br>${escapeHtml(kws[p.value[0]])}<br>${per100k ? v.toFixed(1) + ' pro 100k' : v + ' Aufnahmen'}`;
+                    const v = p.value[2], d = parseKW(kws[p.value[0]]);
+                    const week = d ? weekHeader(d) : kws[p.value[0]];
+                    return `<b>${escapeHtml(week)}</b><br>${escapeHtml(ageGroups[p.value[1]])} Jahre: ${per100k ? fmtDe(v) + ' pro 100.000' : fmtDe(v, 0) + ' Aufnahmen'}`
+                        + (p.value[0] >= kws.length - SARI_PROVISIONAL_WEEKS ? '<br><i>vorläufig</i>' : '');
                 }
             },
-            grid: narrow ? narrowGrid(60, 130) : { left: 80, right: 100, top: 60, bottom: 80, containLabel: true },
-            xAxis: { type: 'category', data: kws, splitArea: { show: false }, axisLabel: { rotate: -45, interval: xAxisInterval(kws) } },
+            grid: narrow ? narrowGrid(40, 130) : { left: 80, right: 100, top: 60, bottom: 80, containLabel: true },
+            xAxis: { type: 'category', data: kws, splitArea: { show: false }, axisLabel: { rotate: -45, interval: xAxisInterval(kws), formatter: kwText } },
             yAxis: { type: 'category', data: ageGroups },
             visualMap: narrow
                 ? {
@@ -1823,11 +1956,11 @@
                     text: [visualMapText, '']
                 },
             dataZoom: [
-                { type: 'inside', xAxisIndex: 0, start: 0, end: 100 },
                 { type: 'slider', xAxisIndex: 0, height: 24, bottom: narrow ? 50 : 20 }
             ],
             series: [{
-                type: 'heatmap', data: cells, progressive: 1000,
+                type: 'heatmap', progressive: 1000,
+                data: hatchNewest(cells, c => c[0] >= kws.length - SARI_PROVISIONAL_WEEKS, c => ({ value: c })),
                 emphasis: { itemStyle: { borderColor: '#333', borderWidth: 1 } }
             }]
         }, { notMerge: true });
@@ -1856,8 +1989,8 @@
         if (!params || !params.length) return '';
         const week = params[0].name;
         const eins = +dataPool.sentinelBar.einsendungen[week] || 0;
-        const rows = params.map(p => `${p.marker} ${escapeHtml(p.seriesName)}: ${fmtShareOf(p.value, p.data.abs, eins)}`);
-        return `<b>${escapeHtml(week)}</b> · ${Math.round(eins)} Einsendungen<br>${rows.join('<br>')}`;
+        const rows = params.map(p => `${p.marker}${escapeHtml(p.seriesName)}<span class="tt-value">${fmtShareOf(p.value, p.data.abs, eins)}</span>`);
+        return `<b>${escapeHtml(sentinelWeekText(week))}</b> · ${fmtDe(eins, 0)} Einsendungen<br>${rows.join('<br>')}`;
     }
 
     function renderSentinelBar() {
@@ -1877,55 +2010,60 @@
             series.push({
                 name: label, type: 'bar', stack: 'total', yAxisIndex: 0,
                 itemStyle: { color: SENTINEL_COLORS[v] || '#888' },
-                emphasis: { focus: 'series' },
                 data: percent ? counts.map((n, i) => ({ value: positivity(n, einsValues[i]), abs: n })) : counts
             });
         }
         if (!percent) {
             legendNames.push('Einsendungen');
+            // MedUni draws Einsendungen as a light grey area with a grey legend
+            // square; line, legend marker and tooltip dot share one grey here.
+            const einsGrey = themeMode() === 'dark' ? '#9a9da3' : '#8a8a8a';
             // Background area on Y2
             series.push({
                 name: '__eins_area', type: 'line', yAxisIndex: 1,
                 data: einsValues, showSymbol: false, smooth: false,
                 lineStyle: { opacity: 0 },
-                areaStyle: { color: 'rgba(220,220,220,0.45)' },
+                areaStyle: { color: themeMode() === 'dark' ? 'rgba(160,160,160,0.16)' : 'rgba(220,220,220,0.45)' },
                 silent: true, tooltip: { show: false }, z: 0
             });
             // Visible Einsendungen line
             series.push({
                 name: 'Einsendungen', type: 'line', yAxisIndex: 1,
                 data: einsValues, showSymbol: false,
-                lineStyle: { color: 'rgba(120,120,120,0.95)', width: 2 },
-                emphasis: { focus: 'series' }
+                lineStyle: { color: einsGrey, width: 2 },
+                itemStyle: { color: einsGrey }
             });
         }
 
         const narrow = isNarrow();
         const absoluteYAxes = narrow
             ? [
-                { type: 'value', splitLine: { lineStyle: { color: '#eee' } }, axisLabel: { formatter: compactNumber } },
+                { type: 'value', axisLabel: { formatter: compactNumber } },
                 { type: 'value', position: 'right', splitLine: { show: false }, axisLabel: { formatter: compactNumber } }
               ]
             : [
-                { type: 'value', name: 'N Virusnachweise', nameLocation: 'middle', nameGap: 50, nameRotate: 90, splitLine: { lineStyle: { color: '#eee' } } },
+                { type: 'value', name: 'N Virusnachweise', nameLocation: 'middle', nameGap: 50, nameRotate: 90 },
                 { type: 'value', name: 'N Einsendungen', nameLocation: 'middle', nameGap: 50, nameRotate: -90, position: 'right', splitLine: { show: false } }
               ];
         const percentYAxis = [{
             type: 'value', min: 0, name: narrow ? '' : '% der Einsendungen', nameLocation: 'middle', nameGap: 50, nameRotate: 90,
-            splitLine: { lineStyle: { color: '#eee' } }, axisLabel: { formatter: v => fmtPct(v, 0) }
+            axisLabel: { formatter: v => fmtPct(v, 0) }
         }];
         const view = captureChartView(sentinelBarChart);
         sentinelBarChart.setOption({
             toolbox: TOOLBOX,
-            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, formatter: percent ? sentinelPercentTooltip : undefined },
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' },
+                // Einsendungen are read from the MedUni chart and come out fractional
+                formatter: percent ? sentinelPercentTooltip : axisTooltip(sentinelWeekText, v => fmtDe(v, 0))
+            },
             legend: { top: 40, type: 'scroll', data: legendNames, padding: [5, narrow ? 40 : 80, 5, narrow ? 10 : 40] },
             grid: narrow
                 ? narrowGrid(90, 90, percent ? 10 : 5)
                 : { left: 70, right: percent ? 30 : 70, top: 100, bottom: 90, containLabel: true },
-            xAxis: { type: 'category', data: weeks, axisLabel: { rotate: -45, interval: xAxisInterval(weeks) } },
+            xAxis: { type: 'category', data: weeks, axisLabel: { rotate: -45, interval: xAxisInterval(weeks), formatter: sentinelAxisLabel } },
             yAxis: percent ? percentYAxis : absoluteYAxes,
             dataZoom: [
-                { type: 'inside', xAxisIndex: 0, start: 0, end: 100 },
                 { type: 'slider', xAxisIndex: 0, height: 24, bottom: 10 }
             ],
             series
@@ -1969,10 +2107,11 @@
         if (percent ? !bar : !d) {
             sentinelHeatChart.clear();
             const error = sentinelFeedErrors[percent ? 'bar' : 'heatmap'];
-            status.textContent = error ? 'Fehler: ' + error : 'Lade Heatmap-Daten…';
-            status.style.display = '';
+            if (error) setSectionError(status, error);
+            else { status.textContent = 'Lade Heatmap-Daten…'; status.style.display = ''; }
             return;
         }
+        clearSectionError(status);
         status.style.display = 'none';
         const matrix = percent && sentinelPercentMatrix(bar);
         const weeks = percent ? matrix.weeks : d.weeks;
@@ -2001,11 +2140,12 @@
             tooltip: {
                 position: 'top',
                 formatter: percent
-                    ? p => `${escapeHtml(yAxisData[p.value[1]])} · ${escapeHtml(weeks[p.value[0]])}: ${fmtShareOf(p.value[2], p.data.abs, p.data.eins)}`
-                    : p => `${escapeHtml(yAxisData[p.value[1]])}<br>${escapeHtml(weeks[p.value[0]])}: ${(+p.value[2]).toFixed(1)}`
+                    ? p => `<b>${escapeHtml(sentinelWeekText(weeks[p.value[0]]))}</b><br>${escapeHtml(yAxisData[p.value[1]])}: ${fmtShareOf(p.value[2], p.data.abs, p.data.eins)}`
+                    // Absolute cells are decoded from MedUni's colour steps, not counted
+                    : p => `<b>${escapeHtml(sentinelWeekText(weeks[p.value[0]]))}</b><br>${escapeHtml(yAxisData[p.value[1]])}: ≈ ${fmtDe(p.value[2], 0)}`
             },
             grid: narrow ? narrowGrid(50, 130) : { left: 100, right: 100, top: 50, bottom: 80, containLabel: true },
-            xAxis: { type: 'category', data: weeks, axisLabel: { rotate: -45, interval: xAxisInterval(weeks) } },
+            xAxis: { type: 'category', data: weeks, axisLabel: { rotate: -45, interval: xAxisInterval(weeks), formatter: sentinelAxisLabel } },
             yAxis: { type: 'category', data: yAxisData },
             visualMap: {
                 ...scale, calculable: true,
@@ -2015,7 +2155,6 @@
                     : { orient: 'vertical', right: 10, top: 50, itemHeight: 140 })
             },
             dataZoom: [
-                { type: 'inside', xAxisIndex: 0, start: 0, end: 100 },
                 { type: 'slider', xAxisIndex: 0, height: 24, bottom: narrow ? 50 : 20 }
             ],
             series: [{ type: 'heatmap', data: cells, progressive: 1000 }]
@@ -2055,9 +2194,10 @@
         return out;
     }
 
+    // Each source may be missing; the signal is then built from the others
     function getWastewaterWeekly() {
         const result = {};
-        for (const [key, src] of Object.entries(dataPool.wastewater)) {
+        for (const [key, src] of Object.entries(dataPool.wastewater || {})) {
             const at = src.traces['Österreich'];
             if (!at) continue;
             const groups = {};
@@ -2076,6 +2216,7 @@
         return result;
     }
     function getSariWeekly() {
+        if (!dataPool.sari) return {};
         const f = dataPool.sari.filter(r => r.date);
         const g = {};
         for (const row of f) {
@@ -2162,23 +2303,26 @@
             return [d ? isoToYMD(d) : null, gesamt[w]];
         }).filter(p => p[0]);
         legendNames.push('Gesamt');
+        const ink = CHART_INK[themeMode()].strong;
+        const lastSari = dataPool.sari && lastFromRows(dataPool.sari);
         series.push({
             name: 'Gesamt', type: 'line', showSymbol: false,
-            lineStyle: { color: '#2c3e50', width: 3, type: 'dashed' },
-            itemStyle: { color: '#2c3e50' },
+            lineStyle: { color: ink, width: 3, type: 'dashed' },
+            itemStyle: { color: ink },
             data: gesamtData
         });
+        // SARI's newest weeks are still filling in, which pulls the signal down there
+        if (lastSari) series.push(provisionalTime(isoToYMD(lastSari), 'SARI vorläufig'));
 
         const narrow = isNarrow();
         combinedChart.setOption({
             toolbox: TOOLBOX,
-            tooltip: { trigger: 'axis', valueFormatter: v => v == null ? '–' : (+v).toFixed(2) },
+            tooltip: { trigger: 'axis', formatter: axisTooltip(ms => weekHeader(new Date(ms)), v => fmtDe(v, 2)) },
             legend: { top: 40, data: legendNames, padding: [5, 80, 5, 10] },
             grid: narrow ? narrowGrid(80, 90) : { left: 60, right: 30, top: 90, bottom: 90, containLabel: true },
             xAxis: { type: 'time' },
-            yAxis: { type: 'value', name: narrow ? 'Z-Score' : 'Z-Score (0 = Durchschnitt)', splitLine: { lineStyle: { color: '#eee' } } },
+            yAxis: { type: 'value', name: narrow ? 'Z-Score' : 'Z-Score (0 = Durchschnitt)' },
             dataZoom: [
-                { type: 'inside', start: 0, end: 100 },
                 { type: 'slider', height: 30, bottom: 10 }
             ],
             series
@@ -2204,6 +2348,9 @@
             .forEach(id => fillSelect(id, STATION_NAMES));
         fillSelect('incidence-diagnose', INCIDENCE_DIAGNOSE_NAMES);
         fillSelect('sari-heatmap-diagnose', HEATMAP_DIAGNOSE_NAMES);
+
+        // Set once the combined signal has rendered from whichever sources loaded
+        let combinedReady = false;
 
         // Resize handling
         let charts = [mapChart, wwChart, combinedChart, sentinelBarChart, sentinelHeatChart, sariChart, incidenceChart, demoChart, demoTimelineChart, ageHeatmapChart];
@@ -2232,7 +2379,7 @@
                 for (const [dep, render] of responsiveRenderers) {
                     if (hasData(dep)) render();
                 }
-                if (dataPool.wastewater && dataPool.sari && dataPool.sentinelBar) renderCombinedSignal();
+                if (combinedReady) renderCombinedSignal();
             }, 120);
         });
 
@@ -2254,7 +2401,7 @@
             }
             // Swatch colours come from the theme-dependent palette
             if (dataPool.sariDemo) { buildIncidenceRegionList(); rebuildDemoTimeline(); }
-            if (dataPool.wastewater && dataPool.sari && dataPool.sentinelBar) renderCombinedSignal();
+            if (combinedReady) renderCombinedSignal();
         }
         function setTheme(value, persist) {
             if (persist) storageSet(THEME_STORAGE_KEY, value);
@@ -2275,8 +2422,7 @@
                 setup();
                 el.style.display = 'none';
             } catch (e) {
-                el.style.display = '';
-                el.textContent = 'Fehler: ' + e.message;
+                setSectionError(el, errorText(e));
             }
         }
 
@@ -2284,7 +2430,7 @@
         const tasks = [
             loadWastewater().then(failed => {
                 const status = document.getElementById('ww-loading');
-                if (failed.length) status.textContent = 'Nicht geladen: ' + failed.join(', ');
+                if (failed.length) { status.textContent = 'Nicht geladen: ' + failed.join(', '); status.classList.add('notice-msg'); }
                 else status.style.display = 'none';
                 setupLocationDropdown();
                 buildLocationList();
@@ -2293,7 +2439,7 @@
                     const at = src.traces['Österreich'];
                     if (at && at.x.length) bumpFreshness('Abwasser', parseYMD(at.x[at.x.length - 1]));
                 }
-            }).catch(e => { document.getElementById('ww-loading').textContent = 'Fehler: ' + e.message; }),
+            }).catch(e => setSectionError(document.getElementById('ww-loading'), errorText(e))),
 
             loadSari().then(() => {
                 document.getElementById('sari-loading-ec').style.display = 'none';
@@ -2301,7 +2447,7 @@
                 document.getElementById('sari-station').addEventListener('change', renderSari);
                 renderSari();
                 bumpFreshness('SARI', lastFromRows(dataPool.sari));
-            }).catch(e => { document.getElementById('sari-loading-ec').textContent = 'Fehler: ' + e.message; }),
+            }).catch(e => setSectionError(document.getElementById('sari-loading-ec'), errorText(e))),
 
             // Sections 6, 7 and 8 all ride on this one feed, so each is guarded
             // separately: one failing render must not leave a sibling stuck on
@@ -2331,7 +2477,7 @@
             }).catch(e => {
                 // The fetch itself failed — every section on this feed stays empty
                 ['sari-incidence-loading', 'sari-demographics-loading-ec', 'sari-heatmap-loading-ec']
-                    .forEach(id => { document.getElementById(id).textContent = 'Fehler: ' + e.message; });
+                    .forEach(id => setSectionError(document.getElementById(id), errorText(e)));
             }),
 
             loadSentinelBar().then(() => {
@@ -2341,8 +2487,8 @@
                 if (sentinelPercent) renderSentinelHeatmap();
                 bumpFreshness('Sentinel', lastFromWeeks(dataPool.sentinelBar.weeks));
             }).catch(e => {
-                document.getElementById('sentinel-bar-loading').textContent = 'Fehler: ' + e.message;
-                sentinelFeedErrors.bar = e.message;
+                setSectionError(document.getElementById('sentinel-bar-loading'), errorText(e));
+                sentinelFeedErrors.bar = errorText(e);
                 if (sentinelPercent) renderSentinelHeatmap();
             }),
 
@@ -2351,7 +2497,7 @@
                 if (!sentinelPercent || dataPool.sentinelBar) renderSentinelHeatmap();
                 bumpFreshness('Sentinel', lastFromWeeks(dataPool.sentinelHeatmap.weeks));
             }).catch(e => {
-                sentinelFeedErrors.heatmap = e.message;
+                sentinelFeedErrors.heatmap = errorText(e);
                 renderSentinelHeatmap();
             })
         ];
@@ -2374,16 +2520,30 @@
             }
         });
 
-        // Combined signal needs wastewater + sari + sentinelBar
+        // Combined signal: wastewater + SARI + Sentinel bar, built from whichever
+        // loaded. Every missing source is named, so a partial signal never
+        // passes for the full one.
         Promise.all([tasks[0], tasks[1], tasks[3]]).then(() => {
+            const status = document.getElementById('combined-loading');
             try {
-                const status = document.getElementById('combined-loading');
-                const missing = dataPool.wastewaterFailed || [];
-                if (missing.length) status.textContent = 'Ohne Abwasserdaten für: ' + missing.join(', ');
-                else status.style.display = 'none';
+                const missing = [];
+                if (!dataPool.wastewater) missing.push('Abwasser');
+                else if (dataPool.wastewaterFailed && dataPool.wastewaterFailed.length)
+                    missing.push('Abwasser ' + dataPool.wastewaterFailed.map(f => f.replace(/ \(.*\)$/, '')).join(', '));
+                if (!dataPool.sari) missing.push('SARI');
+                if (!dataPool.sentinelBar) missing.push('Sentinel');
+                if (!dataPool.wastewater && !dataPool.sari && !dataPool.sentinelBar) {
+                    setSectionError(status, 'keine der drei Quellen erreichbar');
+                    return;
+                }
+                if (missing.length) {
+                    status.textContent = 'Ohne Daten von: ' + missing.join(' · ');
+                    status.classList.add('notice-msg');
+                } else status.style.display = 'none';
                 renderCombinedSignal();
+                combinedReady = true;
             } catch (e) {
-                document.getElementById('combined-loading').textContent = 'Fehler: ' + e.message;
+                setSectionError(status, errorText(e));
             }
         });
     })();
