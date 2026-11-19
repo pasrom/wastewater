@@ -4,26 +4,39 @@
 Austrian virus monitoring dashboard - displays wastewater virus load (AGES), Sentinel virus detections (MedUni Wien), and SARI hospital admissions.
 
 ## Tech Stack
-- Pure HTML/CSS/JavaScript (no build tools)
-- Plotly.js for charts (loaded via CDN)
-- Data fetched directly from AGES API
+- Pure HTML/CSS/JavaScript (no build tools); all JavaScript is inline in `index.html`
+- Apache ECharts 5.5.0 from jsDelivr, pinned with an SRI hash
+- Data is fetched by a GitHub Action (`.github/workflows/fetch-data.yml`) into the `data` branch and read by the page from raw.githubusercontent.com
 
 ## File Structure
 ```
-├── index.html      # Main page with chart container
-├── style.css       # Styling (responsive)
-├── app.js          # Data fetching and chart rendering
-└── .github/
-    └── workflows/
-        └── deploy.yml  # GitHub Pages auto-deployment
+├── index.html          # Page, all chart code inline
+├── style.css           # Styling (responsive, light/dark)
+├── geo/
+│   ├── bundeslaender.json  # Bundesländer boundaries for the map (CC BY 4.0)
+│   └── plants.json         # AGES plant sites, catchments and load (EEA UWWTD)
+├── tools/
+│   ├── fetch_all_data.py   # Data pipeline run by fetch-data.yml
+│   ├── extract_virus_data.py  # Sentinel SVG decoding
+│   ├── build_geo.py        # Rebuilds geo/ from its pinned public sources
+│   └── verify_map.py       # Independent cross-check of the map numbers
+└── .github/workflows/
+    ├── deploy.yml          # GitHub Pages deployment on push to main
+    └── fetch-data.yml      # Wednesday and Saturday data fetch
 ```
 
 ## Data Sources
-| Virus | Endpoint |
-|-------|----------|
-| SARS-CoV-2 | `https://abwasser.ages.at/de/cache/plotly/sarscov2_development.json` |
-| Influenza | `https://abwasser.ages.at/de/cache/plotly/influenza_development.json` |
-| RSV | `https://abwasser.ages.at/de/cache/plotly/rsv_development.json` |
+The page never calls the upstream sources. `tools/fetch_all_data.py` (run by
+`fetch-data.yml`) fetches them and commits the files to the `data` branch; the page
+loads `${DATA_BASE}/<path>` with `DATA_BASE` = `https://raw.githubusercontent.com/pasrom/wastewater/data`.
+
+| Data | Path on `data` | Upstream |
+|------|----------------|----------|
+| Wastewater | `ages/{sarscov2,influenza,rsv}.json` | AGES `abwasser.ages.at/de/cache/plotly/*_development.json` |
+| SARI hospital | `sari/krankenanstalt.json` | Sozialversicherung open-data CSV |
+| SARI demographics | `sari/patient.json` | Sozialversicherung open-data CSV |
+| Sentinel bar chart / heatmap | `sentinel/barchart.json`, `sentinel/heatmap.json` | MedUni Wien SVGs, decoded |
+| Map boundaries, plant sites | `geo/*.json` on `main` (same origin) | see `tools/build_geo.py` |
 
 ## Development
 ```bash
@@ -67,49 +80,19 @@ Use [Conventional Commits](https://www.conventionalcommits.org/):
 ### Examples
 ```bash
 feat(chart): add location selector dropdown
-fix(data): handle CORS errors with proxy fallback
+fix(data): refuse a truncated SARI export
 docs: update README with deployment instructions
 style(css): improve mobile responsiveness
-chore(deps): update Plotly.js to v2.27
+chore(deps): update ECharts to 5.5.1
 ci: add GitHub Actions workflow for deployment
 ```
 
-## Key Functions in app.js
-
-### Wastewater Chart
-- `fetchData(url)` - Fetches JSON with CORS fallback
-- `extractAllTraces(plotlyData)` - Extracts location traces from Plotly JSON
-- `loadAllData()` - Loads all 3 virus datasets in parallel
-- `createChart()` - Renders Plotly chart with selected locations
-- `buildLocationList()` - Builds location selector UI
-
-### SARI Hospital Admissions
-- `fetchCSV(url)` - Fetches CSV with CORS fallback
-- `parseCSV(csvText)` - Parses semicolon-separated CSV data
-- `loadSariData()` - Loads SARI hospital admission data
-- `createSariChart()` - Renders stacked bar chart by diagnosis
-
-### SARI Demographics (Age/Gender)
-- `loadSariDemographicsData()` - Loads patient demographics data
-- `aggregateDemographicsData()` - Aggregates by age group, gender, diagnosis
-- `createSariDemographicsChart()` - Renders grouped bar chart (M/W per age group)
-
-### SARI Heatmap (Age Groups over Time)
-- `aggregateHeatmapData()` - Aggregates data for heatmap matrix
-- `createSariHeatmap()` - Renders heatmap (age group × calendar week)
-
-### Sentinel (MedUni Wien)
-- `loadSentinelBarData()` - Loads virus detection bar chart data
-- `createSentinelBarChart()` - Renders stacked bar chart with Einsendungen background
-- `loadSentinelHeatmapData()` - Loads heatmap data
-- `createSentinelHeatmap()` - Renders virus type heatmap over time
-
-## Additional Data Sources
-| Data | Endpoint |
-|------|----------|
-| SARI Hospital | `${DATA_BASE}/sari/krankenanstalt.json` |
-| SARI Demographics | `${DATA_BASE}/sari/patient.json` |
-| Sentinel Bar Chart | `${DATA_BASE}/sentinel/barchart.json` |
-| Sentinel Heatmap | `${DATA_BASE}/sentinel/heatmap.json` |
-
-Note: `DATA_BASE` = `https://raw.githubusercontent.com/pasrom/wastewater/data`
+## Sections in index.html
+Each section has its own block in the inline script, headed `// ==================== N. Name`:
+0. Map by Bundesland — `loadMapAssets`, `plantTrend` (AGES 4-week trend), `mapModel`, `renderMap`, `renderMapList`
+1. Wastewater — `extractWastewaterTraces`, `renderWastewater`
+2. Combined signal — `computeCombinedSignals`, `renderCombinedSignal`
+3./4. Sentinel bar chart and heatmap — `renderSentinelBar`, `renderSentinelHeatmap`
+5. SARI admissions — `renderSari`
+6. SARI incidence — `incidenceWeekly` (cases, population, rate per week), `renderIncidence`
+7./8. Demographics and age heatmap — `demoPopulation` (the only per-100k denominator), `renderDemographics`, `renderAgeHeatmap`
