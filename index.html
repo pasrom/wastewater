@@ -872,7 +872,7 @@
         wwChart.setOption({
             toolbox: TOOLBOX,
             tooltip: {
-                trigger: 'axis',
+                trigger: 'axis', confine: true,
                 formatter: axisTooltip(ms => { const d = new Date(ms); return `${formatKW(d)} (Probe ${d.toLocaleDateString('de-AT')})`; },
                     v => fmtDe(v) + ' Mio./Einw.')
             },
@@ -1871,7 +1871,7 @@
             },
             toolbox: TOOLBOX_RESTORE_ONLY,
             tooltip: {
-                trigger: 'axis', axisPointer: { type: 'shadow' },
+                trigger: 'axis', axisPointer: { type: 'shadow' }, confine: true,
                 formatter: axisTooltip(c => {
                     const { ag, g } = splitCat(c);
                     return `${ag} Jahre · ${g === 'W' ? 'weiblich' : 'männlich'}`;
@@ -2085,7 +2085,7 @@
             },
             toolbox: TOOLBOX,
             tooltip: {
-                position: 'top',
+                position: 'top', confine: true,
                 formatter: p => {
                     const [x, y, v, count, rate] = p.value, d = parseKW(kws[x]);
                     const week = d ? weekHeader(d) : kws[x];
@@ -2208,7 +2208,7 @@
         sentinelBarChart.setOption({
             toolbox: TOOLBOX,
             tooltip: {
-                trigger: 'axis', axisPointer: { type: 'shadow' },
+                trigger: 'axis', axisPointer: { type: 'shadow' }, confine: true,
                 // Einsendungen are read from the MedUni chart and come out fractional
                 formatter: percent ? sentinelPercentTooltip : axisTooltip(sentinelWeekText, v => fmtDe(v, 0))
             },
@@ -2291,7 +2291,7 @@
         sentinelHeatChart.setOption({
             toolbox: TOOLBOX,
             tooltip: {
-                position: 'top',
+                position: 'top', confine: true,
                 formatter: percent
                     ? p => `<b>${escapeHtml(sentinelWeekText(weeks[p.value[0]]))}</b><br>${escapeHtml(yAxisData[p.value[1]])}: ${fmtShareOf(p.value[2], p.data.abs, p.data.eins)}`
                     : p => `<b>${escapeHtml(sentinelWeekText(weeks[p.value[0]]))}</b><br>${escapeHtml(yAxisData[p.value[1]])}: ${fmtDe(p.data.abs, 0)} Nachweise (von ${fmtDe(p.data.eins, 0)} Einsendungen)`
@@ -2464,7 +2464,7 @@
         const narrow = isNarrow();
         combinedChart.setOption({
             toolbox: TOOLBOX,
-            tooltip: { trigger: 'axis', formatter: axisTooltip(ms => weekHeader(new Date(ms)), v => fmtDe(v, 2)) },
+            tooltip: { trigger: 'axis', confine: true, formatter: axisTooltip(ms => weekHeader(new Date(ms)), v => fmtDe(v, 2)) },
             legend: { top: 40, data: legendNames, padding: [5, 80, 5, 10] },
             grid: narrow ? narrowGrid(80, 90) : { left: 60, right: 30, top: 90, bottom: 90, containLabel: true },
             xAxis: { type: 'time' },
