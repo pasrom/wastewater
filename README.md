@@ -18,7 +18,7 @@ Interactive dashboard displaying virus load in Austrian wastewater, Sentinel vir
 
 ### Wastewater Monitoring
 - Virus load of SARS-CoV-2, Influenza or RSV, one virus at a time on its own scale
-- Location selector for individual treatment plants
+- Up to 8 treatment plants at once, each in its own colour, with Österreich as reference line
 - Interactive hover tooltips
 
 ### Sentinel Virus Detections (MedUni Wien)

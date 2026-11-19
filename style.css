@@ -1030,3 +1030,16 @@ footer .impressum a {
         font-size: 1.3rem;
     }
 }
+
+.dropdown-note {
+    margin: 0;
+    padding: 8px 10px 0;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.location-item input:disabled,
+.location-item:has(input:disabled) {
+    cursor: not-allowed;
+    opacity: 0.55;
+}

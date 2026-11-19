@@ -86,9 +86,9 @@
                             <button id="toggle-locations" class="btn" type="button" aria-expanded="false" aria-controls="location-dropdown">Österreich</button>
                             <div id="location-dropdown" class="dropdown hidden">
                                 <div class="dropdown-header">
-                                    <button id="select-all" class="btn-small" type="button">Alle</button>
                                     <button id="select-none" class="btn-small" type="button">Nur Österreich</button>
                                 </div>
+                                <p id="location-cap-note" class="dropdown-note" hidden>Höchstens 8 Kläranlagen gleichzeitig – zum Wechseln erst eine abwählen.</p>
                                 <div id="location-list"></div>
                             </div>
                         </div>
@@ -453,7 +453,7 @@
             if (e.key === 'Escape') { setOpen(false); toggle.focus(); }
         });
         toggle.addEventListener('keydown', e => { if (e.key === 'Escape') setOpen(false); });
-        document.getElementById(allId).addEventListener('click', () => { onAll(); rebuild(); });
+        if (allId) document.getElementById(allId).addEventListener('click', () => { onAll(); rebuild(); });
         document.getElementById(noneId).addEventListener('click', () => { onNone(); rebuild(); });
     }
 
@@ -782,6 +782,33 @@
     // ==================== 1. Viruslast im Abwasser ====================
     let wwChart = initChart('wastewater-chart-ec');
     let wwSelectedLocations = new Set(['Österreich']);
+    // Plants share the incidence chart's validated 8-hue palette, so at most 8
+    // can be told apart. A plant keeps its slot while selected: (de)selecting
+    // another one never repaints the lines already on screen.
+    // (a getter: INCIDENCE_PALETTE is declared further down the script)
+    const wwMaxPlants = () => INCIDENCE_PALETTE.light.length;
+    const wwPlantSlots = new Map();
+    function wwSelectPlant(loc, on) {
+        if (on) {
+            const used = new Set(wwPlantSlots.values());
+            let slot = 0;
+            while (used.has(slot)) slot++;
+            wwPlantSlots.set(loc, slot);
+            wwSelectedLocations.add(loc);
+        } else {
+            wwPlantSlots.delete(loc);
+            wwSelectedLocations.delete(loc);
+        }
+    }
+    // Österreich wears its virus colour on its own; next to plants it switches to
+    // ink, because the palette's orange, yellow and blue sit close to the
+    // SARS-CoV-2, Influenza and RSV colours and would read as a plant.
+    function wwLineStyle(loc, mode) {
+        if (loc === 'Österreich') {
+            return { color: wwPlantSlots.size ? INCIDENCE_INK[mode] : WW_SOURCES[wwVirus].color, type: 'solid', width: 2.5 };
+        }
+        return { color: INCIDENCE_PALETTE[mode][wwPlantSlots.get(loc)], type: 'solid', width: 1.75 };
+    }
 
     // Per-point detection-limit flag from AGES's hover text: '(< NG)' is below the
     // Nachweisgrenze (y is then 0), '(< BG)' below the Bestimmungsgrenze.
@@ -832,8 +859,10 @@
         const showAustria = wwSelectedLocations.has('Österreich');
         updateDropdownLabel('toggle-locations', wwSelectedLocations, 'Standort', 'Standorte', dataPool.locations.size);
 
-        const key = wwVirus, src = WW_SOURCES[key];
+        const key = wwVirus;
         const d = dataPool.wastewater[key] || { traces: {} };
+        const mode = themeMode();
+        const atColor = wwLineStyle('Österreich', mode).color;
 
         if (showAustria && d.q1 && d.q3) {
             series.push({
@@ -847,25 +876,24 @@
                 data: d.q3.x.map((x, i) => [x, Math.max(0, d.q3.y[i] - d.q1.y[i])]),
                 lineStyle: { opacity: 0 }, showSymbol: false,
                 stack: `band-${key}`, silent: true, tooltip: { show: false },
-                areaStyle: { color: hexToRgba(src.color, 0.18) }
+                areaStyle: { color: hexToRgba(atColor, 0.18) }
             });
         }
 
-        for (const loc of wwSelectedLocations) {
+        // Österreich first so it leads the legend and tooltip
+        const ordered = [...wwSelectedLocations].sort((a, b) => (b === 'Österreich') - (a === 'Österreich'));
+        for (const loc of ordered) {
             const tr = d.traces[loc];
             if (!tr) continue;
-            const isAT = loc === 'Österreich';
+            const st = wwLineStyle(loc, mode);
             legendNames.push(loc);
             series.push({
                 name: loc, type: 'line', smooth: true, showSymbol: false,
                 data: tr.x.map((x, i) => [x, tr.y[i]]),
-                lineStyle: {
-                    color: src.color, width: isAT ? 2.5 : 1.5,
-                    type: isAT ? 'solid' : 'dotted', opacity: isAT ? 1 : 0.65
-                },
-                itemStyle: { color: src.color }
+                lineStyle: st, itemStyle: { color: st.color }
             });
         }
+        updateLocationList(mode);
 
         const narrow = isNarrow();
         // No in-canvas title: the section heading above says the same
@@ -876,8 +904,9 @@
                 formatter: axisTooltip(ms => { const d = new Date(ms); return `${formatKW(d)} (Probe ${d.toLocaleDateString('de-AT')})`; },
                     v => fmtDe(v) + ' Mio./Einw.')
             },
-            legend: narrow ? narrowLegend(legendNames) : { top: 10, type: 'scroll', data: legendNames, padding: [5, 70, 5, 10] },
-            grid: narrow ? narrowGrid(75, 90) : { left: 60, right: 30, top: 50, bottom: 90, containLabel: true },
+            // At most 9 entries: a plain legend wraps onto a second row on desktop
+            legend: narrow ? narrowLegend(legendNames) : { top: 10, data: legendNames, padding: [5, 70, 5, 10] },
+            grid: narrow ? narrowGrid(75, 90) : { left: 60, right: 30, top: legendNames.length > 5 ? 74 : 50, bottom: 90, containLabel: true },
             xAxis: { type: 'time' },
             yAxis: { type: 'value', name: narrow ? '' : 'Mio. Genkopien/Einw.', axisLabel: { formatter: compactNumber } },
             dataZoom: [
@@ -900,26 +929,46 @@
         list.innerHTML = '';
         const sorted = ['Österreich', ...[...dataPool.locations].filter(l => l !== 'Österreich').sort()];
         for (const loc of sorted) {
+            const isAT = loc === 'Österreich';
             const item = document.createElement('label');
-            item.className = 'location-item';
+            item.className = 'location-item' + (isAT ? ' austria' : '');
             const cb = document.createElement('input');
             cb.type = 'checkbox'; cb.value = loc; cb.checked = wwSelectedLocations.has(loc);
             cb.addEventListener('change', () => {
-                if (cb.checked) wwSelectedLocations.add(loc); else wwSelectedLocations.delete(loc);
+                if (isAT) {
+                    if (cb.checked) wwSelectedLocations.add(loc); else wwSelectedLocations.delete(loc);
+                } else {
+                    wwSelectPlant(loc, cb.checked);
+                }
                 renderWastewater();
             });
+            const swatch = document.createElement('span');
+            swatch.className = 'region-swatch';
             item.appendChild(cb);
+            item.appendChild(swatch);
             item.appendChild(document.createTextNode(' ' + loc));
             list.appendChild(item);
         }
     }
 
+    // Swatches and the cap are refreshed in place, so an open dropdown keeps
+    // keyboard focus on the checkbox that was just toggled.
+    function updateLocationList(mode) {
+        const atCap = wwPlantSlots.size >= wwMaxPlants();
+        for (const item of document.querySelectorAll('#location-list .location-item')) {
+            const cb = item.querySelector('input');
+            const shown = wwSelectedLocations.has(cb.value);
+            item.querySelector('.region-swatch').style.background = shown ? wwLineStyle(cb.value, mode).color : 'transparent';
+            if (cb.value !== 'Österreich') cb.disabled = atCap && !cb.checked;
+        }
+        document.getElementById('location-cap-note').hidden = !atCap;
+    }
+
     function setupLocationDropdown() {
         setupCheckboxDropdown({
             toggleId: 'toggle-locations', dropdownId: 'location-dropdown',
-            allId: 'select-all', noneId: 'select-none',
-            onAll: () => { wwSelectedLocations = new Set(dataPool.locations); },
-            onNone: () => { wwSelectedLocations = new Set(['Österreich']); },
+            noneId: 'select-none',
+            onNone: () => { wwSelectedLocations = new Set(['Österreich']); wwPlantSlots.clear(); },
             rebuild: () => { buildLocationList(); renderWastewater(); }
         });
     }
