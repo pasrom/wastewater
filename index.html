@@ -12,7 +12,9 @@
         .ec-chart { width: 100%; height: 520px; }
         .ec-chart.tall { height: 650px; }
         .ec-chart.short { height: 460px; }
+        .ec-chart.map { height: auto; aspect-ratio: 16 / 10; max-height: 620px; }
         @media (max-width: 600px) {
+            .ec-chart.map { height: auto; aspect-ratio: 4 / 3.4; }
             .ec-chart { height: 420px; }
             .ec-chart.tall { height: 520px; }
             .ec-chart.short { height: 380px; }
@@ -23,6 +25,42 @@
 <body>
     <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Hell-/Dunkelmodus wechseln" title="Hell-/Dunkelmodus">☾</button>
     <div class="container">
+        <!-- 0. Lage nach Bundesland (Karte) -->
+        <section class="sari-section">
+            <header>
+                <h2>Lage nach Bundesland</h2>
+                <p class="subtitle">SARI-Aufnahmen pro 100.000 (nach Wohnregion) und Abwasser-Trend je Kläranlage</p>
+            </header>
+            <div class="sari-content">
+                <div id="map-controls">
+                    <div class="segmented" role="radiogroup" aria-label="Virus" id="map-virus"></div>
+                    <div class="week-slider">
+                        <button type="button" class="btn-small" id="map-week-prev" aria-label="Vorige Woche">‹</button>
+                        <input type="range" id="map-week" min="0" max="0" value="0" aria-label="Kalenderwoche">
+                        <button type="button" class="btn-small" id="map-week-next" aria-label="Nächste Woche">›</button>
+                        <span id="map-week-label" class="week-label"></span>
+                    </div>
+                </div>
+                <p id="map-austria" class="map-austria"></p>
+                <div id="map-chart-ec" class="ec-chart map"></div>
+                <ul class="map-legend" aria-label="Legende Abwasser-Trend">
+                    <li><span class="trend-dot" data-trend="down"></span>Abnahme (&lt; −10 %/Woche)</li>
+                    <li><span class="trend-dot" data-trend="stable"></span>Stabil (±10 %)</li>
+                    <li><span class="trend-dot" data-trend="up"></span>Mäßiger Anstieg (10–50 %)</li>
+                    <li><span class="trend-dot" data-trend="strong"></span>Starker Anstieg (&gt; 50 %)</li>
+                    <li><span class="trend-dot" data-trend="low"></span>Stabil niedrig</li>
+                    <li><span class="trend-dot" data-trend="none"></span>Keine Daten</li>
+                    <li class="legend-note">Kreisgröße: angeschlossene Einwohnerwerte</li>
+                </ul>
+                <div id="map-loading" class="loading-msg">Lade Karte…</div>
+                <details class="map-list">
+                    <summary>Alle Bundesländer und Kläranlagen als Liste</summary>
+                    <div id="map-list-body"></div>
+                </details>
+                <p class="footnote">SARI-Aufnahmen zählen nach Wohnort der Patient:innen, Abwasserwerte nach dem Einzugsgebiet der Kläranlage – die Gebiete decken sich nicht. Trend: lineare Regression über die Messwerte der letzten vier Kalenderwochen, relativ zu deren Mittelwert (Methode nach AGES, eigene Berechnung; mindestens drei Messwerte, davon zwei über der Bestimmungsgrenze, sonst „Stabil niedrig“).<span id="map-plant-start"></span> Die beiden jüngsten SARI-Wochen sind vorläufig (schraffiert), da Nachmeldungen zu erwarten sind.</p>
+            </div>
+        </section>
+
         <!-- 1. Viruslast im Abwasser -->
         <section class="sari-section">
             <header>
@@ -233,6 +271,15 @@
                 <a href="https://abwasser.ages.at" target="_blank" rel="noopener">AGES Abwasser-Monitoring</a> |
                 <a href="https://viro.meduniwien.ac.at/forschung/virus-epidemiologie-2/ueberwachung-der-zirkulation-respiratorischer-viren-in-oesterreich/" target="_blank" rel="noopener">MedUni Wien Sentinel</a> |
                 <a href="https://www.sari-dashboard.at" target="_blank" rel="noopener">SARI-Dashboard</a>
+            </p>
+            <p class="attribution">
+                Karte: Verwaltungsgrenzen 2021 ©
+                <a href="https://data.statistik.gv.at" target="_blank" rel="noopener">Statistik Austria</a>
+                (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>),
+                aufbereitet von <a href="https://github.com/ginseng666/GeoJSON-TopoJSON-Austria" target="_blank" rel="noopener">Flooh Perlot</a>,
+                vereinfacht und bearbeitet |
+                Kläranlagen-Standorte und Einzugsgebiete:
+                <a href="https://water.europa.eu/freshwater/countries/uwwt" target="_blank" rel="noopener">EEA, UWWTD-Berichterstattung</a>
             </p>
             <p class="impressum">
                 Impressum: Roman P. |
@@ -549,6 +596,9 @@
     let wwChart = initChart('wastewater-chart-ec');
     let wwSelectedLocations = new Set(['Österreich']);
 
+    // Per-point detection-limit flag from AGES's hover text: '(< NG)' is below the
+    // Nachweisgrenze (y is then 0), '(< BG)' below the Bestimmungsgrenze.
+    const LIMIT_RE = /\(<\s*(NG|BG)\)/;
     function extractWastewaterTraces(plotlyData) {
         const out = { traces: {}, q1: null, q3: null };
         if (!plotlyData || !plotlyData.data) return out;
@@ -560,7 +610,14 @@
                 // AGES emits each plant several times (faded background, highlight,
                 // and a one-point legend dummy at x=[1]); keep the longest series.
                 const prev = out.traces[t.name];
-                if (!prev || t.x.length > prev.x.length) out.traces[t.name] = { x: t.x, y: t.y };
+                if (!prev || t.x.length > prev.x.length) {
+                    const text = Array.isArray(t.text) ? t.text : [];
+                    const lim = t.x.map((_, i) => {
+                        const m = typeof text[i] === 'string' && text[i].match(LIMIT_RE);
+                        return m ? m[1] : null;
+                    });
+                    out.traces[t.name] = { x: t.x, y: t.y, lim };
+                }
             }
         }
         return out;
@@ -687,6 +744,449 @@
         dataPool.wastewater = loaded;
         dataPool.wastewaterFailed = failed;
         return failed;
+    }
+
+    // ==================== 0. Lage nach Bundesland (Karte) ====================
+    // Same-origin static assets, built and documented by tools/build_geo.py
+    const GEO_URL = 'geo/bundeslaender.json';
+    const PLANTS_URL = 'geo/plants.json';
+    const MAP_SARI_COLUMN = { sarscov2: 'COVID', influenza: 'INFLUENZA', rsv: 'RSV' };
+    const MAP_VIRUS_STORAGE_KEY = 'mapVirus';
+    // SARI keeps filling in its newest weeks: the newest one is about half
+    // reported at first publication, the one before about 85 %.
+    const MAP_PROVISIONAL_WEEKS = 2;
+    // AGES's method text says two samples suffice, but its own map for
+    // 2026-11-09 showed Graz-Gössendorf (2 samples in the window) as "Keine
+    // Daten" and Salzach-Pongau (3) with a trend, so the page follows the map.
+    const TREND_MIN_SAMPLES = 3;
+    const TREND_MIN_QUANTIFIABLE = 2;
+    // angle: arrow direction, counter-clockwise from "right"; null draws a hollow ring
+    const TREND_CLASSES = {
+        down:   { label: 'Abnahme', angle: -45 },
+        stable: { label: 'Stabil', angle: 0 },
+        up:     { label: 'Mäßiger Anstieg', angle: 45 },
+        strong: { label: 'Starker Anstieg', angle: 75 },
+        low:    { label: 'Stabil niedrig', angle: null },
+        none:   { label: 'Keine Daten', angle: null }
+    };
+    // Areas: one blue hue in seven steps (the reference ramp's 100-700, every
+    // second step, validated monotone with even lightness gaps), the near-zero
+    // step receding to the card. Dark mode runs from near-surface to bright so
+    // "more" always stands out.
+    // Trend: a cool pole for falling, gray for stable, a two-step warm arm for
+    // rising (light orange, then saturated red, in both themes). Checked with
+    // the dataviz validator: the warm steps clear the normal-vision and CVD
+    // floors; teal vs orange sits in the CVD warn band, which the arrow
+    // direction covers as secondary encoding, and the list is the table view.
+    const MAP_PALETTE = {
+        light: {
+            ramp: ['#cde2fb', '#9ec5f4', '#6da7ec', '#3987e5', '#256abf', '#184f95', '#0d366b'],
+            noData: '#ecebe8', surface: '#ffffff', ink: '#2c3e50', hatch: 'rgba(255,255,255,0.55)',
+            trend: { down: '#1a9a8a', stable: '#8a8984', up: '#ef8f66', strong: '#b31b25', low: '#8a8984', none: '#b9b8b3' }
+        },
+        dark: {
+            ramp: ['#243a57', '#184f95', '#256abf', '#3987e5', '#6da7ec', '#9ec5f4', '#cde2fb'],
+            noData: '#2c2f34', surface: '#1e2125', ink: '#f0f2f5', hatch: 'rgba(30,33,37,0.55)',
+            trend: { down: '#2fb3a0', stable: '#9a9993', up: '#e98f5f', strong: '#d43a3a', low: '#9a9993', none: '#5f6166' }
+        }
+    };
+
+    let mapChart = initChart('map-chart-ec');
+    const mapState = { ready: false, plants: [], weeks: [], idx: 0, provisional: new Set(), virus: null };
+
+    async function loadMapAssets() {
+        const regionCodes = INCIDENCE_REGION_ORDER.filter(c => c !== 'AT').sort().join();
+        const [geo, plants] = await Promise.all([
+            fetchChecked(GEO_URL, d => d.type === 'FeatureCollection' && Array.isArray(d.features)
+                && d.features.map(f => f.properties && f.properties.code).sort().join() === regionCodes),
+            fetchChecked(PLANTS_URL, d => Array.isArray(d.plants) && d.plants.every(p =>
+                typeof p.name === 'string' && Number.isFinite(p.lat) && Number.isFinite(p.lon) && BUNDESLAND_NAMES[p.bundesland]))
+        ]);
+        echarts.registerMap('AT', geo);
+        // Largest first, so the small circles are drawn on top of the big ones
+        mapState.plants = [...plants.plants].sort((a, b) => (b.load || 0) - (a.load || 0));
+    }
+
+    // Samples of one trace with the Monday of their ISO week, oldest first
+    const trendSampleCache = new WeakMap();
+    function plantSamples(trace) {
+        let s = trendSampleCache.get(trace);
+        if (s) return s;
+        s = [];
+        trace.x.forEach((x, i) => {
+            const y = trace.y[i];
+            if (typeof x !== 'string' || y == null || !Number.isFinite(+y)) return;
+            const { year, week } = dateToISOWeekParts(parseYMD(x));
+            s.push({ ymd: x.slice(0, 10), monday: isoToYMD(mondayOfISOWeek(year, week)), y: +y, lim: trace.lim ? trace.lim[i] : null });
+        });
+        s.sort((a, b) => a.ymd < b.ymd ? -1 : a.ymd > b.ymd ? 1 : 0);
+        trendSampleCache.set(trace, s);
+        return s;
+    }
+
+    // AGES trend rule: least squares over every sample of the four calendar
+    // weeks ending in `week`, slope divided by the window mean, in % per week.
+    function plantTrend(trace, week) {
+        const from = shiftYMD(week, -21);
+        const win = plantSamples(trace).filter(p => p.monday >= from && p.monday <= week);
+        const last = win.length ? win[win.length - 1] : null;
+        const result = (cls, rel = null) => ({ cls, rel, n: win.length, last });
+        if (win.length < TREND_MIN_SAMPLES) return result('none');
+        // Near the detection limit a single hit among non-detects gives a slope
+        // over a near-zero mean (±100 % and more) that says nothing; a trend
+        // needs at least two values above the limits.
+        if (win.filter(p => p.y > 0 && !p.lim).length < TREND_MIN_QUANTIFIABLE) return result('low');
+        const end = parseYMD(week);
+        // Whole days, then weeks: a DST change makes the raw ms difference uneven
+        const ts = win.map(p => Math.round((parseYMD(p.monday) - end) / 86400000) / 7);
+        const n = win.length;
+        const mt = ts.reduce((a, b) => a + b, 0) / n;
+        const my = win.reduce((a, p) => a + p.y, 0) / n;
+        const sxx = ts.reduce((a, t) => a + (t - mt) ** 2, 0);
+        if (sxx === 0) return result('stable', 0);
+        const slope = ts.reduce((a, t, i) => a + (t - mt) * (win[i].y - my), 0) / sxx;
+        const rel = slope / my * 100;
+        return result(rel < -10 ? 'down' : rel <= 10 ? 'stable' : rel <= 50 ? 'up' : 'strong', rel);
+    }
+
+    // Class breaks per virus, fixed across all weeks so slider positions stay
+    // comparable. Weekly rates are heavily skewed (COVID: median region-week
+    // about 1 per 100k, record 31), so a linear scale paints almost every week
+    // in the palest step; 1-2-5 breaks below the record spread the usual range
+    // over the classes and the top class stays open ("≥").
+    const MAP_SCALE_CLASSES = 7;
+    const mapBreaksCache = new Map();
+    function mapScaleBreaks(column) {
+        if (!mapBreaksCache.has(column)) {
+            let max = 0;
+            for (const code of INCIDENCE_REGION_ORDER) {
+                if (code === 'AT') continue;
+                for (const w of incidenceWeekly(code, column, 'ALL').values()) if (w.rate > max) max = w.rate;
+            }
+            const breaks = [];
+            for (let e = -3; e <= 4; e++) for (const m of [1, 2, 5]) {
+                const b = +(m * 10 ** e).toPrecision(1);
+                if (b < max) breaks.push(b);
+            }
+            // A virus without a single admission still gets one class boundary
+            mapBreaksCache.set(column, breaks.length ? breaks.slice(-(MAP_SCALE_CLASSES - 1)) : [1]);
+        }
+        return mapBreaksCache.get(column);
+    }
+    function mapScalePieces(breaks) {
+        const f = v => fmtDe(v, v < 1 ? (v < 0.1 ? 2 : 1) : 0);
+        return [{ lt: breaks[0], label: `< ${f(breaks[0])}` },
+            ...breaks.slice(1).map((b, i) => ({ gte: breaks[i], lt: b, label: `${f(breaks[i])}–${f(b)}` })),
+            { gte: breaks[breaks.length - 1], label: `≥ ${f(breaks[breaks.length - 1])}` }];
+    }
+
+    function weekRangeLabel(week) {
+        const a = parseYMD(week), b = parseYMD(week, 6);
+        const fmt = d => d.toLocaleDateString('de-AT', { day: 'numeric', month: 'short' });
+        return `${formatKW(a)} · ${a.getMonth() === b.getMonth() ? a.getDate() + '.' : fmt(a)}–${fmt(b)}`;
+    }
+
+    // Arrow ink that stays readable on the class colour (WCAG relative luminance)
+    function inkOn(hex) {
+        const n = parseInt(hex.slice(1), 16);
+        const lin = c => (c /= 255) <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+        const l = 0.2126 * lin(n >> 16) + 0.7152 * lin((n >> 8) & 255) + 0.0722 * lin(n & 255);
+        return l > 0.3 ? '#1b1b1b' : '#ffffff';
+    }
+
+    // Sign from the rounded value, so -0.3 at 0 digits reads "±0", not "−0"
+    function fmtSigned(v, digits = 0) {
+        const r = +v.toFixed(digits);
+        return (r > 0 ? '+' : r < 0 ? '−' : '±') + fmtDe(Math.abs(r), digits);
+    }
+    const trendText = t => t.rel == null ? TREND_CLASSES[t.cls].label
+        : `${TREND_CLASSES[t.cls].label}, ${fmtSigned(t.rel)} %/Woche`;
+    function lastValueText(last) {
+        if (!last) return '–';
+        const v = last.lim === 'NG' ? '< Nachweisgrenze'
+            : `${fmtDe(last.y)} Mio. Genkopien/Einw.${last.lim === 'BG' ? ' (< Bestimmungsgrenze)' : ''}`;
+        return `${v} (${formatKW(parseYMD(last.ymd))})`;
+    }
+
+    // Everything the map, the chip and the list show for the current selection
+    function mapModel() {
+        const virus = mapState.virus, week = mapState.weeks[mapState.idx];
+        const column = MAP_SARI_COLUMN[virus];
+        const provisional = mapState.provisional.has(week);
+        const sari = !!dataPool.sariDemo;
+        const region = code => {
+            if (!sari) return null;
+            const weekly = incidenceWeekly(code, column, 'ALL');
+            const cur = weekly.get(week);
+            return cur ? { ...cur, prev: weekly.get(shiftYMD(week, -7)) || null } : null;
+        };
+        const regions = INCIDENCE_REGION_ORDER.map(code => ({ code, ...region(code) }));
+        const ww = dataPool.wastewater && dataPool.wastewater[virus];
+        const traces = ww ? ww.traces : {};
+        const plants = mapState.plants.map(p => ({ ...p, trend: traces[p.name] ? plantTrend(traces[p.name], week) : null }));
+        // Before the first plant sample there is nothing to mark at all
+        const anySample = plants.some(p => p.trend && p.trend.last);
+        const austria = traces['Österreich'] ? plantTrend(traces['Österreich'], week) : null;
+        const unplaced = Object.keys(traces).filter(n => n !== 'Österreich' && !mapState.plants.some(p => p.name === n));
+        return { virus, week, column, provisional, sari, regions, ww: !!ww, plants, anySample, austria, unplaced };
+    }
+
+    function regionTooltip(m, r) {
+        const name = escapeHtml(BUNDESLAND_NAMES[r.code]);
+        const head = `<b>${name}</b> · ${escapeHtml(formatKW(parseYMD(m.week)))}${m.provisional ? ' (vorläufig)' : ''}`;
+        if (r.rate == null) return `${head}<br>Keine SARI-Daten`;
+        const lines = [`${SARI_DIAGNOSE_NAMES[m.column]}: ${r.cases} Aufnahme${r.cases === 1 ? '' : 'n'} · ${fmtDe(r.rate, 2)} pro 100.000`];
+        // Small counts swing a rate wildly, so change is shown as a count, never in %
+        if (m.provisional) lines.push('Nachmeldungen zu erwarten');
+        else if (r.prev) lines.push(`ggü. Vorwoche: ${fmtSigned(r.cases - r.prev.cases)} (${r.prev.cases} → ${r.cases})`);
+        if (r.cases < 5) lines.push('kleine Fallzahl – Rate schwankt stark');
+        return `${head}<br>${lines.join('<br>')}`;
+    }
+
+    function plantTooltip(p) {
+        const t = p.trend;
+        const lines = [
+            `<b>${escapeHtml(p.name)}</b> (${escapeHtml(BUNDESLAND_NAMES[p.bundesland])})`,
+            `Einzugsgebiet: ${escapeHtml((p.agglomerations || []).join(', ') || '–')}`,
+            p.load ? `${p.load.toLocaleString('de-AT')} Einwohnerwerte angeschlossen` : null,
+            t ? `Trend: ${trendText(t)}${t.n ? ` (aus ${t.n} Messwert${t.n === 1 ? '' : 'en'})` : ''}` : 'Keine Abwasserdaten',
+            t ? `Letzter Wert: ${escapeHtml(lastValueText(t.last))}` : null
+        ];
+        return lines.filter(Boolean).join('<br>');
+    }
+
+    function renderMap() {
+        if (!mapState.ready) return;
+        const m = mapModel();
+        const pal = MAP_PALETTE[themeMode()];
+        const narrow = isNarrow();
+        const status = [];
+        if (!m.sari) status.push('SARI-Daten nicht geladen');
+        if (!m.ww) status.push(`Abwasser-Trend für ${WW_SOURCES[m.virus].name} nicht geladen`);
+        if (m.unplaced.length) status.push('Ohne Kartenposition: ' + m.unplaced.join(', '));
+        const statusEl = document.getElementById('map-loading');
+        statusEl.textContent = status.join(' · ');
+        statusEl.style.display = status.length ? '' : 'none';
+
+        document.getElementById('map-week-label').textContent =
+            weekRangeLabel(m.week) + (m.provisional ? ' (vorläufig)' : '');
+        renderMapAustria(m, pal);
+        document.querySelectorAll('.map-legend .trend-dot').forEach(dot => styleTrendDot(dot, dot.dataset.trend, pal));
+
+        const hatch = { symbol: 'rect', symbolSize: 1, dashArrayX: [1, 0], dashArrayY: [3, 5], rotation: -Math.PI / 4, color: pal.hatch };
+        const regionData = m.regions.filter(r => r.code !== 'AT').map(r => ({
+            name: r.code, value: r.rate == null ? '-' : r.rate, region: r,
+            ...(m.provisional && r.rate != null ? { itemStyle: { decal: hatch }, emphasis: { itemStyle: { decal: hatch } } } : {})
+        }));
+        const maxLoad = Math.max(1, ...mapState.plants.map(p => p.load || 0));
+        const breaks = m.sari ? mapScaleBreaks(m.column) : [1];
+        const scale = narrow ? 0.75 : 1;
+        const markers = m.anySample ? m.plants : [];
+
+        const series = [{
+            type: 'map', geoIndex: 0, data: regionData,
+            tooltip: { formatter: p => p.data ? regionTooltip(m, p.data.region) : '' }
+        }];
+        if (markers.length) series.push({
+            type: 'custom', coordinateSystem: 'geo', geoIndex: 0,
+            data: markers.map(p => ({ name: p.name, value: [p.lon, p.lat] })),
+            z: 5,
+            tooltip: { formatter: p => plantTooltip(markers[p.dataIndex]) },
+            renderItem: (params, api) => {
+                const p = markers[params.dataIndex];
+                const cls = p.trend ? p.trend.cls : 'none';
+                const color = pal.trend[cls];
+                const angle = TREND_CLASSES[cls].angle;
+                // Area follows the connected load; never so small the arrow disappears
+                const r = scale * (8 + 10 * Math.sqrt((p.load || 0) / maxLoad));
+                const [x, y] = api.coord([p.lon, p.lat]);
+                const children = [{
+                    type: 'circle', shape: { cx: 0, cy: 0, r },
+                    style: angle == null
+                        ? { fill: pal.surface, stroke: color, lineWidth: 2, lineDash: cls === 'none' ? [3, 2] : null }
+                        : { fill: color, stroke: pal.surface, lineWidth: 1.5 }
+                }];
+                if (angle != null) {
+                    // Arrow pointing right, rotated counter-clockwise by the class angle
+                    const a = r * 0.62, w = r * 0.16, h = r * 0.4, neck = r * 0.08;
+                    children.push({
+                        type: 'polygon', rotation: angle * Math.PI / 180,
+                        shape: { points: [[-a, -w], [neck, -w], [neck, -h], [a, 0], [neck, h], [neck, w], [-a, w]] },
+                        style: { fill: inkOn(color) }
+                    });
+                }
+                return { type: 'group', x, y, children };
+            }
+        });
+
+        mapChart.setOption({
+            animation: false,
+            tooltip: { trigger: 'item', confine: true },
+            geo: {
+                map: 'AT', nameProperty: 'code', roam: false,
+                // ~cos(47.6°): the default 0.75 is tuned for lower latitudes and stretches Austria
+                aspectScale: 0.675,
+                left: 10, right: narrow ? 10 : 90, top: 10, bottom: narrow ? 60 : 10,
+                itemStyle: { areaColor: pal.noData, borderColor: pal.surface, borderWidth: 1.5 },
+                emphasis: { itemStyle: { areaColor: 'inherit', borderColor: pal.ink, borderWidth: 2 }, label: { show: false } },
+                select: { disabled: true }, label: { show: false }
+            },
+            visualMap: {
+                type: 'piecewise', seriesIndex: 0, pieces: mapScalePieces(breaks),
+                inRange: { color: pal.ramp }, selectedMode: false,
+                showLabel: true, itemHeight: 12,
+                ...(narrow
+                    ? { orient: 'horizontal', left: 'center', bottom: 5, itemWidth: 10, itemGap: 3, textGap: 2,
+                        textStyle: { color: pal.ink, fontSize: 10 } }
+                    : { orient: 'vertical', right: 10, bottom: 20, inverse: true, itemWidth: 14, itemGap: 4,
+                        text: ['pro 100.000', ''], textStyle: { color: pal.ink } })
+            },
+            series
+        }, { notMerge: true });
+        renderMapList(m, pal);
+    }
+
+    // HTML twin of a map marker: filled for a trend, a ring for low, dashed for none
+    function styleTrendDot(dot, cls, pal) {
+        const c = pal.trend[cls];
+        dot.style.background = TREND_CLASSES[cls].angle == null ? 'transparent' : c;
+        dot.style.borderColor = c;
+        dot.style.borderStyle = cls === 'none' ? 'dashed' : 'solid';
+    }
+    function trendDot(cls, pal) {
+        const dot = document.createElement('span');
+        dot.className = 'trend-dot';
+        styleTrendDot(dot, cls, pal);
+        return dot;
+    }
+
+    function renderMapAustria(m, pal) {
+        const el = document.getElementById('map-austria');
+        el.textContent = '';
+        const at = m.regions.find(r => r.code === 'AT');
+        const parts = [];
+        if (at && at.rate != null) parts.push(`SARI ${SARI_DIAGNOSE_NAMES[m.column]}: ${fmtDe(at.rate, 2)} pro 100.000 (${at.cases} Aufnahme${at.cases === 1 ? '' : 'n'})`);
+        el.style.display = parts.length || m.austria ? '' : 'none';
+        const strong = document.createElement('strong');
+        strong.textContent = 'Österreich: ';
+        el.append(strong, parts.join(''));
+        if (m.austria) {
+            el.append(parts.length ? ' · Abwasser: ' : 'Abwasser: ', trendDot(m.austria.cls, pal), ' ' + trendText(m.austria));
+        }
+    }
+
+    // Table view: accessibility, overlapping markers on phones, and the
+    // headless check reads the data-* attributes since the canvas has no DOM
+    function renderMapList(m, pal) {
+        const body = document.getElementById('map-list-body');
+        body.textContent = '';
+        const table = document.createElement('table');
+        table.className = 'map-table';
+        const row = (cells, cls) => {
+            const tr = document.createElement('tr');
+            if (cls) tr.className = cls;
+            for (const c of cells) {
+                const td = document.createElement('td');
+                td.append(...(Array.isArray(c) ? c : [c]));
+                tr.appendChild(td);
+            }
+            table.appendChild(tr);
+            return tr;
+        };
+        const head = document.createElement('tr');
+        for (const h of ['Bundesland / Kläranlage', 'SARI pro 100.000 · Abwasser-Trend', 'Aufnahmen · Einzugsgebiet']) {
+            const th = document.createElement('th');
+            th.textContent = h;
+            head.appendChild(th);
+        }
+        table.appendChild(head);
+        for (const r of m.regions.filter(r => r.code !== 'AT')) {
+            const tr = row([BUNDESLAND_NAMES[r.code], r.rate == null ? '–' : fmtDe(r.rate, 2), r.rate == null ? '–' : String(r.cases)], 'map-table-region');
+            Object.assign(tr.dataset, { code: r.code, rate: r.rate == null ? '' : r.rate.toFixed(4), cases: r.rate == null ? '' : r.cases });
+            for (const p of m.plants.filter(p => p.bundesland === r.code).sort((a, b) => a.name.localeCompare(b.name, 'de'))) {
+                const cls = p.trend ? p.trend.cls : 'none';
+                const ptr = row([p.name, [trendDot(cls, pal), ' ' + (p.trend ? trendText(p.trend) : 'Keine Daten')],
+                    (p.agglomerations || []).join(', ')], 'map-table-plant');
+                Object.assign(ptr.dataset, { plant: p.name, trend: cls, rel: p.trend && p.trend.rel != null ? p.trend.rel.toFixed(2) : '', n: p.trend ? p.trend.n : 0 });
+            }
+        }
+        body.appendChild(table);
+    }
+
+    function setMapWeek(idx) {
+        mapState.idx = Math.max(0, Math.min(mapState.weeks.length - 1, idx));
+        document.getElementById('map-week').value = mapState.idx;
+        document.getElementById('map-week-prev').disabled = mapState.idx === 0;
+        document.getElementById('map-week-next').disabled = mapState.idx === mapState.weeks.length - 1;
+        scheduleMapRender();
+    }
+    let mapRenderScheduled = false;
+    function scheduleMapRender() {
+        if (mapRenderScheduled) return;
+        mapRenderScheduled = true;
+        requestAnimationFrame(() => {
+            mapRenderScheduled = false;
+            // Runs outside initMapSection's try, so a render bug would otherwise
+            // leave "Lade Karte…" on screen with only a console error
+            try { renderMap(); } catch (e) {
+                console.error(e);
+                const el = document.getElementById('map-loading');
+                el.textContent = 'Fehler: ' + e.message;
+                el.style.display = '';
+            }
+        });
+    }
+
+    function initMapSection() {
+        // Weeks offered by the slider: every SARI week and every week with a plant sample
+        const sariWeeks = dataPool.sariDemo ? [...incidenceWeekly('AT', 'ALL', 'ALL').keys()] : [];
+        const weeks = new Set(sariWeeks);
+        let plantStart = null;
+        for (const src of Object.values(dataPool.wastewater || {})) {
+            for (const [name, tr] of Object.entries(src.traces)) {
+                if (name === 'Österreich' || !mapState.plants.some(p => p.name === name)) continue;
+                const samples = plantSamples(tr);
+                samples.forEach(s => weeks.add(s.monday));
+                if (samples.length && (!plantStart || samples[0].monday < plantStart)) plantStart = samples[0].monday;
+            }
+        }
+        // AGES may roll its plant window, so the start is read, not written down
+        document.getElementById('map-plant-start').textContent =
+            plantStart ? ` Kläranlagen-Daten ab ${formatKW(parseYMD(plantStart))}.` : '';
+        mapState.weeks = [...weeks].sort();
+        if (!mapState.weeks.length) throw new Error('Keine Daten für die Karte');
+        mapState.provisional = new Set(sariWeeks.slice(-MAP_PROVISIONAL_WEEKS));
+
+        const keys = Object.keys(WW_SOURCES);
+        const stored = storageGet(MAP_VIRUS_STORAGE_KEY);
+        mapState.virus = keys.includes(stored) ? stored : keys[0];
+        const group = document.getElementById('map-virus');
+        group.textContent = '';
+        for (const key of keys) {
+            const label = document.createElement('label');
+            const input = document.createElement('input');
+            input.type = 'radio'; input.name = 'map-virus'; input.value = key;
+            input.checked = key === mapState.virus;
+            input.addEventListener('change', () => {
+                mapState.virus = key;
+                storageSet(MAP_VIRUS_STORAGE_KEY, key);
+                renderMap();
+            });
+            const span = document.createElement('span');
+            span.textContent = WW_SOURCES[key].name;
+            label.append(input, span);
+            group.appendChild(label);
+        }
+
+        const slider = document.getElementById('map-week');
+        slider.max = mapState.weeks.length - 1;
+        slider.addEventListener('input', () => setMapWeek(+slider.value));
+        document.getElementById('map-week-prev').addEventListener('click', () => setMapWeek(mapState.idx - 1));
+        document.getElementById('map-week-next').addEventListener('click', () => setMapWeek(mapState.idx + 1));
+        mapState.ready = true;
+        // Newest SARI week (the areas are the main layer); without SARI the newest week
+        const start = sariWeeks.length ? mapState.weeks.indexOf(sariWeeks[sariWeeks.length - 1]) : mapState.weeks.length - 1;
+        setMapWeek(start);
     }
 
     // ==================== 5. SARI Krankenhausaufnahmen ====================
@@ -850,12 +1350,14 @@
 
     const incidenceCache = new Map();
 
-    function aggregateIncidence(region, diagnose, station) {
+    // Admissions, population and rate per week ('YYYY-MM-DD', ascending), shared
+    // by the incidence lines and the map, which also needs the absolute counts.
+    function incidenceWeekly(region, diagnose, station) {
         const key = `${region}|${diagnose}|${station}`;
         const hit = incidenceCache.get(key);
         if (hit) return hit;
 
-        const population = new Map([...demoPopulation(region)].map(([k, w]) => [k, w.total]));
+        const population = demoPopulation(region);
         const cases = new Map();
         for (const row of getDemoByRegion(region, station)) {
             const k = row.date.getTime();
@@ -864,13 +1366,16 @@
             const n = (diagnose === 'ALL' ? row.AUFNAHMEN : row[diagnose]) || 0;
             cases.set(k, (cases.get(k) || 0) + n);
         }
-        const out = [...population.keys()].sort((a, b) => a - b).map(k => {
-            const pop = population.get(k);
-            return [isoToYMD(new Date(k)), pop > 0 ? ((cases.get(k) || 0) / pop) * 100000 : null];
-        });
+        const out = new Map([...population.keys()].sort((a, b) => a - b).map(k => {
+            const pop = population.get(k).total, n = cases.get(k) || 0;
+            return [isoToYMD(new Date(k)), { cases: n, pop, rate: pop > 0 ? (n / pop) * 100000 : null }];
+        }));
         incidenceCache.set(key, out);
         return out;
     }
+
+    const aggregateIncidence = (region, diagnose, station) =>
+        [...incidenceWeekly(region, diagnose, station)].map(([ymd, w]) => [ymd, w.rate]);
 
     function renderIncidence() {
         const diagnose = document.getElementById('incidence-diagnose').value;
@@ -1701,8 +2206,9 @@
         fillSelect('sari-heatmap-diagnose', HEATMAP_DIAGNOSE_NAMES);
 
         // Resize handling
-        let charts = [wwChart, combinedChart, sentinelBarChart, sentinelHeatChart, sariChart, incidenceChart, demoChart, demoTimelineChart, ageHeatmapChart];
+        let charts = [mapChart, wwChart, combinedChart, sentinelBarChart, sentinelHeatChart, sariChart, incidenceChart, demoChart, demoTimelineChart, ageHeatmapChart];
         const responsiveRenderers = [
+            [() => mapState.ready, renderMap],
             ['wastewater', renderWastewater],
             ['sari', renderSari],
             ['sentinelBar', renderSentinelBar],
@@ -1732,6 +2238,7 @@
 
         function reinitChartsForTheme() {
             charts.forEach(c => c.dispose());
+            mapChart = initChart('map-chart-ec');
             wwChart = initChart('wastewater-chart-ec');
             combinedChart = initChart('combined-chart-ec');
             sentinelBarChart = initChart('sentinel-bar-ec');
@@ -1741,7 +2248,7 @@
             demoChart = initChart('sari-demographics-chart-ec');
             demoTimelineChart = initChart('sari-demo-timeline-ec');
             ageHeatmapChart = initChart('sari-heatmap-ec');
-            charts = [wwChart, combinedChart, sentinelBarChart, sentinelHeatChart, sariChart, incidenceChart, demoChart, demoTimelineChart, ageHeatmapChart];
+            charts = [mapChart, wwChart, combinedChart, sentinelBarChart, sentinelHeatChart, sariChart, incidenceChart, demoChart, demoTimelineChart, ageHeatmapChart];
             for (const [dep, render] of responsiveRenderers) {
                 if (hasData(dep)) render();
             }
@@ -1848,6 +2355,24 @@
                 renderSentinelHeatmap();
             })
         ];
+
+        // The map needs its static assets, wastewater and the SARI demographics.
+        // Every task settles (each catches its own error), so the map renders
+        // with whatever loaded and names what is missing.
+        const mapAssets = loadMapAssets().then(() => true, e => {
+            document.getElementById('map-loading').textContent = 'Fehler: ' + e.message;
+            return false;
+        });
+        Promise.all([mapAssets, tasks[0], tasks[2]]).then(([ok]) => {
+            if (!ok) return;
+            try {
+                initMapSection();
+            } catch (e) {
+                const status = document.getElementById('map-loading');
+                status.style.display = '';
+                status.textContent = 'Fehler: ' + e.message;
+            }
+        });
 
         // Combined signal needs wastewater + sari + sentinelBar
         Promise.all([tasks[0], tasks[1], tasks[3]]).then(() => {

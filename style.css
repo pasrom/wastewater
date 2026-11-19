@@ -779,3 +779,155 @@ footer .impressum a {
     border-color: var(--accent);
     box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
 }
+
+/* ==================== Karte: Lage nach Bundesland ==================== */
+#map-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.segmented {
+    display: inline-flex;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.segmented label {
+    position: relative;
+    cursor: pointer;
+}
+
+.segmented input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.segmented span {
+    display: block;
+    padding: 6px 14px;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--surface);
+}
+
+.segmented label + label span {
+    border-left: 1px solid var(--border);
+}
+
+.segmented input:checked + span {
+    background: var(--accent);
+    color: #ffffff;
+}
+
+.segmented input:focus-visible + span {
+    outline: 2px solid var(--accent);
+    outline-offset: -4px;
+}
+
+.week-slider {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.week-slider input[type="range"] {
+    width: min(320px, 60vw);
+    accent-color: var(--accent);
+}
+
+.week-slider .btn-small:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.week-label {
+    font-variant-numeric: tabular-nums;
+    color: var(--text-strong);
+    font-weight: 600;
+    min-width: 13em;
+    text-align: center;
+}
+
+.map-austria {
+    text-align: center;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+.map-legend {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 18px;
+    margin: 8px 0 4px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.map-legend li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.trend-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    vertical-align: -1px;
+    flex: none;
+}
+
+.map-list {
+    margin-top: 12px;
+    font-size: 0.9rem;
+}
+
+.map-list summary {
+    cursor: pointer;
+    color: var(--accent);
+}
+
+.map-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+}
+
+.map-table th,
+.map-table td {
+    text-align: left;
+    padding: 4px 8px;
+    border-bottom: 1px solid var(--border-soft);
+    vertical-align: top;
+}
+
+.map-table th {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.map-table-region td {
+    font-weight: 600;
+    color: var(--text-strong);
+    padding-top: 10px;
+}
+
+.map-table-plant td:first-child {
+    padding-left: 20px;
+}
+
+.attribution {
+    font-size: 0.8rem;
+}
