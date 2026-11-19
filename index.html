@@ -171,8 +171,16 @@
                         <label for="sari-station">Station:</label>
                         <select id="sari-station" class="select-input"></select>
                     </div>
+                    <div class="control-group">
+                        <label class="toggle-label">
+                            <input type="checkbox" id="sari-show-other" checked>
+                            <span class="toggle-text">Sonstige SARI anzeigen</span>
+                        </label>
+                    </div>
                 </div>
+                <p id="sari-icu-note" class="chart-legend-note">Kräftige Farbe = Normalstation, helle Farbe = Intensivstation (oben auf jedem Balkenabschnitt).</p>
                 <div id="sari-chart-ec" class="ec-chart" role="img" aria-label="Balkendiagramm: SARI-Krankenhausaufnahmen pro Woche nach Diagnose"></div>
+                <p class="footnote">Eine Aufnahme mit mehreren Diagnosen zählt in jedem passenden Balkenabschnitt; „Aufnahmen gesamt“ im Tooltip zählt sie einmal.</p>
                 <p class="footnote">*Schraffiert: die beiden jüngsten Wochen sind vorläufig. Da laufend mit Korrekturen und Nachmeldungen zu rechnen ist, kann sich der Datenbestand noch verändern.</p>
                 <div id="sari-loading-ec" class="loading-msg">Lade SARI-Daten…</div>
             </div>
@@ -1366,6 +1374,37 @@
 
     // ==================== 5. SARI Krankenhausaufnahmen ====================
     let sariChart = initChart('sari-chart-ec');
+    const SARI_SHOW_OTHER_KEY = 'sariShowOther';  // '1' | '0'
+    const ICU_SUFFIX = ' (Intensiv)';
+    // Admissions per week ('YYYY-MM-DD' -> { all, icu }) from AUFNAHMEN, set by
+    // renderSari: a case with several diagnoses sits in several bar segments,
+    // so the segments do not add up to the number of admissions.
+    let sariTotals = new Map();
+
+    // One row per diagnosis: Normal and Intensiv are two stacked series, but a
+    // reader wants "Influenza 1.141 (davon Intensiv 57)" plus the week's total.
+    function sariTooltip(params) {
+        if (!params || !params.length) return '';
+        const rows = new Map();  // diagnosis name -> { marker, total, icu }
+        for (const p of params) {
+            const name = String(p.seriesName);
+            if (name.startsWith('__')) continue;
+            const v = +pointValue(p) || 0;
+            const isIcu = name.endsWith(ICU_SUFFIX);
+            const key = isIcu ? name.slice(0, -ICU_SUFFIX.length) : name;
+            const row = rows.get(key) || { marker: '', total: 0, icu: null };
+            if (!isIcu) row.marker = p.marker;
+            row.total += v;
+            if (isIcu) row.icu = (row.icu || 0) + v;
+            rows.set(key, row);
+        }
+        const icuText = icu => icu == null ? '' : ` (davon Intensiv ${fmtDe(icu, 0)})`;
+        const lines = [...rows].map(([name, r]) =>
+            `${r.marker}${escapeHtml(name)}<span class="tt-value">${fmtDe(r.total, 0)}${icuText(r.icu)}</span>`);
+        const t = sariTotals.get(params[0].axisValue);
+        if (t) lines.push(`<b>Aufnahmen gesamt</b><span class="tt-value"><b>${fmtDe(t.all, 0)}</b>${icuText(t.icu)}</span>`);
+        return `<b>${escapeHtml(weekHeader(parseYMD(params[0].axisValue)))}</b><br>${lines.join('<br>')}`;
+    }
 
     function aggregateSariCombined(bundesland, station) {
         let f = dataPool.sari;
@@ -1374,8 +1413,9 @@
         const g = {};
         for (const row of f) {
             const k = isoToYMD(row.date);
-            if (!g[k]) { g[k] = { date: row.date }; SARI_DIAGNOSEN.forEach(d => g[k][d] = 0); }
+            if (!g[k]) { g[k] = { date: row.date, AUFNAHMEN: 0 }; SARI_DIAGNOSEN.forEach(d => g[k][d] = 0); }
             SARI_DIAGNOSEN.forEach(d => { g[k][d] += row[d] || 0; });
+            g[k].AUFNAHMEN += row.AUFNAHMEN || 0;
         }
         return Object.values(g).sort((a, b) => a.date - b.date);
     }
@@ -1395,6 +1435,10 @@
             dates = [...allDatesSet].sort();
             const ix = (arr) => Object.fromEntries(arr.map(r => [isoToYMD(r.date), r]));
             const nIx = ix(normal), iIx = ix(intensiv);
+            sariTotals = new Map(dates.map(k => {
+                const icu = iIx[k] ? iIx[k].AUFNAHMEN : 0;
+                return [k, { all: (nIx[k] ? nIx[k].AUFNAHMEN : 0) + icu, icu }];
+            }));
 
             for (const d of SARI_DIAGNOSEN) {
                 legendNames.push(SARI_DIAGNOSE_NAMES[d]);
@@ -1404,7 +1448,7 @@
                     data: dates.map(k => (nIx[k] ? nIx[k][d] : 0))
                 });
                 series.push({
-                    name: SARI_DIAGNOSE_NAMES[d] + ' (Intensiv)', type: 'bar', stack: 'total',
+                    name: SARI_DIAGNOSE_NAMES[d] + ICU_SUFFIX, type: 'bar', stack: 'total',
                     itemStyle: { color: lightenColor(SARI_COLORS[d], 0.4) },
                     data: dates.map(k => (iIx[k] ? iIx[k][d] : 0))
                 });
@@ -1417,6 +1461,7 @@
                 return;
             }
             dates = data.map(r => isoToYMD(r.date));
+            sariTotals = new Map(data.map(r => [isoToYMD(r.date), { all: r.AUFNAHMEN, icu: null }]));
             for (const d of SARI_DIAGNOSEN) {
                 legendNames.push(SARI_DIAGNOSE_NAMES[d]);
                 series.push({
@@ -1433,6 +1478,14 @@
             series.push(provisionalLabel(dates));
         }
 
+        // The shading note only applies when Normal and Intensiv are stacked
+        document.getElementById('sari-icu-note').hidden = station !== 'ALL';
+        // "Sonstige" dominates every bar; the checkbox hides it (both shades)
+        // through the legend state, so a legend click and the box stay in step.
+        const other = SARI_DIAGNOSE_NAMES.SONSTIGE;
+        const showOther = document.getElementById('sari-show-other').checked;
+        const selected = { [other]: showOther, [other + ICU_SUFFIX]: showOther };
+
         // Narrow screens drop the in-canvas title: the heading and the selects
         // above say the same, and the title collided with the toolbox there.
         const narrow = isNarrow();
@@ -1443,10 +1496,10 @@
             },
             toolbox: TOOLBOX,
             tooltip: {
-                trigger: 'axis', axisPointer: { type: 'shadow' },
-                formatter: axisTooltip(v => weekHeader(parseYMD(v)), v => fmtDe(v, 0))
+                trigger: 'axis', axisPointer: { type: 'shadow' }, confine: true,
+                formatter: sariTooltip
             },
-            legend: narrow ? narrowLegend(legendNames) : { top: 30, data: legendNames, padding: [5, 40, 5, 10] },
+            legend: { ...(narrow ? narrowLegend(legendNames) : { top: 30, data: legendNames, padding: [5, 40, 5, 10] }), selected },
             grid: narrow ? narrowGrid(75, 90) : { left: 60, right: 30, top: 80, bottom: 90, containLabel: true },
             xAxis: { type: 'category', data: dates, axisLabel: { formatter: v => formatKW(parseYMD(v)) } },
             yAxis: { type: 'value', name: narrow ? '' : 'Aufnahmen', axisLabel: { formatter: compactNumber } },
@@ -1459,14 +1512,20 @@
         // Sync legend toggle: clicking a diagnosis toggles both Normal and ICU series
         sariChart.off('legendselectchanged');
         sariChart.on('legendselectchanged', e => {
-            const icuName = e.name + ' (Intensiv)';
+            if (e.name === other) {
+                const box = document.getElementById('sari-show-other');
+                box.checked = e.selected[other];
+                storageSet(SARI_SHOW_OTHER_KEY, box.checked ? '1' : '0');
+            }
+            const icuName = e.name + ICU_SUFFIX;
             const icuSelected = e.selected[icuName];
             const targetSelected = e.selected[e.name];
-            if (icuSelected !== undefined && icuSelected !== targetSelected) {
-                sariChart.dispatchAction({
+            // Deferred: an action dispatched inside this handler is dropped
+            if (station === 'ALL' && icuSelected !== targetSelected) {
+                setTimeout(() => sariChart.dispatchAction({
                     type: targetSelected ? 'legendSelect' : 'legendUnSelect',
                     name: icuName
-                });
+                }), 0);
             }
         });
     }
@@ -2525,6 +2584,12 @@
                 document.getElementById('sari-loading-ec').style.display = 'none';
                 document.getElementById('sari-bundesland').addEventListener('change', renderSari);
                 document.getElementById('sari-station').addEventListener('change', renderSari);
+                const otherBox = document.getElementById('sari-show-other');
+                otherBox.checked = storageGet(SARI_SHOW_OTHER_KEY) !== '0';
+                otherBox.addEventListener('change', () => {
+                    storageSet(SARI_SHOW_OTHER_KEY, otherBox.checked ? '1' : '0');
+                    renderSari();
+                });
                 renderSari();
                 bumpFreshness('SARI', lastFromRows(dataPool.sari));
             }).catch(e => setSectionError(document.getElementById('sari-loading-ec'), errorText(e))),
