@@ -91,6 +91,10 @@ h1 {
 
 /* Controls */
 #controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 24px;
     margin-bottom: 20px;
     padding-bottom: 15px;
     border-bottom: 1px solid var(--border-soft);
@@ -288,6 +292,16 @@ footer a:hover {
 
 .data-freshness:empty {
     display: none;
+}
+
+.time-range {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    margin-top: 8px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
 }
 
 footer .impressum {
@@ -884,6 +898,11 @@ footer .impressum a {
 .segmented input:checked + span {
     background: var(--accent);
     color: #ffffff;
+}
+
+.segmented input:disabled + span {
+    opacity: 0.45;
+    cursor: not-allowed;
 }
 
 .segmented input:focus-visible + span {

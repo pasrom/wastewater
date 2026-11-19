@@ -28,6 +28,10 @@
             <div>
                 <h1>Atemwegsviren in Österreich</h1>
                 <p id="data-freshness" class="data-freshness"></p>
+                <div class="time-range">
+                    <span id="time-range-label">Zeitraum der Diagramme:</span>
+                    <div class="segmented" role="radiogroup" aria-labelledby="time-range-label" id="time-range"></div>
+                </div>
             </div>
             <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Hell-/Dunkelmodus wechseln" title="Hell-/Dunkelmodus">☾</button>
         </header>
@@ -75,6 +79,7 @@
             </header>
             <div class="sari-content">
                 <div id="controls">
+                    <div class="segmented" role="radiogroup" aria-label="Virus" id="ww-virus"></div>
                     <div class="control-group">
                         <label id="locations-label">Standorte:</label>
                         <div id="location-selector">
@@ -589,13 +594,18 @@
     // notMerge re-renders reset zoom and legend. These carry the visible week window
     // (by label, so it survives an axis of different length) and hidden series across.
     // Applied via dispatchAction, not baked into the option, so "Zurücksetzen" still
-    // returns to the full range.
+    // returns to the window of the shared time control. Changing that control bumps
+    // timeRangeEpoch, which drops the carried window so the new choice wins.
+    let timeRangeEpoch = 0;
+    const chartRangeEpoch = new WeakMap();
     function captureChartView(chart) {
         const opt = chart.getOption();
         if (!opt) return null;
         const zoom = opt.dataZoom && opt.dataZoom[0];
         const weeks = opt.xAxis && opt.xAxis[0].data;
-        const zoomed = zoom && weeks && (zoom.start > 0 || zoom.end < 100);
+        const zoomed = zoom && weeks && (zoom.start > 0 || zoom.end < 100)
+            && chartRangeEpoch.get(chart) === timeRangeEpoch;
+        chartRangeEpoch.set(chart, timeRangeEpoch);
         return {
             window: zoomed ? [weeks[zoom.startValue], weeks[zoom.endValue]] : null,
             hidden: Object.entries((opt.legend && opt.legend[0] && opt.legend[0].selected) || {})
@@ -668,6 +678,50 @@
     }
     applyThemeAttr();
     const initChart = id => echarts.init(document.getElementById(id), effectiveTheme() === 'dark' ? 'darkTheme' : 'lightTheme');
+
+    // Radio-button group styled as a segmented control; options is [[key, label, title?], ...]
+    function buildSegmented(group, name, options, current, onChange) {
+        group.textContent = '';
+        for (const [key, text, title] of options) {
+            const label = document.createElement('label');
+            const input = document.createElement('input');
+            input.type = 'radio'; input.name = name; input.value = key;
+            input.checked = key === current;
+            input.addEventListener('change', () => onChange(key));
+            const span = document.createElement('span');
+            span.textContent = text;
+            if (title) label.title = title;
+            label.append(input, span);
+            group.appendChild(label);
+        }
+    }
+
+    // Shared time window of every time chart. The full history starts in 2022/23,
+    // which left the current season a sliver at the right edge on load. "Saison"
+    // starts on 1 September, before the respiratory season's usual onset (KW 40).
+    const TIME_RANGE_KEY = 'timeRange';
+    const TIME_RANGES = [
+        ['season', 'Saison', 'Seit 1. September'],
+        ['year', '1 Jahr', 'Die letzten 12 Monate'],
+        ['all', 'Alles', 'Gesamter verfügbarer Zeitraum']
+    ];
+    let timeRange = (v => TIME_RANGES.some(([k]) => k === v) ? v : 'year')(storageGet(TIME_RANGE_KEY));
+    function timeRangeStart() {
+        if (timeRange === 'all') return null;
+        const now = new Date();
+        if (timeRange === 'year') return new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+        return new Date(now.getMonth() >= 8 ? now.getFullYear() : now.getFullYear() - 1, 8, 1);
+    }
+    // dataZoom start for the selected window, baked into the option so the
+    // toolbox's "Zurücksetzen" returns to it. Time axes take a timestamp,
+    // category axes the first label on or after the start (toDate parses one).
+    function rangeZoom(labels, toDate) {
+        const start = timeRangeStart();
+        if (!start) return {};
+        if (!labels) return { startValue: start.getTime() };
+        const i = labels.findIndex(l => { const d = toDate(l); return d && d >= start; });
+        return i > 0 ? { startValue: i } : {};
+    }
 
     const freshness = { Abwasser: null, Sentinel: null, SARI: null };
     const freshnessEl = document.getElementById('data-freshness');
@@ -743,9 +797,21 @@
         return out;
     }
 
-    // With only Österreich selected the legend names just the virus
-    const wwSeriesName = (src, loc) =>
-        wwSelectedLocations.size === 1 && loc === 'Österreich' ? src.name : `${src.name} – ${loc}`;
+    // One virus at a time: on a shared axis SARS-CoV-2 (up to ~1,000) flattened
+    // Influenza and RSV to the baseline. Each virus now gets its own y scale.
+    const WW_VIRUS_KEY = 'wwVirus';
+    let wwVirus = (v => v in WW_SOURCES ? v : 'sarscov2')(storageGet(WW_VIRUS_KEY));
+    function setupWastewaterVirus() {
+        // Fall back to a virus that loaded if the stored one failed
+        if (!dataPool.wastewater[wwVirus]) wwVirus = Object.keys(WW_SOURCES).find(k => dataPool.wastewater[k]) || wwVirus;
+        buildSegmented(document.getElementById('ww-virus'), 'ww-virus',
+            Object.entries(WW_SOURCES).map(([k, src]) => [k, src.name]), wwVirus, key => {
+                wwVirus = key;
+                storageSet(WW_VIRUS_KEY, key);
+                renderWastewater();
+            });
+        for (const input of document.querySelectorAll('#ww-virus input')) input.disabled = !dataPool.wastewater[input.value];
+    }
 
     function renderWastewater() {
         const series = [];
@@ -753,42 +819,39 @@
         const showAustria = wwSelectedLocations.has('Österreich');
         updateDropdownLabel('toggle-locations', wwSelectedLocations, 'Standort', 'Standorte', dataPool.locations.size);
 
-        for (const [key, src] of Object.entries(WW_SOURCES)) {
-            const d = dataPool.wastewater[key];
-            if (!d) continue;
+        const key = wwVirus, src = WW_SOURCES[key];
+        const d = dataPool.wastewater[key] || { traces: {} };
 
-            if (showAustria && d.q1 && d.q3) {
-                series.push({
-                    name: `__${key}_q1`, type: 'line',
-                    data: d.q1.x.map((x, i) => [x, d.q1.y[i]]),
-                    lineStyle: { opacity: 0 }, showSymbol: false,
-                    stack: `band-${key}`, silent: true, tooltip: { show: false }
-                });
-                series.push({
-                    name: `__${key}_band`, type: 'line',
-                    data: d.q3.x.map((x, i) => [x, Math.max(0, d.q3.y[i] - d.q1.y[i])]),
-                    lineStyle: { opacity: 0 }, showSymbol: false,
-                    stack: `band-${key}`, silent: true, tooltip: { show: false },
-                    areaStyle: { color: hexToRgba(src.color, 0.18) }
-                });
-            }
+        if (showAustria && d.q1 && d.q3) {
+            series.push({
+                name: `__${key}_q1`, type: 'line',
+                data: d.q1.x.map((x, i) => [x, d.q1.y[i]]),
+                lineStyle: { opacity: 0 }, showSymbol: false,
+                stack: `band-${key}`, silent: true, tooltip: { show: false }
+            });
+            series.push({
+                name: `__${key}_band`, type: 'line',
+                data: d.q3.x.map((x, i) => [x, Math.max(0, d.q3.y[i] - d.q1.y[i])]),
+                lineStyle: { opacity: 0 }, showSymbol: false,
+                stack: `band-${key}`, silent: true, tooltip: { show: false },
+                areaStyle: { color: hexToRgba(src.color, 0.18) }
+            });
+        }
 
-            for (const loc of wwSelectedLocations) {
-                const tr = d.traces[loc];
-                if (!tr) continue;
-                const isAT = loc === 'Österreich';
-                const name = wwSeriesName(src, loc);
-                legendNames.push(name);
-                series.push({
-                    name, type: 'line', smooth: true, showSymbol: false,
-                    data: tr.x.map((x, i) => [x, tr.y[i]]),
-                    lineStyle: {
-                        color: src.color, width: isAT ? 2.5 : 1.5,
-                        type: isAT ? 'solid' : 'dotted', opacity: isAT ? 1 : 0.65
-                    },
-                    itemStyle: { color: src.color }
-                });
-            }
+        for (const loc of wwSelectedLocations) {
+            const tr = d.traces[loc];
+            if (!tr) continue;
+            const isAT = loc === 'Österreich';
+            legendNames.push(loc);
+            series.push({
+                name: loc, type: 'line', smooth: true, showSymbol: false,
+                data: tr.x.map((x, i) => [x, tr.y[i]]),
+                lineStyle: {
+                    color: src.color, width: isAT ? 2.5 : 1.5,
+                    type: isAT ? 'solid' : 'dotted', opacity: isAT ? 1 : 0.65
+                },
+                itemStyle: { color: src.color }
+            });
         }
 
         const narrow = isNarrow();
@@ -805,7 +868,7 @@
             xAxis: { type: 'time' },
             yAxis: { type: 'value', name: narrow ? '' : 'Mio. Genkopien/Einw.', axisLabel: { formatter: compactNumber } },
             dataZoom: [
-                { type: 'slider', height: 30, bottom: 10 }
+                { type: 'slider', height: 30, bottom: 10, ...rangeZoom() }
             ],
             series
         }, { notMerge: true });
@@ -813,15 +876,9 @@
         // Toggle Q1/Q3 band along with its Austria line
         wwChart.off('legendselectchanged');
         wwChart.on('legendselectchanged', e => {
-            for (const [key, src] of Object.entries(WW_SOURCES)) {
-                if (e.name === wwSeriesName(src, 'Österreich')) {
-                    const action = e.selected[e.name] ? 'legendSelect' : 'legendUnSelect';
-                    [`__${key}_q1`, `__${key}_band`].forEach(name => {
-                        wwChart.dispatchAction({ type: action, name });
-                    });
-                    return;
-                }
-            }
+            if (e.name !== 'Österreich') return;
+            const action = e.selected[e.name] ? 'legendSelect' : 'legendUnSelect';
+            [`__${wwVirus}_q1`, `__${wwVirus}_band`].forEach(name => wwChart.dispatchAction({ type: action, name }));
         });
     }
 
@@ -1289,23 +1346,12 @@
         const keys = Object.keys(WW_SOURCES);
         const stored = storageGet(MAP_VIRUS_STORAGE_KEY);
         mapState.virus = keys.includes(stored) ? stored : keys[0];
-        const group = document.getElementById('map-virus');
-        group.textContent = '';
-        for (const key of keys) {
-            const label = document.createElement('label');
-            const input = document.createElement('input');
-            input.type = 'radio'; input.name = 'map-virus'; input.value = key;
-            input.checked = key === mapState.virus;
-            input.addEventListener('change', () => {
+        buildSegmented(document.getElementById('map-virus'), 'map-virus',
+            keys.map(k => [k, WW_SOURCES[k].name]), mapState.virus, key => {
                 mapState.virus = key;
                 storageSet(MAP_VIRUS_STORAGE_KEY, key);
                 renderMap();
             });
-            const span = document.createElement('span');
-            span.textContent = WW_SOURCES[key].name;
-            label.append(input, span);
-            group.appendChild(label);
-        }
 
         const slider = document.getElementById('map-week');
         slider.max = mapState.weeks.length - 1;
@@ -1405,7 +1451,7 @@
             xAxis: { type: 'category', data: dates, axisLabel: { formatter: v => formatKW(parseYMD(v)) } },
             yAxis: { type: 'value', name: narrow ? '' : 'Aufnahmen', axisLabel: { formatter: compactNumber } },
             dataZoom: [
-                { type: 'slider', xAxisIndex: 0, height: 30, bottom: 10 }
+                { type: 'slider', xAxisIndex: 0, height: 30, bottom: 10, ...rangeZoom(dates, parseYMD) }
             ],
             series
         }, { notMerge: true });
@@ -1562,7 +1608,7 @@
                 axisLabel: { formatter: compactNumber }
             },
             dataZoom: [
-                { type: 'slider', height: 30, bottom: 10 }
+                { type: 'slider', height: 30, bottom: 10, ...rangeZoom() }
             ],
             series
         }, { notMerge: true });
@@ -1611,6 +1657,8 @@
     // ==================== 7. SARI Demographics + Custom Slider ====================
     let demoChart = initChart('sari-demographics-chart-ec');
     let demoTimelineRange = null;
+    // The period follows the shared time control until the handles are dragged
+    let demoRangeFollowsControl = true;
     const demoRegionCache = new Map();
     let demoChartScheduled = false;
 
@@ -1773,7 +1821,7 @@
 
         demoChart.off('restore');
         demoChart.on('restore', () => {
-            demoTimelineRange = null;
+            demoRangeFollowsControl = true;
             rebuildDemoTimeline();
             renderDemographics();
         });
@@ -1810,6 +1858,10 @@
         if (timeline.length === 0) { demoTimelineChart.clear(); return; }
 
         demoTimelineDates = timeline.map(t => isoToYMD(t.date));
+        if (demoRangeFollowsControl) {
+            const { startValue } = rangeZoom(demoTimelineDates, parseYMD);
+            demoTimelineRange = startValue ? [demoTimelineDates[startValue], demoTimelineDates[demoTimelineDates.length - 1]] : null;
+        }
 
         const series = SARI_DIAGNOSEN.map(d => ({
             name: SARI_DIAGNOSE_NAMES[d], type: 'bar', stack: 'total',
@@ -1860,6 +1912,7 @@
             const toIdx = Math.max(0, Math.min(demoTimelineDates.length - 1, Math.ceil((dz.end / 100) * (demoTimelineDates.length - 1))));
             const isFull = fromIdx === 0 && toIdx === demoTimelineDates.length - 1;
             demoTimelineRange = isFull ? null : [demoTimelineDates[fromIdx], demoTimelineDates[toIdx]];
+            demoRangeFollowsControl = false;
             scheduleDemoRender();
         });
     }
@@ -1979,7 +2032,7 @@
                     text: [visualMapText, '']
                 },
             dataZoom: [
-                { type: 'slider', xAxisIndex: 0, height: 24, bottom: narrow ? 50 : 20 }
+                { type: 'slider', xAxisIndex: 0, height: 24, bottom: narrow ? 50 : 20, ...rangeZoom(kws, parseKW) }
             ],
             series: [{
                 type: 'heatmap', progressive: 1000,
@@ -2087,7 +2140,7 @@
             xAxis: { type: 'category', data: weeks, axisLabel: { rotate: -45, interval: xAxisInterval(weeks), formatter: sentinelAxisLabel } },
             yAxis: percent ? percentYAxis : absoluteYAxes,
             dataZoom: [
-                { type: 'slider', xAxisIndex: 0, height: 24, bottom: 10 }
+                { type: 'slider', xAxisIndex: 0, height: 24, bottom: 10, ...rangeZoom(weeks, sentinelWeekDate) }
             ],
             series
         }, { notMerge: true });
@@ -2175,7 +2228,7 @@
                     : { orient: 'vertical', right: 10, top: 50, itemHeight: 140 })
             },
             dataZoom: [
-                { type: 'slider', xAxisIndex: 0, height: 24, bottom: narrow ? 50 : 20 }
+                { type: 'slider', xAxisIndex: 0, height: 24, bottom: narrow ? 50 : 20, ...rangeZoom(weeks, sentinelWeekDate) }
             ],
             series: [{ type: 'heatmap', data: cells, progressive: 1000 }]
         }, { notMerge: true });
@@ -2338,7 +2391,7 @@
             xAxis: { type: 'time' },
             yAxis: { type: 'value', name: narrow ? 'Z-Score' : 'Z-Score (0 = Durchschnitt)' },
             dataZoom: [
-                { type: 'slider', height: 30, bottom: 10 }
+                { type: 'slider', height: 30, bottom: 10, ...rangeZoom() }
             ],
             series
         }, { notMerge: true });
@@ -2429,6 +2482,18 @@
             setTheme(effectiveTheme() === 'dark' ? 'light' : 'dark', true);
         });
 
+        buildSegmented(document.getElementById('time-range'), 'time-range', TIME_RANGES, timeRange, key => {
+            timeRange = key;
+            storageSet(TIME_RANGE_KEY, key);
+            timeRangeEpoch++;
+            demoRangeFollowsControl = true;
+            if (dataPool.sariDemo) rebuildDemoTimeline();
+            for (const [dep, render] of responsiveRenderers) {
+                if (render !== renderMap && hasData(dep)) render();
+            }
+            if (combinedReady) renderCombinedSignal();
+        });
+
         // Wire up one section, hiding its loading message only once it actually rendered
         function initSection(loadingId, setup) {
             const el = document.getElementById(loadingId);
@@ -2448,6 +2513,7 @@
                 else status.style.display = 'none';
                 setupLocationDropdown();
                 buildLocationList();
+                setupWastewaterVirus();
                 renderWastewater();
                 for (const src of Object.values(dataPool.wastewater)) {
                     const at = src.traces['Österreich'];

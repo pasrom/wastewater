@@ -89,7 +89,9 @@ ci: add GitHub Actions workflow for deployment
 ```
 
 ## Sections in index.html
-Each section has its own block in the inline script, headed `// ==================== N. Name`:
+Each section has its own block in the inline script, headed `// ==================== N. Name`.
+Every time chart takes its initial dataZoom window from `rangeZoom(...)` (shared control
+"Saison / 1 Jahr / Alles" in the page header, `timeRange`); a new time chart should do the same.
 0. Map by Bundesland — `loadMapAssets`, `plantTrend` (AGES 4-week trend), `mapModel`, `renderMap`, `renderMapList`
 1. Wastewater — `extractWastewaterTraces`, `renderWastewater`
 2. Combined signal — `computeCombinedSignals`, `renderCombinedSignal`

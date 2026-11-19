@@ -12,10 +12,13 @@ Interactive dashboard displaying virus load in Austrian wastewater, Sentinel vir
 - Virus toggle (SARS-CoV-2, Influenza, RSV) and a week slider; the two newest SARI weeks are hatched as provisional
 - Table view of every Bundesland and plant, including each plant's catchment (served agglomerations)
 
+### Time Window
+- One control in the page header ("Saison / 1 Jahr / Alles") sets the window of every time chart; the default is the last 12 months, "Saison" starts on 1 September
+- The slider under each chart still zooms freely; "Zurücksetzen" returns to the chosen window
+
 ### Wastewater Monitoring
-- Combined plot of SARS-CoV-2, Influenza, and RSV virus load
+- Virus load of SARS-CoV-2, Influenza or RSV, one virus at a time on its own scale
 - Location selector for individual treatment plants
-- Time range selection (3m, 6m, 1y, all)
 - Interactive hover tooltips
 
 ### Sentinel Virus Detections (MedUni Wien)
