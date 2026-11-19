@@ -35,7 +35,8 @@ loads `${DATA_BASE}/<path>` with `DATA_BASE` = `https://raw.githubusercontent.co
 | Wastewater | `ages/{sarscov2,influenza,rsv}.json` | AGES `abwasser.ages.at/de/cache/plotly/*_development.json` |
 | SARI hospital | `sari/krankenanstalt.json` | Sozialversicherung open-data CSV |
 | SARI demographics | `sari/patient.json` | Sozialversicherung open-data CSV |
-| Sentinel bar chart / heatmap | `sentinel/barchart.json`, `sentinel/heatmap.json` | MedUni Wien SVGs, decoded |
+| Sentinel bar chart and heatmap | `sentinel/barchart.json` (exact counts; the page draws both charts from it) | MedUni Wien SVG, decoded |
+| (not used by the page) | `sentinel/heatmap.json` | MedUni heatmap SVG, colour-decoded steps; still fetched by the pipeline |
 | Map boundaries, plant sites | `geo/*.json` on `main` (same origin) | see `tools/build_geo.py` |
 
 ## Development

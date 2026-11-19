@@ -144,7 +144,8 @@
                     </div>
                 </div>
                 <div id="sentinel-heatmap-ec" class="ec-chart tall" role="img" aria-label="Heatmap: Fallzahlen nach Virustyp und Woche"></div>
-                <p id="sentinel-heatmap-percent-note" class="footnote" hidden>Prozentwerte: Nachweise aus dem Balkendiagramm oben (exakte Zahlen) geteilt durch die Einsendungen der Woche – nicht aus der Heatmap selbst, deren Werte nur in Farbstufen vorliegen. Zeitraum wie im Balkendiagramm.</p>
+                <p class="footnote">Zahlen aus dem Balkendiagramm oben (exakte Nachweise, Influenza = A + B + C), dargestellt in MedUnis Heatmap-Anordnung; Farbe auf Wurzelskala, damit auch kleine Zahlen sichtbar bleiben. Zeitraum wie im Balkendiagramm.</p>
+                <p id="sentinel-heatmap-percent-note" class="footnote" hidden>Prozentwerte: Nachweise geteilt durch die Einsendungen der Woche.</p>
                 <div id="sentinel-heatmap-loading" class="loading-msg">Lade Heatmap-Daten…</div>
             </div>
         </section>
@@ -309,7 +310,6 @@
     const SARI_URL = `${DATA_BASE}/sari/krankenanstalt.json`;
     const SARI_DEMO_URL = `${DATA_BASE}/sari/patient.json`;
     const SENTINEL_BAR_URL = `${DATA_BASE}/sentinel/barchart.json`;
-    const SENTINEL_HEATMAP_URL = `${DATA_BASE}/sentinel/heatmap.json`;
     const WW_SOURCES = {
         sarscov2:  { name: 'SARS-CoV-2', color: '#e87461', url: `${DATA_BASE}/ages/sarscov2.json` },
         influenza: { name: 'Influenza',  color: '#ffc600', url: `${DATA_BASE}/ages/influenza.json` },
@@ -701,7 +701,6 @@
         sari: null,           // array of row objects with .date
         sariDemo: null,       // array
         sentinelBar: null,    // {weeks, viruses, data, einsendungen}
-        sentinelHeatmap: null,// {weeks, viruses, data}
         locations: new Set()
     };
 
@@ -2079,9 +2078,10 @@
     // ==================== 4. Sentinel Heatmap ====================
     let sentinelHeatChart = initChart('sentinel-heatmap-ec');
 
-    // Heatmap cells as positivity from the exact bar-chart counts. The heatmap file
-    // only holds colour-decoded steps, too coarse to divide by Einsendungen.
-    function sentinelPercentMatrix(bar) {
+    // Heatmap cells from the exact bar-chart counts, in both modes. MedUni's own
+    // heatmap is only available as colours, and decoding them gave coarse steps
+    // that ran above the real counts and clipped at a fixed scale maximum.
+    function sentinelHeatMatrix(bar) {
         const rows = SENTINEL_HEATMAP_VIRUS_ORDER.filter(r => SENTINEL_HEATMAP_ROWS[r].some(v => bar.viruses.includes(v)));
         return {
             weeks: bar.weeks,
@@ -2095,45 +2095,42 @@
         };
     }
 
-    // Fetch errors per Sentinel feed, so the heatmap can report the one it is drawn from
-    const sentinelFeedErrors = {};
+    // The bar-feed error, so the heatmap (drawn from the same feed) can report it
+    let sentinelBarError = null;
 
     function renderSentinelHeatmap() {
         const percent = sentinelPercent;
-        const bar = dataPool.sentinelBar, d = dataPool.sentinelHeatmap;
+        const bar = dataPool.sentinelBar;
         document.getElementById('sentinel-heatmap-percent-note').hidden = !percent;
-        // The status line follows the feed this mode draws from, not the heatmap feed
         const status = document.getElementById('sentinel-heatmap-loading');
-        if (percent ? !bar : !d) {
+        if (!bar) {
             sentinelHeatChart.clear();
-            const error = sentinelFeedErrors[percent ? 'bar' : 'heatmap'];
-            if (error) setSectionError(status, error);
+            if (sentinelBarError) setSectionError(status, sentinelBarError);
             else { status.textContent = 'Lade Heatmap-Daten…'; status.style.display = ''; }
             return;
         }
         clearSectionError(status);
         status.style.display = 'none';
-        const matrix = percent && sentinelPercentMatrix(bar);
-        const weeks = percent ? matrix.weeks : d.weeks;
-        const viruses = percent ? matrix.rows : SENTINEL_HEATMAP_VIRUS_ORDER.filter(v => d.viruses.includes(v));
+        const matrix = sentinelHeatMatrix(bar);
+        const weeks = matrix.weeks;
+        const viruses = matrix.rows;
         // y-axis bottom-up: put Covid19 at top → reverse the array for ECharts category axis
         const yAxisData = [...viruses].reverse();
         const cells = [];
         yAxisData.forEach((v, yi) => {
             weeks.forEach((w, xi) => {
-                if (!percent) {
-                    cells.push([xi, yi, (d.data[v] && d.data[v][w]) || 0]);
-                    return;
-                }
                 const { pct, abs, eins } = matrix.value(v, w);
-                cells.push({ value: [xi, yi, pct], abs, eins });
+                // Counts are coloured on a square-root scale: MedUni's own heatmap
+                // shades low counts strongly too, and a linear scale up to the
+                // influenza peak would leave every other virus near-white.
+                cells.push({ value: [xi, yi, percent ? pct : Math.sqrt(abs)], abs, eins });
             });
         });
         const narrow = isNarrow();
-        const maxPct = percent ? Math.max(0, ...cells.map(c => c.value[2] || 0)) : 0;
+        const maxValue = Math.max(0, ...cells.map(c => c.value[2] || 0));
         const scale = percent
-            ? { min: 0, max: Math.max(50, Math.ceil(maxPct / 10) * 10), text: ['% der Eins.', ''], formatter: v => fmtPct(v, 0) }
-            : { min: 0, max: 120, text: ['Fallzahl', ''] };
+            ? { min: 0, max: Math.max(50, Math.ceil(maxValue / 10) * 10), text: ['% der Eins.', ''], formatter: v => fmtPct(v, 0) }
+            : { min: 0, max: Math.sqrt(Math.max(10, Math.ceil(maxValue ** 2 / 10) * 10)), text: ['Nachweise', ''], formatter: v => fmtDe(v * v, 0) };
         const view = captureChartView(sentinelHeatChart);
         sentinelHeatChart.setOption({
             toolbox: TOOLBOX,
@@ -2141,8 +2138,7 @@
                 position: 'top',
                 formatter: percent
                     ? p => `<b>${escapeHtml(sentinelWeekText(weeks[p.value[0]]))}</b><br>${escapeHtml(yAxisData[p.value[1]])}: ${fmtShareOf(p.value[2], p.data.abs, p.data.eins)}`
-                    // Absolute cells are decoded from MedUni's colour steps, not counted
-                    : p => `<b>${escapeHtml(sentinelWeekText(weeks[p.value[0]]))}</b><br>${escapeHtml(yAxisData[p.value[1]])}: ≈ ${fmtDe(p.value[2], 0)}`
+                    : p => `<b>${escapeHtml(sentinelWeekText(weeks[p.value[0]]))}</b><br>${escapeHtml(yAxisData[p.value[1]])}: ${fmtDe(p.data.abs, 0)} Nachweise (von ${fmtDe(p.data.eins, 0)} Einsendungen)`
             },
             grid: narrow ? narrowGrid(50, 130) : { left: 100, right: 100, top: 50, bottom: 80, containLabel: true },
             xAxis: { type: 'category', data: weeks, axisLabel: { rotate: -45, interval: xAxisInterval(weeks), formatter: sentinelAxisLabel } },
@@ -2160,11 +2156,6 @@
             series: [{ type: 'heatmap', data: cells, progressive: 1000 }]
         }, { notMerge: true });
         restoreChartView(sentinelHeatChart, view, weeks);
-    }
-
-    async function loadSentinelHeatmap() {
-        dataPool.sentinelHeatmap = await fetchChecked(SENTINEL_HEATMAP_URL,
-            d => Array.isArray(d.weeks) && Array.isArray(d.viruses) && d.data);
     }
 
     // ==================== 2. Kombiniertes Virensignal ====================
@@ -2359,8 +2350,7 @@
             ['wastewater', renderWastewater],
             ['sari', renderSari],
             ['sentinelBar', renderSentinelBar],
-            // Percent mode draws the heatmap from the bar data, so either feed will do
-            [() => dataPool.sentinelHeatmap || dataPool.sentinelBar, renderSentinelHeatmap],
+            ['sentinelBar', renderSentinelHeatmap],
             ['sariDemo', renderIncidence],
             ['sariDemo', renderAgeHeatmap],
             ['sariDemo', renderDemographics]
@@ -2483,21 +2473,11 @@
             loadSentinelBar().then(() => {
                 document.getElementById('sentinel-bar-loading').style.display = 'none';
                 renderSentinelBar();
-                // In percent mode the heatmap waits for this feed
-                if (sentinelPercent) renderSentinelHeatmap();
+                renderSentinelHeatmap();
                 bumpFreshness('Sentinel', lastFromWeeks(dataPool.sentinelBar.weeks));
             }).catch(e => {
                 setSectionError(document.getElementById('sentinel-bar-loading'), errorText(e));
-                sentinelFeedErrors.bar = errorText(e);
-                if (sentinelPercent) renderSentinelHeatmap();
-            }),
-
-            loadSentinelHeatmap().then(() => {
-                // Percent mode draws from the bar feed, which renders it on arrival
-                if (!sentinelPercent || dataPool.sentinelBar) renderSentinelHeatmap();
-                bumpFreshness('Sentinel', lastFromWeeks(dataPool.sentinelHeatmap.weeks));
-            }).catch(e => {
-                sentinelFeedErrors.heatmap = errorText(e);
+                sentinelBarError = errorText(e);
                 renderSentinelHeatmap();
             })
         ];
