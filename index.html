@@ -528,10 +528,15 @@
     // Axis-trigger tooltip in German number format. ECharts' default prints
     // ISO dates and English separators; header(axisValue) names the week.
     const pointValue = p => Array.isArray(p.value) ? p.value[1] : p.value;
-    function axisTooltip(header, valueText) {
+    // sortDesc lists the highest value first (gaps last), for line charts
+    // where the series order says nothing about who is on top this week.
+    function axisTooltip(header, valueText, { sortDesc = false } = {}) {
+        const rank = p => { const v = pointValue(p); return v == null ? -Infinity : +v; };
         return params => {
             if (!params || !params.length) return '';
-            const rows = params.filter(p => !String(p.seriesName).startsWith('__')).map(p => {
+            let shown = params.filter(p => !String(p.seriesName).startsWith('__'));
+            if (sortDesc) shown = [...shown].sort((a, b) => rank(b) - rank(a));
+            const rows = shown.map(p => {
                 const v = pointValue(p);
                 return `${p.marker}${escapeHtml(p.seriesName)}<span class="tt-value">${v == null ? '–' : valueText(+v, p)}</span>`;
             });
@@ -1543,7 +1548,21 @@
 
     // ==================== 6. SARI-Inzidenz pro 100.000 ====================
     let incidenceChart = initChart('sari-incidence-ec');
-    let incidenceSelectedRegions = new Set(['AT']);
+    // Default: Österreich plus the three most populous Länder (together more
+    // than half the population), so the chart opens as the comparison its
+    // subtitle promises, with rates stable enough to compare; small Länder
+    // swing on a handful of admissions. The reader's own choice is kept.
+    const INCIDENCE_DEFAULT_REGIONS = ['AT', 'W', 'NÖ', 'OÖ'];
+    const INCIDENCE_REGIONS_KEY = 'incidenceRegions';  // JSON array of region codes
+    let incidenceSelectedRegions = new Set(INCIDENCE_DEFAULT_REGIONS);
+    function loadIncidenceRegions() {
+        try {
+            const saved = JSON.parse(storageGet(INCIDENCE_REGIONS_KEY));
+            const valid = Array.isArray(saved) ? saved.filter(c => INCIDENCE_REGION_ORDER.includes(c)) : [];
+            if (valid.length) incidenceSelectedRegions = new Set(valid);
+        } catch { /* nothing stored or unreadable: keep the default */ }
+    }
+    const saveIncidenceRegions = () => storageSet(INCIDENCE_REGIONS_KEY, JSON.stringify([...incidenceSelectedRegions]));
 
     // Fixed slot per region: the colour follows the entity, so filtering the
     // selection never repaints the remaining lines. Österreich is the reference
@@ -1604,6 +1623,7 @@
         const diagnose = document.getElementById('incidence-diagnose').value;
         const station = document.getElementById('incidence-station').value;
         const regions = INCIDENCE_REGION_ORDER.filter(r => incidenceSelectedRegions.has(r));
+        saveIncidenceRegions();
         updateDropdownLabel('toggle-incidence-regions', incidenceSelectedRegions, 'Bundesland', 'Bundesländer', INCIDENCE_REGION_ORDER.length);
 
         if (regions.length === 0) {
@@ -1652,8 +1672,8 @@
             },
             toolbox: TOOLBOX,
             tooltip: {
-                trigger: 'axis',
-                formatter: axisTooltip(ms => weekHeader(new Date(ms)), v => fmtDe(v) + ' pro 100.000')
+                trigger: 'axis', confine: true,
+                formatter: axisTooltip(ms => weekHeader(new Date(ms)), v => fmtDe(v) + ' pro 100.000', { sortDesc: true })
             },
             legend: !multi ? { show: false }
                 : narrow ? narrowLegend(regions.map(r => BUNDESLAND_NAMES[r]))
@@ -2599,6 +2619,7 @@
             // "Lade Daten…" or make it report someone else's error.
             loadDemographics().then(() => {
                 initSection('sari-incidence-loading', () => {
+                    loadIncidenceRegions();
                     setupIncidenceDropdown();
                     buildIncidenceRegionList();
                     ['incidence-diagnose', 'incidence-station']
