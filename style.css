@@ -270,12 +270,8 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* Page header: title, data freshness and theme toggle, above the first card */
+/* Page header: title and data freshness, above the first card */
 .page-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
     text-align: left;
     margin: 4px 0 20px;
 }
@@ -833,20 +829,19 @@ footer .impressum a {
 
 .theme-toggle {
     flex: none;
-    width: 38px;
-    height: 38px;
+    width: 30px;
+    height: 30px;
     padding: 0;
     border-radius: 50%;
     background: var(--surface);
     color: var(--text);
     border: 1px solid var(--border);
     cursor: pointer;
-    font-size: 18px;
+    font-size: 15px;
     line-height: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 8px var(--shadow);
     transition: transform 0.15s ease, background-color 0.15s ease;
 }
 
@@ -1085,14 +1080,6 @@ footer .impressum a {
     margin-top: 0;
 }
 
-/* Slimmer inside the bar, so the row keeps its height */
-.section-nav .theme-toggle {
-    width: 30px;
-    height: 30px;
-    font-size: 15px;
-    box-shadow: none;
-}
-
 .section-nav a {
     flex: none;
     padding: 4px 14px;
@@ -1195,5 +1182,13 @@ footer .impressum a {
 
     .sari-section h3 {
         font-size: 1.25rem;
+    }
+}
+
+/* Smallest phones: drop the "Zeitraum:" caption so time window and toggle
+   still share the second row (it stays the radiogroup's accessible name) */
+@media (max-width: 359px) {
+    #time-range-label {
+        display: none;
     }
 }

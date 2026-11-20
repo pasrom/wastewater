@@ -25,10 +25,8 @@
 <body>
     <div class="container">
         <header class="page-header">
-            <div>
-                <h1>Atemwegsviren in Österreich</h1>
-                <p id="data-freshness" class="data-freshness"></p>
-            </div>
+            <h1>Atemwegsviren in Österreich</h1>
+            <p id="data-freshness" class="data-freshness"></p>
         </header>
         <!-- Sticky jump links: the page is nine charts long, so every group is one
              tap away. The shared time window and the theme toggle ride along,
@@ -379,10 +377,9 @@
     };
     const SENTINEL_VIRUS_ORDER = ['Entero', 'Inf_A', 'Inf_B', 'Inf_C', 'Metapneumo_V', 'RSV', 'Rhino', 'Adeno', 'ParaInfluenza', 'Corona', 'Covid-19'];
     const SENTINEL_LABELS = { Inf_A: 'Inf A', Inf_B: 'Inf B', Inf_C: 'Inf C', Metapneumo_V: 'Metapneumo V.' };
-    // Heatmap rows in display order, each with the bar-chart viruses it sums;
     // MedUni's Sentinel heatmap ramp; the age heatmap uses it too
     const HEATMAP_RAMP = ['#ffffcc', '#ffeda0', '#feb24c', '#f03b20', '#bd0026'];
-
+    // Heatmap rows in display order, each with the bar-chart viruses it sums;
     // mirrors HEATMAP_ROW in tools/extract_virus_data.py
     const SENTINEL_HEATMAP_ROWS = {
         Covid19: ['Covid-19'], Influenza: ['Inf_A', 'Inf_B', 'Inf_C'], Entero: ['Entero'], MPV: ['Metapneumo_V'],
