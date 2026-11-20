@@ -306,6 +306,7 @@
                     <div id="sari-heatmap-loading-ec" class="loading-msg">Lade Daten…</div>
                 </div>
                 <p class="footnote">*Schraffiert: die beiden jüngsten Wochen sind vorläufig. Da laufend mit Korrekturen und Nachmeldungen zu rechnen ist, kann sich der Datenbestand noch verändern.</p>
+                <p id="sari-heatmap-scale-note" class="footnote">Farbe auf Wurzelskala, damit auch die jüngeren Altersgruppen sichtbar bleiben.</p>
             </div>
         </section>
 
@@ -379,6 +380,9 @@
     const SENTINEL_VIRUS_ORDER = ['Entero', 'Inf_A', 'Inf_B', 'Inf_C', 'Metapneumo_V', 'RSV', 'Rhino', 'Adeno', 'ParaInfluenza', 'Corona', 'Covid-19'];
     const SENTINEL_LABELS = { Inf_A: 'Inf A', Inf_B: 'Inf B', Inf_C: 'Inf C', Metapneumo_V: 'Metapneumo V.' };
     // Heatmap rows in display order, each with the bar-chart viruses it sums;
+    // MedUni's Sentinel heatmap ramp; the age heatmap uses it too
+    const HEATMAP_RAMP = ['#ffffcc', '#ffeda0', '#feb24c', '#f03b20', '#bd0026'];
+
     // mirrors HEATMAP_ROW in tools/extract_virus_data.py
     const SENTINEL_HEATMAP_ROWS = {
         Covid19: ['Covid-19'], Influenza: ['Inf_A', 'Inf_B', 'Inf_C'], Entero: ['Entero'], MPV: ['Metapneumo_V'],
@@ -2122,13 +2126,9 @@
     }
 
     // ==================== 8. SARI Altersgruppen-Heatmap ====================
-    // Zero sits at the card surface in both themes so empty cells recede; in dark
-    // mode "more" gets lighter, so high values stand out against the dark card.
+    // Same look as the Sentinel heatmap (MedUni's ramp, square-root scale), so
+    // both heatmaps on the page read the same way in either theme.
     const AGE_HEATMAP_NORMALIZE_KEY = 'ageHeatmapNormalize';  // '1' | '0'
-    const AGE_HEATMAP_RAMP = {
-        light: ['#f7f7f7', '#fee8c8', '#fdbb84', '#e34a33', '#7f0000'],
-        dark:  ['#2a2426', '#5a2c22', '#9a3b26', '#d95a33', '#fdae6b']
-    };
     let ageHeatmapChart = initChart('sari-heatmap-ec');
 
     function aggregateAgeHeatmap(bundesland, station, diagnose) {
@@ -2155,6 +2155,7 @@
         const diagnose = document.getElementById('sari-heatmap-diagnose').value;
         const per100k = document.getElementById('sari-heatmap-per100k').checked;
         const normalize = document.getElementById('sari-heatmap-normalize').checked;
+        document.getElementById('sari-heatmap-scale-note').hidden = normalize;
         const aggregated = aggregateAgeHeatmap(bundesland, station, diagnose);
         if (aggregated.size === 0) {
             ageHeatmapChart.clear();
@@ -2168,7 +2169,8 @@
 
         // Each cell carries [x, y, colour value, count, per-100k]. Normalised, the
         // colour value is the share of that age group's own maximum, so younger
-        // groups are not washed out by the 80+ row.
+        // groups are not washed out by the 80+ row. Otherwise it is the square
+        // root of the value, as in the Sentinel heatmap, so low rows stay visible.
         const cells = [];
         let zMax = 0;
         ageGroups.forEach((ag, yi) => {
@@ -2180,17 +2182,16 @@
             });
             const rowMax = Math.max(0, ...row.map(c => c[2]));
             for (const c of row) {
-                if (normalize) c[2] = rowMax > 0 ? c[2] / rowMax : 0;
+                c[2] = normalize ? (rowMax > 0 ? c[2] / rowMax : 0) : Math.sqrt(c[2]);
                 if (c[2] > zMax) zMax = c[2];
                 cells.push(c);
             }
         });
 
         const narrow = isNarrow();
-        const visualMapText = normalize ? 'Anteil am Gruppenmax.' : per100k ? 'pro 100k' : 'Aufnahmen';
-        const ramp = AGE_HEATMAP_RAMP[themeMode()];
+        const visualMapText = normalize ? '% vom Max.' : per100k ? 'pro 100k' : 'Aufnahmen';
         const scaleMax = normalize ? 1 : zMax || 1;
-        const scaleFmt = normalize ? (v => fmtDe(v * 100, 0) + ' %') : undefined;
+        const scaleFmt = normalize ? (v => fmtDe(v * 100, 0) + ' %') : (v => fmtDe(v * v, 0));
         // SARI spells weeks '46. KW 2026'; show them like every other chart
         const kwText = kw => { const d = parseKW(kw); return d ? formatKW(d) : kw; };
         ageHeatmapChart.setOption({
@@ -2216,13 +2217,13 @@
                 ? {
                     min: 0, max: scaleMax, calculable: true, orient: 'horizontal',
                     left: 'center', bottom: 5, itemWidth: 16, itemHeight: 180,
-                    dimension: 2, inRange: { color: ramp }, formatter: scaleFmt,
+                    dimension: 2, inRange: { color: HEATMAP_RAMP }, formatter: scaleFmt,
                     text: [visualMapText, '']
                 }
                 : {
                     min: 0, max: scaleMax, calculable: true, orient: 'vertical',
                     right: 10, top: 50, itemHeight: 140,
-                    dimension: 2, inRange: { color: ramp }, formatter: scaleFmt,
+                    dimension: 2, inRange: { color: HEATMAP_RAMP }, formatter: scaleFmt,
                     text: [visualMapText, '']
                 },
             dataZoom: [
@@ -2414,7 +2415,7 @@
             yAxis: { type: 'category', data: yAxisData },
             visualMap: {
                 ...scale, calculable: true,
-                inRange: { color: ['#ffffcc', '#ffeda0', '#feb24c', '#f03b20', '#bd0026'] },
+                inRange: { color: HEATMAP_RAMP },
                 ...(narrow
                     ? { orient: 'horizontal', left: 'center', bottom: 5, itemWidth: 16, itemHeight: 180 }
                     : { orient: 'vertical', right: 10, top: 50, itemHeight: 140 })
