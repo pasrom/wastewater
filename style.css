@@ -261,9 +261,20 @@ footer {
     font-size: 0.85rem;
 }
 
+footer {
+    line-height: 1.6;
+}
+
+/* A link never breaks mid-name ("UWWTD-|Berichterstattung"); lines wrap
+   between links instead */
 footer a {
     color: var(--accent);
     text-decoration: none;
+    white-space: nowrap;
+}
+
+footer p + p {
+    margin-top: 4px;
 }
 
 footer a:hover {
