@@ -2,7 +2,7 @@
 
 Interactive dashboard displaying virus load in Austrian wastewater, Sentinel virus detections, and SARI hospital admissions.
 
-**Live Demo:** https://pasrom.github.io/wastewater/
+**Live:** https://virenradar.at
 
 ## Features
 

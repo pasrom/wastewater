@@ -49,7 +49,7 @@ open http://localhost:8080
 ```
 
 ## Deployment
-Automatic via GitHub Actions on push to `main`. Live at: https://pasrom.github.io/wastewater/
+Automatic via GitHub Actions on push to `main`. Live at: https://virenradar.at (custom domain; https://pasrom.github.io/wastewater/ redirects there)
 
 ## Code Style
 - Comments in English
