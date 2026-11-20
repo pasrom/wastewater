@@ -1085,6 +1085,14 @@ footer .impressum a {
     margin-top: 0;
 }
 
+/* Slimmer inside the bar, so the row keeps its height */
+.section-nav .theme-toggle {
+    width: 30px;
+    height: 30px;
+    font-size: 15px;
+    box-shadow: none;
+}
+
 .section-nav a {
     flex: none;
     padding: 4px 14px;
@@ -1174,6 +1182,11 @@ footer .impressum a {
 
     .section-nav .time-range {
         font-size: 0.8rem;
+    }
+
+    /* Second row: time window left, theme toggle right */
+    .section-nav .theme-toggle {
+        margin-left: auto;
     }
 
     .group-heading {
