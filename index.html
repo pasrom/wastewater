@@ -8,8 +8,6 @@
     <!-- ?v= is stamped with the commit on deploy, so a new page never meets a
          cached stylesheet from the previous one -->
     <link rel="stylesheet" href="style.css?v=__COMMIT_SHA__">
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"
-            integrity="sha384-o5uz97et3bErHvpKfD4Jz4n0JfhJDWABFuF4NP+iEEDxE1VwMWJ19QGR0lqFZnr6" crossorigin="anonymous"></script>
     <style>
         .ec-chart { width: 100%; height: 520px; }
         .ec-chart.tall { height: 650px; }
@@ -389,8 +387,23 @@
     <script data-goatcounter="https://pasrom.goatcounter.com/count"
             async src="//gc.zgo.at/count.js"></script>
 
+    <!-- Loaded at the end of the body, not in <head>: a slow or stalled CDN
+         used to block the whole page and leave it blank; now the text renders
+         first and only the charts wait -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"
+            integrity="sha384-o5uz97et3bErHvpKfD4Jz4n0JfhJDWABFuF4NP+iEEDxE1VwMWJ19QGR0lqFZnr6" crossorigin="anonymous"></script>
     <script>
     'use strict';
+
+    // CDN blocked (ad blocker, filtering network): say so instead of leaving
+    // every card on "Lade …"
+    if (typeof echarts === 'undefined') {
+        document.querySelectorAll('.loading-msg').forEach(el => {
+            el.textContent = 'Die Grafik-Bibliothek (jsDelivr) konnte nicht geladen werden. Bitte die Seite neu laden; ein Werbeblocker oder Firmennetz kann sie blockieren.';
+            el.classList.add('error-msg');
+        });
+        throw new Error('ECharts not loaded');
+    }
 
     // ==================== Konstanten ====================
     const DATA_BASE = 'https://raw.githubusercontent.com/pasrom/wastewater/data';
