@@ -909,6 +909,20 @@ footer .impressum a {
     color: var(--accent);
 }
 
+.glance-region {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* Not the full-width phone select of the chart filters: it sits next to its label */
+.glance-region .select-input {
+    width: auto;
+}
+
 .glance-sub {
     display: block;
     color: var(--text-muted);

@@ -54,6 +54,10 @@
                 <p class="subtitle">Neueste Woche je Quelle – Details in den Abschnitten darunter</p>
             </header>
             <div class="sari-content">
+                <div class="glance-region">
+                    <label for="my-region">Mein Bundesland:</label>
+                    <select id="my-region" class="select-input"></select>
+                </div>
                 <table class="glance">
                     <thead>
                         <tr><th scope="col">Virus</th><th scope="col">Abwasser-Trend Österreich</th><th scope="col">Sentinel: positive Proben</th><th scope="col">Spital: SARI-Aufnahmen Österreich</th></tr>
@@ -1393,7 +1397,10 @@
                 left: 10, right: narrow ? 10 : 90, top: 10, bottom: narrow ? 60 : 10,
                 itemStyle: { areaColor: pal.noData, borderColor: pal.surface, borderWidth: 1.5 },
                 emphasis: { itemStyle: { areaColor: 'inherit', borderColor: pal.ink, borderWidth: 2 }, label: { show: false } },
-                select: { disabled: true }, label: { show: false }
+                select: { disabled: true }, label: { show: false },
+                // "Mein Bundesland" gets an ink outline on top of its class colour
+                regions: myRegion ? [{ name: myRegion, itemStyle: { borderColor: pal.ink, borderWidth: 3 },
+                    emphasis: { itemStyle: { borderColor: pal.ink, borderWidth: 3 } } }] : []
             },
             visualMap: {
                 type: 'piecewise', seriesIndex: 0, pieces: mapScalePieces(breaks),
@@ -1719,6 +1726,7 @@
     const INCIDENCE_DEFAULT_REGIONS = ['AT', 'W', 'NÖ', 'OÖ'];
     const INCIDENCE_REGIONS_KEY = 'incidenceRegions';  // JSON array of region codes
     let incidenceSelectedRegions = new Set(INCIDENCE_DEFAULT_REGIONS);
+    let incidenceReady = false;  // section rendered once; "Mein Bundesland" may re-render it
     function loadIncidenceRegions() {
         try {
             const saved = JSON.parse(storageGet(INCIDENCE_REGIONS_KEY));
@@ -2657,7 +2665,8 @@
     let glanceSettled = false;  // every feed has loaded or failed
     const glancePending = () => glanceSettled ? 'nicht geladen' : '…';
 
-    // value: a plain string (loading, missing) or { href, main, sub, dot }
+    // value: a plain string (loading, missing) or { href, main, sub, dot };
+    // sub is one line or an array of lines
     function glanceFill(td, value) {
         td.textContent = '';
         td.classList.toggle('glance-empty', typeof value === 'string');
@@ -2667,10 +2676,10 @@
         a.href = value.href;
         a.textContent = value.main;
         td.append(a);
-        if (value.sub) {
+        for (const line of [].concat(value.sub || [])) {
             const sub = document.createElement('span');
             sub.className = 'glance-sub';
-            sub.textContent = value.sub;
+            sub.textContent = line;
             td.append(sub);
         }
     }
@@ -2706,6 +2715,7 @@
         return { href: '#sentinel', main: fmtShareOf(cur.pct, cur.n, cur.eins), sub: sub.join(' · ') };
     }
 
+    const admissionsText = n => `${fmtDe(n, 0)} Aufnahme${n === 1 ? '' : 'n'}`;
     function glanceSari(column) {
         if (!dataPool.sariDemo) return glancePending();
         const weeks = [...incidenceWeekly('AT', column, 'ALL')];
@@ -2717,7 +2727,11 @@
         const sub = [formatKW(parseYMD(ymd))];
         if (SARI_PROVISIONAL_WEEKS > 0) sub.push('vorläufig – Nachmeldungen zu erwarten');
         else if (weeks.length > 1) sub.push(`Vorwoche ${fmtDe(weeks[weeks.length - 2][1].cases, 0)}`);
-        return { href: '#spital', main: `${fmtDe(cur.cases, 0)} Aufnahme${cur.cases === 1 ? '' : 'n'}`, sub: sub.join(' · ') };
+        const lines = [sub.join(' · ')];
+        const mine = myRegion && incidenceWeekly(myRegion, column, 'ALL').get(ymd);
+        if (mine) lines.push(`${BUNDESLAND_NAMES[myRegion]}: ${admissionsText(mine.cases)}`
+            + (mine.rate == null ? '' : ` · ${fmtDe(mine.rate, 2)} pro 100.000`));
+        return { href: '#spital', main: admissionsText(cur.cases), sub: lines };
     }
 
     function renderGlance() {
@@ -2738,6 +2752,36 @@
             setSectionError(el, errorText(e));
         }
     }
+    // "Mein Bundesland": one choice that the SARI charts, the incidence lines,
+    // the map and this card all follow. The SARI selects only take it as their
+    // starting value; the reader can still switch them for the visit.
+    const MY_REGION_KEY = 'myRegion';
+    // '1' when choosing the Land put it into the incidence selection, so
+    // clearing takes back only what this control added, never the reader's own
+    const MY_REGION_ADDED_KEY = 'myRegionAddedToIncidence';
+    const MY_REGION_CODES = INCIDENCE_REGION_ORDER.filter(c => c !== 'AT');
+    const storedRegion = storageGet(MY_REGION_KEY);
+    let myRegion = MY_REGION_CODES.includes(storedRegion) ? storedRegion : '';
+
+    function setMyRegion(code) {
+        const prev = myRegion;
+        myRegion = code;
+        storageSet(MY_REGION_KEY, code);
+        const sariSelect = document.getElementById('sari-bundesland');
+        sariSelect.value = code || 'AT';
+        sariSelect.dispatchEvent(new Event('change'));  // linked selects follow
+
+        if (prev && storageGet(MY_REGION_ADDED_KEY) === '1') incidenceSelectedRegions.delete(prev);
+        const add = !!code && !incidenceSelectedRegions.has(code);
+        if (add) incidenceSelectedRegions.add(code);
+        storageSet(MY_REGION_ADDED_KEY, add ? '1' : '0');
+        saveIncidenceRegions();
+        if (incidenceReady) { buildIncidenceRegionList(); renderIncidence(); }
+
+        if (mapState.ready) scheduleMapRender();
+        refreshGlance();
+    }
+
     // Calendar, not data: the official advice is to vaccinate before the wave,
     // so the hint must not wait for activity to rise (Sep–Dec only)
     document.getElementById('glance-impf').hidden = new Date().getMonth() < 8;
@@ -2751,6 +2795,14 @@
         SARI_STATION_SELECTS.forEach(id => fillSelect(id, STATION_NAMES));
         fillSelect('incidence-diagnose', DIAGNOSE_OPTIONS);
         fillSelect('sari-heatmap-diagnose', DIAGNOSE_OPTIONS);
+        // Read before any feed arrives: "Mein Bundesland" may change the
+        // selection while the SARI feed is still loading
+        loadIncidenceRegions();
+        fillSelect('my-region', { '': '– keines –', ...Object.fromEntries(MY_REGION_CODES.map(c => [c, BUNDESLAND_NAMES[c]])) });
+        const myRegionSelect = document.getElementById('my-region');
+        myRegionSelect.value = myRegion;
+        myRegionSelect.addEventListener('change', () => setMyRegion(myRegionSelect.value));
+        if (myRegion) SARI_REGION_SELECTS.forEach(id => { document.getElementById(id).value = myRegion; });
 
         // Bundesland and Station had to be set four times to compare the SARI
         // charts. The selects stay next to their chart (the cards are far apart),
@@ -2939,12 +2991,12 @@
             // "Lade Daten…" or make it report someone else's error.
             loadDemographics().then(() => {
                 initSection('sari-incidence-loading', () => {
-                    loadIncidenceRegions();
                     setupIncidenceDropdown();
                     buildIncidenceRegionList();
                     ['incidence-diagnose', 'incidence-station']
                         .forEach(id => document.getElementById(id).addEventListener('change', renderIncidence));
                     renderIncidence();
+                    incidenceReady = true;
                 });
                 initSection('sari-demographics-loading-ec', () => {
                     const refreshBoth = () => { rebuildDemoTimeline(); renderDemographics(); };
