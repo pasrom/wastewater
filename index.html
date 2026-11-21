@@ -47,6 +47,29 @@
         </nav>
 
         <h2 class="group-heading" id="karte">Überblick</h2>
+        <!-- 9. Lage auf einen Blick -->
+        <section class="sari-section glance-section">
+            <header>
+                <h3>Lage auf einen Blick</h3>
+                <p class="subtitle">Neueste Woche je Quelle – Details in den Abschnitten darunter</p>
+            </header>
+            <div class="sari-content">
+                <table class="glance">
+                    <thead>
+                        <tr><th scope="col">Virus</th><th scope="col">Abwasser-Trend Österreich</th><th scope="col">Sentinel: positive Proben</th><th scope="col">Spital: SARI-Aufnahmen Österreich</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr id="glance-sarscov2"><th scope="row">SARS-CoV-2</th><td data-label="Abwasser">…</td><td data-label="Sentinel">…</td><td data-label="Spital">…</td></tr>
+                        <tr id="glance-influenza"><th scope="row">Influenza</th><td data-label="Abwasser">…</td><td data-label="Sentinel">…</td><td data-label="Spital">…</td></tr>
+                        <tr id="glance-rsv"><th scope="row">RSV</th><td data-label="Abwasser">…</td><td data-label="Sentinel">…</td><td data-label="Spital">…</td></tr>
+                    </tbody>
+                </table>
+                <p id="glance-error" class="loading-msg" hidden></p>
+                <p id="glance-impf" class="glance-impf" hidden>Impfsaison: Die aktuellen Empfehlungen stehen im <a href="https://www.sozialministerium.gv.at/Themen/Gesundheit/Impfen/impfplan.html" target="_blank" rel="noopener">Impfplan Österreich</a> des Sozialministeriums. Diese Seite gibt keine medizinische Beratung.</p>
+                <p class="footnote">Abwasser: Trend des Österreich-Werts der AGES über die letzten vier Kalenderwochen, berechnet wie in der Karte. Sentinel: Anteil der Proben aus Arztpraxen mit Nachweis des Virus (MedUni Wien); Influenza zählt A, B und C zusammen. Spital: SARI-Aufnahmen mit dieser Diagnose nach Wohnort, ganz Österreich; die beiden jüngsten Wochen sind vorläufig, da Nachmeldungen zu erwarten sind. Die Quellen veröffentlichen an verschiedenen Tagen, daher können die Wochen abweichen.</p>
+            </div>
+        </section>
+
         <!-- 0. Lage nach Bundesland (Karte) -->
         <section class="sari-section">
             <header>
@@ -2621,6 +2644,103 @@
         document.getElementById('version').hidden = false;
     }
 
+    // ==================== 9. Lage auf einen Blick ====================
+    // The newest week per virus and source, described and never judged: the
+    // numbers a reader would otherwise collect by scrolling through the charts.
+    // Same definitions as the map (AGES trend, SARI by residence) and the
+    // Sentinel heatmap rows.
+    const GLANCE_VIRUSES = [
+        { key: 'sarscov2', sentinel: SENTINEL_HEATMAP_ROWS.Covid19 },
+        { key: 'influenza', sentinel: SENTINEL_HEATMAP_ROWS.Influenza },
+        { key: 'rsv', sentinel: SENTINEL_HEATMAP_ROWS.RSV }
+    ];
+    let glanceSettled = false;  // every feed has loaded or failed
+    const glancePending = () => glanceSettled ? 'nicht geladen' : '…';
+
+    // value: a plain string (loading, missing) or { href, main, sub, dot }
+    function glanceFill(td, value) {
+        td.textContent = '';
+        td.classList.toggle('glance-empty', typeof value === 'string');
+        if (typeof value === 'string') { td.textContent = value; return; }
+        if (value.dot) td.append(value.dot, ' ');
+        const a = document.createElement('a');
+        a.href = value.href;
+        a.textContent = value.main;
+        td.append(a);
+        if (value.sub) {
+            const sub = document.createElement('span');
+            sub.className = 'glance-sub';
+            sub.textContent = value.sub;
+            td.append(sub);
+        }
+    }
+
+    function glanceWastewater(key, pal) {
+        if (!dataPool.wastewater) return glancePending();
+        const src = dataPool.wastewater[key];
+        if (!src) return 'nicht geladen';
+        const at = src.traces['Österreich'];
+        const samples = at ? plantSamples(at) : [];
+        if (!samples.length) return 'keine Daten';
+        const week = samples[samples.length - 1].monday;
+        const t = plantTrend(at, week);
+        return { href: '#abwasser', dot: trendDot(t.cls, pal), main: trendText(t), sub: formatKW(parseYMD(week)) };
+    }
+
+    function glanceSentinel(viruses) {
+        const bar = dataPool.sentinelBar;
+        if (!bar) return glancePending();
+        const share = label => {
+            const counts = bar.data[label] || {};
+            const n = viruses.reduce((sum, v) => sum + (+counts[v] || 0), 0);
+            const eins = +bar.einsendungen[label] || 0;
+            return { n, eins, pct: positivity(n, eins) };
+        };
+        const weeks = bar.weeks;
+        if (!weeks.length) return 'keine Daten';
+        const cur = share(weeks[weeks.length - 1]);
+        if (cur.pct == null) return 'keine Einsendungen';
+        const prev = weeks.length > 1 ? share(weeks[weeks.length - 2]) : null;
+        const sub = [sentinelAxisLabel(weeks[weeks.length - 1])];
+        if (prev && prev.pct != null) sub.push(`Vorwoche ${fmtPct(prev.pct)}`);
+        return { href: '#sentinel', main: fmtShareOf(cur.pct, cur.n, cur.eins), sub: sub.join(' · ') };
+    }
+
+    function glanceSari(column) {
+        if (!dataPool.sariDemo) return glancePending();
+        const weeks = [...incidenceWeekly('AT', column, 'ALL')];
+        if (!weeks.length) return 'keine Daten';
+        const [ymd, cur] = weeks[weeks.length - 1];
+        const prev = weeks.length > 1 ? weeks[weeks.length - 2][1] : null;
+        // The newest SARI_PROVISIONAL_WEEKS weeks still receive late reports
+        const sub = [formatKW(parseYMD(ymd))];
+        if (prev) sub.push(`Vorwoche ${fmtDe(prev.cases, 0)}`);
+        sub.push(prev && SARI_PROVISIONAL_WEEKS > 1 ? 'beide vorläufig' : 'vorläufig');
+        return { href: '#spital', main: `${fmtDe(cur.cases, 0)} Aufnahme${cur.cases === 1 ? '' : 'n'}`, sub: sub.join(' · ') };
+    }
+
+    function renderGlance() {
+        const pal = MAP_PALETTE[themeMode()];
+        for (const v of GLANCE_VIRUSES) {
+            const [ww, sentinel, sari] = document.getElementById(`glance-${v.key}`).querySelectorAll('td');
+            glanceFill(ww, glanceWastewater(v.key, pal));
+            glanceFill(sentinel, glanceSentinel(v.sentinel));
+            glanceFill(sari, glanceSari(MAP_SARI_COLUMN[v.key]));
+        }
+    }
+    // Called from every feed's success path: a bug here must not be reported
+    // as that feed's load failure
+    function refreshGlance() {
+        try { renderGlance(); } catch (e) {
+            const el = document.getElementById('glance-error');
+            el.hidden = false;
+            setSectionError(el, errorText(e));
+        }
+    }
+    // Calendar, not data: the official advice is to vaccinate before the wave,
+    // so the hint must not wait for activity to rise (Sep–Dec only)
+    document.getElementById('glance-impf').hidden = new Date().getMonth() < 8;
+
     // ==================== Boot ====================
     (async () => {
         // Populate every selector before the first render reads its .value
@@ -2739,6 +2859,7 @@
             // Swatch colours come from the theme-dependent palette
             if (dataPool.sariDemo) { buildIncidenceRegionList(); rebuildDemoTimeline(); }
             if (combinedReady) renderCombinedSignal();
+            refreshGlance();  // trend dot colours
         }
         function setTheme(value, persist) {
             if (persist) storageSet(THEME_STORAGE_KEY, value);
@@ -2789,6 +2910,7 @@
                     const at = src.traces['Österreich'];
                     if (at && at.x.length) bumpFreshness('Abwasser', parseYMD(at.x[at.x.length - 1]));
                 }
+                refreshGlance();
             }).catch(e => setSectionError(document.getElementById('ww-loading'), errorText(e))),
 
             loadSari().then(() => {
@@ -2843,6 +2965,7 @@
                     renderAgeHeatmap();
                 });
                 bumpFreshness('SARI', lastFromRows(dataPool.sariDemo));
+                refreshGlance();
             }).catch(e => {
                 // The fetch itself failed — every section on this feed stays empty
                 ['sari-incidence-loading', 'sari-demographics-loading-ec', 'sari-heatmap-loading-ec']
@@ -2854,12 +2977,16 @@
                 renderSentinelBar();
                 renderSentinelHeatmap();
                 bumpFreshness('Sentinel', lastFromWeeks(dataPool.sentinelBar.weeks));
+                refreshGlance();
             }).catch(e => {
                 setSectionError(document.getElementById('sentinel-bar-loading'), errorText(e));
                 sentinelBarFailed = true;
                 renderSentinelHeatmap();
             })
         ];
+
+        // Feeds that failed now read "nicht geladen" instead of "…"
+        Promise.all(tasks).then(() => { glanceSettled = true; refreshGlance(); });
 
         // The map needs its static assets, wastewater and the SARI demographics.
         // Every task settles (each catches its own error), so the map renders

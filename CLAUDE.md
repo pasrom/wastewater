@@ -95,6 +95,7 @@ or `timeZoom(series)` (time axis): shared control "Saison / 1 Jahr / Alles" in t
 `timeRange`, clamped so at least 8 weeks of the chart's own data stay visible. A new time chart
 should do the same and use `TIME_X_AXIS` (German month labels). Numbers in tooltips and labels go
 through `fmtDe`/`compactNumber` (dot grouping, decimal comma, real minus sign).
+9. Lage auf einen Blick (first card under Überblick) — `renderGlance` (newest week per virus: AGES Österreich trend, Sentinel positivity, SARI admissions AT), refreshed by every feed via `refreshGlance`; the Impfplan hint is calendar-based (Sep–Dec), never data-triggered
 0. Map by Bundesland — `loadMapAssets`, `plantTrend` (AGES 4-week trend), `mapModel`, `renderMap`, `renderMapList`
 1. Wastewater — `extractWastewaterTraces`, `renderWastewater`
 2. Combined signal — `computeCombinedSignals`, `renderCombinedSignal`
@@ -103,7 +104,7 @@ through `fmtDe`/`compactNumber` (dot grouping, decimal comma, real minus sign).
 6. SARI incidence — `incidenceWeekly` (cases, population, rate per week), `renderIncidence`
 7./8. Demographics and age heatmap — `demoPopulation` (the only per-100k denominator), `renderDemographics`, `renderAgeHeatmap`
 
-Layout: cards are grouped under `h2.group-heading` (Überblick = map + combined signal, Abwasser, Sentinel, Krankenhaus) with
+Layout: cards are grouped under `h2.group-heading` (Überblick = Lage auf einen Blick + map + combined signal, Abwasser, Sentinel, Krankenhaus) with
 card titles as `h3`; the sticky `.section-nav` links to those ids (`#karte`, `#abwasser`, `#sentinel`,
 `#spital`, `#alter`). Each chart and its `.loading-msg` sit in a `.chart-wrap`, so "Lade …" overlays
 the reserved chart area; add `notice-msg`/`error-msg` to a status that stays visible after render, or it

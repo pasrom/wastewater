@@ -873,6 +873,94 @@ footer .impressum a {
     box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
 }
 
+/* ==================== Lage auf einen Blick ==================== */
+.glance {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.glance th,
+.glance td {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border-soft);
+    vertical-align: top;
+}
+
+.glance thead th {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.glance tbody th {
+    color: var(--text-strong);
+    white-space: nowrap;
+}
+
+.glance a {
+    color: var(--text-strong);
+    text-decoration: underline dotted;
+    text-underline-offset: 3px;
+}
+
+.glance a:hover {
+    color: var(--accent);
+}
+
+.glance-sub {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.glance-empty {
+    color: var(--text-muted);
+}
+
+.glance-impf {
+    margin-top: 12px;
+    padding: 8px 12px;
+    border-left: 3px solid var(--accent);
+    background: var(--surface-alt);
+    font-size: 0.9rem;
+}
+
+.glance-impf a {
+    color: var(--accent);
+}
+
+/* Phones: one block per virus, each source on its own labelled line */
+@media (max-width: 600px) {
+    .glance thead {
+        display: none;
+    }
+
+    .glance tr,
+    .glance tbody th,
+    .glance td {
+        display: block;
+    }
+
+    .glance tr {
+        border-bottom: 1px solid var(--border-soft);
+        padding: 6px 0;
+    }
+
+    .glance tbody th,
+    .glance td {
+        border-bottom: none;
+        padding: 2px 0;
+    }
+
+    .glance td::before {
+        content: attr(data-label) ": ";
+        color: var(--text-muted);
+        font-size: 0.85rem;
+    }
+}
+
 /* ==================== Karte: Lage nach Bundesland ==================== */
 #map-controls {
     display: flex;
