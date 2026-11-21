@@ -86,7 +86,7 @@
                 <details class="glance-details">
                     <summary>Details und Erklärung</summary>
                     <ul id="glance-details-list"></ul>
-                    <p class="footnote">Abwasser: Trend des Österreich-Werts der AGES über die letzten vier Kalenderwochen, berechnet wie in der Karte (sinkt: unter −10 %/Woche, stabil: ±10 %, steigt: bis +50 %, steigt stark: darüber, niedrig: meist unter der Bestimmungsgrenze). Sentinel: Anteil der Proben aus Arztpraxen mit Nachweis des Virus (MedUni Wien); Influenza zählt A, B und C zusammen. Spital: SARI-Aufnahmen mit dieser Diagnose nach Wohnort, ganz Österreich, in der neuesten vollständigen Woche; die beiden jüngsten Wochen sind vorläufig, da Nachmeldungen zu erwarten sind. Die Quellen veröffentlichen an verschiedenen Tagen, daher können die Wochen abweichen.</p>
+                    <p class="footnote">Abwasser: Trend des Österreich-Werts der AGES über die letzten vier Messwochen, berechnet wie in der Karte (sinkt: unter −10 %/Woche, stabil: ±10 %, steigt: bis +50 %, steigt stark: darüber, niedrig: meist unter der Bestimmungsgrenze). Sentinel: Anteil der Proben aus Arztpraxen mit Nachweis des Virus (MedUni Wien); Influenza zählt A, B und C zusammen. Spital: SARI-Aufnahmen mit dieser Diagnose nach Wohnort, ganz Österreich, in der neuesten vollständigen Woche; die beiden jüngsten Wochen sind vorläufig, da Nachmeldungen zu erwarten sind. Die Quellen veröffentlichen an verschiedenen Tagen, daher können die Wochen abweichen.</p>
                 </details>
             </div>
         </section>
@@ -125,7 +125,7 @@
                     <summary>Alle Bundesländer und Kläranlagen als Liste</summary>
                     <div id="map-list-body"></div>
                 </details>
-                <p class="footnote">SARI-Aufnahmen zählen nach Wohnort der Patient:innen, Abwasserwerte nach dem Einzugsgebiet der Kläranlage – die Gebiete decken sich nicht. Trend: lineare Regression über die Messwerte der letzten vier Kalenderwochen, relativ zu deren Mittelwert (Methode nach AGES, eigene Berechnung; mindestens drei Messwerte, davon zwei über der Bestimmungsgrenze, sonst „niedrig“).<span id="map-plant-start"></span> Die beiden jüngsten SARI-Wochen sind vorläufig (schraffiert), da Nachmeldungen zu erwarten sind.</p>
+                <p class="footnote">SARI-Aufnahmen zählen nach Wohnort der Patient:innen, Abwasserwerte nach dem Einzugsgebiet der Kläranlage – die Gebiete decken sich nicht. Trend: lineare Regression über die letzten vier Messwerte, relativ zu deren Mittelwert; fehlt eine Woche, reicht das Fenster eine Woche weiter zurück (Methode und Schwellen wie in der Trendkarte der AGES, eigene Berechnung aus den AGES-Daten; mindestens drei Messwerte, davon zwei über der Bestimmungsgrenze, sonst „niedrig“).<span id="map-plant-start"></span> Die beiden jüngsten SARI-Wochen sind vorläufig (schraffiert), da Nachmeldungen zu erwarten sind.</p>
             </div>
         </section>
 
@@ -1213,6 +1213,13 @@
     // Daten" and Salzach-Pongau (3) with a trend, so the page follows the map.
     const TREND_MIN_SAMPLES = 3;
     const TREND_MIN_QUANTIFIABLE = 2;
+    // AGES fits its trend over a plant's last four samples, reaching back one
+    // extra calendar week when a week was missed: its map for 2026-11-16 matched
+    // this for all 60 plants (Salzach-Pongau without KW 46, Welser Heide without
+    // KW 47), while Graz-Gössendorf, whose fourth-last sample is three weeks
+    // older, kept three. So: at most 4 samples from the last 5 calendar weeks.
+    const TREND_WINDOW_WEEKS = 5;
+    const TREND_MAX_SAMPLES = 4;
     // One word per class, used by the map and the glance card alike.
     // angle: map arrow direction, counter-clockwise from "right"; null draws a
     // hollow ring. sym: the glance card's text symbol for the same direction.
@@ -1282,8 +1289,8 @@
     // AGES trend rule: least squares over every sample of the four calendar
     // weeks ending in `week`, slope divided by the window mean, in % per week.
     function plantTrend(trace, week) {
-        const from = shiftYMD(week, -21);
-        const win = plantSamples(trace).filter(p => p.monday >= from && p.monday <= week);
+        const from = shiftYMD(week, -7 * (TREND_WINDOW_WEEKS - 1));
+        const win = plantSamples(trace).filter(p => p.monday >= from && p.monday <= week).slice(-TREND_MAX_SAMPLES);
         const last = win.length ? win[win.length - 1] : null;
         const result = (cls, rel = null) => ({ cls, rel, n: win.length, last });
         if (win.length < TREND_MIN_SAMPLES) return result('none');

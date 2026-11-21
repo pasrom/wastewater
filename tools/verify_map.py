@@ -24,6 +24,11 @@ LIMIT_RE = re.compile(r'\(<\s*(NG|BG)\)')
 # Salzach-Pongau (3) with a trend; the page follows the map.
 MIN_SAMPLES = 3
 MIN_QUANTIFIABLE = 2  # values above the detection/quantification limits
+# AGES's trend map for 2026-11-16 matched "last four samples, at most five
+# calendar weeks back" for all 60 plants; a plain four-week window missed the
+# two plants that skipped a week (Salzach-Pongau, Welser Heide).
+WINDOW_DAYS = 28  # five calendar weeks, Monday to Monday
+MAX_SAMPLES = 4
 
 
 def monday(ymd):
@@ -56,10 +61,11 @@ def plant_series(path):
 
 
 def trend(samples, week):
-    """AGES rule: OLS over the samples of the four calendar weeks ending in
-    `week`, slope / mean in % per week."""
+    """AGES rule: OLS over the last four samples of the five calendar weeks
+    ending in `week`, slope / mean in % per week."""
     w = dt.date.fromisoformat(week)
-    win = [(monday(x), y, lim) for x, y, lim in samples if 0 <= (w - monday(x)).days <= 21]
+    dated = sorted((x[:10], y, lim) for x, y, lim in samples if 0 <= (w - monday(x)).days <= WINDOW_DAYS)
+    win = [(monday(x), y, lim) for x, y, lim in dated[-MAX_SAMPLES:]]
     if len(win) < MIN_SAMPLES:
         return 'none', None, len(win)
     if sum(1 for _, y, lim in win if y > 0 and not lim) < MIN_QUANTIFIABLE:
