@@ -944,7 +944,9 @@ footer .impressum a {
     font-variant-numeric: tabular-nums;
     color: var(--text-strong);
     font-weight: 600;
-    min-width: 13em;
+    /* Room for the longest label ("KW 09/2024 · 26. Feb.–3. März (vorläufig)"),
+       so the centred slider row does not shift when the text changes */
+    min-width: 20.5em;
     text-align: center;
 }
 

@@ -1112,7 +1112,7 @@
     };
 
     let mapChart = initChart('map-chart-ec');
-    const mapState = { ready: false, plants: [], weeks: [], idx: 0, provisional: new Set(), virus: null };
+    const mapState = { ready: false, plants: [], weeks: [], idx: 0, provisional: new Set(), lastSariWeek: null, virus: null };
 
     async function loadMapAssets() {
         const regionCodes = INCIDENCE_REGION_ORDER.filter(c => c !== 'AT').sort().join();
@@ -1234,6 +1234,9 @@
         const column = MAP_SARI_COLUMN[virus];
         const provisional = mapState.provisional.has(week);
         const sari = !!dataPool.sariDemo;
+        // AGES publishes on Friday, SARI on Tuesday: in between the newest week
+        // has plant trends but no admissions yet, which is not an error
+        const sariPending = sari && week > mapState.lastSariWeek;
         const region = code => {
             if (!sari) return null;
             const weekly = incidenceWeekly(code, column, 'ALL');
@@ -1248,13 +1251,14 @@
         const anySample = plants.some(p => p.trend && p.trend.last);
         const austria = traces['Österreich'] ? plantTrend(traces['Österreich'], week) : null;
         const unplaced = Object.keys(traces).filter(n => n !== 'Österreich' && !mapState.plants.some(p => p.name === n));
-        return { virus, week, column, provisional, sari, regions, ww: !!ww, plants, anySample, austria, unplaced };
+        return { virus, week, column, provisional, sari, sariPending, regions, ww: !!ww, plants, anySample, austria, unplaced };
     }
 
+    const SARI_PENDING_TEXT = 'SARI-Daten für diese Woche noch nicht veröffentlicht';
     function regionTooltip(m, r) {
         const name = escapeHtml(BUNDESLAND_NAMES[r.code]);
         const head = `<b>${name}</b> · ${escapeHtml(formatKW(parseYMD(m.week)))}${m.provisional ? ' (vorläufig)' : ''}`;
-        if (r.rate == null) return `${head}<br>Keine SARI-Daten`;
+        if (r.rate == null) return `${head}<br>${m.sariPending ? SARI_PENDING_TEXT : 'Keine SARI-Daten'}`;
         const lines = [`${SARI_DIAGNOSE_NAMES[m.column]}: ${r.cases} Aufnahme${r.cases === 1 ? '' : 'n'} · ${fmtDe(r.rate, 2)} pro 100.000`];
         // Small counts swing a rate wildly, so change is shown as a count, never in %
         if (m.provisional) lines.push('Nachmeldungen zu erwarten');
@@ -1388,6 +1392,7 @@
         const at = m.regions.find(r => r.code === 'AT');
         const parts = [];
         if (at && at.rate != null) parts.push(`SARI ${SARI_DIAGNOSE_NAMES[m.column]}: ${fmtDe(at.rate, 2)} pro 100.000 (${at.cases} Aufnahme${at.cases === 1 ? '' : 'n'})`);
+        else if (m.sariPending) parts.push(SARI_PENDING_TEXT);
         el.style.display = parts.length || m.austria ? '' : 'none';
         const strong = document.createElement('strong');
         strong.textContent = 'Österreich: ';
@@ -1475,6 +1480,7 @@
         mapState.weeks = [...weeks].sort();
         if (!mapState.weeks.length) throw new Error('Keine Daten für die Karte');
         mapState.provisional = new Set(sariWeeks.slice(-SARI_PROVISIONAL_WEEKS));
+        mapState.lastSariWeek = sariWeeks[sariWeeks.length - 1] || null;
 
         const keys = Object.keys(WW_SOURCES);
         const stored = storageGet(MAP_VIRUS_STORAGE_KEY);
