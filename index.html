@@ -9,13 +9,10 @@
          so without this a dark-mode reader saw a light page while it loaded.
          Same rule as effectiveTheme(): stored choice, else the OS setting. -->
     <script>
-        try {
-            const t = localStorage.getItem('theme');
-            document.documentElement.dataset.theme = t === 'dark' || t === 'light' ? t
-                : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        } catch (_) {
-            document.documentElement.dataset.theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
+        let t = null;
+        try { t = localStorage.getItem('theme'); } catch (_) {}
+        document.documentElement.dataset.theme = t === 'dark' || t === 'light' ? t
+            : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     </script>
     <!-- ?v= is stamped with the commit on deploy, so a new page never meets a
          cached stylesheet from the previous one -->
@@ -61,7 +58,7 @@
             </div>
             <button type="button" class="theme-toggle share-link" id="share-link" aria-label="Ansicht teilen" title="Ansicht teilen" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
             <span id="share-status" class="share-toast" role="status"></span>
-            <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Hell-/Dunkelmodus wechseln" title="Hell-/Dunkelmodus">☾</button>
+            <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Hell-/Dunkelmodus wechseln" title="Hell-/Dunkelmodus" disabled>☾</button>
         </nav>
 
         <h2 class="group-heading" id="karte">Überblick</h2>
@@ -89,7 +86,7 @@
                 <details class="glance-details">
                     <summary>Details und Erklärung</summary>
                     <ul id="glance-details-list"></ul>
-                    <p class="footnote">Abwasser: Trend des Österreich-Werts der AGES über die letzten vier Kalenderwochen, berechnet wie in der Karte (sinkt: unter −10 %/Woche, stabil: ±10 %, steigt: bis +50 %, steigt stark: darüber, niedrig: kaum über der Nachweisgrenze). Sentinel: Anteil der Proben aus Arztpraxen mit Nachweis des Virus (MedUni Wien); Influenza zählt A, B und C zusammen. Spital: SARI-Aufnahmen mit dieser Diagnose nach Wohnort, ganz Österreich, in der neuesten vollständigen Woche; die beiden jüngsten Wochen sind vorläufig, da Nachmeldungen zu erwarten sind. Die Quellen veröffentlichen an verschiedenen Tagen, daher können die Wochen abweichen.</p>
+                    <p class="footnote">Abwasser: Trend des Österreich-Werts der AGES über die letzten vier Kalenderwochen, berechnet wie in der Karte (sinkt: unter −10 %/Woche, stabil: ±10 %, steigt: bis +50 %, steigt stark: darüber, niedrig: meist unter der Bestimmungsgrenze). Sentinel: Anteil der Proben aus Arztpraxen mit Nachweis des Virus (MedUni Wien); Influenza zählt A, B und C zusammen. Spital: SARI-Aufnahmen mit dieser Diagnose nach Wohnort, ganz Österreich, in der neuesten vollständigen Woche; die beiden jüngsten Wochen sind vorläufig, da Nachmeldungen zu erwarten sind. Die Quellen veröffentlichen an verschiedenen Tagen, daher können die Wochen abweichen.</p>
                 </details>
             </div>
         </section>
@@ -120,7 +117,7 @@
                     <li><span class="trend-dot" data-trend="stable"></span>Stabil (±10 %/Woche)</li>
                     <li><span class="trend-dot" data-trend="up"></span>Steigt (10–50 %/Woche)</li>
                     <li><span class="trend-dot" data-trend="strong"></span>Steigt stark (&gt; 50 %/Woche)</li>
-                    <li><span class="trend-dot" data-trend="low"></span>Niedrig (kaum über der Nachweisgrenze)</li>
+                    <li><span class="trend-dot" data-trend="low"></span>Niedrig (meist unter der Bestimmungsgrenze)</li>
                     <li><span class="trend-dot" data-trend="none"></span>Keine Daten</li>
                     <li class="legend-note">Kreisgröße: angeschlossene Einwohnerwerte</li>
                 </ul>
@@ -421,7 +418,8 @@
         // The glance card fills from the same script: it would sit on "…"
         document.querySelectorAll('.glance td').forEach(td => { td.textContent = 'nicht geladen'; });
         document.getElementById('glance-error').hidden = false;
-        // Nothing would handle these; the empty selects hide themselves (CSS)
+        // Nothing would handle these; the two empty nav controls hide
+        // themselves (CSS), the card selects stay as empty frames
         document.getElementById('theme-toggle').style.display = 'none';
         document.getElementById('share-link').style.display = 'none';
         throw new Error('ECharts not loaded');
@@ -3227,6 +3225,9 @@
             const url = new URL(shareUrl(), location.href);
             const current = document.querySelector('.nav-links a[aria-current="true"]');
             url.hash = current && current.getAttribute('href') !== '#karte' ? current.getAttribute('href') : '';
+            // The address bar shows the same link, so the clipboard fallback
+            // below points at what would have been copied
+            history.replaceState(history.state, '', url);
             // Phones: the system share sheet (WhatsApp, Signal, …), where
             // most readers come from. Desktops copy, as the label says there.
             if (navigator.share && matchMedia('(pointer: coarse)').matches) {
@@ -3363,6 +3364,7 @@
         darkQuery.addEventListener('change', () => {
             if (!storageGet(THEME_STORAGE_KEY)) setTheme(darkQuery.matches ? 'dark' : 'light', false);
         });
+        themeToggleBtn.disabled = false;  // disabled in the HTML until this listener exists
         themeToggleBtn.addEventListener('click', () => {
             setTheme(effectiveTheme() === 'dark' ? 'light' : 'dark', true);
         });
