@@ -816,14 +816,29 @@
     }
     const lastFromRows = rows => rows.reduce((m, r) => (!m || (r.date && r.date > m) ? (r.date || m) : m), null);
     const lastFromWeeks = weeks => weeks && weeks.length ? sentinelWeekDate(weeks[weeks.length - 1]) : null;
+    // Days from the start of a source's newest week until it counts as overdue:
+    // the normal publication lag plus one missed weekly fetch. AGES publishes
+    // the running week on Friday (newest week at most 13 days old before the
+    // next Saturday fetch); SARI and Sentinel lag a week (at most 16 days).
+    const STALE_AFTER_DAYS = { Abwasser: 17, Sentinel: 21, SARI: 21 };
     function bumpFreshness(source, date) {
         if (!date) return;
         if (!freshness[source] || date > freshness[source]) freshness[source] = date;
         if (!freshnessEl) return;
-        const parts = Object.entries(freshness)
-            .filter(([, d]) => d)
-            .map(([name, d]) => `${name}: ${formatKW(d)}`);
-        freshnessEl.textContent = parts.length ? 'Datenstand · ' + parts.join(' · ') : '';
+        const now = new Date();
+        const parts = Object.entries(freshness).filter(([, d]) => d).map(([name, d]) => {
+            const days = Math.floor((now - d) / 86400000);
+            if (days <= STALE_AFTER_DAYS[name]) return document.createTextNode(`${name}: ${formatKW(d)}`);
+            const span = document.createElement('span');
+            span.className = 'stale';
+            span.textContent = `${name}: ${formatKW(d)} ⚠ überfällig`;
+            span.title = `Wird normalerweise wöchentlich aktualisiert; die neueste Woche begann vor ${days} Tagen.`;
+            return span;
+        });
+        freshnessEl.textContent = '';
+        if (!parts.length) return;
+        freshnessEl.append('Datenstand');
+        for (const part of parts) freshnessEl.append(' · ', part);
     }
 
     // Zoom is the slider plus this toolbox's area select. There is deliberately

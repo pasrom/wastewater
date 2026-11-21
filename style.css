@@ -301,6 +301,12 @@ footer a:hover {
     display: none;
 }
 
+/* A source whose newest data is overdue (see STALE_AFTER_DAYS) */
+.data-freshness .stale {
+    color: var(--tag-text);
+    font-weight: 600;
+}
+
 .time-range {
     display: flex;
     flex-wrap: wrap;
