@@ -20,6 +20,11 @@
     <meta property="og:image:alt" content="Karte Österreichs mit dem Abwasser-Trend für SARS-CoV-2 je Kläranlage und einem Satz zur Lage der neuesten Woche">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <!-- Home-screen install: manifest + icons; sw.js keeps an offline copy -->
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <meta name="theme-color" content="#f5f5f5" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#15171a" media="(prefers-color-scheme: dark)">
     <!-- Written by the data job (tools/build_feed.py), one entry per new data week -->
     <link rel="alternate" type="application/atom+xml" title="Virenradar – neue Daten" href="https://raw.githubusercontent.com/pasrom/wastewater/data/feed.xml">
     <!-- Theme before first paint: the main script sits behind the ECharts CDN,
@@ -53,6 +58,7 @@
         <header class="page-header">
             <h1>Atemwegsviren in Österreich</h1>
             <p id="data-freshness" class="data-freshness"></p>
+            <p id="offline-note" class="offline-note" role="status" hidden></p>
             <p id="visit-news" class="visit-news" role="status" hidden><span id="visit-news-text"></span><button type="button" id="visit-news-close" class="visit-news-close" aria-label="Hinweis schließen">×</button></p>
         </header>
         <!-- Sticky jump links: the page is nine charts long, so every group is one
@@ -439,6 +445,27 @@
             integrity="sha384-atnOLvQb9t+jTSipvd75X2yginT4PjVbqDdlJAmxMm+wYElFmeR6EmLP5bYeoRVQ"
             crossorigin="anonymous"></script>
 
+    <!-- Offline copy (sw.js, network first). Its own script ahead of ECharts, so
+         a missing chart library cannot stop it. After the first load the page
+         hands over the URLs it used, which loaded before the worker took control. -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').then(() => navigator.serviceWorker.ready).then(reg => {
+                    const keep = () => {
+                        const urls = [location.href.split('#')[0]].concat(performance.getEntriesByType('resource')
+                            .map(e => e.name)
+                            .filter(u => /^https:\/\/(raw\.githubusercontent\.com|cdn\.jsdelivr\.net)\//.test(u) || u.startsWith(location.origin + '/')));
+                        if (reg.active) reg.active.postMessage({ type: 'keep-urls', urls });
+                    };
+                    keep();
+                    // the data feeds may still be loading at the load event
+                    setTimeout(keep, 10000);
+                }).catch(() => {});
+            });
+        }
+    </script>
+
     <!-- Loaded at the end of the body, not in <head>: a slow or stalled CDN
          used to block the whole page and leave it blank; now the text renders
          first and only the charts wait -->
@@ -531,7 +558,33 @@
         // One retry on a network error (e.g. a reset on mobile); an HTTP error is final
         const r = await fetch(url).catch(() => fetch(url));
         if (!r.ok) throw new Error('HTTP ' + r.status);
+        noteOfflineCopy(r.headers.get('x-sw-cached-at'));
         return await r.json();
+    }
+
+    // sw.js answers from its cache only when the network failed, and marks such
+    // answers with the time they were stored: then the reader sees old data and
+    // is told so. The worker keeps an unchanged file instead of rewriting it, so
+    // its stamp can predate the last online visit; that visit's time (this
+    // browser only) is shown when it is later. The oldest time among feeds wins.
+    const LAST_ONLINE_KEY = 'lastOnlineLoad';
+    let offlineSince = null, onlineNoted = false;
+    function noteOfflineCopy(stamp) {
+        if (!stamp) {
+            if (!onlineNoted) { onlineNoted = true; storageSet(LAST_ONLINE_KEY, new Date().toISOString()); }
+            return;
+        }
+        let t = new Date(stamp);
+        if (isNaN(t)) return;
+        const lastOnline = new Date(storageGet(LAST_ONLINE_KEY) || '');
+        if (!isNaN(lastOnline) && lastOnline > t) t = lastOnline;
+        if (offlineSince && offlineSince <= t) return;
+        offlineSince = t;
+        const pad = n => String(n).padStart(2, '0');
+        const el = document.getElementById('offline-note');
+        el.textContent = `Offline – angezeigt wird der Stand vom ${pad(t.getDate())}.${pad(t.getMonth() + 1)}.${t.getFullYear()}, ` +
+            `${pad(t.getHours())}:${pad(t.getMinutes())} Uhr (zuletzt online geladen).`;
+        el.hidden = false;
     }
 
     // Checked before the feed enters dataPool: a malformed file then shows its

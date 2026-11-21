@@ -314,6 +314,21 @@ footer a:hover {
     color: var(--text);
 }
 
+/* Shown when sw.js answered from its offline copy (see noteOfflineCopy) */
+.offline-note {
+    margin-top: 8px;
+    padding: 6px 12px;
+    border-left: 3px solid var(--tag-text);
+    background: var(--surface);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--tag-text);
+}
+
+.offline-note[hidden] {
+    display: none;
+}
+
 .visit-news[hidden] {
     display: none;
 }

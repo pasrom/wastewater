@@ -12,6 +12,9 @@ Austrian virus monitoring dashboard - displays wastewater virus load (AGES), Sen
 ```
 ├── index.html          # Page, all chart code inline
 ├── style.css           # Styling (responsive, light/dark)
+├── sw.js               # Service worker: network first, cache only as offline fallback (cache name stamped on deploy)
+├── manifest.webmanifest  # Home-screen install (name, icons, colours)
+├── icons/              # PWA icons (192, 512, maskable 512, apple-touch-icon), rendered from favicon.svg
 ├── geo/
 │   ├── bundeslaender.json  # Bundesländer boundaries for the map (CC BY 4.0)
 │   └── plants.json         # AGES plant sites, catchments and load (EEA UWWTD)
@@ -78,6 +81,16 @@ loaded, no JavaScript errors, no sideways scroll at 390 px (also with every `<de
 nav controls on screen, and the map list against `verify_map.py` for the default week. A new
 section that can fail on a phone belongs there too. Run it locally before pushing:
 `uv run --with playwright python tools/smoke_test.py --url http://localhost:8080/ --data-dir <data checkout> --chrome`
+
+Offline copy (`sw.js`): every request it handles (same origin, raw.githubusercontent.com, the
+ECharts file on jsDelivr; never GoatCounter) goes to the network first, exactly as without a worker;
+only a failed network request (offline) is answered from the cache, an HTTP error passes through. So
+an online reader never gets an older page than without it. The deploy stamps `__COMMIT_SHA__` into
+`sw.js` as well: each deploy is a new worker; it takes over once no tab uses the old one (no
+`skipWaiting`, both are network first anyway) and then deletes the previous cache.
+Cached answers carry `x-sw-cached-at`; `fetchData` turns that into the "Offline – angezeigt wird der
+Stand vom …" note (`#offline-note`). On the first visit the page posts the URLs it used to the worker
+(`keep-urls`), so offline works from the second open on. Do not switch any route to cache first.
 
 ## Code Style
 - Comments in English
