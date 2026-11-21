@@ -99,12 +99,13 @@ through `fmtDe`/`compactNumber` (dot grouping, decimal comma, real minus sign).
 0. Map by Bundesland — `loadMapAssets`, `plantTrend` (AGES 4-week trend), `mapModel`, `renderMap`, `renderMapList`
 1. Wastewater — `extractWastewaterTraces`, `renderWastewater`
 2. Combined signal — `computeCombinedSignals`, `renderCombinedSignal`
+2b. Season comparison — `seasonWeekly` (weekly values per source), `seasonSeries` (split into seasons KW 36–KW 35, null point at a missing week), `renderSeason`; not tied to the time-range control
 3./4. Sentinel bar chart and heatmap — one card, one Absolut/Positivrate toggle; `renderSentinelBar`, `renderSentinelHeatmap`
 5. SARI admissions — `renderSari`
 6. SARI incidence — `incidenceWeekly` (cases, population, rate per week), `renderIncidence`
 7./8. Demographics and age heatmap — `demoPopulation` (the only per-100k denominator), `renderDemographics`, `renderAgeHeatmap`
 
-Layout: cards are grouped under `h2.group-heading` (Überblick = Lage auf einen Blick + map + combined signal, Abwasser, Sentinel, Krankenhaus) with
+Layout: cards are grouped under `h2.group-heading` (Überblick = Lage auf einen Blick + map + combined signal + season comparison, Abwasser, Sentinel, Krankenhaus) with
 card titles as `h3`; the sticky `.section-nav` links to those ids (`#karte`, `#abwasser`, `#sentinel`,
 `#spital`, `#alter`). Each chart and its `.loading-msg` sit in a `.chart-wrap`, so "Lade …" overlays
 the reserved chart area; add `notice-msg`/`error-msg` to a status that stays visible after render, or it

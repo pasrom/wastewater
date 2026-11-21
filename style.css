@@ -772,6 +772,7 @@ footer .impressum a {
 .sari-section.failed .sentinel-mode-controls,
 .sari-section.failed .sub-heading,
 .sari-section.failed #map-controls,
+.sari-section.failed #season-controls,
 .sari-section.failed .map-austria,
 .sari-section.failed .map-legend,
 .sari-section.failed .map-list {
@@ -981,7 +982,8 @@ footer .impressum a {
 }
 
 /* ==================== Karte: Lage nach Bundesland ==================== */
-#map-controls {
+#map-controls,
+#season-controls {
     display: flex;
     flex-wrap: wrap;
     gap: 12px 24px;

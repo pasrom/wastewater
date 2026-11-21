@@ -128,6 +128,25 @@
             </div>
         </section>
 
+        <!-- 2b. Saisonvergleich -->
+        <section class="sari-section">
+            <header>
+                <h3>Saisonvergleich</h3>
+                <p class="subtitle">Aktuelle Saison im Vergleich zu den Vorjahren, je Kalenderwoche ab Anfang September – unabhängig vom Zeitraum oben</p>
+            </header>
+            <div class="sari-content">
+                <div id="season-controls">
+                    <div class="segmented" role="radiogroup" aria-label="Datenquelle" id="season-metric"></div>
+                    <div class="segmented" role="radiogroup" aria-label="Virus" id="season-virus"></div>
+                </div>
+                <div class="chart-wrap">
+                    <div id="season-chart-ec" class="ec-chart" role="img" aria-label="Liniendiagramm: eine Linie je Saison über die Kalenderwochen"></div>
+                    <div id="season-loading" class="loading-msg">Lade Daten…</div>
+                </div>
+                <p class="footnote">Eine Saison reicht von KW 36 bis KW 35 (Anfang September bis Ende August); KW 53 gibt es nur in manchen Jahren. Abwasser: Wochenmittel des Österreich-Werts der AGES. Sentinel: Anteil der Proben aus Arztpraxen mit Nachweis des Virus (MedUni Wien), Influenza zählt A, B und C zusammen. Spital: SARI-Aufnahmen mit dieser Diagnose nach Wohnort, ganz Österreich; die beiden jüngsten Wochen sind vorläufig (gestrichelt umrahmt).<span id="season-note"></span></p>
+            </div>
+        </section>
+
         <h2 class="group-heading" id="abwasser">Abwasser</h2>
         <!-- 1. Viruslast im Abwasser -->
         <section class="sari-section">
@@ -2693,6 +2712,161 @@
         }, { notMerge: true });
     }
 
+    // ==================== 2b. Saisonvergleich ====================
+    // One line per season over the calendar weeks, so "is this a lot for
+    // November?" can be read off directly. Seasons run KW 36 to KW 35: the ISO
+    // week that holds early September, close to the 1 September start of the
+    // "Saison" range, and a whole week so every season lines up on the same
+    // week labels. Not tied to the time-range control: every season is shown.
+    let seasonChart = initChart('season-chart-ec');
+    const SEASON_FIRST_WEEK = 36;
+    const SEASON_METRIC_KEY = 'seasonMetric';
+    const SEASON_VIRUS_KEY = 'seasonVirus';
+    const SEASON_METRICS = [['ww', 'Abwasser'], ['sentinel', 'Sentinel'], ['sari', 'Spital']];
+    const SEASON_VIRUSES = [['sarscov2', 'SARS-CoV-2'], ['influenza', 'Influenza'], ['rsv', 'RSV']];
+    const storedChoice = (key, options) => (v => options.some(([k]) => k === v) ? v : options[0][0])(storageGet(key));
+    let seasonMetric = storedChoice(SEASON_METRIC_KEY, SEASON_METRICS);
+    let seasonVirus = storedChoice(SEASON_VIRUS_KEY, SEASON_VIRUSES);
+    // KW 36 … KW 52, KW 53, KW 01 … KW 35. A season without KW 53 has no point
+    // there and its line runs straight from KW 52 to KW 01.
+    const SEASON_WEEKS = [...Array(53).keys()].map(i => (SEASON_FIRST_WEEK - 1 + i) % 53 + 1);
+    const seasonWeekLabel = w => `KW ${String(w).padStart(2, '0')}`;
+    const SEASON_CATEGORIES = SEASON_WEEKS.map(seasonWeekLabel);
+    // Current season strong and warm; past seasons a blue ramp that fades with
+    // age (darkest = most recent on white, lightest = most recent on dark)
+    const SEASON_PALETTE = {
+        light: { current: '#d94801', past: ['#08519c', '#2b7bba', '#5a9fd4', '#8dbde2', '#b3d3ec'] },
+        dark: { current: '#fd8d3c', past: ['#c6dbef', '#7fb2dd', '#4f8fc8', '#3672ad', '#2b5a8c'] }
+    };
+
+    // Weekly values of the selected source: Map(monday 'YYYY-MM-DD' -> { v, ... }),
+    // or a string saying why there are none
+    function seasonWeekly(metric, virus) {
+        if (metric === 'ww') {
+            if (!dataPool.wastewater) return feedsSettled ? 'Abwasser-Daten nicht geladen' : null;
+            const src = dataPool.wastewater[virus];
+            const at = src && src.traces['Österreich'];
+            if (!at) return `Abwasser-Daten für ${WW_SOURCES[virus].name} nicht geladen`;
+            const sums = new Map();
+            for (const p of plantSamples(at)) {
+                const a = sums.get(p.monday) || { sum: 0, n: 0 };
+                a.sum += p.y; a.n++;
+                sums.set(p.monday, a);
+            }
+            return new Map([...sums].map(([m, a]) => [m, { v: a.sum / a.n }]));
+        }
+        if (metric === 'sentinel') {
+            const bar = dataPool.sentinelBar;
+            if (!bar) return feedsSettled ? 'Sentinel-Daten nicht geladen' : null;
+            const rows = GLANCE_VIRUSES.find(g => g.key === virus).sentinel;
+            const out = new Map();
+            for (const label of bar.weeks) {
+                const d = sentinelWeekDate(label);
+                const counts = bar.data[label] || {};
+                const n = rows.reduce((sum, r) => sum + (+counts[r] || 0), 0);
+                const eins = +bar.einsendungen[label] || 0;
+                const v = positivity(n, eins);
+                if (d && v != null) out.set(isoToYMD(d), { v, n, eins });
+            }
+            return out;
+        }
+        if (!dataPool.sariDemo) return feedsSettled ? 'SARI-Daten nicht geladen' : null;
+        const weekly = incidenceWeekly('AT', MAP_SARI_COLUMN[virus], 'ALL');
+        const provisional = new Set([...weekly.keys()].slice(-SARI_PROVISIONAL_WEEKS));
+        return new Map([...weekly].map(([m, w]) => [m, { v: w.cases, provisional: provisional.has(m) }]));
+    }
+
+    // Split weekly values into seasons: [{ year, name, data }], oldest first.
+    // A missing week inside a season becomes a null point, so the line breaks
+    // there instead of bridging weeks the source never had.
+    function seasonSeries(weekly) {
+        const seasons = new Map();
+        for (const monday of [...weekly.keys()].sort()) {
+            const { year, week } = dateToISOWeekParts(parseYMD(monday));
+            const sy = week >= SEASON_FIRST_WEEK ? year : year - 1;
+            if (!seasons.has(sy)) seasons.set(sy, { year: sy, name: `${sy}/${String(sy + 1).slice(2)}`, data: [], last: null });
+            const s = seasons.get(sy);
+            if (s.last && shiftYMD(s.last, 7) !== monday) {
+                const gap = dateToISOWeekParts(parseYMD(shiftYMD(s.last, 7))).week;
+                s.data.push({ value: [seasonWeekLabel(gap), null] });
+            }
+            const w = weekly.get(monday);
+            s.data.push({ ...w, value: [seasonWeekLabel(week), w.v], monday });
+            s.last = monday;
+        }
+        return [...seasons.values()].sort((a, b) => a.year - b.year);
+    }
+
+    function renderSeason() {
+        const status = document.getElementById('season-loading');
+        const weekly = seasonWeekly(seasonMetric, seasonVirus);
+        const seasons = weekly instanceof Map ? seasonSeries(weekly) : [];
+        if (!seasons.length) {
+            seasonChart.clear();
+            status.textContent = typeof weekly === 'string' ? weekly : weekly ? 'Keine Daten' : 'Lade Daten…';
+            status.style.display = '';
+            document.getElementById('season-note').textContent = '';
+            return;
+        }
+        status.style.display = 'none';
+        document.getElementById('season-note').textContent = ` Gewählte Daten ab ${formatKW(parseYMD(seasons[0].data[0].monday))}.`;
+
+        const mode = themeMode();
+        const pal = SEASON_PALETTE[mode];
+        const narrow = isNarrow();
+        const newest = seasons[seasons.length - 1];
+        // Newest season first in legend and drawing order (drawn on top)
+        const ordered = [...seasons].reverse();
+        const series = ordered.map((s, i) => {
+            const color = s === newest ? pal.current : pal.past[Math.min(i - 1, pal.past.length - 1)];
+            return {
+                name: s.name, type: 'line', data: s.data, showSymbol: false, z: s === newest ? 3 : 2,
+                lineStyle: { color, width: s === newest ? 3.5 : 1.75 }, itemStyle: { color },
+                emphasis: { focus: 'series' }
+            };
+        });
+        const prov = newest.data.filter(d => d.provisional).map(d => d.value[0]);
+        if (prov.length) series.push(provisionalSeries(prov[0], prov[prov.length - 1]));
+
+        const unit = {
+            ww: { axis: 'Mio. Genkopien/Einw.', short: 'Mio./Einw.', text: v => fmtDe(v) + ' Mio./Einw.' },
+            sentinel: { axis: '% positiv', short: '% positiv', text: (v, d) => fmtShareOf(v, d.n, d.eins) },
+            sari: { axis: 'Aufnahmen', short: 'Aufnahmen', text: v => admissionsText(v) }
+        }[seasonMetric];
+        seasonChart.setOption({
+            tooltip: {
+                trigger: 'axis', confine: true,
+                formatter: axisTooltip(cat => cat,
+                    (v, p) => unit.text(v, p.data) + (p.data.provisional ? ' (vorläufig)' : ''), { sortDesc: true })
+            },
+            legend: narrow ? narrowLegend(ordered.map(s => s.name)) : { top: 10, data: ordered.map(s => s.name) },
+            grid: narrow ? narrowGrid(90, 30) : { left: 60, right: 30, top: 50, bottom: 40, containLabel: true },
+            xAxis: {
+                type: 'category', data: SEASON_CATEGORIES, boundaryGap: false,
+                // Phones: the bare week number; the tooltip still says "KW"
+                axisLabel: { hideOverlap: true, formatter: narrow ? c => c.slice(3) : c => c }
+            },
+            yAxis: { type: 'value', min: 0, ...(narrow ? narrowAxisName(unit.short) : { name: unit.axis }), axisLabel: { formatter: compactNumber } },
+            series
+        }, { notMerge: true });
+    }
+    // Called whenever a feed settles; a render bug shows in the card itself
+    function refreshSeason() {
+        try { renderSeason(); } catch (e) {
+            setSectionError(document.getElementById('season-loading'), errorText(e));
+        }
+    }
+    buildSegmented(document.getElementById('season-metric'), 'season-metric', SEASON_METRICS, seasonMetric, key => {
+        seasonMetric = key;
+        storageSet(SEASON_METRIC_KEY, key);
+        refreshSeason();
+    });
+    buildSegmented(document.getElementById('season-virus'), 'season-virus', SEASON_VIRUSES, seasonVirus, key => {
+        seasonVirus = key;
+        storageSet(SEASON_VIRUS_KEY, key);
+        refreshSeason();
+    });
+
     // Stamped by the deploy workflow. Stays a placeholder in a local checkout,
     // where the footer link then simply stays hidden.
     const COMMIT_SHA = '__COMMIT_SHA__';
@@ -2713,8 +2887,8 @@
         { key: 'influenza', sentinel: SENTINEL_HEATMAP_ROWS.Influenza },
         { key: 'rsv', sentinel: SENTINEL_HEATMAP_ROWS.RSV }
     ];
-    let glanceSettled = false;  // every feed has loaded or failed
-    const glancePending = () => glanceSettled ? 'nicht geladen' : '…';
+    let feedsSettled = false;  // every feed has loaded or failed
+    const glancePending = () => feedsSettled ? 'nicht geladen' : '…';
 
     // value: a plain string (loading, missing) or { href, main, sub, dot };
     // sub is one line or an array of lines
@@ -2946,7 +3120,7 @@
         let combinedReady = false;
 
         // Resize handling
-        let charts = [mapChart, wwChart, combinedChart, sentinelBarChart, sentinelHeatChart, sariChart, incidenceChart, demoChart, demoTimelineChart, ageHeatmapChart];
+        let charts = [mapChart, wwChart, combinedChart, seasonChart, sentinelBarChart, sentinelHeatChart, sariChart, incidenceChart, demoChart, demoTimelineChart, ageHeatmapChart];
         const responsiveRenderers = [
             [() => mapState.ready, renderMap],
             ['wastewater', renderWastewater],
@@ -2972,6 +3146,7 @@
                     if (hasData(dep)) render();
                 }
                 if (combinedReady) renderCombinedSignal();
+                refreshSeason();
             }, 120);
         });
 
@@ -2980,6 +3155,7 @@
             mapChart = initChart('map-chart-ec');
             wwChart = initChart('wastewater-chart-ec');
             combinedChart = initChart('combined-chart-ec');
+            seasonChart = initChart('season-chart-ec');
             sentinelBarChart = initChart('sentinel-bar-ec');
             sentinelHeatChart = initChart('sentinel-heatmap-ec');
             sariChart = initChart('sari-chart-ec');
@@ -2987,7 +3163,7 @@
             demoChart = initChart('sari-demographics-chart-ec');
             demoTimelineChart = initChart('sari-demo-timeline-ec');
             ageHeatmapChart = initChart('sari-heatmap-ec');
-            charts = [mapChart, wwChart, combinedChart, sentinelBarChart, sentinelHeatChart, sariChart, incidenceChart, demoChart, demoTimelineChart, ageHeatmapChart];
+            charts = [mapChart, wwChart, combinedChart, seasonChart, sentinelBarChart, sentinelHeatChart, sariChart, incidenceChart, demoChart, demoTimelineChart, ageHeatmapChart];
             for (const [dep, render] of responsiveRenderers) {
                 if (hasData(dep)) render();
             }
@@ -2995,6 +3171,7 @@
             if (dataPool.sariDemo) { buildIncidenceRegionList(); rebuildDemoTimeline(); }
             if (combinedReady) renderCombinedSignal();
             refreshGlance();  // trend dot colours
+            refreshSeason();
         }
         function setTheme(value, persist) {
             if (persist) storageSet(THEME_STORAGE_KEY, value);
@@ -3047,6 +3224,7 @@
                     if (at && at.x.length) bumpFreshness('Abwasser', parseYMD(at.x[at.x.length - 1]));
                 }
                 refreshGlance();
+                refreshSeason();
             }).catch(e => setSectionError(document.getElementById('ww-loading'), errorText(e))),
 
             loadSari().then(() => {
@@ -3102,6 +3280,7 @@
                 });
                 bumpFreshness('SARI', lastFromRows(dataPool.sariDemo));
                 refreshGlance();
+                refreshSeason();
             }).catch(e => {
                 // The fetch itself failed — every section on this feed stays empty
                 ['sari-incidence-loading', 'sari-demographics-loading-ec', 'sari-heatmap-loading-ec']
@@ -3114,6 +3293,7 @@
                 renderSentinelHeatmap();
                 bumpFreshness('Sentinel', lastFromWeeks(dataPool.sentinelBar.weeks));
                 refreshGlance();
+                refreshSeason();
             }).catch(e => {
                 setSectionError(document.getElementById('sentinel-bar-loading'), errorText(e));
                 sentinelBarFailed = true;
@@ -3122,7 +3302,7 @@
         ];
 
         // Feeds that failed now read "nicht geladen" instead of "…"
-        Promise.all(tasks).then(() => { glanceSettled = true; refreshGlance(); });
+        Promise.all(tasks).then(() => { feedsSettled = true; refreshGlance(); refreshSeason(); });
 
         // The map needs its static assets, wastewater and the SARI demographics.
         // Every task settles (each catches its own error), so the map renders
