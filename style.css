@@ -875,6 +875,15 @@ footer .impressum a {
 }
 
 /* ==================== Lage auf einen Blick ==================== */
+/* The week in one sentence: the first thing read on a phone */
+.glance-summary {
+    margin: 0 0 12px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: var(--text-strong);
+}
+
 .glance {
     width: 100%;
     border-collapse: collapse;

@@ -69,6 +69,7 @@
                 <p class="subtitle">Neueste Woche je Quelle – Details in den Abschnitten darunter</p>
             </header>
             <div class="sari-content">
+                <p id="glance-summary" class="glance-summary" hidden></p>
                 <table class="glance">
                     <thead>
                         <tr><th scope="col">Virus</th><th scope="col">Abwasser-Trend<span class="glance-week" id="glance-week-ww"></span></th><th scope="col">Sentinel: positive Proben<span class="glance-week" id="glance-week-sentinel"></span></th><th scope="col">Spital: SARI-Aufnahmen<sup>¹</sup><span class="glance-week" id="glance-week-sari"></span></th></tr>
@@ -86,6 +87,7 @@
                 <details class="glance-details">
                     <summary>Details und Erklärung</summary>
                     <ul id="glance-details-list"></ul>
+                    <p class="footnote">Satz oben: der Abwasser-Trend des Österreich-Werts je Virus; steigt oder sinkt er, steht in Klammern, an wie vielen Kläranlagen der Wert in derselben Woche ebenfalls steigt bzw. sinkt (gezählt werden nur Anlagen mit Messwerten im Trendzeitraum).</p>
                     <p class="footnote">Abwasser: Trend des Österreich-Werts der AGES über die letzten vier Messwochen, berechnet wie in der Karte (sinkt: unter −10 %/Woche, stabil: ±10 %, steigt: bis +50 %, steigt stark: darüber, niedrig: meist unter der Bestimmungsgrenze). Sentinel: Anteil der Proben aus Arztpraxen mit Nachweis des Virus (MedUni Wien); Influenza zählt A, B und C zusammen. Spital: SARI-Aufnahmen mit dieser Diagnose nach Wohnort, ganz Österreich, in der neuesten vollständigen Woche; die beiden jüngsten Wochen sind vorläufig, da Nachmeldungen zu erwarten sind. Die Quellen veröffentlichen an verschiedenen Tagen, daher können die Wochen abweichen.</p>
                 </details>
             </div>
@@ -3004,6 +3006,49 @@
         return { href: '#abwasser', sym: glanceTrendSymbol(t.cls, pal), main: TREND_CLASSES[t.cls].label, sub: rate, week };
     }
 
+    // Wochensatz: one descriptive sentence over the table, from the same trend
+    // classes as the map. Per virus the AGES Österreich trend at its newest
+    // sample week; for a rising or falling virus also how many plants with a
+    // trend that week move the same way (plants without a sample in the trend
+    // window are not counted). Viruses without a count that share a word are
+    // grouped ("Influenza und RSV niedrig"). Returns null until wastewater loads.
+    function weekSummary() {
+        const ww = dataPool.wastewater;
+        if (!ww) return null;
+        const items = [];
+        for (const key of Object.keys(WW_SOURCES)) {
+            const at = ww[key] && ww[key].traces['Österreich'];
+            const samples = at ? plantSamples(at) : [];
+            if (!samples.length) continue;
+            const week = samples[samples.length - 1].monday;
+            const cls = plantTrend(at, week).cls;
+            const same = { up: ['up', 'strong'], strong: ['up', 'strong'], down: ['down'] }[cls];
+            let count = null;
+            if (same) {
+                const plants = Object.entries(ww[key].traces).filter(([name]) => name !== 'Österreich')
+                    .map(([, trace]) => plantTrend(trace, week).cls).filter(c => c !== 'none');
+                count = { n: plants.filter(c => same.includes(c)).length, of: plants.length, word: cls === 'down' ? 'sinkend' : 'steigend' };
+            }
+            items.push({ name: WW_SOURCES[key].name, week, label: TREND_CLASSES[cls].label, count });
+        }
+        if (!items.length) return null;
+        const weeks = new Set(items.map(i => i.week));
+        const shared = weeks.size === 1;
+        const kw = week => formatKW(parseYMD(week));
+        const groups = [];
+        for (const it of items) {
+            const g = !it.count && groups.find(g => !g.count && g.label === it.label && (shared || g.week === it.week));
+            if (g) g.names.push(it.name);
+            else groups.push({ ...it, names: [it.name] });
+        }
+        const join = names => names.length > 1 ? `${names.slice(0, -1).join(', ')} und ${names[names.length - 1]}` : names[0];
+        const parts = groups.map(g => {
+            const extra = [g.count && g.count.of ? `${g.count.n} von ${g.count.of} Kläranlagen ${g.count.word}` : null, shared ? null : kw(g.week)].filter(Boolean);
+            return `${join(g.names)} ${g.label}${extra.length ? ` (${extra.join(', ')})` : ''}`;
+        });
+        return `Abwasser${shared ? ' ' + kw(items[0].week) : ''}: ${parts.join(', ')}.`;
+    }
+
     function glanceSentinel(key) {
         const bar = dataPool.sentinelBar;
         if (!bar) return glancePending();
@@ -3095,6 +3140,10 @@
             { id: 'sentinel', label: 'Sentinel', get: glanceSentinel },
             { id: 'sari', label: 'Spital', mark: '¹', get: key => glanceSari(key, sariWeeks) }
         ];
+        const summary = weekSummary();
+        const summaryEl = document.getElementById('glance-summary');
+        summaryEl.textContent = summary || '';
+        summaryEl.hidden = !summary;
         const details = [];
         columns.forEach((col, i) => {
             const values = keys.map(col.get);
