@@ -924,10 +924,6 @@ footer .impressum a {
     margin-left: auto;
 }
 
-/* Not the full-width phone select of the chart filters: it sits next to its label */
-.glance-region .select-input {
-    width: auto;
-}
 
 .glance-sub {
     display: block;
@@ -1061,7 +1057,7 @@ footer .impressum a {
     font-weight: 600;
     /* Room for the longest label ("KW 09/2024 · 26. Feb.–3. März (vorläufig)"),
        so the centred slider row does not shift when the text changes */
-    min-width: 20.5em;
+    min-width: min(20.5em, 100%);
     text-align: center;
 }
 
@@ -1208,6 +1204,23 @@ footer .impressum a {
     margin-top: 0;
 }
 
+/* Mein Bundesland: compact select next to the time window */
+.nav-region {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.nav-region .select-input {
+    width: auto;
+    min-width: 0;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
 .section-nav a {
     flex: none;
     padding: 4px 14px;
@@ -1285,8 +1298,18 @@ footer .impressum a {
         padding: 6px 10px;
     }
 
+    /* Row 1: chips and theme toggle; row 2: time window and Mein Bundesland */
     .nav-links {
-        flex-basis: 100%;
+        flex-basis: calc(100% - 46px);
+    }
+
+    .section-nav .theme-toggle {
+        order: 1;
+    }
+
+    .section-nav .time-range,
+    .nav-region {
+        order: 2;
     }
 
     /* Two-row sticky bar on phones */
@@ -1295,13 +1318,15 @@ footer .impressum a {
         scroll-margin-top: 96px;
     }
 
-    .section-nav .time-range {
+    .section-nav .time-range,
+    .nav-region,
+    .nav-region .select-input {
         font-size: 0.8rem;
     }
 
-    /* Second row: time window left, theme toggle right */
-    .section-nav .theme-toggle {
-        margin-left: auto;
+    /* The select's own text ("Ganz Österreich", "Wien") says what it is */
+    #my-region-label {
+        display: none;
     }
 
     .group-heading {
@@ -1313,11 +1338,27 @@ footer .impressum a {
     }
 }
 
-/* Smallest phones: drop the "Zeitraum:" caption so time window and toggle
-   still share the second row (it stays the radiogroup's accessible name) */
-@media (max-width: 359px) {
+/* Narrow phones: drop the "Zeitraum:" caption so time window and Mein
+   Bundesland still share the second row (it stays the radiogroup's
+   accessible name) */
+@media (max-width: 419px) {
     #time-range-label {
         display: none;
+    }
+
+    .section-nav {
+        column-gap: 10px;
+    }
+
+    /* The select takes the rest of the row; below 7em it moves to a row of its own */
+    .nav-region {
+        flex: 1 1 7em;
+        min-width: 7em;
+    }
+
+    .nav-region .select-input {
+        width: 100%;
+        text-overflow: ellipsis;
     }
 }
 
@@ -1337,4 +1378,12 @@ footer .impressum a {
 .share-link:disabled {
     opacity: 0.5;
     cursor: default;
+}
+
+/* Smallest phones: Mein Bundesland takes a third row of the sticky bar */
+@media (max-width: 359px) {
+    .group-heading,
+    .sari-section[id] {
+        scroll-margin-top: 128px;
+    }
 }

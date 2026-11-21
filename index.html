@@ -29,8 +29,8 @@
             <p id="data-freshness" class="data-freshness"></p>
         </header>
         <!-- Sticky jump links: the page is nine charts long, so every group is one
-             tap away. The shared time window and the theme toggle ride along,
-             so they stay in reach from the lower charts. -->
+             tap away. The shared time window, Mein Bundesland and the theme
+             toggle ride along, so they stay in reach from the lower charts. -->
         <nav class="section-nav" aria-label="Abschnitte">
             <div class="nav-links">
                 <a href="#karte">Überblick</a>
@@ -42,6 +42,10 @@
             <div class="time-range">
                 <span id="time-range-label">Zeitraum:</span>
                 <div class="segmented" role="radiogroup" aria-labelledby="time-range-label" id="time-range"></div>
+            </div>
+            <div class="nav-region">
+                <label for="my-region" id="my-region-label">Mein Bundesland:</label>
+                <select id="my-region" class="select-input"></select>
             </div>
             <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Hell-/Dunkelmodus wechseln" title="Hell-/Dunkelmodus">☾</button>
         </nav>
@@ -55,8 +59,6 @@
             </header>
             <div class="sari-content">
                 <div class="glance-region">
-                    <label for="my-region">Mein Bundesland:</label>
-                    <select id="my-region" class="select-input"></select>
                     <button type="button" class="btn-small share-link" id="share-link" disabled>Link zu dieser Ansicht kopieren</button>
                     <span id="share-status" class="visually-hidden" role="status"></span>
                 </div>
@@ -3092,7 +3094,7 @@
         // selection while the SARI feed is still loading
         loadIncidenceRegions();
         initMyRegionIncidence();
-        fillSelect('my-region', { '': '– keines –', ...Object.fromEntries(MY_REGION_CODES.map(c => [c, BUNDESLAND_NAMES[c]])) });
+        fillSelect('my-region', { '': 'Ganz Österreich', ...Object.fromEntries(MY_REGION_CODES.map(c => [c, BUNDESLAND_NAMES[c]])) });
         const myRegionSelect = document.getElementById('my-region');
         myRegionSelect.value = myRegion;
         myRegionSelect.addEventListener('change', () => setMyRegion(myRegionSelect.value));
