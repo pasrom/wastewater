@@ -50,6 +50,14 @@ jobs:
       - name: Install dependencies
         run: pip install -r main/tools/requirements.txt
 
+      # The preview image (tools/build_og_image.py) needs DejaVu for umlauts;
+      # usually preinstalled on the runner, installed only when missing
+      - name: Ensure DejaVu fonts
+        run: |
+          test -f /usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf || {
+            sudo apt-get update -qq && sudo apt-get install -y -qq fonts-dejavu-core
+          }
+
       - name: Fetch all data
         working-directory: main/tools
         run: python fetch_all_data.py --output-dir ../../data/

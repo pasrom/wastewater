@@ -21,6 +21,7 @@ Austrian virus monitoring dashboard - displays wastewater virus load (AGES), Sen
 │   ├── build_geo.py        # Rebuilds geo/ from its pinned public sources
 │   ├── verify_map.py       # Independent cross-check of the map numbers
 │   ├── build_feed.py       # Atom feed of new data weeks (feed.xml on data), called by fetch_all_data.py
+│   ├── build_og_image.py   # Share preview image (og.png on data, Pillow + DejaVu), called by fetch_all_data.py
 │   └── smoke_test.py       # Headless check of the live page (requirements-smoke.txt), run by smoke-test.yml
 └── .github/
     ├── dependabot.yml      # Weekly grouped updates: SHA-pinned actions, tools/requirements*.txt (uv); not ECharts
@@ -44,12 +45,20 @@ loads `${DATA_BASE}/<path>` with `DATA_BASE` = `https://raw.githubusercontent.co
 | (not used by the page) | `sentinel/heatmap.json` | MedUni heatmap SVG, colour-decoded steps; still fetched by the pipeline |
 | Map boundaries, plant sites | `geo/*.json` on `main` (same origin) | see `tools/build_geo.py` |
 | Atom feed (footer "Feed", `<link rel="alternate">`) | `feed.xml` | written by `tools/build_feed.py` from the files above |
+| Share preview (`og:image`, `twitter:card` in `<head>`) | `og.png` | written by `tools/build_og_image.py` from the files above and `geo/` |
 
 `feed.xml` gets one entry per data state (newest week of Abwasser, Sentinel and SARI): the entry
 id is built from those weeks, so a fetch without a new week leaves the file unchanged; the text is
 the page's Wochensatz recomputed in Python with `verify_map.trend` (keep it in step with
 `weekSummary` in index.html), plus Datenstand and source attribution; at most 20 entries.
 raw.githubusercontent serves it as `text/plain`; feed readers parse it, browsers show the XML.
+
+`og.png` (1200×630, served as `image/png`) shows the title, the same Wochensatz (`week_summary` from
+build_feed), the SARS-CoV-2 trend per plant on a map of Austria (`verify_map.trend`, colours of
+`MAP_PALETTE.light`), the Datenstand and the sources. It depends only on the data, never on the run
+date, so it is rewritten only when its bytes change. It needs DejaVu for umlauts (`fetch-data.yml`
+installs fonts-dejavu-core if missing) and deliberately has no fallback font: Pillow's bundled one
+has no umlauts. Messengers cache previews per URL, so a shared link may show an older image.
 
 ## Development
 ```bash

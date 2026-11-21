@@ -23,7 +23,8 @@ The script creates the following structure:
     │   ├── krankenanstalt.json
     │   └── patient.json
     ├── metadata.json
-    └── feed.xml        (Atom feed of new data weeks, tools/build_feed.py)
+    ├── feed.xml        (Atom feed of new data weeks, tools/build_feed.py)
+    └── og.png          (share preview image, tools/build_og_image.py)
 """
 
 import argparse
@@ -37,6 +38,7 @@ from pathlib import Path
 import requests
 
 from build_feed import build_feed
+from build_og_image import build_og_image
 # Import SVG parsing functions from extract_virus_data
 from extract_virus_data import (
     read_sentinel_charts,
@@ -569,6 +571,15 @@ def main():
         print(f'New entry: {title}' if title else 'No new data week, feed unchanged')
     except Exception as exc:  # noqa: BLE001 - any failure here must not stop the data push
         print(f'Feed failed: {exc!r}')
+        errors = True
+
+    # 6. Share preview image: rewritten only when its content changed. Same rule
+    # as the feed: a failure turns the run red but the data still gets pushed.
+    print("\n=== Preview image ===")
+    try:
+        print('og.png written' if build_og_image(args.output_dir) else 'og.png unchanged')
+    except Exception as exc:  # noqa: BLE001 - any failure here must not stop the data push
+        print(f'Preview image failed: {exc!r}')
         errors = True
 
     print("\n" + "=" * 60)
