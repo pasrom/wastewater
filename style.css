@@ -1214,6 +1214,35 @@ footer .impressum a {
     padding-left: 20px;
 }
 
+/* Long German names (Niederösterreich, Lichtenwörth) set the table's minimum
+   width; let them hyphenate on phones, and scroll the table rather than the page */
+#map-list-body {
+    overflow-x: auto;
+}
+
+@media (max-width: 600px) {
+    .map-table {
+        font-size: 0.85rem;
+    }
+
+    .map-table th,
+    .map-table td {
+        padding: 4px;
+    }
+
+    /* Only the catchment column and the headers hyphenate; Land and plant names stay whole */
+    .map-table th,
+    .map-table td:nth-child(3) {
+        -webkit-hyphens: auto;
+        hyphens: auto;
+        overflow-wrap: anywhere;
+    }
+
+    .map-table-plant td:first-child {
+        padding-left: 12px;
+    }
+}
+
 .attribution {
     font-size: 0.8rem;
 }
