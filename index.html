@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atemwegsviren in Österreich – Abwasser, Sentinel, SARI</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <!-- Theme before first paint: the main script sits behind the ECharts CDN,
+         so without this a dark-mode reader saw a light page while it loaded.
+         Same rule as effectiveTheme(): stored choice, else the OS setting. -->
+    <script>
+        try {
+            const t = localStorage.getItem('theme');
+            document.documentElement.dataset.theme = t === 'dark' || t === 'light' ? t
+                : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        } catch (_) {
+            document.documentElement.dataset.theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+    </script>
     <!-- ?v= is stamped with the commit on deploy, so a new page never meets a
          cached stylesheet from the previous one -->
     <link rel="stylesheet" href="style.css?v=__COMMIT_SHA__">
@@ -58,8 +70,8 @@
                 <p class="subtitle">Neueste Woche je Quelle – Details in den Abschnitten darunter</p>
             </header>
             <div class="sari-content">
-                <div class="glance-region">
-                    <button type="button" class="btn-small share-link" id="share-link" disabled>Link zu dieser Ansicht kopieren</button>
+                <div class="glance-share">
+                    <button type="button" class="btn-small share-link" id="share-link" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span id="share-label">Ansicht teilen</span></button>
                     <span id="share-status" class="visually-hidden" role="status"></span>
                 </div>
                 <table class="glance">
@@ -106,11 +118,11 @@
                     <div id="map-loading" class="loading-msg">Lade Karte…</div>
                 </div>
                 <ul class="map-legend" aria-label="Legende Abwasser-Trend">
-                    <li><span class="trend-dot" data-trend="down"></span>Abnahme (&lt; −10 %/Woche)</li>
-                    <li><span class="trend-dot" data-trend="stable"></span>Stabil (±10 %)</li>
-                    <li><span class="trend-dot" data-trend="up"></span>Mäßiger Anstieg (10–50 %)</li>
-                    <li><span class="trend-dot" data-trend="strong"></span>Starker Anstieg (&gt; 50 %)</li>
-                    <li><span class="trend-dot" data-trend="low"></span>Stabil niedrig</li>
+                    <li><span class="trend-dot" data-trend="down"></span>Sinkt (&lt; −10 %/Woche)</li>
+                    <li><span class="trend-dot" data-trend="stable"></span>Stabil (±10 %/Woche)</li>
+                    <li><span class="trend-dot" data-trend="up"></span>Steigt (10–50 %/Woche)</li>
+                    <li><span class="trend-dot" data-trend="strong"></span>Steigt stark (&gt; 50 %/Woche)</li>
+                    <li><span class="trend-dot" data-trend="low"></span>Niedrig (kaum über der Nachweisgrenze)</li>
                     <li><span class="trend-dot" data-trend="none"></span>Keine Daten</li>
                     <li class="legend-note">Kreisgröße: angeschlossene Einwohnerwerte</li>
                 </ul>
@@ -118,7 +130,7 @@
                     <summary>Alle Bundesländer und Kläranlagen als Liste</summary>
                     <div id="map-list-body"></div>
                 </details>
-                <p class="footnote">SARI-Aufnahmen zählen nach Wohnort der Patient:innen, Abwasserwerte nach dem Einzugsgebiet der Kläranlage – die Gebiete decken sich nicht. Trend: lineare Regression über die Messwerte der letzten vier Kalenderwochen, relativ zu deren Mittelwert (Methode nach AGES, eigene Berechnung; mindestens drei Messwerte, davon zwei über der Bestimmungsgrenze, sonst „Stabil niedrig“).<span id="map-plant-start"></span> Die beiden jüngsten SARI-Wochen sind vorläufig (schraffiert), da Nachmeldungen zu erwarten sind.</p>
+                <p class="footnote">SARI-Aufnahmen zählen nach Wohnort der Patient:innen, Abwasserwerte nach dem Einzugsgebiet der Kläranlage – die Gebiete decken sich nicht. Trend: lineare Regression über die Messwerte der letzten vier Kalenderwochen, relativ zu deren Mittelwert (Methode nach AGES, eigene Berechnung; mindestens drei Messwerte, davon zwei über der Bestimmungsgrenze, sonst „niedrig“).<span id="map-plant-start"></span> Die beiden jüngsten SARI-Wochen sind vorläufig (schraffiert), da Nachmeldungen zu erwarten sind.</p>
             </div>
         </section>
 
@@ -408,6 +420,12 @@
             el.textContent = 'Die Grafik-Bibliothek (jsDelivr) konnte nicht geladen werden. Bitte die Seite neu laden; ein Werbeblocker oder Firmennetz kann sie blockieren.';
             el.classList.add('error-msg');
         });
+        // The glance card fills from the same script: it would sit on "…"
+        document.querySelectorAll('.glance td').forEach(td => { td.textContent = 'nicht geladen'; });
+        document.getElementById('glance-error').hidden = false;
+        // Nothing would handle these; the empty selects hide themselves (CSS)
+        document.getElementById('theme-toggle').style.display = 'none';
+        document.querySelector('.glance-share').style.display = 'none';
         throw new Error('ECharts not loaded');
     }
 
@@ -1199,14 +1217,16 @@
     // Daten" and Salzach-Pongau (3) with a trend, so the page follows the map.
     const TREND_MIN_SAMPLES = 3;
     const TREND_MIN_QUANTIFIABLE = 2;
-    // angle: arrow direction, counter-clockwise from "right"; null draws a hollow ring
+    // One word per class, used by the map and the glance card alike.
+    // angle: map arrow direction, counter-clockwise from "right"; null draws a
+    // hollow ring. sym: the glance card's text symbol for the same direction.
     const TREND_CLASSES = {
-        down:   { label: 'Abnahme', angle: -45 },
-        stable: { label: 'Stabil', angle: 0 },
-        up:     { label: 'Mäßiger Anstieg', angle: 45 },
-        strong: { label: 'Starker Anstieg', angle: 75 },
-        low:    { label: 'Stabil niedrig', angle: null },
-        none:   { label: 'Keine Daten', angle: null }
+        down:   { label: 'sinkt', sym: '↘', angle: -45 },
+        stable: { label: 'stabil', sym: '→', angle: 0 },
+        up:     { label: 'steigt', sym: '↗', angle: 45 },
+        strong: { label: 'steigt stark', sym: '↑', angle: 75 },
+        low:    { label: 'niedrig', sym: '○', angle: null },
+        none:   { label: 'keine Daten', sym: '–', angle: null }
     };
     // Areas: one blue hue in seven steps (the reference ramp's 100-700, every
     // second step, validated monotone with even lightness gaps), the near-zero
@@ -1554,7 +1574,7 @@
             Object.assign(tr.dataset, { code: r.code, rate: r.rate == null ? '' : r.rate.toFixed(4), cases: r.rate == null ? '' : r.cases });
             for (const p of m.plants.filter(p => p.bundesland === r.code).sort((a, b) => a.name.localeCompare(b.name, 'de'))) {
                 const cls = p.trend ? p.trend.cls : 'none';
-                const ptr = row([p.name, [trendDot(cls, pal), ' ' + (p.trend ? trendText(p.trend) : 'Keine Daten')],
+                const ptr = row([p.name, [trendDot(cls, pal), ' ' + (p.trend ? trendText(p.trend) : TREND_CLASSES.none.label)],
                     (p.agglomerations || []).join(', ')], 'map-table-plant');
                 Object.assign(ptr.dataset, { plant: p.name, trend: cls, rel: p.trend && p.trend.rel != null ? p.trend.rel.toFixed(2) : '', n: p.trend ? p.trend.n : 0 });
             }
@@ -2953,21 +2973,13 @@
         }
     }
 
-    // One word per trend class; the symbol only repeats it (aria-hidden).
-    // U+FE0E keeps iOS from drawing the arrows as emoji.
-    const GLANCE_TREND = {
-        down:   { sym: '↘', word: 'sinkt' },
-        stable: { sym: '→', word: 'stabil' },
-        up:     { sym: '↗', word: 'steigt' },
-        strong: { sym: '↑', word: 'steigt stark' },
-        low:    { sym: '○', word: 'niedrig' },
-        none:   { sym: '–', word: 'keine Daten' }
-    };
+    // The symbol only repeats the word next to it (aria-hidden).
+    // U+FE0E (text presentation) keeps iOS from drawing the arrows as emoji.
     function glanceTrendSymbol(cls, pal) {
         const el = document.createElement('span');
         el.className = 'glance-arrow';
         el.setAttribute('aria-hidden', 'true');
-        el.textContent = GLANCE_TREND[cls].sym + '︎';
+        el.textContent = TREND_CLASSES[cls].sym + '\uFE0E';
         el.style.color = pal.trend[cls];
         return el;
     }
@@ -2982,7 +2994,7 @@
         const week = samples[samples.length - 1].monday;
         const t = plantTrend(at, week);
         const rate = t.rel != null && t.cls !== 'low' ? `${fmtSigned(t.rel)} %/Woche` : null;
-        return { href: '#abwasser', sym: glanceTrendSymbol(t.cls, pal), main: GLANCE_TREND[t.cls].word, sub: rate, week };
+        return { href: '#abwasser', sym: glanceTrendSymbol(t.cls, pal), main: TREND_CLASSES[t.cls].label, sub: rate, week };
     }
 
     function glanceSentinel(key) {
@@ -2993,14 +3005,16 @@
         if (!weeks.length) return 'keine Daten';
         const label = weeks[weeks.length - 1];
         const cur = share(label);
-        if (cur.pct == null) return 'keine Einsendungen';
+        const date = sentinelWeekDate(label);
+        const week = date ? isoToYMD(date) : null;
+        // Still an object: the week has to reach the header or the cell
+        if (cur.pct == null) return { href: '#sentinel', main: 'keine Einsendungen', week };
         const prev = weeks.length > 1 ? share(weeks[weeks.length - 2]) : null;
-        const week = sentinelWeekDate(label);
         return {
             href: '#sentinel',
             main: cur.n === 0 ? 'keine Nachweise' : `${fmtPct(cur.pct)} positiv`,
             sub: prev && prev.pct != null ? `Vorwoche ${fmtPct(prev.pct)}` : null,
-            week: week ? isoToYMD(week) : null,
+            week,
             details: `${fmtDe(cur.n, 0)} von ${fmtDe(cur.eins, 0)} Proben positiv (${sentinelAxisLabel(label)})`
         };
     }
@@ -3008,9 +3022,10 @@
     // The newest SARI_PROVISIONAL_WEEKS weeks still receive late reports (the
     // newest is about half reported), so the headline is the newest final week
     // against the final week before it; the newest provisional week only goes
-    // to the details and is never compared
-    function sariGlanceWeeks(at) {
-        const weeks = [...at.keys()];
+    // to the details and is never compared. Every Land and diagnosis shares
+    // Austria's week keys, so this runs once per render.
+    function sariGlanceWeeks() {
+        const weeks = [...incidenceWeekly('AT', 'ALL', 'ALL').keys()];
         const nFinal = Math.max(0, weeks.length - SARI_PROVISIONAL_WEEKS);
         return {
             finalWeek: weeks[nFinal - 1], prevWeek: weeks[nFinal - 2],
@@ -3019,26 +3034,27 @@
     }
     const sariProvText = (ymd, n) => `${formatKW(parseYMD(ymd))} vorläufig: ${fmtDe(n, 0)} – unvollständig, Nachmeldungen folgen`;
 
-    function glanceSari(key) {
+    function glanceSari(key, sariWeeks) {
         if (!dataPool.sariDemo) return glancePending();
         const at = incidenceWeekly('AT', MAP_SARI_COLUMN[key], 'ALL');
         if (!at.size) return 'keine Daten';
-        const { finalWeek, prevWeek, provWeek } = sariGlanceWeeks(at);
+        const { finalWeek, prevWeek, provWeek } = sariWeeks;
+        const cases = week => (at.get(week) || { cases: 0 }).cases;
         // Too little history for a final week: the provisional one, marked
-        if (!finalWeek) return { href: '#spital', main: `${admissionsText(at.get(provWeek).cases)} (vorläufig)`, week: provWeek };
+        if (!finalWeek) return { href: '#spital', main: `${admissionsText(cases(provWeek))} (vorläufig)`, week: provWeek };
         return {
             href: '#spital',
-            main: admissionsText(at.get(finalWeek).cases),
-            sub: prevWeek ? `Vorwoche ${fmtDe(at.get(prevWeek).cases, 0)}` : null,
+            main: admissionsText(cases(finalWeek)),
+            sub: prevWeek ? `Vorwoche ${fmtDe(cases(prevWeek), 0)}` : null,
             week: finalWeek,
-            details: provWeek ? sariProvText(provWeek, at.get(provWeek).cases) : null
+            details: provWeek ? sariProvText(provWeek, cases(provWeek)) : null
         };
     }
 
     // Mein Bundesland: its SARI counts for all three viruses in one line under
     // the table. Plant trends exist per plant, not per Land, so it links to the
     // map instead of inventing an aggregate.
-    function renderGlanceRegion(details) {
+    function renderGlanceRegion(details, sariWeeks) {
         const el = document.getElementById('glance-region-line');
         el.textContent = '';
         el.hidden = !myRegion;
@@ -3053,7 +3069,7 @@
                 const w = week && incidenceWeekly(myRegion, MAP_SARI_COLUMN[key], 'ALL').get(week);
                 return `${WW_SOURCES[key].name} ${w ? fmtDe(w.cases, 0) : '–'}`;
             }).join(' · ');
-            const { finalWeek, provWeek } = sariGlanceWeeks(incidenceWeekly(myRegion, 'ALL', 'ALL'));
+            const { finalWeek, provWeek } = sariWeeks;
             if (finalWeek) el.append(` · Spital ${formatKW(parseYMD(finalWeek))}: ${counts(finalWeek)}`);
             if (provWeek) details.push(`${name}, Spital ${formatKW(parseYMD(provWeek))} vorläufig: ${counts(provWeek)} – unvollständig, Nachmeldungen folgen`);
         }
@@ -3066,10 +3082,11 @@
     function renderGlance() {
         const pal = MAP_PALETTE[themeMode()];
         const keys = Object.keys(WW_SOURCES);
+        const sariWeeks = dataPool.sariDemo ? sariGlanceWeeks() : null;
         const columns = [
             { id: 'ww', label: 'Abwasser', get: key => glanceWastewater(key, pal) },
             { id: 'sentinel', label: 'Sentinel', get: glanceSentinel },
-            { id: 'sari', label: 'Spital', mark: '¹', get: glanceSari }
+            { id: 'sari', label: 'Spital', mark: '¹', get: key => glanceSari(key, sariWeeks) }
         ];
         const details = [];
         columns.forEach((col, i) => {
@@ -3085,7 +3102,7 @@
                 if (typeof values[k] !== 'string' && values[k].details) details.push(`${WW_SOURCES[key].name}, ${col.label}: ${values[k].details}`);
             });
         });
-        renderGlanceRegion(details);
+        renderGlanceRegion(details, sariWeeks);
         const list = document.getElementById('glance-details-list');
         list.textContent = '';
         for (const text of details) {
@@ -3195,23 +3212,37 @@
         myRegionSelect.value = myRegion;
         myRegionSelect.addEventListener('change', () => setMyRegion(myRegionSelect.value));
         const shareBtn = document.getElementById('share-link');
+        const shareLabel = document.getElementById('share-label');
         let shareBtnTimer = 0;
-        shareBtn.addEventListener('click', async () => {
-            // The address bar shows the link too, the fallback where the
-            // clipboard is refused (no HTTPS, permission denied)
-            noteViewChange();
-            const url = new URL(shareUrl(), location.href).href;
-            let copied = false;
-            try { await navigator.clipboard.writeText(url); copied = true; } catch { /* fallback below */ }
-            shareBtn.textContent = copied ? 'Link kopiert ✓' : 'Link steht in der Adresszeile';
+        function shareFeedback(text) {
+            shareLabel.textContent = text;
             // A separate live region: screen readers do not reliably announce
             // a change to the focused button's own text
-            document.getElementById('share-status').textContent = shareBtn.textContent;
+            document.getElementById('share-status').textContent = text;
             clearTimeout(shareBtnTimer);
             shareBtnTimer = setTimeout(() => {
-                shareBtn.textContent = 'Link zu dieser Ansicht kopieren';
+                shareLabel.textContent = 'Ansicht teilen';
                 document.getElementById('share-status').textContent = '';
             }, 2500);
+        }
+        shareBtn.addEventListener('click', async () => {
+            noteViewChange();
+            // Without the section hash: what the link sets (map, Land, this
+            // card) sits at the top, so it opens there, not at #sentinel
+            const url = new URL(shareUrl(), location.href);
+            url.hash = '';
+            // Phones: the system share sheet (WhatsApp, Signal, …), where
+            // most readers come from. Desktops copy, as the label says there.
+            if (navigator.share && matchMedia('(pointer: coarse)').matches) {
+                try { await navigator.share({ title: document.title, url: url.href }); return; } catch (e) {
+                    if (e.name === 'AbortError') return;  // the reader closed the sheet
+                }
+            }
+            let copied = false;
+            try { await navigator.clipboard.writeText(url.href); copied = true; } catch { /* fallback below */ }
+            // The address bar shows the link too, the fallback where the
+            // clipboard is refused (no HTTPS, permission denied)
+            shareFeedback(copied ? 'Link kopiert ✓' : 'Link steht in der Adresszeile');
         });
         if (myRegion) SARI_REGION_SELECTS.forEach(id => { document.getElementById(id).value = myRegion; });
 

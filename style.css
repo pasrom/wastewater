@@ -910,20 +910,23 @@ footer .impressum a {
     color: var(--accent);
 }
 
-.glance-region {
+.glance-share {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
+    justify-content: flex-end;
     margin-bottom: 8px;
-    font-size: 0.9rem;
-    color: var(--text-muted);
 }
 
-.glance-region .share-link {
-    margin-left: auto;
+.share-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
+.share-link svg {
+    width: 1em;
+    height: 1em;
+    flex: none;
+}
 
 .glance-sub {
     display: block;
@@ -1267,6 +1270,14 @@ footer .impressum a {
     margin-top: 0;
 }
 
+/* Until the main script fills them (it waits for the ECharts CDN), the
+   time window and Mein Bundesland are empty: hide them instead of showing
+   bare frames */
+.time-range:has(.segmented:empty),
+.nav-region:has(select:empty) {
+    display: none;
+}
+
 /* Mein Bundesland: compact select next to the time window */
 .nav-region {
     display: flex;
@@ -1361,7 +1372,37 @@ footer .impressum a {
         padding: 6px 10px;
     }
 
-    /* Row 1: chips and theme toggle; row 2: time window and Mein Bundesland */
+    .section-nav .time-range,
+    .nav-region,
+    .nav-region .select-input {
+        font-size: 0.8rem;
+    }
+
+    .group-heading {
+        font-size: 1rem;
+    }
+
+    .sari-section h3 {
+        font-size: 1.25rem;
+    }
+}
+
+/* The select's own text ("Ganz Österreich", "Wien") says what it is; the
+   hidden caption stays its accessible name. Below this width the caption
+   would take the room the jump chips need. */
+@media (max-width: 1099px) {
+    #my-region-label {
+        display: none;
+    }
+}
+
+/* Two-row sticky bar. Row 1: chips and theme toggle; row 2: time window and
+   Mein Bundesland. Below this width one row would clip the chips. */
+@media (max-width: 999px) {
+    .section-nav {
+        flex-wrap: wrap;
+    }
+
     .nav-links {
         flex-basis: calc(100% - 46px);
     }
@@ -1375,53 +1416,34 @@ footer .impressum a {
         order: 2;
     }
 
-    /* Two-row sticky bar on phones */
+    /* The select takes the rest of the row; below 7em it moves to a row of its own */
+    .nav-region {
+        flex: 1 1 7em;
+        min-width: 7em;
+        max-width: 16em;
+    }
+
+    .nav-region .select-input {
+        width: 100%;
+        text-overflow: ellipsis;
+    }
+
     .group-heading,
     .sari-section[id] {
-        scroll-margin-top: 96px;
-    }
-
-    .section-nav .time-range,
-    .nav-region,
-    .nav-region .select-input {
-        font-size: 0.8rem;
-    }
-
-    /* The select's own text ("Ganz Österreich", "Wien") says what it is */
-    #my-region-label {
-        display: none;
-    }
-
-    .group-heading {
-        font-size: 1rem;
-    }
-
-    .sari-section h3 {
-        font-size: 1.25rem;
+        scroll-margin-top: 104px;
     }
 }
 
 /* Narrow phones: drop the "Zeitraum:" caption so time window and Mein
    Bundesland still share the second row (it stays the radiogroup's
    accessible name) */
-@media (max-width: 419px) {
+@media (max-width: 449px) {
     #time-range-label {
         display: none;
     }
 
     .section-nav {
         column-gap: 10px;
-    }
-
-    /* The select takes the rest of the row; below 7em it moves to a row of its own */
-    .nav-region {
-        flex: 1 1 7em;
-        min-width: 7em;
-    }
-
-    .nav-region .select-input {
-        width: 100%;
-        text-overflow: ellipsis;
     }
 }
 
@@ -1444,7 +1466,7 @@ footer .impressum a {
 }
 
 /* Smallest phones: Mein Bundesland takes a third row of the sticky bar */
-@media (max-width: 359px) {
+@media (max-width: 322px) {
     .group-heading,
     .sari-section[id] {
         scroll-margin-top: 128px;
