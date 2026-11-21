@@ -935,6 +935,60 @@ footer .impressum a {
     color: var(--text-muted);
 }
 
+/* Week of a column, shared by all viruses (else it sits in each cell) */
+.glance-week {
+    display: block;
+    font-weight: 400;
+}
+
+.glance-week:empty {
+    display: none;
+}
+
+.glance thead sup {
+    font-size: 0.7em;
+}
+
+/* Trend arrow in the class colour; the word next to it carries the meaning */
+.glance-arrow {
+    display: inline-block;
+    width: 1.1em;
+    font-size: 1.15em;
+    line-height: 1;
+    font-weight: 700;
+    text-align: center;
+}
+
+.glance-region-line {
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+.glance-region-line a,
+.glance-details summary {
+    color: var(--accent);
+}
+
+.glance-note {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.glance-details {
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+.glance-details summary {
+    cursor: pointer;
+}
+
+.glance-details ul {
+    margin: 6px 0 0 20px;
+    color: var(--text);
+}
+
 .glance-impf {
     margin-top: 12px;
     padding: 8px 12px;
@@ -974,6 +1028,15 @@ footer .impressum a {
         content: attr(data-label) ": ";
         color: var(--text-muted);
         font-size: 0.85rem;
+    }
+
+    /* One line per source: "Abwasser KW 47: ↗ steigt · +32 %/Woche" */
+    .glance-sub {
+        display: inline;
+    }
+
+    .glance-sub::before {
+        content: " · ";
     }
 }
 

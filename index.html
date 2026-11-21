@@ -64,22 +64,28 @@
                 </div>
                 <table class="glance">
                     <thead>
-                        <tr><th scope="col">Virus</th><th scope="col">Abwasser-Trend Österreich</th><th scope="col">Sentinel: positive Proben</th><th scope="col">Spital: SARI-Aufnahmen Österreich</th></tr>
+                        <tr><th scope="col">Virus</th><th scope="col">Abwasser-Trend<span class="glance-week" id="glance-week-ww"></span></th><th scope="col">Sentinel: positive Proben<span class="glance-week" id="glance-week-sentinel"></span></th><th scope="col">Spital: SARI-Aufnahmen<sup>¹</sup><span class="glance-week" id="glance-week-sari"></span></th></tr>
                     </thead>
                     <tbody>
-                        <tr id="glance-sarscov2"><th scope="row">SARS-CoV-2</th><td data-label="Abwasser-Trend Österreich">…</td><td data-label="Sentinel positiv">…</td><td data-label="Spital (SARI) Österreich">…</td></tr>
-                        <tr id="glance-influenza"><th scope="row">Influenza</th><td data-label="Abwasser-Trend Österreich">…</td><td data-label="Sentinel positiv">…</td><td data-label="Spital (SARI) Österreich">…</td></tr>
-                        <tr id="glance-rsv"><th scope="row">RSV</th><td data-label="Abwasser-Trend Österreich">…</td><td data-label="Sentinel positiv">…</td><td data-label="Spital (SARI) Österreich">…</td></tr>
+                        <tr id="glance-sarscov2"><th scope="row">SARS-CoV-2</th><td data-label="Abwasser">…</td><td data-label="Sentinel">…</td><td data-label="Spital">…</td></tr>
+                        <tr id="glance-influenza"><th scope="row">Influenza</th><td data-label="Abwasser">…</td><td data-label="Sentinel">…</td><td data-label="Spital">…</td></tr>
+                        <tr id="glance-rsv"><th scope="row">RSV</th><td data-label="Abwasser">…</td><td data-label="Sentinel">…</td><td data-label="Spital">…</td></tr>
                     </tbody>
                 </table>
+                <p id="glance-region-line" class="glance-region-line" hidden></p>
+                <p class="glance-note">¹ Letzte vollständige Woche; jüngere Wochen sind noch unvollständig.</p>
                 <p id="glance-error" class="loading-msg" hidden></p>
                 <p id="glance-impf" class="glance-impf" hidden>Impfsaison: Die aktuellen Empfehlungen stehen im <a href="https://www.sozialministerium.gv.at/Themen/Gesundheit/Impfen/impfplan.html" target="_blank" rel="noopener">Impfplan Österreich</a> des Sozialministeriums. Diese Seite gibt keine medizinische Beratung.</p>
-                <p class="footnote">Abwasser: Trend des Österreich-Werts der AGES über die letzten vier Kalenderwochen, berechnet wie in der Karte. Sentinel: Anteil der Proben aus Arztpraxen mit Nachweis des Virus (MedUni Wien); Influenza zählt A, B und C zusammen. Spital: SARI-Aufnahmen mit dieser Diagnose nach Wohnort, ganz Österreich, in der neuesten vollständigen Woche; die beiden jüngsten Wochen sind vorläufig, da Nachmeldungen zu erwarten sind, die jüngste steht darunter. Die Quellen veröffentlichen an verschiedenen Tagen, daher können die Wochen abweichen.</p>
+                <details class="glance-details">
+                    <summary>Details und Erklärung</summary>
+                    <ul id="glance-details-list"></ul>
+                    <p class="footnote">Abwasser: Trend des Österreich-Werts der AGES über die letzten vier Kalenderwochen, berechnet wie in der Karte (sinkt: unter −10 %/Woche, stabil: ±10 %, steigt: bis +50 %, steigt stark: darüber, niedrig: kaum über der Nachweisgrenze). Sentinel: Anteil der Proben aus Arztpraxen mit Nachweis des Virus (MedUni Wien); Influenza zählt A, B und C zusammen. Spital: SARI-Aufnahmen mit dieser Diagnose nach Wohnort, ganz Österreich, in der neuesten vollständigen Woche; die beiden jüngsten Wochen sind vorläufig, da Nachmeldungen zu erwarten sind. Die Quellen veröffentlichen an verschiedenen Tagen, daher können die Wochen abweichen.</p>
+                </details>
             </div>
         </section>
 
         <!-- 0. Lage nach Bundesland (Karte) -->
-        <section class="sari-section">
+        <section class="sari-section" id="lage-karte">
             <header>
                 <h3>Lage nach Bundesland</h3>
                 <p class="subtitle">SARI-Aufnahmen pro 100.000 (nach Wohnregion) und Abwasser-Trend je Kläranlage</p>
@@ -2924,23 +2930,46 @@
     let feedsSettled = false;  // every feed has loaded or failed
     const glancePending = () => feedsSettled ? 'nicht geladen' : '…';
 
-    // value: a plain string (loading, missing) or { href, main, sub, dot };
-    // sub is one line or an array of lines
-    function glanceFill(td, value) {
+    // value: a plain string (loading, missing) or { href, main, sub, sym, week, details };
+    // sub is one line or an array of lines. week goes to the column header
+    // when every virus shares it, else into the cell; details go to the
+    // "Details und Erklärung" list.
+    function glanceFill(td, value, showWeek) {
         td.textContent = '';
         td.classList.toggle('glance-empty', typeof value === 'string');
         if (typeof value === 'string') { td.textContent = value; return; }
-        if (value.dot) td.append(value.dot, ' ');
+        if (value.sym) td.append(value.sym, ' ');
         const a = document.createElement('a');
         a.href = value.href;
         a.textContent = value.main;
         td.append(a);
-        for (const line of [].concat(value.sub || [])) {
+        const lines = [].concat(value.sub || []);
+        if (showWeek && value.week) lines.push(formatKW(parseYMD(value.week)));
+        for (const line of lines) {
             const sub = document.createElement('span');
             sub.className = 'glance-sub';
             sub.textContent = line;
             td.append(sub);
         }
+    }
+
+    // One word per trend class; the symbol only repeats it (aria-hidden).
+    // U+FE0E keeps iOS from drawing the arrows as emoji.
+    const GLANCE_TREND = {
+        down:   { sym: '↘', word: 'sinkt' },
+        stable: { sym: '→', word: 'stabil' },
+        up:     { sym: '↗', word: 'steigt' },
+        strong: { sym: '↑', word: 'steigt stark' },
+        low:    { sym: '○', word: 'niedrig' },
+        none:   { sym: '–', word: 'keine Daten' }
+    };
+    function glanceTrendSymbol(cls, pal) {
+        const el = document.createElement('span');
+        el.className = 'glance-arrow';
+        el.setAttribute('aria-hidden', 'true');
+        el.textContent = GLANCE_TREND[cls].sym + '︎';
+        el.style.color = pal.trend[cls];
+        return el;
     }
 
     function glanceWastewater(key, pal) {
@@ -2952,67 +2981,119 @@
         if (!samples.length) return 'keine Daten';
         const week = samples[samples.length - 1].monday;
         const t = plantTrend(at, week);
-        return { href: '#abwasser', dot: trendDot(t.cls, pal), main: trendText(t), sub: formatKW(parseYMD(week)) };
+        const rate = t.rel != null && t.cls !== 'low' ? `${fmtSigned(t.rel)} %/Woche` : null;
+        return { href: '#abwasser', sym: glanceTrendSymbol(t.cls, pal), main: GLANCE_TREND[t.cls].word, sub: rate, week };
     }
 
-    function glanceSentinel(viruses) {
+    function glanceSentinel(key) {
         const bar = dataPool.sentinelBar;
         if (!bar) return glancePending();
-        const share = label => sentinelShare(bar, label, viruses);
+        const share = label => sentinelShare(bar, label, SENTINEL_ROWS_BY_VIRUS[key]);
         const weeks = bar.weeks;
         if (!weeks.length) return 'keine Daten';
-        const cur = share(weeks[weeks.length - 1]);
+        const label = weeks[weeks.length - 1];
+        const cur = share(label);
         if (cur.pct == null) return 'keine Einsendungen';
         const prev = weeks.length > 1 ? share(weeks[weeks.length - 2]) : null;
-        const sub = [sentinelAxisLabel(weeks[weeks.length - 1])];
-        if (prev && prev.pct != null) sub.push(`Vorwoche ${fmtPct(prev.pct)}`);
-        return { href: '#sentinel', main: fmtShareOf(cur.pct, cur.n, cur.eins), sub: sub.join(' · ') };
+        const week = sentinelWeekDate(label);
+        return {
+            href: '#sentinel',
+            main: cur.n === 0 ? 'keine Nachweise' : `${fmtPct(cur.pct)} positiv`,
+            sub: prev && prev.pct != null ? `Vorwoche ${fmtPct(prev.pct)}` : null,
+            week: week ? isoToYMD(week) : null,
+            details: `${fmtDe(cur.n, 0)} von ${fmtDe(cur.eins, 0)} Proben positiv (${sentinelAxisLabel(label)})`
+        };
     }
 
-    function glanceSari(column) {
-        if (!dataPool.sariDemo) return glancePending();
-        const at = incidenceWeekly('AT', column, 'ALL');
+    // The newest SARI_PROVISIONAL_WEEKS weeks still receive late reports (the
+    // newest is about half reported), so the headline is the newest final week
+    // against the final week before it; the newest provisional week only goes
+    // to the details and is never compared
+    function sariGlanceWeeks(at) {
         const weeks = [...at.keys()];
-        if (!weeks.length) return 'keine Daten';
-        // The newest SARI_PROVISIONAL_WEEKS weeks still receive late reports
-        // (the newest is about half reported), so the headline is the newest
-        // final week against the final week before it; the newest provisional
-        // week follows as a marked line and is never compared
         const nFinal = Math.max(0, weeks.length - SARI_PROVISIONAL_WEEKS);
-        const finalWeek = weeks[nFinal - 1], prevWeek = weeks[nFinal - 2];
-        const provWeek = nFinal < weeks.length ? weeks[weeks.length - 1] : null;
-        const kw = ymd => formatKW(parseYMD(ymd));
-        const provText = n => `${kw(provWeek)} vorläufig: ${fmtDe(n, 0)}`;
-        const lines = [];
-        if (finalWeek) lines.push(kw(finalWeek) + (prevWeek ? ` · Vorwoche ${fmtDe(at.get(prevWeek).cases, 0)}` : ''));
-        if (provWeek && finalWeek) lines.push(`${provText(at.get(provWeek).cases)} (Nachmeldungen zu erwarten)`);
-        if (myRegion) {
-            const mine = incidenceWeekly(myRegion, column, 'ALL');
-            const parts = [];
-            const f = finalWeek && mine.get(finalWeek);
-            if (f) {
-                parts.push(admissionsText(f.cases) + (f.rate == null ? '' : ` (${fmtDe(f.rate, 2)} pro 100.000)`));
-                const pv = prevWeek && mine.get(prevWeek);
-                if (pv) parts.push(`Vorwoche ${fmtDe(pv.cases, 0)}`);
-            }
-            const pr = provWeek && mine.get(provWeek);
-            if (pr) parts.push(provText(pr.cases));
-            if (parts.length) lines.push(`${BUNDESLAND_NAMES[myRegion]}: ${parts.join(' · ')}`);
-        }
+        return {
+            finalWeek: weeks[nFinal - 1], prevWeek: weeks[nFinal - 2],
+            provWeek: nFinal < weeks.length ? weeks[weeks.length - 1] : null
+        };
+    }
+    const sariProvText = (ymd, n) => `${formatKW(parseYMD(ymd))} vorläufig: ${fmtDe(n, 0)} – unvollständig, Nachmeldungen folgen`;
+
+    function glanceSari(key) {
+        if (!dataPool.sariDemo) return glancePending();
+        const at = incidenceWeekly('AT', MAP_SARI_COLUMN[key], 'ALL');
+        if (!at.size) return 'keine Daten';
+        const { finalWeek, prevWeek, provWeek } = sariGlanceWeeks(at);
         // Too little history for a final week: the provisional one, marked
-        const main = finalWeek ? admissionsText(at.get(finalWeek).cases)
-            : `${admissionsText(at.get(provWeek).cases)} (${kw(provWeek)}, vorläufig)`;
-        return { href: '#spital', main, sub: lines };
+        if (!finalWeek) return { href: '#spital', main: `${admissionsText(at.get(provWeek).cases)} (vorläufig)`, week: provWeek };
+        return {
+            href: '#spital',
+            main: admissionsText(at.get(finalWeek).cases),
+            sub: prevWeek ? `Vorwoche ${fmtDe(at.get(prevWeek).cases, 0)}` : null,
+            week: finalWeek,
+            details: provWeek ? sariProvText(provWeek, at.get(provWeek).cases) : null
+        };
+    }
+
+    // Mein Bundesland: its SARI counts for all three viruses in one line under
+    // the table. Plant trends exist per plant, not per Land, so it links to the
+    // map instead of inventing an aggregate.
+    function renderGlanceRegion(details) {
+        const el = document.getElementById('glance-region-line');
+        el.textContent = '';
+        el.hidden = !myRegion;
+        if (!myRegion) return;
+        const name = BUNDESLAND_NAMES[myRegion];
+        const strong = document.createElement('strong');
+        strong.textContent = name;
+        el.append(strong);
+        if (!dataPool.sariDemo) el.append(` · Spital: ${glancePending()}`);
+        else {
+            const counts = (week) => Object.keys(WW_SOURCES).map(key => {
+                const w = week && incidenceWeekly(myRegion, MAP_SARI_COLUMN[key], 'ALL').get(week);
+                return `${WW_SOURCES[key].name} ${w ? fmtDe(w.cases, 0) : '–'}`;
+            }).join(' · ');
+            const { finalWeek, provWeek } = sariGlanceWeeks(incidenceWeekly(myRegion, 'ALL', 'ALL'));
+            if (finalWeek) el.append(` · Spital ${formatKW(parseYMD(finalWeek))}: ${counts(finalWeek)}`);
+            if (provWeek) details.push(`${name}, Spital ${formatKW(parseYMD(provWeek))} vorläufig: ${counts(provWeek)} – unvollständig, Nachmeldungen folgen`);
+        }
+        const a = document.createElement('a');
+        a.href = '#lage-karte';
+        a.textContent = `Kläranlagen in ${name} → Karte`;
+        el.append(' · ', a);
     }
 
     function renderGlance() {
         const pal = MAP_PALETTE[themeMode()];
-        for (const key of Object.keys(WW_SOURCES)) {
-            const [ww, sentinel, sari] = document.getElementById(`glance-${key}`).querySelectorAll('td');
-            glanceFill(ww, glanceWastewater(key, pal));
-            glanceFill(sentinel, glanceSentinel(SENTINEL_ROWS_BY_VIRUS[key]));
-            glanceFill(sari, glanceSari(MAP_SARI_COLUMN[key]));
+        const keys = Object.keys(WW_SOURCES);
+        const columns = [
+            { id: 'ww', label: 'Abwasser', get: key => glanceWastewater(key, pal) },
+            { id: 'sentinel', label: 'Sentinel', get: glanceSentinel },
+            { id: 'sari', label: 'Spital', mark: '¹', get: glanceSari }
+        ];
+        const details = [];
+        columns.forEach((col, i) => {
+            const values = keys.map(col.get);
+            const weeks = new Set(values.map(v => typeof v === 'string' ? null : v.week).filter(Boolean));
+            // One week for every virus: once in the header, not in each cell
+            const shared = weeks.size === 1 ? formatKW(parseYMD([...weeks][0])) : '';
+            document.getElementById(`glance-week-${col.id}`).textContent = shared;
+            keys.forEach((key, k) => {
+                const td = document.getElementById(`glance-${key}`).querySelectorAll('td')[i];
+                td.dataset.label = `${col.label}${col.mark || ''}${shared ? ' ' + shared : ''}`;
+                glanceFill(td, values[k], !shared);
+                if (typeof values[k] !== 'string' && values[k].details) details.push(`${WW_SOURCES[key].name}, ${col.label}: ${values[k].details}`);
+            });
+        });
+        renderGlanceRegion(details);
+        const list = document.getElementById('glance-details-list');
+        list.textContent = '';
+        for (const text of details) {
+            const li = document.createElement('li');
+            li.textContent = text;
+            list.append(li);
         }
+        list.hidden = !details.length;
         document.getElementById('glance-error').hidden = true;
     }
     // Called from every feed's success path: a bug here must not be reported
