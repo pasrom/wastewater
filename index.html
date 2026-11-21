@@ -308,6 +308,7 @@
                     <div id="sari-incidence-loading" class="loading-msg">Lade Daten…</div>
                 </div>
                 <p class="footnote">*Gestrichelt umrahmt: die beiden jüngsten Wochen sind vorläufig. Da laufend mit Korrekturen und Nachmeldungen zu rechnen ist, kann sich der Datenbestand noch verändern.</p>
+                <p id="sari-csv" class="footnote" hidden><a href="#" id="sari-csv-link">SARI-Aufnahmen als CSV herunterladen</a> – je Woche und Wohn-Bundesland, alle Stationen, mit Bevölkerung und Rate pro 100.000. Quelle: Dachverband der Sozialversicherungsträger, <a href="https://creativecommons.org/licenses/by/4.0/deed.de" target="_blank" rel="noopener">CC BY 4.0</a>, von dieser Seite nach Woche und Bundesland zusammengefasst. Abwasser- und Sentinel-Daten gibt es direkt bei der AGES bzw. der MedUni Wien.</p>
             </div>
         </section>
 
@@ -392,6 +393,7 @@
                 <a href="https://abwasser.ages.at" target="_blank" rel="noopener">AGES Abwasser-Monitoring</a> ·
                 <a href="https://viro.meduniwien.ac.at/forschung/virus-epidemiologie-2/ueberwachung-der-zirkulation-respiratorischer-viren-in-oesterreich/" target="_blank" rel="noopener">MedUni Wien Sentinel</a> ·
                 <a href="https://www.sari-dashboard.at" target="_blank" rel="noopener">SARI-Dashboard</a>
+                (Daten: Dachverband der Sozialversicherungsträger, <a href="https://creativecommons.org/licenses/by/4.0/deed.de" target="_blank" rel="noopener">CC BY 4.0</a>)
             </p>
             <p class="attribution">
                 Karte: Verwaltungsgrenzen 2021 ©
@@ -1984,6 +1986,48 @@
         return out;
     }
 
+    // CSV download of the SARI admissions by Wohn-Bundesland. Only SARI is
+    // offered: the Sozialversicherung publishes it under CC BY 4.0, while the
+    // AGES terms require written consent to redistribute data and MedUni states
+    // no licence. Semicolons, decimal comma and a BOM so German Excel opens it.
+    const SARI_CSV_DIAGNOSES = ['ALL', ...SARI_DIAGNOSEN];
+    function sariCsv() {
+        const header = ['Jahr', 'KW', 'Wochenbeginn', 'Wohnort',
+            ...SARI_CSV_DIAGNOSES.map(d => d === 'ALL' ? 'Aufnahmen gesamt' : SARI_DIAGNOSE_NAMES[d]),
+            'Bevölkerung', 'Aufnahmen gesamt pro 100.000', 'Vorläufig'];
+        const atWeeks = [...incidenceWeekly('AT', 'ALL', 'ALL').keys()];
+        const provisional = new Set(atWeeks.slice(-SARI_PROVISIONAL_WEEKS));
+        const lines = [header.join(';')];
+        for (const region of Object.keys(BUNDESLAND_NAMES)) {
+            const series = SARI_CSV_DIAGNOSES.map(d => incidenceWeekly(region, d, 'ALL'));
+            for (const [ymd, all] of series[0]) {
+                const { year, week } = dateToISOWeekParts(parseYMD(ymd));
+                lines.push([year, week, ymd, BUNDESLAND_NAMES[region],
+                    ...series.map(s => s.get(ymd)?.cases ?? 0),
+                    all.pop, all.rate == null ? '' : all.rate.toFixed(2).replace('.', ','),
+                    provisional.has(ymd) ? 'ja' : 'nein'].join(';'));
+            }
+        }
+        return { text: '\uFEFF' + lines.join('\r\n') + '\r\n', newest: atWeeks[atWeeks.length - 1] };
+    }
+
+    function setupSariCsv() {
+        document.getElementById('sari-csv-link').addEventListener('click', e => {
+            e.preventDefault();
+            const { text, newest } = sariCsv();
+            const url = URL.createObjectURL(new Blob([text], { type: 'text/csv;charset=utf-8' }));
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `sari-aufnahmen-wohnort-bis-${newest}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            // Safari reads the blob after the click returns
+            setTimeout(() => URL.revokeObjectURL(url), 10000);
+        });
+        document.getElementById('sari-csv').hidden = false;
+    }
+
     const aggregateIncidence = (region, diagnose, station) =>
         [...incidenceWeekly(region, diagnose, station)].map(([ymd, w]) => [ymd, w.rate]);
 
@@ -3549,6 +3593,7 @@
                         .forEach(id => document.getElementById(id).addEventListener('change', renderIncidence));
                     renderIncidence();
                     incidenceReady = true;
+                    setupSariCsv();
                 });
                 initSection('sari-demographics-loading-ec', () => {
                     const refreshBoth = () => { rebuildDemoTimeline(); renderDemographics(); };
