@@ -36,6 +36,7 @@
         <header class="page-header">
             <h1>Atemwegsviren in Österreich</h1>
             <p id="data-freshness" class="data-freshness"></p>
+            <p id="visit-news" class="visit-news" role="status" hidden><span id="visit-news-text"></span><button type="button" id="visit-news-close" class="visit-news-close" aria-label="Hinweis schließen">×</button></p>
         </header>
         <!-- Sticky jump links: the page is nine charts long, so every group is one
              tap away. The shared time window, Mein Bundesland, sharing and the
@@ -975,6 +976,40 @@
         if (!parts.length) return;
         freshnessEl.append('Datenstand');
         for (const part of parts) freshnessEl.append(' · ', part);
+    }
+
+    // "Neu seit deinem letzten Besuch": the newest ISO week per source seen on
+    // this device, kept only in this browser. No hint on a first visit or when
+    // storage is blocked (storageGet returns null), and a source that failed to
+    // load keeps its old value, so it is compared again next time.
+    const LAST_SEEN_KEY = 'lastSeenWeeks';
+    function noteVisit() {
+        const current = {};
+        for (const [name, d] of Object.entries(freshness)) if (d) current[name] = dateToISOWeek(d);
+        if (!Object.keys(current).length) return;
+        let seen = null;
+        try { seen = JSON.parse(storageGet(LAST_SEEN_KEY)); } catch (_) {}
+        if (!seen || typeof seen !== 'object' || Array.isArray(seen)) seen = null;
+        const valid = name => seen && typeof seen[name] === 'string' && /^\d{4}-W\d{2}$/.test(seen[name]);
+        const merged = {};
+        for (const name of Object.keys(freshness)) {
+            const old = valid(name) ? seen[name] : null;
+            const now = current[name] || null;
+            if (old || now) merged[name] = !old || (now && now > old) ? now : old;
+        }
+        storageSet(LAST_SEEN_KEY, JSON.stringify(merged));
+        const news = Object.keys(current).filter(name => valid(name) && current[name] > seen[name]);
+        if (!news.length) return;
+        const box = document.getElementById('visit-news');
+        const text = document.getElementById('visit-news-text');
+        text.textContent = 'Neu seit deinem letzten Besuch: ' +
+            news.map(name => `${name} ${formatKW(freshness[name])}`).join(' · ') + '. ';
+        const note = document.createElement('span');
+        note.className = 'visit-news-note';
+        note.textContent = 'Nur in diesem Browser gemerkt.';
+        text.append(note);
+        box.hidden = false;
+        document.getElementById('visit-news-close').addEventListener('click', () => { box.hidden = true; }, { once: true });
     }
 
     // Zoom is the slider plus this toolbox's area select. There is deliberately
@@ -3558,7 +3593,7 @@
         ];
 
         // Feeds that failed now read "nicht geladen" instead of "…"
-        Promise.all(tasks).then(() => { feedsSettled = true; refreshGlance(); refreshSeason(); });
+        Promise.all(tasks).then(() => { feedsSettled = true; refreshGlance(); refreshSeason(); noteVisit(); });
 
         // The map needs its static assets, wastewater and the SARI demographics.
         // Every task settles (each catches its own error), so the map renders
