@@ -2711,11 +2711,12 @@
         const weeks = [...incidenceWeekly('AT', column, 'ALL')];
         if (!weeks.length) return 'keine Daten';
         const [ymd, cur] = weeks[weeks.length - 1];
-        const prev = weeks.length > 1 ? weeks[weeks.length - 2][1] : null;
-        // The newest SARI_PROVISIONAL_WEEKS weeks still receive late reports
+        // The newest SARI_PROVISIONAL_WEEKS weeks still receive late reports, so
+        // a change against the week before is mostly missing reports (as in the
+        // map tooltip): compare only when both weeks are final
         const sub = [formatKW(parseYMD(ymd))];
-        if (prev) sub.push(`Vorwoche ${fmtDe(prev.cases, 0)}`);
-        sub.push(prev && SARI_PROVISIONAL_WEEKS > 1 ? 'beide vorläufig' : 'vorläufig');
+        if (SARI_PROVISIONAL_WEEKS > 0) sub.push('vorläufig – Nachmeldungen zu erwarten');
+        else if (weeks.length > 1) sub.push(`Vorwoche ${fmtDe(weeks[weeks.length - 2][1].cases, 0)}`);
         return { href: '#spital', main: `${fmtDe(cur.cases, 0)} Aufnahme${cur.cases === 1 ? '' : 'n'}`, sub: sub.join(' · ') };
     }
 
