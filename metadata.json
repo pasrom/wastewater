@@ -1,26 +1,26 @@
 {
-  "last_updated": "2026-11-18T21:19:53.429990",
+  "last_updated": "2026-11-21T06:12:13.416240",
   "sources": {
     "ages": {
       "sarscov2": {
         "status": "ok",
         "file": "../../data/ages/sarscov2.json",
-        "latest_week": "2026-11-09",
-        "age_weeks": 1,
+        "latest_week": "2026-11-16",
+        "age_weeks": 0,
         "stale": false
       },
       "influenza": {
         "status": "ok",
         "file": "../../data/ages/influenza.json",
-        "latest_week": "2026-11-09",
-        "age_weeks": 1,
+        "latest_week": "2026-11-16",
+        "age_weeks": 0,
         "stale": false
       },
       "rsv": {
         "status": "ok",
         "file": "../../data/ages/rsv.json",
-        "latest_week": "2026-11-09",
-        "age_weeks": 1,
+        "latest_week": "2026-11-16",
+        "age_weeks": 0,
         "stale": false
       }
     },
