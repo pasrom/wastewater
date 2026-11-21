@@ -20,9 +20,11 @@ Austrian virus monitoring dashboard - displays wastewater virus load (AGES), Sen
 │   ├── extract_virus_data.py  # Sentinel SVG decoding
 │   ├── build_geo.py        # Rebuilds geo/ from its pinned public sources
 │   └── verify_map.py       # Independent cross-check of the map numbers
-└── .github/workflows/
-    ├── deploy.yml          # GitHub Pages deployment on push to main
-    └── fetch-data.yml      # Wednesday and Saturday data fetch
+└── .github/
+    ├── dependabot.yml      # Weekly grouped updates: SHA-pinned actions, tools/requirements.txt (uv); not ECharts
+    └── workflows/
+        ├── deploy.yml      # GitHub Pages deployment on push to main
+        └── fetch-data.yml  # Wednesday and Saturday data fetch
 ```
 
 ## Data Sources

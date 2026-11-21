@@ -1,0 +1,51 @@
+# Weekly version updates for the two things this repository pins:
+# the GitHub Actions in .github/workflows (pinned by commit SHA with a version
+# comment, which Dependabot updates together) and the data job's Python packages.
+# ECharts is loaded from jsDelivr with an SRI hash in index.html; Dependabot
+# does not see it, so it is updated by hand.
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Europe/Vienna"
+    # A release has to be a week old before it is proposed: the workflows run
+    # with write access to this repository and to GitHub Pages.
+    cooldown:
+      default-days: 7
+    groups:
+      actions:
+        patterns:
+          - "*"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+
+  # tools/requirements.txt is `uv pip compile --generate-hashes` output from
+  # requirements.in; the uv ecosystem re-runs that command, keeping the hashes
+  # and the --python-version from the file header.
+  - package-ecosystem: "uv"
+    directory: "/tools"
+    # Local plotting only, not installed by any workflow; its open ranges need
+    # no weekly bumps.
+    exclude-paths:
+      - "requirements-plot.txt"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Europe/Vienna"
+    cooldown:
+      default-days: 7
+    groups:
+      python:
+        patterns:
+          - "*"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "chore"
+      include: "scope"
