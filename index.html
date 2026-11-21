@@ -41,8 +41,8 @@
             <p id="data-freshness" class="data-freshness"></p>
         </header>
         <!-- Sticky jump links: the page is nine charts long, so every group is one
-             tap away. The shared time window, Mein Bundesland and the theme
-             toggle ride along, so they stay in reach from the lower charts. -->
+             tap away. The shared time window, Mein Bundesland, sharing and the
+             theme toggle ride along, so they stay in reach from the lower charts. -->
         <nav class="section-nav" aria-label="Abschnitte">
             <div class="nav-links">
                 <a href="#karte">Überblick</a>
@@ -59,6 +59,8 @@
                 <label for="my-region" id="my-region-label">Mein Bundesland:</label>
                 <select id="my-region" class="select-input"></select>
             </div>
+            <button type="button" class="theme-toggle share-link" id="share-link" aria-label="Ansicht teilen" title="Ansicht teilen" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+            <span id="share-status" class="share-toast" role="status"></span>
             <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Hell-/Dunkelmodus wechseln" title="Hell-/Dunkelmodus">☾</button>
         </nav>
 
@@ -70,10 +72,6 @@
                 <p class="subtitle">Neueste Woche je Quelle – Details in den Abschnitten darunter</p>
             </header>
             <div class="sari-content">
-                <div class="glance-share">
-                    <button type="button" class="btn-small share-link" id="share-link" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span id="share-label">Ansicht teilen</span></button>
-                    <span id="share-status" class="visually-hidden" role="status"></span>
-                </div>
                 <table class="glance">
                     <thead>
                         <tr><th scope="col">Virus</th><th scope="col">Abwasser-Trend<span class="glance-week" id="glance-week-ww"></span></th><th scope="col">Sentinel: positive Proben<span class="glance-week" id="glance-week-sentinel"></span></th><th scope="col">Spital: SARI-Aufnahmen<sup>¹</sup><span class="glance-week" id="glance-week-sari"></span></th></tr>
@@ -425,7 +423,7 @@
         document.getElementById('glance-error').hidden = false;
         // Nothing would handle these; the empty selects hide themselves (CSS)
         document.getElementById('theme-toggle').style.display = 'none';
-        document.querySelector('.glance-share').style.display = 'none';
+        document.getElementById('share-link').style.display = 'none';
         throw new Error('ECharts not loaded');
     }
 
@@ -3212,25 +3210,23 @@
         myRegionSelect.value = myRegion;
         myRegionSelect.addEventListener('change', () => setMyRegion(myRegionSelect.value));
         const shareBtn = document.getElementById('share-link');
-        const shareLabel = document.getElementById('share-label');
+        const shareStatus = document.getElementById('share-status');
         let shareBtnTimer = 0;
+        // The button is an icon only: a short toast under it, which is also
+        // the live region screen readers announce
         function shareFeedback(text) {
-            shareLabel.textContent = text;
-            // A separate live region: screen readers do not reliably announce
-            // a change to the focused button's own text
-            document.getElementById('share-status').textContent = text;
+            shareStatus.textContent = text;
             clearTimeout(shareBtnTimer);
-            shareBtnTimer = setTimeout(() => {
-                shareLabel.textContent = 'Ansicht teilen';
-                document.getElementById('share-status').textContent = '';
-            }, 2500);
+            shareBtnTimer = setTimeout(() => { shareStatus.textContent = ''; }, 2500);
         }
         shareBtn.addEventListener('click', async () => {
             noteViewChange();
-            // Without the section hash: what the link sets (map, Land, this
-            // card) sits at the top, so it opens there, not at #sentinel
+            // The button rides in the sticky bar, so the link opens at the
+            // group in view (the highlighted chip), not at a stale hash from
+            // an earlier jump; at the top it carries no hash at all
             const url = new URL(shareUrl(), location.href);
-            url.hash = '';
+            const current = document.querySelector('.nav-links a[aria-current="true"]');
+            url.hash = current && current.getAttribute('href') !== '#karte' ? current.getAttribute('href') : '';
             // Phones: the system share sheet (WhatsApp, Signal, …), where
             // most readers come from. Desktops copy, as the label says there.
             if (navigator.share && matchMedia('(pointer: coarse)').matches) {

@@ -910,22 +910,31 @@ footer .impressum a {
     color: var(--accent);
 }
 
-.glance-share {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 8px;
-}
-
-.share-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
-
 .share-link svg {
-    width: 1em;
-    height: 1em;
-    flex: none;
+    width: 15px;
+    height: 15px;
+}
+
+/* "Link kopiert ✓" under the icon-only share button; empty = invisible */
+.section-nav {
+    --share-toast-gap: 6px;
+}
+
+.share-toast {
+    position: absolute;
+    top: calc(100% + var(--share-toast-gap));
+    right: 20px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: var(--text-strong);
+    color: var(--bg);
+    font-size: 0.85rem;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.share-toast:empty {
+    display: none;
 }
 
 .glance-sub {
@@ -1390,21 +1399,23 @@ footer .impressum a {
 /* The select's own text ("Ganz Österreich", "Wien") says what it is; the
    hidden caption stays its accessible name. Below this width the caption
    would take the room the jump chips need. */
-@media (max-width: 1099px) {
+@media (max-width: 1199px) {
     #my-region-label {
         display: none;
     }
 }
 
 /* Two-row sticky bar. Row 1: chips and theme toggle; row 2: time window and
-   Mein Bundesland. Below this width one row would clip the chips. */
-@media (max-width: 999px) {
+   Mein Bundesland. Below this width one row would clip the chips (measured
+   with the share button, both engines). */
+@media (max-width: 1079px) {
     .section-nav {
         flex-wrap: wrap;
     }
 
+    /* Row 1: chips, share and theme toggle (2 × 30 px + two 16 px gaps) */
     .nav-links {
-        flex-basis: calc(100% - 46px);
+        flex-basis: calc(100% - 92px);
     }
 
     .section-nav .theme-toggle {
