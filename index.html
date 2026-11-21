@@ -57,21 +57,22 @@
                 <div class="glance-region">
                     <label for="my-region">Mein Bundesland:</label>
                     <select id="my-region" class="select-input"></select>
-                    <button type="button" class="btn-small share-link" id="share-link" aria-live="polite">Link zu dieser Ansicht kopieren</button>
+                    <button type="button" class="btn-small share-link" id="share-link" disabled>Link zu dieser Ansicht kopieren</button>
+                    <span id="share-status" class="visually-hidden" role="status"></span>
                 </div>
                 <table class="glance">
                     <thead>
                         <tr><th scope="col">Virus</th><th scope="col">Abwasser-Trend Österreich</th><th scope="col">Sentinel: positive Proben</th><th scope="col">Spital: SARI-Aufnahmen Österreich</th></tr>
                     </thead>
                     <tbody>
-                        <tr id="glance-sarscov2"><th scope="row">SARS-CoV-2</th><td data-label="Abwasser">…</td><td data-label="Sentinel">…</td><td data-label="Spital">…</td></tr>
-                        <tr id="glance-influenza"><th scope="row">Influenza</th><td data-label="Abwasser">…</td><td data-label="Sentinel">…</td><td data-label="Spital">…</td></tr>
-                        <tr id="glance-rsv"><th scope="row">RSV</th><td data-label="Abwasser">…</td><td data-label="Sentinel">…</td><td data-label="Spital">…</td></tr>
+                        <tr id="glance-sarscov2"><th scope="row">SARS-CoV-2</th><td data-label="Abwasser-Trend Österreich">…</td><td data-label="Sentinel positiv">…</td><td data-label="Spital (SARI) Österreich">…</td></tr>
+                        <tr id="glance-influenza"><th scope="row">Influenza</th><td data-label="Abwasser-Trend Österreich">…</td><td data-label="Sentinel positiv">…</td><td data-label="Spital (SARI) Österreich">…</td></tr>
+                        <tr id="glance-rsv"><th scope="row">RSV</th><td data-label="Abwasser-Trend Österreich">…</td><td data-label="Sentinel positiv">…</td><td data-label="Spital (SARI) Österreich">…</td></tr>
                     </tbody>
                 </table>
                 <p id="glance-error" class="loading-msg" hidden></p>
                 <p id="glance-impf" class="glance-impf" hidden>Impfsaison: Die aktuellen Empfehlungen stehen im <a href="https://www.sozialministerium.gv.at/Themen/Gesundheit/Impfen/impfplan.html" target="_blank" rel="noopener">Impfplan Österreich</a> des Sozialministeriums. Diese Seite gibt keine medizinische Beratung.</p>
-                <p class="footnote">Abwasser: Trend des Österreich-Werts der AGES über die letzten vier Kalenderwochen, berechnet wie in der Karte. Sentinel: Anteil der Proben aus Arztpraxen mit Nachweis des Virus (MedUni Wien); Influenza zählt A, B und C zusammen. Spital: SARI-Aufnahmen mit dieser Diagnose nach Wohnort, ganz Österreich; die beiden jüngsten Wochen sind vorläufig, da Nachmeldungen zu erwarten sind. Die Quellen veröffentlichen an verschiedenen Tagen, daher können die Wochen abweichen.</p>
+                <p class="footnote">Abwasser: Trend des Österreich-Werts der AGES über die letzten vier Kalenderwochen, berechnet wie in der Karte. Sentinel: Anteil der Proben aus Arztpraxen mit Nachweis des Virus (MedUni Wien); Influenza zählt A, B und C zusammen. Spital: SARI-Aufnahmen mit dieser Diagnose nach Wohnort, ganz Österreich, in der neuesten vollständigen Woche; die beiden jüngsten Wochen sind vorläufig, da Nachmeldungen zu erwarten sind, die jüngste steht darunter. Die Quellen veröffentlichen an verschiedenen Tagen, daher können die Wochen abweichen.</p>
             </div>
         </section>
 
@@ -435,6 +436,17 @@
         RSV: ['RSV'], RH: ['Rhino'], AD: ['Adeno'], Para: ['ParaInfluenza'], Corona: ['Corona']
     };
     const SENTINEL_HEATMAP_VIRUS_ORDER = Object.keys(SENTINEL_HEATMAP_ROWS);
+    // Sentinel rows behind each wastewater virus (glance and season cards)
+    const SENTINEL_ROWS_BY_VIRUS = {
+        sarscov2: SENTINEL_HEATMAP_ROWS.Covid19, influenza: SENTINEL_HEATMAP_ROWS.Influenza, rsv: SENTINEL_HEATMAP_ROWS.RSV
+    };
+    // Detections of `viruses` in one Sentinel week and their share of the Einsendungen
+    function sentinelShare(bar, label, viruses) {
+        const counts = bar.data[label] || {};
+        const n = viruses.reduce((sum, v) => sum + (+counts[v] || 0), 0);
+        const eins = +bar.einsendungen[label] || 0;
+        return { n, eins, pct: positivity(n, eins) };
+    }
 
     // ==================== Helpers ====================
     // raw.githubusercontent.com sends CORS headers, so no proxy fallback: a
@@ -589,6 +601,9 @@
     // null, not 0: a week without Einsendungen has no rate
     const positivity = (n, eins) => eins > 0 ? n / eins * 100 : null;
     const fmtShareOf = (pct, n, eins) => `${fmtPct(pct)} (${fmtDe(n, 0)} von ${fmtDe(eins, 0)})`;
+    const admissionsText = n => `${fmtDe(n, 0)} Aufnahme${n === 1 ? '' : 'n'}`;
+    // A stored choice while it is still one of `valid`, else the fallback
+    const storedChoice = (key, valid, fallback = valid[0]) => (v => valid.includes(v) ? v : fallback)(storageGet(key));
 
     // One week header for every tooltip: "KW 52/2025 (ab 22.12.)"
     const weekHeader = monday => `${formatKW(monday)} (ab ${monday.getDate()}.${monday.getMonth() + 1}.)`;
@@ -669,8 +684,10 @@
     }
     // A section whose data is gone collapses its chart area and controls and
     // shows the reason in the error colour with a reload button.
-    function setSectionError(statusEl, message) {
-        statusEl.closest('section').classList.add('failed');
+    // collapse: false for a render error that a later render can clear: the
+    // controls stay, so the reader can leave the failing choice.
+    function setSectionError(statusEl, message, { collapse = true } = {}) {
+        if (collapse) statusEl.closest('section').classList.add('failed');
         statusEl.classList.add('error-msg');
         statusEl.style.display = '';
         statusEl.textContent = 'Daten konnten nicht geladen werden: ' + message + ' ';
@@ -810,8 +827,7 @@
         ['all', 'Alles', 'Gesamter verfügbarer Zeitraum']
     ];
     const sharedTimeRange = Object.keys(TIME_RANGE_PARAM).find(k => TIME_RANGE_PARAM[k] === SHARE_PARAMS.get('zeitraum'));
-    let timeRange = sharedTimeRange
-        || (v => TIME_RANGES.some(([k]) => k === v) ? v : 'year')(storageGet(TIME_RANGE_KEY));
+    let timeRange = sharedTimeRange || storedChoice(TIME_RANGE_KEY, TIME_RANGES.map(([k]) => k), 'year');
     // A window must hold this much data, or it falls back to an earlier start.
     // Without it, "Saison" in early September (before the feeds reach 1 Sept)
     // or a window after the newest data drew empty or one-bar charts.
@@ -890,8 +906,14 @@
             if (days <= STALE_AFTER_DAYS[name]) return document.createTextNode(`${name}: ${formatKW(d)}`);
             const span = document.createElement('span');
             span.className = 'stale';
+            const why = `Wird normalerweise wöchentlich aktualisiert; die neueste Woche begann vor ${days} Tagen.`;
             span.textContent = `${name}: ${formatKW(d)} ⚠ überfällig`;
-            span.title = `Wird normalerweise wöchentlich aktualisiert; die neueste Woche begann vor ${days} Tagen.`;
+            span.title = why;
+            // The title is out of reach for touch and keyboard: the same text for screen readers
+            const sr = document.createElement('span');
+            sr.className = 'visually-hidden';
+            sr.textContent = ` (${why})`;
+            span.append(sr);
             return span;
         });
         freshnessEl.textContent = '';
@@ -1333,7 +1355,7 @@
         const name = escapeHtml(BUNDESLAND_NAMES[r.code]);
         const head = `<b>${name}</b> · ${escapeHtml(formatKW(parseYMD(m.week)))}${m.provisional ? ' (vorläufig)' : ''}`;
         if (r.rate == null) return `${head}<br>${m.sariPending ? SARI_PENDING_TEXT : 'Keine SARI-Daten'}`;
-        const lines = [`${SARI_DIAGNOSE_NAMES[m.column]}: ${r.cases} Aufnahme${r.cases === 1 ? '' : 'n'} · ${fmtDe(r.rate, 2)} pro 100.000`];
+        const lines = [`${SARI_DIAGNOSE_NAMES[m.column]}: ${admissionsText(r.cases)} · ${fmtDe(r.rate, 2)} pro 100.000`];
         // Small counts swing a rate wildly, so change is shown as a count, never in %
         if (m.provisional) lines.push('Nachmeldungen zu erwarten');
         else if (r.prev) lines.push(`ggü. Vorwoche: ${fmtSigned(r.cases - r.prev.cases)} (${r.prev.cases} → ${r.cases})`);
@@ -1468,7 +1490,7 @@
         el.textContent = '';
         const at = m.regions.find(r => r.code === 'AT');
         const parts = [];
-        if (at && at.rate != null) parts.push(`SARI ${SARI_DIAGNOSE_NAMES[m.column]}: ${fmtDe(at.rate, 2)} pro 100.000 (${at.cases} Aufnahme${at.cases === 1 ? '' : 'n'})`);
+        if (at && at.rate != null) parts.push(`SARI ${SARI_DIAGNOSE_NAMES[m.column]}: ${fmtDe(at.rate, 2)} pro 100.000 (${admissionsText(at.cases)})`);
         else if (m.sariPending) parts.push(SARI_PENDING_TEXT);
         el.style.display = parts.length || m.austria ? '' : 'none';
         const strong = document.createElement('strong');
@@ -1560,8 +1582,8 @@
         mapState.lastSariWeek = sariWeeks[sariWeeks.length - 1] || null;
 
         const keys = Object.keys(WW_SOURCES);
-        mapState.virus = [SHARE_PARAMS.get('virus'), storageGet(MAP_VIRUS_STORAGE_KEY)]
-            .find(v => keys.includes(v)) || keys[0];
+        mapState.virus = keys.includes(SHARE_PARAMS.get('virus')) ? SHARE_PARAMS.get('virus')
+            : storedChoice(MAP_VIRUS_STORAGE_KEY, keys);
         buildSegmented(document.getElementById('map-virus'), 'map-virus',
             keys.map(k => [k, WW_SOURCES[k].name]), mapState.virus, key => {
                 mapState.virus = key;
@@ -1601,8 +1623,13 @@
     // unless the sender picked a week on purpose.
     function shareUrl() {
         const params = new URLSearchParams();
-        if (mapState.ready) params.set('virus', mapState.virus);
-        if (mapState.ready && mapState.idx !== mapState.defaultIdx) params.set('kw', ymdToKwParam(mapState.weeks[mapState.idx]));
+        if (mapState.ready) {
+            params.set('virus', mapState.virus);
+            if (mapState.idx !== mapState.defaultIdx) params.set('kw', ymdToKwParam(mapState.weeks[mapState.idx]));
+        } else {
+            // Until the map can check them, an incoming virus and week pass through
+            for (const k of ['virus', 'kw']) if (SHARE_PARAMS.has(k)) params.set(k, SHARE_PARAMS.get(k));
+        }
         params.set('zeitraum', TIME_RANGE_PARAM[timeRange]);
         if (myRegion) params.set('bl', myRegion);
         return `${location.pathname}?${params}${location.hash}`;
@@ -1946,6 +1973,7 @@
             cb.checked = incidenceSelectedRegions.has(code);
             cb.addEventListener('change', () => {
                 if (cb.checked) incidenceSelectedRegions.add(code); else incidenceSelectedRegions.delete(code);
+                if (code === myRegion || code === unsavedIncidenceRegion) incidenceSelectionIsOwn();
                 renderIncidence();
             });
             // Carry the line type too: Burgenland shares Wien's hue and is told
@@ -1967,8 +1995,8 @@
         setupCheckboxDropdown({
             toggleId: 'toggle-incidence-regions', dropdownId: 'incidence-region-dropdown',
             allId: 'incidence-select-all', noneId: 'incidence-select-none',
-            onAll: () => { incidenceSelectedRegions = new Set(INCIDENCE_REGION_ORDER); },
-            onNone: () => { incidenceSelectedRegions = new Set(['AT']); },
+            onAll: () => { incidenceSelectedRegions = new Set(INCIDENCE_REGION_ORDER); incidenceSelectionIsOwn(true); },
+            onNone: () => { incidenceSelectedRegions = new Set(['AT']); incidenceSelectionIsOwn(true); },
             rebuild: () => { buildIncidenceRegionList(); renderIncidence(); }
         });
     }
@@ -2476,10 +2504,8 @@
             weeks: bar.weeks,
             rows,
             value: (row, w) => {
-                const counts = bar.data[w] || {};
-                const n = SENTINEL_HEATMAP_ROWS[row].reduce((sum, v) => sum + (+counts[v] || 0), 0);
-                const eins = +bar.einsendungen[w] || 0;
-                return { pct: positivity(n, eins), abs: n, eins };
+                const { n, eins, pct } = sentinelShare(bar, w, SENTINEL_HEATMAP_ROWS[row]);
+                return { pct, abs: n, eins };
             }
         };
     }
@@ -2723,10 +2749,9 @@
     const SEASON_METRIC_KEY = 'seasonMetric';
     const SEASON_VIRUS_KEY = 'seasonVirus';
     const SEASON_METRICS = [['ww', 'Abwasser'], ['sentinel', 'Sentinel'], ['sari', 'Spital']];
-    const SEASON_VIRUSES = [['sarscov2', 'SARS-CoV-2'], ['influenza', 'Influenza'], ['rsv', 'RSV']];
-    const storedChoice = (key, options) => (v => options.some(([k]) => k === v) ? v : options[0][0])(storageGet(key));
-    let seasonMetric = storedChoice(SEASON_METRIC_KEY, SEASON_METRICS);
-    let seasonVirus = storedChoice(SEASON_VIRUS_KEY, SEASON_VIRUSES);
+    const SEASON_VIRUSES = Object.entries(WW_SOURCES).map(([k, src]) => [k, src.name]);
+    let seasonMetric = storedChoice(SEASON_METRIC_KEY, SEASON_METRICS.map(([k]) => k));
+    let seasonVirus = storedChoice(SEASON_VIRUS_KEY, SEASON_VIRUSES.map(([k]) => k));
     // KW 36 … KW 52, KW 53, KW 01 … KW 35. A season without KW 53 has no point
     // there and its line runs straight from KW 52 to KW 01.
     const SEASON_WEEKS = [...Array(53).keys()].map(i => (SEASON_FIRST_WEEK - 1 + i) % 53 + 1);
@@ -2758,15 +2783,11 @@
         if (metric === 'sentinel') {
             const bar = dataPool.sentinelBar;
             if (!bar) return feedsSettled ? 'Sentinel-Daten nicht geladen' : null;
-            const rows = GLANCE_VIRUSES.find(g => g.key === virus).sentinel;
             const out = new Map();
             for (const label of bar.weeks) {
                 const d = sentinelWeekDate(label);
-                const counts = bar.data[label] || {};
-                const n = rows.reduce((sum, r) => sum + (+counts[r] || 0), 0);
-                const eins = +bar.einsendungen[label] || 0;
-                const v = positivity(n, eins);
-                if (d && v != null) out.set(isoToYMD(d), { v, n, eins });
+                const { n, eins, pct } = sentinelShare(bar, label, SENTINEL_ROWS_BY_VIRUS[virus]);
+                if (d && pct != null) out.set(isoToYMD(d), { v: pct, n, eins });
             }
             return out;
         }
@@ -2799,6 +2820,7 @@
 
     function renderSeason() {
         const status = document.getElementById('season-loading');
+        status.classList.remove('error-msg');  // left over from a failed render
         const weekly = seasonWeekly(seasonMetric, seasonVirus);
         const seasons = weekly instanceof Map ? seasonSeries(weekly) : [];
         if (!seasons.length) {
@@ -2853,7 +2875,7 @@
     // Called whenever a feed settles; a render bug shows in the card itself
     function refreshSeason() {
         try { renderSeason(); } catch (e) {
-            setSectionError(document.getElementById('season-loading'), errorText(e));
+            setSectionError(document.getElementById('season-loading'), errorText(e), { collapse: false });
         }
     }
     buildSegmented(document.getElementById('season-metric'), 'season-metric', SEASON_METRICS, seasonMetric, key => {
@@ -2882,11 +2904,6 @@
     // numbers a reader would otherwise collect by scrolling through the charts.
     // Same definitions as the map (AGES trend, SARI by residence) and the
     // Sentinel heatmap rows.
-    const GLANCE_VIRUSES = [
-        { key: 'sarscov2', sentinel: SENTINEL_HEATMAP_ROWS.Covid19 },
-        { key: 'influenza', sentinel: SENTINEL_HEATMAP_ROWS.Influenza },
-        { key: 'rsv', sentinel: SENTINEL_HEATMAP_ROWS.RSV }
-    ];
     let feedsSettled = false;  // every feed has loaded or failed
     const glancePending = () => feedsSettled ? 'nicht geladen' : '…';
 
@@ -2924,12 +2941,7 @@
     function glanceSentinel(viruses) {
         const bar = dataPool.sentinelBar;
         if (!bar) return glancePending();
-        const share = label => {
-            const counts = bar.data[label] || {};
-            const n = viruses.reduce((sum, v) => sum + (+counts[v] || 0), 0);
-            const eins = +bar.einsendungen[label] || 0;
-            return { n, eins, pct: positivity(n, eins) };
-        };
+        const share = label => sentinelShare(bar, label, viruses);
         const weeks = bar.weeks;
         if (!weeks.length) return 'keine Daten';
         const cur = share(weeks[weeks.length - 1]);
@@ -2940,33 +2952,51 @@
         return { href: '#sentinel', main: fmtShareOf(cur.pct, cur.n, cur.eins), sub: sub.join(' · ') };
     }
 
-    const admissionsText = n => `${fmtDe(n, 0)} Aufnahme${n === 1 ? '' : 'n'}`;
     function glanceSari(column) {
         if (!dataPool.sariDemo) return glancePending();
-        const weeks = [...incidenceWeekly('AT', column, 'ALL')];
+        const at = incidenceWeekly('AT', column, 'ALL');
+        const weeks = [...at.keys()];
         if (!weeks.length) return 'keine Daten';
-        const [ymd, cur] = weeks[weeks.length - 1];
-        // The newest SARI_PROVISIONAL_WEEKS weeks still receive late reports, so
-        // a change against the week before is mostly missing reports (as in the
-        // map tooltip): compare only when both weeks are final
-        const sub = [formatKW(parseYMD(ymd))];
-        if (SARI_PROVISIONAL_WEEKS > 0) sub.push('vorläufig – Nachmeldungen zu erwarten');
-        else if (weeks.length > 1) sub.push(`Vorwoche ${fmtDe(weeks[weeks.length - 2][1].cases, 0)}`);
-        const lines = [sub.join(' · ')];
-        const mine = myRegion && incidenceWeekly(myRegion, column, 'ALL').get(ymd);
-        if (mine) lines.push(`${BUNDESLAND_NAMES[myRegion]}: ${admissionsText(mine.cases)}`
-            + (mine.rate == null ? '' : ` · ${fmtDe(mine.rate, 2)} pro 100.000`));
-        return { href: '#spital', main: admissionsText(cur.cases), sub: lines };
+        // The newest SARI_PROVISIONAL_WEEKS weeks still receive late reports
+        // (the newest is about half reported), so the headline is the newest
+        // final week against the final week before it; the newest provisional
+        // week follows as a marked line and is never compared
+        const nFinal = Math.max(0, weeks.length - SARI_PROVISIONAL_WEEKS);
+        const finalWeek = weeks[nFinal - 1], prevWeek = weeks[nFinal - 2];
+        const provWeek = nFinal < weeks.length ? weeks[weeks.length - 1] : null;
+        const kw = ymd => formatKW(parseYMD(ymd));
+        const provText = n => `${kw(provWeek)} vorläufig: ${fmtDe(n, 0)}`;
+        const lines = [];
+        if (finalWeek) lines.push(kw(finalWeek) + (prevWeek ? ` · Vorwoche ${fmtDe(at.get(prevWeek).cases, 0)}` : ''));
+        if (provWeek && finalWeek) lines.push(`${provText(at.get(provWeek).cases)} (Nachmeldungen zu erwarten)`);
+        if (myRegion) {
+            const mine = incidenceWeekly(myRegion, column, 'ALL');
+            const parts = [];
+            const f = finalWeek && mine.get(finalWeek);
+            if (f) {
+                parts.push(admissionsText(f.cases) + (f.rate == null ? '' : ` (${fmtDe(f.rate, 2)} pro 100.000)`));
+                const pv = prevWeek && mine.get(prevWeek);
+                if (pv) parts.push(`Vorwoche ${fmtDe(pv.cases, 0)}`);
+            }
+            const pr = provWeek && mine.get(provWeek);
+            if (pr) parts.push(provText(pr.cases));
+            if (parts.length) lines.push(`${BUNDESLAND_NAMES[myRegion]}: ${parts.join(' · ')}`);
+        }
+        // Too little history for a final week: the provisional one, marked
+        const main = finalWeek ? admissionsText(at.get(finalWeek).cases)
+            : `${admissionsText(at.get(provWeek).cases)} (${kw(provWeek)}, vorläufig)`;
+        return { href: '#spital', main, sub: lines };
     }
 
     function renderGlance() {
         const pal = MAP_PALETTE[themeMode()];
-        for (const v of GLANCE_VIRUSES) {
-            const [ww, sentinel, sari] = document.getElementById(`glance-${v.key}`).querySelectorAll('td');
-            glanceFill(ww, glanceWastewater(v.key, pal));
-            glanceFill(sentinel, glanceSentinel(v.sentinel));
-            glanceFill(sari, glanceSari(MAP_SARI_COLUMN[v.key]));
+        for (const key of Object.keys(WW_SOURCES)) {
+            const [ww, sentinel, sari] = document.getElementById(`glance-${key}`).querySelectorAll('td');
+            glanceFill(ww, glanceWastewater(key, pal));
+            glanceFill(sentinel, glanceSentinel(SENTINEL_ROWS_BY_VIRUS[key]));
+            glanceFill(sari, glanceSari(MAP_SARI_COLUMN[key]));
         }
+        document.getElementById('glance-error').hidden = true;
     }
     // Called from every feed's success path: a bug here must not be reported
     // as that feed's load failure
@@ -2974,7 +3004,7 @@
         try { renderGlance(); } catch (e) {
             const el = document.getElementById('glance-error');
             el.hidden = false;
-            setSectionError(el, errorText(e));
+            setSectionError(el, errorText(e), { collapse: false });
         }
     }
     // "Mein Bundesland": one choice that the SARI charts, the incidence lines,
@@ -3003,13 +3033,34 @@
         incidenceSelectedRegions.add(sharedRegion);
     }
 
+    // The reader set the incidence lines themselves (Alle, Keine, or their Land's
+    // box): "Mein Bundesland" no longer owns a line there, and a shared Land
+    // they kept is now theirs to store. `whole`: the entire selection is theirs,
+    // including a stored Land that a shared visit does not show.
+    function incidenceSelectionIsOwn(whole = false) {
+        myRegionAdded = false;
+        unsavedIncidenceRegion = null;
+        if (whole || storageGet(MY_REGION_KEY) === myRegion) storageSet(MY_REGION_ADDED_KEY, '0');
+    }
+
     function setMyRegion(code) {
         const prev = myRegion;
+        // On a shared visit the stored Land differs from the shown one and may
+        // sit in the incidence selection by this control's doing: take it back
+        // too, or it would stay there as if the reader had chosen it
+        const stored = storageGet(MY_REGION_KEY);
+        if (stored && stored !== prev && storageGet(MY_REGION_ADDED_KEY) === '1') {
+            incidenceSelectedRegions.delete(stored);
+        }
         myRegion = code;
         storageSet(MY_REGION_KEY, code);
+        // Only while the SARI charts still show the previous choice: a Land the
+        // reader picked there themselves stays
         const sariSelect = document.getElementById('sari-bundesland');
-        sariSelect.value = code || 'AT';
-        sariSelect.dispatchEvent(new Event('change'));  // linked selects follow
+        if (sariSelect.value === (prev || 'AT')) {
+            sariSelect.value = code || 'AT';
+            sariSelect.dispatchEvent(new Event('change'));  // linked selects follow
+        }
 
         if (prev && myRegionAdded) incidenceSelectedRegions.delete(prev);
         unsavedIncidenceRegion = null;
@@ -3055,8 +3106,14 @@
             let copied = false;
             try { await navigator.clipboard.writeText(url); copied = true; } catch { /* fallback below */ }
             shareBtn.textContent = copied ? 'Link kopiert ✓' : 'Link steht in der Adresszeile';
+            // A separate live region: screen readers do not reliably announce
+            // a change to the focused button's own text
+            document.getElementById('share-status').textContent = shareBtn.textContent;
             clearTimeout(shareBtnTimer);
-            shareBtnTimer = setTimeout(() => { shareBtn.textContent = 'Link zu dieser Ansicht kopieren'; }, 2500);
+            shareBtnTimer = setTimeout(() => {
+                shareBtn.textContent = 'Link zu dieser Ansicht kopieren';
+                document.getElementById('share-status').textContent = '';
+            }, 2500);
         });
         if (myRegion) SARI_REGION_SELECTS.forEach(id => { document.getElementById(id).value = myRegion; });
 
@@ -3318,6 +3375,10 @@
             } catch (e) {
                 setSectionError(document.getElementById('map-loading'), errorText(e));
             }
+        }).finally(() => {
+            // Until now a copied link would lack the map's virus and week; a
+            // failed map still has the time range and Land worth sharing
+            document.getElementById('share-link').disabled = false;
         });
 
         // Combined signal: wastewater + SARI + Sentinel bar, built from whichever
