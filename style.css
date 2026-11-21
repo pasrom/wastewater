@@ -911,11 +911,16 @@ footer .impressum a {
 
 .glance-region {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 8px;
     margin-bottom: 8px;
     font-size: 0.9rem;
     color: var(--text-muted);
+}
+
+.glance-region .share-link {
+    margin-left: auto;
 }
 
 /* Not the full-width phone select of the chart filters: it sits next to its label */

@@ -57,6 +57,7 @@
                 <div class="glance-region">
                     <label for="my-region">Mein Bundesland:</label>
                     <select id="my-region" class="select-input"></select>
+                    <button type="button" class="btn-small share-link" id="share-link" aria-live="polite">Link zu dieser Ansicht kopieren</button>
                 </div>
                 <table class="glance">
                     <thead>
@@ -770,6 +771,16 @@
         }
     }
 
+    // Shareable view (?virus=&kw=&zeitraum=&bl=): a shared link sets these for
+    // this visit only. The recipient's stored choices change only when they
+    // change a control themselves, through that control's own handler.
+    const SHARE_PARAMS = new URLSearchParams(location.search);
+    const SHARE_KEYS = ['virus', 'kw', 'zeitraum', 'bl'];
+    const TIME_RANGE_PARAM = { season: 'saison', year: 'jahr', all: 'alles' };
+    // Write the URL only once it carries a view: when the visit came from a
+    // shared link or the reader changed one of these controls
+    let shareUrlActive = SHARE_KEYS.some(k => SHARE_PARAMS.has(k));
+
     // Shared time window of every time chart. The full history starts in 2022/23,
     // which left the current season a sliver at the right edge on load. "Saison"
     // starts on 1 September, before the respiratory season's usual onset (KW 40).
@@ -779,7 +790,9 @@
         ['year', '1 Jahr', 'Die letzten 12 Monate'],
         ['all', 'Alles', 'Gesamter verfügbarer Zeitraum']
     ];
-    let timeRange = (v => TIME_RANGES.some(([k]) => k === v) ? v : 'year')(storageGet(TIME_RANGE_KEY));
+    const sharedTimeRange = Object.keys(TIME_RANGE_PARAM).find(k => TIME_RANGE_PARAM[k] === SHARE_PARAMS.get('zeitraum'));
+    let timeRange = sharedTimeRange
+        || (v => TIME_RANGES.some(([k]) => k === v) ? v : 'year')(storageGet(TIME_RANGE_KEY));
     // A window must hold this much data, or it falls back to an earlier start.
     // Without it, "Saison" in early September (before the feeds reach 1 Sept)
     // or a window after the newest data drew empty or one-bar charts.
@@ -1154,7 +1167,7 @@
     };
 
     let mapChart = initChart('map-chart-ec');
-    const mapState = { ready: false, plants: [], weeks: [], idx: 0, provisional: new Set(), lastSariWeek: null, virus: null };
+    const mapState = { ready: false, plants: [], weeks: [], idx: 0, defaultIdx: 0, provisional: new Set(), lastSariWeek: null, virus: null };
 
     async function loadMapAssets() {
         const regionCodes = INCIDENCE_REGION_ORDER.filter(c => c !== 'AT').sort().join();
@@ -1528,24 +1541,60 @@
         mapState.lastSariWeek = sariWeeks[sariWeeks.length - 1] || null;
 
         const keys = Object.keys(WW_SOURCES);
-        const stored = storageGet(MAP_VIRUS_STORAGE_KEY);
-        mapState.virus = keys.includes(stored) ? stored : keys[0];
+        mapState.virus = [SHARE_PARAMS.get('virus'), storageGet(MAP_VIRUS_STORAGE_KEY)]
+            .find(v => keys.includes(v)) || keys[0];
         buildSegmented(document.getElementById('map-virus'), 'map-virus',
             keys.map(k => [k, WW_SOURCES[k].name]), mapState.virus, key => {
                 mapState.virus = key;
                 storageSet(MAP_VIRUS_STORAGE_KEY, key);
                 renderMap();
+                noteViewChange();
             });
 
         const slider = document.getElementById('map-week');
         slider.max = mapState.weeks.length - 1;
-        slider.addEventListener('input', () => setMapWeek(+slider.value));
-        document.getElementById('map-week-prev').addEventListener('click', () => setMapWeek(mapState.idx - 1));
-        document.getElementById('map-week-next').addEventListener('click', () => setMapWeek(mapState.idx + 1));
+        const stepWeek = idx => { setMapWeek(idx); noteViewChange(); };
+        slider.addEventListener('input', () => stepWeek(+slider.value));
+        document.getElementById('map-week-prev').addEventListener('click', () => stepWeek(mapState.idx - 1));
+        document.getElementById('map-week-next').addEventListener('click', () => stepWeek(mapState.idx + 1));
         mapState.ready = true;
         // Newest SARI week (the areas are the main layer); without SARI the newest week
-        const start = sariWeeks.length ? mapState.weeks.indexOf(sariWeeks[sariWeeks.length - 1]) : mapState.weeks.length - 1;
-        setMapWeek(start);
+        mapState.defaultIdx = sariWeeks.length ? mapState.weeks.indexOf(sariWeeks[sariWeeks.length - 1]) : mapState.weeks.length - 1;
+        const shared = mapState.weeks.indexOf(kwParamToYMD(SHARE_PARAMS.get('kw')));
+        setMapWeek(shared >= 0 ? shared : mapState.defaultIdx);
+        // Drops invalid values from a shared link
+        updateShareUrl();
+    }
+
+    // 'YYYY-WW' (ISO week, as in "KW 46/2026") <-> the Monday of that week
+    const ymdToKwParam = ymd => dateToISOWeek(parseYMD(ymd)).replace('-W', '-');
+    function kwParamToYMD(param) {
+        const m = /^(\d{4})-(\d{1,2})$/.exec(param || '');
+        const monday = m && isoWeekToDate(`${m[1]}-W${m[2].padStart(2, '0')}`);
+        if (!monday) return null;
+        // Round trip: week 0, or 53 in a 52-week year, would land in a neighbouring week
+        const ymd = isoToYMD(monday);
+        return ymdToKwParam(ymd) === `${m[1]}-${m[2].padStart(2, '0')}` ? ymd : null;
+    }
+
+    // The link to the current view. The week is left out while it is the
+    // default (newest complete week), so a link keeps following new data
+    // unless the sender picked a week on purpose.
+    function shareUrl() {
+        const params = new URLSearchParams();
+        if (mapState.ready) params.set('virus', mapState.virus);
+        if (mapState.ready && mapState.idx !== mapState.defaultIdx) params.set('kw', ymdToKwParam(mapState.weeks[mapState.idx]));
+        params.set('zeitraum', TIME_RANGE_PARAM[timeRange]);
+        if (myRegion) params.set('bl', myRegion);
+        return `${location.pathname}?${params}${location.hash}`;
+    }
+    function updateShareUrl() {
+        // replaceState: stepping through weeks must not fill the back button
+        if (shareUrlActive) history.replaceState(history.state, '', shareUrl());
+    }
+    function noteViewChange() {
+        shareUrlActive = true;
+        updateShareUrl();
     }
 
     // ==================== 5. SARI Krankenhausaufnahmen ====================
@@ -1734,7 +1783,9 @@
             if (valid.length) incidenceSelectedRegions = new Set(valid);
         } catch { /* nothing stored or unreadable: keep the default */ }
     }
-    const saveIncidenceRegions = () => storageSet(INCIDENCE_REGIONS_KEY, JSON.stringify([...incidenceSelectedRegions]));
+    // A Land from a shared link is shown, never stored (see initMyRegionIncidence)
+    const saveIncidenceRegions = () => storageSet(INCIDENCE_REGIONS_KEY,
+        JSON.stringify([...incidenceSelectedRegions].filter(c => c !== unsavedIncidenceRegion)));
 
     // Fixed slot per region: the colour follows the entity, so filtering the
     // selection never repaints the remaining lines. Österreich is the reference
@@ -2761,7 +2812,22 @@
     const MY_REGION_ADDED_KEY = 'myRegionAddedToIncidence';
     const MY_REGION_CODES = INCIDENCE_REGION_ORDER.filter(c => c !== 'AT');
     const storedRegion = storageGet(MY_REGION_KEY);
-    let myRegion = MY_REGION_CODES.includes(storedRegion) ? storedRegion : '';
+    const sharedRegion = MY_REGION_CODES.includes(SHARE_PARAMS.get('bl')) ? SHARE_PARAMS.get('bl') : null;
+    let myRegion = sharedRegion || (MY_REGION_CODES.includes(storedRegion) ? storedRegion : '');
+    // Whether this control put myRegion into the incidence selection
+    let myRegionAdded = false;
+    // A shared Land added for this visit only, until the reader picks a Land
+    let unsavedIncidenceRegion = null;
+    function initMyRegionIncidence() {
+        if (!sharedRegion || sharedRegion === storedRegion) {
+            myRegionAdded = !!myRegion && storageGet(MY_REGION_ADDED_KEY) === '1';
+            return;
+        }
+        // A shared Land joins the incidence lines for this visit, unsaved
+        myRegionAdded = !incidenceSelectedRegions.has(sharedRegion);
+        if (myRegionAdded) unsavedIncidenceRegion = sharedRegion;
+        incidenceSelectedRegions.add(sharedRegion);
+    }
 
     function setMyRegion(code) {
         const prev = myRegion;
@@ -2771,15 +2837,17 @@
         sariSelect.value = code || 'AT';
         sariSelect.dispatchEvent(new Event('change'));  // linked selects follow
 
-        if (prev && storageGet(MY_REGION_ADDED_KEY) === '1') incidenceSelectedRegions.delete(prev);
-        const add = !!code && !incidenceSelectedRegions.has(code);
-        if (add) incidenceSelectedRegions.add(code);
-        storageSet(MY_REGION_ADDED_KEY, add ? '1' : '0');
+        if (prev && myRegionAdded) incidenceSelectedRegions.delete(prev);
+        unsavedIncidenceRegion = null;
+        myRegionAdded = !!code && !incidenceSelectedRegions.has(code);
+        if (myRegionAdded) incidenceSelectedRegions.add(code);
+        storageSet(MY_REGION_ADDED_KEY, myRegionAdded ? '1' : '0');
         saveIncidenceRegions();
         if (incidenceReady) { buildIncidenceRegionList(); renderIncidence(); }
 
         if (mapState.ready) scheduleMapRender();
         refreshGlance();
+        noteViewChange();
     }
 
     // Calendar, not data: the official advice is to vaccinate before the wave,
@@ -2798,10 +2866,24 @@
         // Read before any feed arrives: "Mein Bundesland" may change the
         // selection while the SARI feed is still loading
         loadIncidenceRegions();
+        initMyRegionIncidence();
         fillSelect('my-region', { '': '– keines –', ...Object.fromEntries(MY_REGION_CODES.map(c => [c, BUNDESLAND_NAMES[c]])) });
         const myRegionSelect = document.getElementById('my-region');
         myRegionSelect.value = myRegion;
         myRegionSelect.addEventListener('change', () => setMyRegion(myRegionSelect.value));
+        const shareBtn = document.getElementById('share-link');
+        let shareBtnTimer = 0;
+        shareBtn.addEventListener('click', async () => {
+            // The address bar shows the link too, the fallback where the
+            // clipboard is refused (no HTTPS, permission denied)
+            noteViewChange();
+            const url = new URL(shareUrl(), location.href).href;
+            let copied = false;
+            try { await navigator.clipboard.writeText(url); copied = true; } catch { /* fallback below */ }
+            shareBtn.textContent = copied ? 'Link kopiert ✓' : 'Link steht in der Adresszeile';
+            clearTimeout(shareBtnTimer);
+            shareBtnTimer = setTimeout(() => { shareBtn.textContent = 'Link zu dieser Ansicht kopieren'; }, 2500);
+        });
         if (myRegion) SARI_REGION_SELECTS.forEach(id => { document.getElementById(id).value = myRegion; });
 
         // Bundesland and Station had to be set four times to compare the SARI
@@ -2929,6 +3011,7 @@
         buildSegmented(document.getElementById('time-range'), 'time-range', TIME_RANGES, timeRange, key => {
             timeRange = key;
             storageSet(TIME_RANGE_KEY, key);
+            noteViewChange();
             timeRangeEpoch++;
             demoRangeFollowsControl = true;
             if (dataPool.sariDemo) rebuildDemoTimeline();
