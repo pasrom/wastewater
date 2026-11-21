@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atemwegsviren in Österreich – Abwasser, Sentinel, SARI</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="stylesheet" href="style.css">
+    <!-- ?v= is stamped with the commit on deploy, so a new page never meets a
+         cached stylesheet from the previous one -->
+    <link rel="stylesheet" href="style.css?v=__COMMIT_SHA__">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"
             integrity="sha384-o5uz97et3bErHvpKfD4Jz4n0JfhJDWABFuF4NP+iEEDxE1VwMWJ19QGR0lqFZnr6" crossorigin="anonymous"></script>
     <style>
