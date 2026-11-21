@@ -19,12 +19,14 @@ Austrian virus monitoring dashboard - displays wastewater virus load (AGES), Sen
 │   ├── fetch_all_data.py   # Data pipeline run by fetch-data.yml
 │   ├── extract_virus_data.py  # Sentinel SVG decoding
 │   ├── build_geo.py        # Rebuilds geo/ from its pinned public sources
-│   └── verify_map.py       # Independent cross-check of the map numbers
+│   ├── verify_map.py       # Independent cross-check of the map numbers
+│   └── smoke_test.py       # Headless check of the live page (requirements-smoke.txt), run by smoke-test.yml
 └── .github/
-    ├── dependabot.yml      # Weekly grouped updates: SHA-pinned actions, tools/requirements.txt (uv); not ECharts
+    ├── dependabot.yml      # Weekly grouped updates: SHA-pinned actions, tools/requirements*.txt (uv); not ECharts
     └── workflows/
         ├── deploy.yml      # GitHub Pages deployment on push to main
-        └── fetch-data.yml  # Wednesday and Saturday data fetch
+        ├── fetch-data.yml  # Wednesday and Saturday data fetch
+        └── smoke-test.yml  # After each successful deploy (and on demand): tools/smoke_test.py against the live page
 ```
 
 ## Data Sources
@@ -52,6 +54,13 @@ open http://localhost:8080
 
 ## Deployment
 Automatic via GitHub Actions on push to `main`. Live at: https://virenradar.at (custom domain; https://pasrom.github.io/wastewater/ redirects there)
+
+After each successful deploy, `smoke-test.yml` waits until the new commit is served and runs
+`tools/smoke_test.py` in Chromium and WebKit: text visible with a stalled chart CDN, every feed
+loaded, no JavaScript errors, no sideways scroll at 390 px (also with every `<details>` opened),
+nav controls on screen, and the map list against `verify_map.py` for the default week. A new
+section that can fail on a phone belongs there too. Run it locally before pushing:
+`uv run --with playwright python tools/smoke_test.py --url http://localhost:8080/ --data-dir <data checkout> --chrome`
 
 ## Code Style
 - Comments in English

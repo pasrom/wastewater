@@ -1,0 +1,69 @@
+# Headless check of the live page after every deploy: a blank page while the
+# chart CDN stalls, JavaScript errors, sideways scrolling on a phone, an empty
+# overview table, map numbers that disagree with tools/verify_map.py.
+# Readers saw the blank page before anyone here did; this run sees it first.
+name: Smoke test
+
+on:
+  workflow_run:
+    workflows: [Deploy to GitHub Pages]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      url:
+        description: Page to test
+        default: https://virenradar.at/
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      URL: ${{ github.event.inputs.url || 'https://virenradar.at/' }}
+    steps:
+      - name: Checkout main (for the scripts)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: main
+          persist-credentials: false
+
+      - name: Checkout data branch (for the map cross-check)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: data
+          path: data
+          persist-credentials: false
+
+      - name: Setup Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+
+      - name: Install Playwright and its browsers
+        run: |
+          pip install --require-hashes -r main/tools/requirements-smoke.txt
+          python -m playwright install --with-deps chromium webkit
+
+      # Pages can serve the previous build for a short while after the deploy
+      # job ends; test the commit that was just deployed, not the one before.
+      - name: Wait for the deployed commit to be served
+        if: github.event_name == 'workflow_run'
+        env:
+          SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          for _ in $(seq 1 30); do
+            if curl -fsS "${URL}?deploy=${SHA}" | grep -q "style.css?v=${SHA}"; then
+              echo "serving ${SHA}"; exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::${URL} still does not serve ${SHA} after 5 minutes"
+          exit 1
+
+      - name: Run the smoke test
+        run: python main/tools/smoke_test.py --url "$URL" --data-dir data

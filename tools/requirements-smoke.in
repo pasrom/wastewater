@@ -1,0 +1,7 @@
+# Only what tools/smoke_test.py imports (run by .github/workflows/smoke-test.yml).
+# Pinned by version and hash like requirements.txt, so a new or hijacked release
+# cannot slip into a CI run.
+#
+# Regenerate after editing:
+#   uv pip compile requirements-smoke.in --generate-hashes --python-version 3.12 -o requirements-smoke.txt
+playwright

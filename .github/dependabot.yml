@@ -25,9 +25,10 @@ updates:
       prefix: "ci"
       include: "scope"
 
-  # tools/requirements.txt is `uv pip compile --generate-hashes` output from
-  # requirements.in; the uv ecosystem re-runs that command, keeping the hashes
-  # and the --python-version from the file header.
+  # tools/requirements.txt (data job) and tools/requirements-smoke.txt (smoke
+  # test) are `uv pip compile --generate-hashes` output from their .in files;
+  # the uv ecosystem re-runs that command, keeping the hashes and the
+  # --python-version from the file header.
   - package-ecosystem: "uv"
     directory: "/tools"
     # Local plotting only, not installed by any workflow; its open ranges need
