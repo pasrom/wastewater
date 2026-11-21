@@ -1016,6 +1016,26 @@ footer .impressum a {
     color: var(--text);
 }
 
+.glance-guide dl {
+    margin: 6px 0 0;
+    color: var(--text);
+}
+
+.glance-guide dt {
+    margin-top: 8px;
+    font-weight: 600;
+    color: var(--text-strong);
+}
+
+.glance-guide dd {
+    margin: 2px 0 0;
+    line-height: 1.5;
+}
+
+.glance-guide a {
+    color: var(--accent);
+}
+
 .glance-impf {
     margin-top: 12px;
     padding: 8px 12px;
