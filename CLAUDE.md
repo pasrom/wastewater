@@ -20,6 +20,7 @@ Austrian virus monitoring dashboard - displays wastewater virus load (AGES), Sen
 │   ├── extract_virus_data.py  # Sentinel SVG decoding
 │   ├── build_geo.py        # Rebuilds geo/ from its pinned public sources
 │   ├── verify_map.py       # Independent cross-check of the map numbers
+│   ├── build_feed.py       # Atom feed of new data weeks (feed.xml on data), called by fetch_all_data.py
 │   └── smoke_test.py       # Headless check of the live page (requirements-smoke.txt), run by smoke-test.yml
 └── .github/
     ├── dependabot.yml      # Weekly grouped updates: SHA-pinned actions, tools/requirements*.txt (uv); not ECharts
@@ -42,6 +43,13 @@ loads `${DATA_BASE}/<path>` with `DATA_BASE` = `https://raw.githubusercontent.co
 | Sentinel bar chart and heatmap | `sentinel/barchart.json` (exact counts; the page draws both charts from it) | MedUni Wien SVG, decoded |
 | (not used by the page) | `sentinel/heatmap.json` | MedUni heatmap SVG, colour-decoded steps; still fetched by the pipeline |
 | Map boundaries, plant sites | `geo/*.json` on `main` (same origin) | see `tools/build_geo.py` |
+| Atom feed (footer "Feed", `<link rel="alternate">`) | `feed.xml` | written by `tools/build_feed.py` from the files above |
+
+`feed.xml` gets one entry per data state (newest week of Abwasser, Sentinel and SARI): the entry
+id is built from those weeks, so a fetch without a new week leaves the file unchanged; the text is
+the page's Wochensatz recomputed in Python with `verify_map.trend` (keep it in step with
+`weekSummary` in index.html), plus Datenstand and source attribution; at most 20 entries.
+raw.githubusercontent serves it as `text/plain`; feed readers parse it, browsers show the XML.
 
 ## Development
 ```bash

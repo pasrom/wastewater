@@ -22,7 +22,8 @@ The script creates the following structure:
     ├── sari/
     │   ├── krankenanstalt.json
     │   └── patient.json
-    └── metadata.json
+    ├── metadata.json
+    └── feed.xml        (Atom feed of new data weeks, tools/build_feed.py)
 """
 
 import argparse
@@ -35,6 +36,7 @@ from pathlib import Path
 
 import requests
 
+from build_feed import build_feed
 # Import SVG parsing functions from extract_virus_data
 from extract_virus_data import (
     read_sentinel_charts,
@@ -558,6 +560,16 @@ def main():
     # 4. Metadata
     print("\n=== Metadata ===")
     save_metadata(args.output_dir, results)
+
+    # 5. Atom feed: an entry when any source brought a new week. A broken feed
+    # fails the run like a stale source, but the data still gets pushed.
+    print("\n=== Feed ===")
+    try:
+        title = build_feed(args.output_dir)
+        print(f'New entry: {title}' if title else 'No new data week, feed unchanged')
+    except Exception as exc:  # noqa: BLE001 - any failure here must not stop the data push
+        print(f'Feed failed: {exc!r}')
+        errors = True
 
     print("\n" + "=" * 60)
     if errors:
