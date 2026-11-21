@@ -397,8 +397,12 @@
             </p>
         </footer>
     </div>
+    <!-- Versioned GoatCounter script with SRI: the unversioned count.js can change
+         at any time and would run on this page unchecked -->
     <script data-goatcounter="https://pasrom.goatcounter.com/count"
-            async src="//gc.zgo.at/count.js"></script>
+            async src="https://gc.zgo.at/count.v5.js"
+            integrity="sha384-atnOLvQb9t+jTSipvd75X2yginT4PjVbqDdlJAmxMm+wYElFmeR6EmLP5bYeoRVQ"
+            crossorigin="anonymous"></script>
 
     <!-- Loaded at the end of the body, not in <head>: a slow or stalled CDN
          used to block the whole page and leave it blank; now the text renders
