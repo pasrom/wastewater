@@ -246,7 +246,7 @@
                 <p class="footnote">Anteil jeder Variantengruppe an den Proben aller teilnehmenden Kläranlagen, je Kalenderwoche gemittelt. Fehlt auf 100&nbsp;% ein Rest, ließ sich dieser Teil keiner Variante zuordnen. Bei sehr niedriger Viruslast lassen sich Varianten nicht verlässlich bestimmen; Wochen ohne Ergebnis bleiben leer. Die gestrichelte Linie markiert den Beginn des Abwassermonitorings der AGES im November 2025; die Werte davor stammen aus dem früheren nationalen Monitoring. Die Farben sind die der AGES, die manche Farben für mehrere Gruppen verwendet.</p>
                 <h4 class="sub-heading" id="variant-week-title">Nachweise in der jüngsten Woche</h4>
                 <div class="chart-wrap">
-                    <div id="variant-week-ec" class="ec-chart short" role="img" aria-label="Balkendiagramm: in wie vielen Kläranlagen jede Variantengruppe nachgewiesen wurde"></div>
+                    <div id="variant-week-ec" class="ec-chart" role="img" aria-label="Balkendiagramm: in wie vielen Kläranlagen jede Variantengruppe nachgewiesen wurde"></div>
                 </div>
                 <p class="footnote">In wie vielen der untersuchten Kläranlagen jede Variantengruppe nachgewiesen wurde. Die einzelnen Varianten einer Gruppe stehen im Tooltip.</p>
             </div>
@@ -638,6 +638,11 @@
             `${pad(t.getHours())}:${pad(t.getMinutes())} Uhr (zuletzt online geladen).`;
         el.hidden = false;
     }
+
+    // For an extra feed that must not hold back the page: a stalled request
+    // (not a failed one) counts as failed after `ms`
+    const withTimeout = (promise, ms) => Promise.race([promise,
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Zeitüberschreitung')), ms))]);
 
     // Checked before the feed enters dataPool: a malformed file then shows its
     // error instead of throwing inside every later render.
@@ -1424,7 +1429,7 @@
         // Extraction runs inside each file's promise, so a malformed file fails alone
         // The archive is an extra: without it the Bundesland entries are just missing
         // A stalled request must not hold back the card: after 10 s it is left out
-        const archive = Promise.race([loadWwArchive(), new Promise((_, no) => setTimeout(() => no(new Error('Zeitüberschreitung')), 10000))])
+        const archive = withTimeout(loadWwArchive(), 10000)
             .catch(e => { console.warn('Archiv nicht geladen:', e); return null; });
         const settled = await Promise.allSettled(
             sources.map(([, src]) => fetchData(src.url).then(extractWastewaterTraces)));
@@ -3898,7 +3903,8 @@
                 renderSentinelHeatmap();
             }),
 
-            loadVariants().then(() => initSection('variant-loading', renderVariants))
+            // In Promise.all below: a stalled file must not keep the glance table waiting
+            withTimeout(loadVariants(), 20000).then(() => initSection('variant-loading', renderVariants))
                 .catch(e => setSectionError(document.getElementById('variant-loading'), errorText(e)))
         ];
 

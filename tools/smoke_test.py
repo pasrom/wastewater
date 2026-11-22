@@ -104,7 +104,7 @@ def normal_load(browser, url, opts, rep, case):
     lay = page.evaluate(LAYOUT_JS)
     rep.check(not lay["hscroll"], case, f"no sideways scroll ({lay['scrollW']} <= {lay['W']})")
     rep.check(not lay["offscreen"], case, f"nav controls on screen {lay['offscreen'] or ''}".rstrip())
-    rep.check(lay["canvases"] >= 9, case, f"{lay['canvases']} charts drawn")
+    rep.check(lay["canvases"] >= 13, case, f"{lay['canvases']} charts drawn")
     rep.check(not lay["errors"] and not lay["glanceFailed"], case, f"no error messages {lay['errors'] or ''}".rstrip())
     page.evaluate("document.querySelectorAll('details').forEach(d => d.open = true)")
     page.wait_for_timeout(500)
@@ -141,7 +141,7 @@ def offline_reload(browser, url, rep, case):
         settled = False
     info = page.evaluate("""() => { const n = document.getElementById('offline-note');
       return {canvases: document.querySelectorAll('canvas').length, note: !!n && !n.hidden}; }""")
-    rep.check(settled and info["canvases"] >= 9, case, f"offline reload from the cached copy: {info['canvases']} charts")
+    rep.check(settled and info["canvases"] >= 13, case, f"offline reload from the cached copy: {info['canvases']} charts")
     rep.check(info["note"], case, "offline note shown")
     rep.check(not errors, case, f"no JavaScript errors offline {errors or ''}".rstrip())
     ctx.close()
