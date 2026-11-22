@@ -4,8 +4,10 @@
 Catches what a reader would see first: a blank page while the chart CDN
 stalls, JavaScript errors, sideways scrolling on a phone (also with every
 collapsible block opened), nav controls pushed off screen, an empty
-"Lage auf einen Blick" table, and map numbers that disagree with the
-independent recomputation in verify_map.py.
+"Lage auf einen Blick" table, map numbers that disagree with the
+independent recomputation in verify_map.py, and an offline reload that does
+not come back from the service worker's copy (Chromium only: it runs against
+the deployed, compressed files, which a local server does not reproduce).
 
 Usage:
   pip install --require-hashes -r tools/requirements-smoke.txt
@@ -112,6 +114,39 @@ def normal_load(browser, url, opts, rep, case):
     ctx.close()
 
 
+def offline_reload(browser, url, rep, case):
+    """Online visits fill the service worker's copy; an offline reload must show it."""
+    ctx, page, errors = new_page(browser, PHONE)
+    page.goto(bust(url), wait_until="load", timeout=30000)
+    has_sw = page.evaluate("""async () => { if (!('serviceWorker' in navigator)) return false;
+      await Promise.race([navigator.serviceWorker.ready, new Promise(r => setTimeout(r, 15000))]);
+      return !!(await navigator.serviceWorker.getRegistration()); }""")
+    rep.check(has_sw, case, "service worker registered")
+    if not has_sw:
+        ctx.close()
+        return
+    # The reloaded page is controlled, so its own requests fill the cache
+    page.reload(wait_until="load", timeout=30000)
+    try:
+        page.wait_for_function(SETTLED_JS, timeout=45000, polling=500)
+    except Exception:
+        pass
+    page.wait_for_timeout(3000)  # the worker stores the answers after handing them over
+    ctx.set_offline(True)
+    try:
+        page.reload(wait_until="load", timeout=30000)
+        page.wait_for_function(SETTLED_JS, timeout=30000, polling=500)
+        settled = True
+    except Exception:
+        settled = False
+    info = page.evaluate("""() => { const n = document.getElementById('offline-note');
+      return {canvases: document.querySelectorAll('canvas').length, note: !!n && !n.hidden}; }""")
+    rep.check(settled and info["canvases"] >= 9, case, f"offline reload from the cached copy: {info['canvases']} charts")
+    rep.check(info["note"], case, "offline note shown")
+    rep.check(not errors, case, f"no JavaScript errors offline {errors or ''}".rstrip())
+    ctx.close()
+
+
 def map_numbers(browser, url, data_dir, rep):
     """The rendered map list against verify_map.py, newest week, every virus."""
     ctx, page, _ = new_page(browser, DESKTOP)
@@ -165,8 +200,10 @@ def main():
             stalled_cdn(browser, url, rep, f"{name} 390 stalled CDN")
             normal_load(browser, url, PHONE, rep, f"{name} 390")
             normal_load(browser, url, {**DESKTOP, "color_scheme": "dark"}, rep, f"{name} 1280 dark")
-            if name == "chromium" and a.data_dir:
-                map_numbers(browser, url, a.data_dir, rep)
+            if name == "chromium":
+                offline_reload(browser, url, rep, f"{name} 390 offline")
+                if a.data_dir:
+                    map_numbers(browser, url, a.data_dir, rep)
             browser.close()
     print(f"{len(rep.failures)} failures in {time.time() - t0:.0f} s")
     for f in rep.failures:

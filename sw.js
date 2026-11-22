@@ -11,9 +11,15 @@
 // Cached responses carry `x-sw-cached-at`, read by fetchData() in index.html
 // to show "Offline – angezeigt wird der Stand vom …".
 //
-// The deploy stamps the commit into CACHE, so each deploy changes this file:
-// the browser installs the new worker, which drops the old cache on activate.
-const CACHE = 'virenradar-__COMMIT_SHA__';
+// One fixed cache name across deploys. The worker is network first, so the
+// cache never decides what an online reader sees and needs no version; a name
+// per deploy made every new worker delete the copy the reader had just filled
+// under the old one, leaving nothing for the next offline open. Same-origin
+// files are stored under their path without the query string (style.css?v=sha,
+// shared links ?virus=…), so each file keeps exactly one entry and a deploy
+// replaces it instead of adding another. Caches of other names (earlier
+// per-deploy names) are deleted on activate.
+const CACHE = 'virenradar-v1';
 
 // Origins whose responses may be kept for offline use. jsDelivr: the page loads
 // ECharts with crossorigin="anonymous", so the response is a CORS response (not
@@ -43,6 +49,15 @@ function handled(request) {
     return CACHEABLE_ORIGINS.has(url.origin);
 }
 
+// Same-origin entries are keyed by path only (see CACHE); other origins by full URL
+function cacheKey(request) {
+    const url = new URL(request.url);
+    if (url.origin !== self.location.origin) return request;
+    url.search = '';
+    url.hash = '';
+    return url.href;
+}
+
 async function keep(request, response) {
     // Only complete, readable answers: no errors, no opaque or partial responses
     if (!response.ok || response.status !== 200 || (response.type !== 'basic' && response.type !== 'cors')) return;
@@ -53,30 +68,39 @@ async function keep(request, response) {
     const body = await response.arrayBuffer();
     const digest = await crypto.subtle.digest('SHA-256', body);
     const hash = Array.from(new Uint8Array(digest), b => b.toString(16).padStart(2, '0')).join('');
-    const old = await cache.match(request, { ignoreVary: true });
+    const key = cacheKey(request);
+    const old = await cache.match(key, { ignoreVary: true });
     if (old && old.headers.get('x-sw-sha256') === hash) return;
     const headers = new Headers(response.headers);
+    // The stored body is already decoded: these two would describe the network copy
+    headers.delete('content-encoding');
+    headers.delete('content-length');
     headers.set('x-sw-cached-at', new Date().toISOString());
     headers.set('x-sw-sha256', hash);
-    await cache.put(request, new Response(body, { status: response.status, statusText: response.statusText, headers }));
+    await cache.put(key, new Response(body, { status: response.status, statusText: response.statusText, headers }));
 }
 
 async function networkFirst(event) {
     const { request } = event;
+    let response;
     try {
-        const response = await fetch(request);
-        event.waitUntil(keep(request, response.clone()).catch(() => {}));
-        return response;
-    } catch (err) {
-        const cache = await caches.open(CACHE);
-        // A shared link (?virus=…&kw=…) opened offline still finds the cached page
-        // ignoreVary: raw.githubusercontent varies on headers (Origin, encoding)
-        // that differ between the page's request and the one cached on install
-        const hit = await cache.match(request, { ignoreVary: true }) ||
-            (request.mode === 'navigate' ? await cache.match(request, { ignoreVary: true, ignoreSearch: true }) : undefined);
-        if (hit) return hit;
-        throw err;
+        response = await fetch(request);
+    } catch (_) {
+        // One retry before the cache: a single reset on a mobile connection should
+        // not show old data with the offline note to a reader who is online
+        try {
+            response = await fetch(request);
+        } catch (err) {
+            const cache = await caches.open(CACHE);
+            // ignoreVary: raw.githubusercontent varies on headers (Origin, encoding)
+            // that differ between the page's request and the one that was cached
+            const hit = await cache.match(cacheKey(request), { ignoreVary: true });
+            if (hit) return hit;
+            throw err;
+        }
     }
+    event.waitUntil(keep(request, response.clone()).catch(() => {}));
+    return response;
 }
 
 self.addEventListener('fetch', event => {
@@ -97,7 +121,7 @@ self.addEventListener('message', event => {
             const request = new Request(url.href, { mode: url.origin === self.location.origin ? 'same-origin' : 'cors', credentials: 'omit' });
             if (!handled(request)) return;
             const cache = await caches.open(CACHE);
-            if (await cache.match(request, { ignoreVary: true })) return;
+            if (await cache.match(cacheKey(request), { ignoreVary: true })) return;
             await keep(request, await fetch(request));
         } catch (_) { /* best effort */ }
     })));

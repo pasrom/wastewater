@@ -27,10 +27,10 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
 
-      # sw.js: the stamp names its cache, so every deploy is a new worker that
-      # drops the previous cache
-      - name: Stamp deployed commit into the footer, the stylesheet URL and the service worker
-        run: sed -i "s/__COMMIT_SHA__/${GITHUB_SHA}/g" index.html sw.js
+      # sw.js is not stamped: its cache keeps one fixed name across deploys, so
+      # the offline copy survives a deploy (the worker is network first anyway)
+      - name: Stamp deployed commit into the footer and the stylesheet URL
+        run: sed -i "s/__COMMIT_SHA__/${GITHUB_SHA}/g" index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0

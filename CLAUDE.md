@@ -12,7 +12,7 @@ Austrian virus monitoring dashboard - displays wastewater virus load (AGES), Sen
 ```
 ├── index.html          # Page, all chart code inline
 ├── style.css           # Styling (responsive, light/dark)
-├── sw.js               # Service worker: network first, cache only as offline fallback (cache name stamped on deploy)
+├── sw.js               # Service worker: network first, cache only as offline fallback (one fixed cache name)
 ├── manifest.webmanifest  # Home-screen install (name, icons, colours)
 ├── icons/              # PWA icons (192, 512, maskable 512, apple-touch-icon), rendered from favicon.svg
 ├── geo/
@@ -78,16 +78,20 @@ Automatic via GitHub Actions on push to `main`. Live at: https://virenradar.at (
 After each successful deploy, `smoke-test.yml` waits until the new commit is served and runs
 `tools/smoke_test.py` in Chromium and WebKit: text visible with a stalled chart CDN, every feed
 loaded, no JavaScript errors, no sideways scroll at 390 px (also with every `<details>` opened),
-nav controls on screen, and the map list against `verify_map.py` for the default week. A new
+nav controls on screen, an offline reload from the service worker's copy (Chromium), and the map
+list against `verify_map.py` for the default week. A new
 section that can fail on a phone belongs there too. Run it locally before pushing:
 `uv run --with playwright python tools/smoke_test.py --url http://localhost:8080/ --data-dir <data checkout> --chrome`
 
 Offline copy (`sw.js`): every request it handles (same origin, raw.githubusercontent.com, the
 ECharts file on jsDelivr; never GoatCounter) goes to the network first, exactly as without a worker;
-only a failed network request (offline) is answered from the cache, an HTTP error passes through. So
-an online reader never gets an older page than without it. The deploy stamps `__COMMIT_SHA__` into
-`sw.js` as well: each deploy is a new worker; it takes over once no tab uses the old one (no
-`skipWaiting`, both are network first anyway) and then deletes the previous cache.
+only a network request that fails twice (offline) is answered from the cache, an HTTP error passes
+through. So an online reader never gets an older page than without it. The cache keeps one fixed
+name (`virenradar-v1`) across deploys and `sw.js` is not stamped, so a deploy does not throw away
+the offline copy; same-origin files are stored under their path without the query string
+(`style.css?v=…`, shared links), so each keeps one entry. A changed `sw.js` takes over once no tab
+uses the old one (no `skipWaiting`) and deletes caches of other names. An app opened from the home
+screen reloads when it comes back online after more than six hours (no reload button there).
 Cached answers carry `x-sw-cached-at`; `fetchData` turns that into the "Offline – angezeigt wird der
 Stand vom …" note (`#offline-note`). On the first visit the page posts the URLs it used to the worker
 (`keep-urls`), so offline works from the second open on. Do not switch any route to cache first.

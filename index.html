@@ -464,6 +464,20 @@
                 }).catch(() => {});
             });
         }
+        // An app opened from the home screen has no reload button, and the system
+        // resumes it with the data of the day it was opened. When it comes back
+        // after a few hours and the device is online, load it afresh. A reload
+        // resets the clock, and an offline reload is skipped, so this cannot loop.
+        (() => {
+            const loadedAt = Date.now();
+            const STALE_AFTER_MS = 6 * 60 * 60 * 1000;
+            const installed = () => window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+            const refreshIfStale = () => {
+                if (document.visibilityState === 'visible' && navigator.onLine && installed() && Date.now() - loadedAt > STALE_AFTER_MS) location.reload();
+            };
+            document.addEventListener('visibilitychange', refreshIfStale);
+            window.addEventListener('pageshow', e => { if (e.persisted) refreshIfStale(); });
+        })();
     </script>
 
     <!-- Loaded at the end of the body, not in <head>: a slow or stalled CDN
