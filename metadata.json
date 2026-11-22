@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-21T06:12:13.416240",
+  "last_updated": "2026-11-22T09:44:36.900300",
   "sources": {
     "ages": {
       "sarscov2": {
@@ -22,6 +22,11 @@
         "latest_week": "2026-11-16",
         "age_weeks": 0,
         "stale": false
+      },
+      "varianten": {
+        "status": "ok",
+        "file": "../../data/ages/varianten.json",
+        "latest_week": "2026-11-16"
       }
     },
     "sentinel": {
