@@ -786,10 +786,6 @@ footer .impressum a {
     margin-top: 8px;
 }
 
-.footnote a {
-    color: var(--accent);
-}
-
 /* Tooltip rows: value right-aligned like ECharts' own tooltip */
 .tt-value {
     float: right;

@@ -147,7 +147,7 @@ through `fmtDe`/`compactNumber` (dot grouping, decimal comma, real minus sign).
 2b. Season comparison — `seasonWeekly` (weekly values per source), `seasonSeries` (split into seasons KW 36–KW 35, null point at a missing week), `renderSeason`; not tied to the time-range control
 3./4. Sentinel bar chart and heatmap — one card, one Absolut/Positivrate toggle; `renderSentinelBar`, `renderSentinelHeatmap`
 5. SARI admissions — `renderSari`
-6. SARI incidence — `incidenceWeekly` (cases, population, rate per week), `renderIncidence`; CSV download under the card (`sariCsv`, `setupSariCsv`): admissions per week and Wohn-Bundesland for all diagnoses with population, rate and provisional flag, built from `incidenceWeekly`. Only SARI is offered for download: it is CC BY 4.0 (Dachverband der Sozialversicherungsträger, named next to the link and in the footer), while the AGES terms require written consent to redistribute data and MedUni states no licence
+6. SARI incidence — `incidenceWeekly` (cases, population, rate per week), `renderIncidence`
 7./8. Demographics and age heatmap — `demoPopulation` (the only per-100k denominator), `renderDemographics`, `renderAgeHeatmap`
 
 Layout: cards are grouped under `h2.group-heading` (Überblick = Lage auf einen Blick + map + combined signal + season comparison, Abwasser, Sentinel, Krankenhaus) with
