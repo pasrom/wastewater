@@ -232,6 +232,26 @@
             </div>
         </section>
 
+        <!-- 1b. SARS-CoV-2-Varianten im Abwasser -->
+        <section class="sari-section" id="varianten">
+            <header>
+                <h3>SARS-CoV-2-Varianten im Abwasser</h3>
+                <p class="subtitle">Daten: AGES Abwasser-Monitoring Österreich (Ganzgenomsequenzierung)</p>
+            </header>
+            <div class="sari-content">
+                <div class="chart-wrap">
+                    <div id="variant-trend-ec" class="ec-chart" role="img" aria-label="Gestapeltes Flächendiagramm: Anteil der SARS-CoV-2-Variantengruppen je Woche"></div>
+                    <div id="variant-loading" class="loading-msg">Lade Daten…</div>
+                </div>
+                <p class="footnote">Anteil jeder Variantengruppe an den Proben aller teilnehmenden Kläranlagen, je Kalenderwoche gemittelt. Fehlt auf 100&nbsp;% ein Rest, ließ sich dieser Teil keiner Variante zuordnen. Bei sehr niedriger Viruslast lassen sich Varianten nicht verlässlich bestimmen; Wochen ohne Ergebnis bleiben leer. Die gestrichelte Linie markiert den Beginn des Abwassermonitorings der AGES im November 2025; die Werte davor stammen aus dem früheren nationalen Monitoring. Die Farben sind die der AGES, die manche Farben für mehrere Gruppen verwendet.</p>
+                <h4 class="sub-heading" id="variant-week-title">Nachweise in der jüngsten Woche</h4>
+                <div class="chart-wrap">
+                    <div id="variant-week-ec" class="ec-chart short" role="img" aria-label="Balkendiagramm: in wie vielen Kläranlagen jede Variantengruppe nachgewiesen wurde"></div>
+                </div>
+                <p class="footnote">In wie vielen der untersuchten Kläranlagen jede Variantengruppe nachgewiesen wurde. Die einzelnen Varianten einer Gruppe stehen im Tooltip.</p>
+            </div>
+        </section>
+
 
         <h2 class="group-heading" id="sentinel">Sentinel (Arztpraxen)</h2>
         <!-- 3 + 4. Sentinelsystem: bar chart and heatmap in one card with one mode toggle -->
@@ -1120,6 +1140,7 @@
         sari: null,           // array of row objects with .date
         sariDemo: null,       // array
         sentinelBar: null,    // {weeks, viruses, data, einsendungen}
+        variants: null,       // ages/varianten.json: {trend: {weeks, groups}, week: {plants, week, groups}}
         locations: new Set()
     };
 
@@ -1335,6 +1356,128 @@
         dataPool.wastewater = loaded;
         dataPool.wastewaterFailed = failed;
         return failed;
+    }
+
+    // ==================== 1b. SARS-CoV-2-Varianten im Abwasser ====================
+    // ages/varianten.json is reduced by tools/fetch_all_data.py from AGES's two
+    // variant charts: trend = weekly share (%) per variant group, only weeks with
+    // a sequencing result; week = plants with each group in the newest week.
+    const VARIANT_URL = `${DATA_BASE}/ages/varianten.json`;
+    // AGES marks the switch from the national programme to its own monitoring
+    const VARIANT_PROGRAMME_START = '2025-11-17';
+    const VARIANT_BAR_COLORS = { detected: '#CB6F74', missing: '#C0E1BC' };
+    // Below this a share prints as "0,0 %": left out of tooltip and legend
+    const VARIANT_MIN_SHARE = 0.05;
+    let variantTrendChart = initChart('variant-trend-ec');
+    let variantWeekChart = initChart('variant-week-ec');
+
+    async function loadVariants() {
+        dataPool.variants = await fetchChecked(VARIANT_URL, d =>
+            d.trend && Array.isArray(d.trend.weeks) && d.trend.weeks.length && Array.isArray(d.trend.groups)
+            && d.week && Array.isArray(d.week.groups) && d.week.plants > 0);
+    }
+
+    // Points per group, with a null after every week followed by a pause, so
+    // the stacked areas break there instead of bridging months without results.
+    // A week with pauses on both sides would be a lone point, which an area
+    // without symbols does not draw: it gets a second point on its Sunday.
+    // Every group has the same weeks, so the stacks stay aligned.
+    function variantSeriesData(weeks, share) {
+        const gapAfter = i => i + 1 < weeks.length && parseYMD(weeks[i + 1]) - parseYMD(weeks[i]) > WEEK_MS * 1.5;
+        const out = [];
+        weeks.forEach((w, i) => {
+            out.push([w, share[i]]);
+            if ((i === 0 || gapAfter(i - 1)) && (i === weeks.length - 1 || gapAfter(i))) out.push([shiftYMD(w, 6), share[i]]);
+            if (gapAfter(i)) out.push([shiftYMD(w, 7), null]);
+        });
+        return out;
+    }
+
+    function variantTrendTooltip(params) {
+        if (!params || !params.length) return '';
+        const sum = params.reduce((s, p) => s + (pointValue(p) || 0), 0);
+        const shown = params.filter(p => pointValue(p) >= VARIANT_MIN_SHARE).sort((a, b) => pointValue(b) - pointValue(a));
+        if (!shown.length) return '';
+        const rows = shown.map(p => `${p.marker}${escapeHtml(p.seriesName)}<span class="tt-value">${fmtPct(pointValue(p))}</span>`);
+        if (sum < 99.5) rows.push(`nicht zugeordnet<span class="tt-value">${fmtPct(100 - sum)}</span>`);
+        // The Sunday point of a lone week belongs to that week's Monday
+        const { year, week } = dateToISOWeekParts(new Date(params[0].axisValue));
+        return `<b>${escapeHtml(weekHeader(mondayOfISOWeek(year, week)))}</b><br>${rows.join('<br>')}`;
+    }
+
+    function renderVariants() {
+        const data = dataPool.variants;
+        if (!data) return;
+        const { weeks, groups } = data.trend;
+        const mode = themeMode();
+        const narrow = isNarrow();
+        const series = groups.map(g => ({
+            name: g.name, type: 'line', stack: 'share', showSymbol: false, symbol: 'none',
+            lineStyle: { width: 0.5, color: g.color || CHART_INK[mode].muted },
+            itemStyle: { color: g.color || CHART_INK[mode].muted },
+            areaStyle: { opacity: 0.85 },
+            emphasis: { focus: 'series' },
+            data: variantSeriesData(weeks, g.share)
+        }));
+        // The legend names only groups found in the selected time window: of the
+        // 16 since 2022, most are long gone from a one-year view
+        const start = timeRangeStart(parseYMD(weeks[weeks.length - 1]));
+        const legendNames = groups.filter(g => g.share.some((v, i) => v >= VARIANT_MIN_SHARE && (!start || parseYMD(weeks[i]) >= start))).map(g => g.name);
+        series.push({
+            name: '__programme', type: 'line', data: [], silent: true, tooltip: { show: false },
+            markLine: {
+                silent: true, symbol: 'none',
+                lineStyle: { color: '#B88D00', type: 'dashed', width: 1.5 },
+                label: { formatter: narrow ? 'AGES-Monitoring' : 'Beginn AGES-Monitoring', color: '#B88D00', position: 'end' },
+                data: [{ xAxis: VARIANT_PROGRAMME_START }]
+            }
+        });
+        variantTrendChart.setOption({
+            toolbox: TOOLBOX,
+            tooltip: { trigger: 'axis', confine: true, formatter: variantTrendTooltip },
+            legend: narrow ? narrowLegend(legendNames) : { top: 40, left: 5, right: 5, type: 'scroll', data: legendNames, padding: [5, 70, 5, 10] },
+            grid: narrow ? narrowGrid(80, 90) : { left: 60, right: 30, top: 90, bottom: 90, containLabel: true },
+            xAxis: TIME_X_AXIS,
+            yAxis: {
+                type: 'value', min: 0, max: v => Math.max(100, Math.ceil(v.max)),
+                ...(narrow ? narrowAxisName('Anteil') : { name: 'Anteil der Variantengruppe' }),
+                axisLabel: { formatter: v => fmtPct(v, 0) }
+            },
+            dataZoom: [{ type: 'slider', height: 30, bottom: 10, ...timeZoom(series) }],
+            series
+        }, { notMerge: true });
+
+        const week = data.week;
+        document.getElementById('variant-week-title').textContent =
+            week.week ? `Nachweise in ${formatKW(parseYMD(week.week))}` : 'Nachweise in der jüngsten ausgewerteten Woche';
+        const names = week.groups.map(g => g.name);
+        // One bar row per group, so a week with two groups is not a wall of red
+        const el = document.getElementById('variant-week-ec');
+        const height = `${(narrow ? 90 : 100) + 48 * names.length}px`;
+        if (el.style.height !== height) { el.style.height = height; variantWeekChart.resize(); }
+        const detail = g => {
+            const lines = g.variants.map(v => `${escapeHtml(v.names.join(', '))}: ${v.detected} von ${week.plants}`);
+            return `<b>Variantengruppe ${escapeHtml(g.name)}</b>: in ${g.detected} von ${week.plants} Kläranlagen` +
+                (lines.length ? `<br><br>Einzelvarianten (Kläranlagen mit Nachweis):<br>${lines.join('<br>')}` : '');
+        };
+        variantWeekChart.setOption({
+            tooltip: {
+                trigger: 'item', confine: true,
+                extraCssText: 'max-width: min(420px, 90vw); white-space: normal;',
+                formatter: p => detail(week.groups[p.dataIndex])
+            },
+            legend: { top: 5, data: ['Nachgewiesen', 'Nicht nachgewiesen'] },
+            grid: narrow ? narrowGrid(40, 40, 20) : { left: 20, right: 30, top: 40, bottom: 50, containLabel: true },
+            xAxis: {
+                type: 'value', min: 0, max: week.plants, minInterval: 1, axisLabel: { hideOverlap: true },
+                name: narrow ? 'Kläranlagen' : 'Anzahl Kläranlagen', nameLocation: 'middle', nameGap: 28
+            },
+            yAxis: { type: 'category', data: names },
+            series: [
+                { name: 'Nachgewiesen', type: 'bar', stack: 'plants', itemStyle: { color: VARIANT_BAR_COLORS.detected }, data: week.groups.map(g => g.detected) },
+                { name: 'Nicht nachgewiesen', type: 'bar', stack: 'plants', itemStyle: { color: VARIANT_BAR_COLORS.missing }, data: week.groups.map(g => week.plants - g.detected) }
+            ]
+        }, { notMerge: true });
     }
 
     // ==================== 0. Lage nach Bundesland (Karte) ====================
@@ -3497,10 +3640,11 @@
         let combinedReady = false;
 
         // Resize handling
-        let charts = [mapChart, wwChart, combinedChart, seasonChart, sentinelBarChart, sentinelHeatChart, sariChart, incidenceChart, demoChart, demoTimelineChart, ageHeatmapChart];
+        let charts = [mapChart, wwChart, variantTrendChart, variantWeekChart, combinedChart, seasonChart, sentinelBarChart, sentinelHeatChart, sariChart, incidenceChart, demoChart, demoTimelineChart, ageHeatmapChart];
         const responsiveRenderers = [
             [() => mapState.ready, renderMap],
             ['wastewater', renderWastewater],
+            ['variants', renderVariants],
             ['sari', renderSari],
             ['sentinelBar', renderSentinelBar],
             ['sentinelBar', renderSentinelHeatmap],
@@ -3531,6 +3675,8 @@
             charts.forEach(c => c.dispose());
             mapChart = initChart('map-chart-ec');
             wwChart = initChart('wastewater-chart-ec');
+            variantTrendChart = initChart('variant-trend-ec');
+            variantWeekChart = initChart('variant-week-ec');
             combinedChart = initChart('combined-chart-ec');
             seasonChart = initChart('season-chart-ec');
             sentinelBarChart = initChart('sentinel-bar-ec');
@@ -3540,7 +3686,7 @@
             demoChart = initChart('sari-demographics-chart-ec');
             demoTimelineChart = initChart('sari-demo-timeline-ec');
             ageHeatmapChart = initChart('sari-heatmap-ec');
-            charts = [mapChart, wwChart, combinedChart, seasonChart, sentinelBarChart, sentinelHeatChart, sariChart, incidenceChart, demoChart, demoTimelineChart, ageHeatmapChart];
+            charts = [mapChart, wwChart, variantTrendChart, variantWeekChart, combinedChart, seasonChart, sentinelBarChart, sentinelHeatChart, sariChart, incidenceChart, demoChart, demoTimelineChart, ageHeatmapChart];
             for (const [dep, render] of responsiveRenderers) {
                 if (hasData(dep)) render();
             }
@@ -3676,7 +3822,10 @@
                 setSectionError(document.getElementById('sentinel-bar-loading'), errorText(e));
                 sentinelBarFailed = true;
                 renderSentinelHeatmap();
-            })
+            }),
+
+            loadVariants().then(() => initSection('variant-loading', renderVariants))
+                .catch(e => setSectionError(document.getElementById('variant-loading'), errorText(e)))
         ];
 
         // Feeds that failed now read "nicht geladen" instead of "…"

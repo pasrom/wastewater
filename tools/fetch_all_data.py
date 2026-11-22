@@ -3,7 +3,7 @@
 Fetch all external data sources and save as JSON for the data pipeline.
 
 This script downloads data from:
-1. AGES Wastewater API (SARS-CoV-2, Influenza, RSV) - JSON
+1. AGES Wastewater API (SARS-CoV-2, Influenza, RSV; SARS-CoV-2 variants) - JSON
 2. MedUni Wien Sentinel (Heatmap, Bar chart) - SVG → JSON
 3. Sozialversicherung SARI (Hospital, Patient demographics) - CSV → JSON
 
@@ -15,7 +15,8 @@ The script creates the following structure:
     ├── ages/
     │   ├── sarscov2.json
     │   ├── influenza.json
-    │   └── rsv.json
+    │   ├── rsv.json
+    │   └── varianten.json  (SARS-CoV-2 variant groups, reduced from two AGES exports)
     ├── sentinel/
     │   ├── heatmap.json
     │   └── barchart.json
@@ -207,7 +208,138 @@ def fetch_ages_data(output_dir: Path) -> dict:
             print(f"  Error fetching {name}: {e}")
             results[name] = {'status': 'error', 'error': str(e)}
 
+    results['varianten'] = fetch_ages_variants(ages_dir)
     return results
+
+
+# SARS-CoV-2 variant groups from whole-genome sequencing, the two variant charts
+# on the AGES SARS-CoV-2 page. Their plotly exports carry hover HTML and styling
+# the page does not need, so they are reduced to one small file.
+AGES_VARIANT_URLS = {
+    'trend': f'{AGES_BASE}/sarscov2_clades_streamgraph.json',
+    'week': f'{AGES_BASE}/sarscov2_clades_barplot.json',
+}
+HEX_COLOR = re.compile(r'#[0-9A-Fa-f]{6}')
+# One line of the bar chart's hover text: "PJ.2.1: 18 / 19" (names may wrap with <br>)
+VARIANT_LINE = re.compile(r'^(.+?):\s*(\d+)\s*/\s*(\d+)$')
+
+
+def parse_variant_trend(payload) -> dict:
+    """Weekly share (%) per variant group from the AGES streamgraph export.
+
+    Each trace lists only the weeks with a value; a sequenced week where a group
+    is absent becomes 0, as in AGES's stacked chart. Weeks without any result
+    (low signal, e.g. summer) are left out, so the page can show them as gaps.
+    The shares of a week add up to less than 100 when part of the sample could
+    not be assigned; AGES leaves that part white.
+    """
+    if not isinstance(payload, dict):
+        raise ValueError('not a plotly export')
+    traces = [t for t in payload.get('data') or []
+              if isinstance(t, dict) and isinstance(t.get('name'), str)
+              and isinstance(t.get('x'), list) and isinstance(t.get('y'), list)]
+    if not traces:
+        raise ValueError('no variant traces')
+    weeks = sorted({x[:10] for t in traces for x in t['x']
+                    if isinstance(x, str) and re.match(r'\d{4}-\d{2}-\d{2}$', x[:10])})
+    if not weeks:
+        raise ValueError('no dated variant points')
+    index = {w: i for i, w in enumerate(weeks)}
+    groups = []
+    for t in traces:
+        share = [0.0] * len(weeks)
+        for x, y in zip(t['x'], t['y']):
+            if isinstance(x, str) and x[:10] in index and isinstance(y, (int, float)):
+                # 4 places: a group found in one plant can be below 0.01 %, and
+                # rounding it to 0 would drop it from variant_week_date's set
+                share[index[x[:10]]] = round(float(y), 4)
+        line = t.get('line') if isinstance(t.get('line'), dict) else {}
+        color = HEX_COLOR.search(str(line.get('color', '')))
+        groups.append({'name': t['name'], 'color': color.group(0).upper() if color else None,
+                       'share': share})
+    return {'weeks': weeks, 'groups': groups}
+
+
+def parse_variant_week(payload) -> dict:
+    """Plants with each variant group in the newest sequenced week (AGES bar chart).
+
+    The export has a "Detektiert" and a "Nicht detektiert" trace over the same
+    groups; their sum is the number of plants sequenced. The single variants
+    behind a group exist only in the hover text, as "names: n / plants" lines.
+    """
+    if not isinstance(payload, dict):
+        raise ValueError('not a plotly export')
+    traces = {t.get('name'): t for t in payload.get('data') or [] if isinstance(t, dict)}
+    hit, miss = traces.get('Detektiert'), traces.get('Nicht detektiert')
+    if (not hit or not miss or not hit.get('y') or len(hit['y']) != len(miss.get('y') or [])
+            or len(hit.get('x') or []) != len(hit['y']) or len(miss.get('x') or []) != len(hit['y'])):
+        raise ValueError('no "Detektiert"/"Nicht detektiert" bars')
+    plants = {int(a) + int(b) for a, b in zip(hit['x'], miss['x'])}
+    if len(plants) != 1:
+        raise ValueError(f'groups disagree on the number of plants: {sorted(plants)}')
+    texts = hit.get('text') or [''] * len(hit['y'])
+    # R's plotly export unboxes a one-element vector: a single bar has a string here
+    if isinstance(texts, str):
+        texts = [texts]
+    groups = []
+    for name, detected, text in zip(hit['y'], hit['x'], texts):
+        variants, pending = [], ''
+        # Skipped: the group summary, an empty line and the column header
+        for line in str(text).split('<br>')[3:]:
+            # A wrapped list continues on the next line after a name, without its comma
+            pending = f'{pending}, {line.strip()}' if pending else line.strip()
+            m = VARIANT_LINE.match(pending)
+            if m:
+                variants.append({'names': [n.strip() for n in m.group(1).split(',') if n.strip()],
+                                 'detected': int(m.group(2))})
+                pending = ''
+        if int(detected) > 0 and not variants:
+            # A changed hover format would otherwise empty every tooltip silently
+            raise ValueError(f'no single variants read for group {name}')
+        groups.append({'name': str(name), 'detected': int(detected), 'variants': variants})
+    return {'plants': plants.pop(), 'groups': groups}
+
+
+def variant_week_date(trend: dict, week: dict) -> str | None:
+    """The week the bar chart shows, or None when that cannot be told.
+
+    The bar export carries no date. It is the newest sequenced week when exactly
+    the groups found there have a share in the trend's newest week; otherwise the
+    page shows the bars without naming a week rather than naming a wrong one.
+    It cannot catch a bar export one week behind the trend when both weeks had
+    the same groups, which is common; AGES names no week for the bars either.
+    """
+    newest = {g['name'] for g in trend['groups'] if g['share'][-1] > 0}
+    bars = {g['name'] for g in week['groups'] if g['detected'] > 0}
+    return trend['weeks'][-1] if newest == bars else None
+
+
+def fetch_ages_variants(ages_dir: Path) -> dict:
+    """Fetch both AGES variant exports and write ages/varianten.json.
+
+    Checked before writing, like the virus files, so a broken export keeps the
+    last good file. Not aged like the virus feeds: sequencing pauses for weeks
+    when the signal is too low to assign variants, which is not a dead source.
+    """
+    print("Fetching AGES SARS-CoV-2 variants...")
+    try:
+        payloads = {}
+        for key, url in AGES_VARIANT_URLS.items():
+            response = requests.get(url, timeout=REQUEST_TIMEOUT)
+            response.raise_for_status()
+            payloads[key] = response.json()
+        data = {'trend': parse_variant_trend(payloads['trend']),
+                'week': parse_variant_week(payloads['week'])}
+        data['week']['week'] = variant_week_date(data['trend'], data['week'])
+        output_file = ages_dir / 'varianten.json'
+        with open(output_file, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=1, ensure_ascii=False)
+        print(f"  Saved: {output_file}")
+        return {'status': 'ok', 'file': str(output_file), 'latest_week': data['trend']['weeks'][-1]}
+    # Any malformed export fails this file only; Sentinel and SARI still run
+    except (requests.RequestException, ValueError, TypeError, KeyError, AttributeError) as e:
+        print(f"  Error fetching variants: {e!r}")
+        return {'status': 'error', 'error': str(e)}
 
 
 # =============================================================================
