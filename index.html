@@ -331,7 +331,7 @@
                     <div id="sari-incidence-loading" class="loading-msg">Lade Daten…</div>
                 </div>
                 <p class="footnote">*Gestrichelt umrahmt: die beiden jüngsten Wochen sind vorläufig. Da laufend mit Korrekturen und Nachmeldungen zu rechnen ist, kann sich der Datenbestand noch verändern.</p>
-                <p id="sari-csv" class="footnote" hidden><a href="#" id="sari-csv-link">SARI-Aufnahmen als CSV herunterladen</a> – je Woche und Wohn-Bundesland, alle Stationen, mit Bevölkerung und Rate pro 100.000. Quelle: Dachverband der Sozialversicherungsträger, <a href="https://creativecommons.org/licenses/by/4.0/deed.de" target="_blank" rel="noopener">CC BY 4.0</a>, von dieser Seite nach Woche und Bundesland zusammengefasst. Abwasser- und Sentinel-Daten gibt es direkt bei der AGES bzw. der MedUni Wien.</p>
+                <p id="sari-csv" class="footnote" hidden><a href="#" id="sari-csv-link">SARI-Aufnahmen als CSV herunterladen</a> – je Woche und Wohn-Bundesland, alle Stationen, mit Bevölkerung und Rate pro 100.000. Die Zeilen „Österreich“ fassen das ganze Land zusammen und gehören beim Aufsummieren der Bundesländer nicht dazu. Quelle: Dachverband der Sozialversicherungsträger, <a href="https://creativecommons.org/licenses/by/4.0/deed.de" target="_blank" rel="noopener">CC BY 4.0</a>, von dieser Seite nach Woche und Bundesland zusammengefasst. Abwasser- und Sentinel-Daten gibt es direkt bei der AGES bzw. der MedUni Wien.</p>
             </div>
         </section>
 
@@ -1426,8 +1426,9 @@
         return s;
     }
 
-    // AGES trend rule: least squares over every sample of the four calendar
-    // weeks ending in `week`, slope divided by the window mean, in % per week.
+    // AGES trend rule: least squares over the last TREND_MAX_SAMPLES samples
+    // within the TREND_WINDOW_WEEKS calendar weeks ending in `week`, slope
+    // divided by the window mean, in % per week.
     function plantTrend(trace, week) {
         const from = shiftYMD(week, -7 * (TREND_WINDOW_WEEKS - 1));
         const win = plantSamples(trace).filter(p => p.monday >= from && p.monday <= week).slice(-TREND_MAX_SAMPLES);

@@ -64,7 +64,10 @@ def trend(samples, week):
     """AGES rule: OLS over the last four samples of the five calendar weeks
     ending in `week`, slope / mean in % per week."""
     w = dt.date.fromisoformat(week)
-    dated = sorted((x[:10], y, lim) for x, y, lim in samples if 0 <= (w - monday(x)).days <= WINDOW_DAYS)
+    # Sorted by date only and stably, like the page: two samples on one day keep
+    # their file order (sorting whole tuples would compare values and limit flags)
+    dated = sorted(((x[:10], y, lim) for x, y, lim in samples if 0 <= (w - monday(x)).days <= WINDOW_DAYS),
+                   key=lambda s: s[0])
     win = [(monday(x), y, lim) for x, y, lim in dated[-MAX_SAMPLES:]]
     if len(win) < MIN_SAMPLES:
         return 'none', None, len(win)
