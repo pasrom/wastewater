@@ -1359,6 +1359,14 @@ footer .impressum a {
     }
 }
 
+.dropdown-subhead {
+    margin: 10px 0 4px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-soft);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
 .dropdown-note {
     margin: 0;
     padding: 8px 10px 0;

@@ -219,7 +219,7 @@
                                 <div class="dropdown-header">
                                     <button id="select-none" class="btn-small" type="button">Nur Österreich</button>
                                 </div>
-                                <p id="location-cap-note" class="dropdown-note" hidden>Höchstens 8 Kläranlagen gleichzeitig – zum Wechseln erst eine abwählen.</p>
+                                <p id="location-cap-note" class="dropdown-note" hidden>Höchstens 8 Linien gleichzeitig (Kläranlagen und Bundesländer) – zum Wechseln erst eine abwählen.</p>
                                 <div id="location-list"></div>
                             </div>
                         </div>
@@ -534,6 +534,25 @@
         influenza: { name: 'Influenza',  color: '#ffc600', url: `${DATA_BASE}/ages/influenza.json` },
         rsv:       { name: 'RSV',        color: '#456990', url: `${DATA_BASE}/ages/rsv.json` }
     };
+
+    // Former national SARS-CoV-2 programme: person-weighted Bundesland curves up
+    // to November 2025 from AGES's archive, rebuilt by tools/build_archive.py
+    // (same origin, committed). The current feeds have no Bundesland curves.
+    const WW_ARCHIVE_URL = 'archive/sarscov2_bundeslaender.json';
+    // AGES marks the switch from the national programme to its own monitoring
+    // in its SARS-CoV-2 and variant charts; both charts here do the same.
+    const AGES_PROGRAMME_START = '2025-11-17';
+    function programmeStartSeries(narrow) {
+        return {
+            name: '__programme', type: 'line', data: [], silent: true, tooltip: { show: false },
+            markLine: {
+                silent: true, symbol: 'none',
+                lineStyle: { color: '#B88D00', type: 'dashed', width: 1.5 },
+                label: { formatter: narrow ? 'AGES-Monitoring' : 'Beginn AGES-Monitoring', color: '#B88D00', position: 'end' },
+                data: [{ xAxis: AGES_PROGRAMME_START }]
+            }
+        };
+    }
 
     const SARI_COLORS = {
         COVID: '#e87461', INFLUENZA: '#ffc600', PNEUMOKOKKEN: '#51b2a9', RSV: '#456990', SONSTIGE: '#c9c9c9'
@@ -1140,6 +1159,7 @@
         sari: null,           // array of row objects with .date
         sariDemo: null,       // array
         sentinelBar: null,    // {weeks, viruses, data, einsendungen}
+        wwArchive: null,      // {'bl:W': {name, x, y}} Bundesland curves of the former programme, or null
         variants: null,       // ages/varianten.json: {trend: {weeks, groups}, week: {plants, week, groups}}
         locations: new Set()
     };
@@ -1170,9 +1190,51 @@
     // SARS-CoV-2, Influenza and RSV colours and would read as a plant.
     function wwLineStyle(loc, mode) {
         if (loc === 'Österreich') {
-            return { color: wwPlantSlots.size ? INCIDENCE_INK[mode] : WW_SOURCES[wwVirus].color, type: 'solid', width: 2.5 };
+            return { color: wwShownOthers().length ? INCIDENCE_INK[mode] : WW_SOURCES[wwVirus].color, type: 'solid', width: 2.5 };
         }
-        return { color: INCIDENCE_PALETTE[mode][wwPlantSlots.get(loc)], type: 'solid', width: 1.75 };
+        return { color: INCIDENCE_PALETTE[mode][wwPlantSlots.get(loc)], type: isArchiveLoc(loc) ? 'dashed' : 'solid', width: 1.75 };
+    }
+
+    // Bundesland curves of the former programme sit in the same selection as
+    // the plants, keyed 'bl:<SARI code>' so the Land Wien never collides with
+    // the plant Wien. They exist for SARS-CoV-2 only and end in November 2025.
+    const ARCHIVE_PREFIX = 'bl:';
+    const isArchiveLoc = loc => loc.startsWith(ARCHIVE_PREFIX);
+    const wwName = loc => isArchiveLoc(loc) ? dataPool.wwArchive[loc].name : loc;
+    const wwLabel = loc => isArchiveLoc(loc) ? `${wwName(loc)} (Land, bis 11/2025)` : loc;
+    // Lines besides Österreich that the current virus actually draws: a ticked
+    // Bundesland under Influenza or RSV draws nothing and must not grey Österreich
+    const wwShownOthers = () => [...wwPlantSlots.keys()].filter(l => !isArchiveLoc(l) || wwVirus === 'sarscov2');
+    const wwTrace = (loc, key, d) => isArchiveLoc(loc)
+        ? (key === 'sarscov2' && dataPool.wwArchive ? dataPool.wwArchive[loc] : null)
+        : d.traces[loc];
+
+    // Daily values from a start date (null = no value that day) -> {x, y}, kept
+    // on Mondays and Thursdays only: Österreich is sampled about on those days,
+    // and with a point every day the axis tooltip matched only the Länder and
+    // dropped Österreich. The curves are smoothed, so nothing visible is lost.
+    async function loadWwArchive() {
+        const d = await fetchChecked(WW_ARCHIVE_URL, d => d.regions && typeof d.regions === 'object');
+        const out = {};
+        for (const [code, r] of Object.entries(d.regions)) {
+            if (!Array.isArray(r.y) || !r.start || !r.name) continue;
+            const x = [], y = [];
+            r.y.forEach((v, i) => {
+                const day = parseYMD(r.start, i).getDay();
+                if (day === 1 || day === 4) { x.push(shiftYMD(r.start, i)); y.push(v); }
+            });
+            out[ARCHIVE_PREFIX + code] = { name: r.name, x, y };
+        }
+        return out;
+    }
+    // A Bundesland ends in November 2025, before the start of "1 Jahr" and
+    // "Saison": with one ticked, the window opens a year before the switch, so
+    // the old curve's last year and the current data are both in view.
+    function wwZoom(series, showsArchive) {
+        const zoom = timeZoom(series);
+        if (!showsArchive || zoom.startValue == null) return zoom;
+        const before = parseYMD(AGES_PROGRAMME_START, -365).getTime();
+        return { startValue: Math.min(zoom.startValue, before) };
     }
 
     // Per-point detection-limit flag from AGES's hover text: '(< NG)' is below the
@@ -1247,13 +1309,16 @@
 
         // Österreich first so it leads the legend and tooltip
         const ordered = [...wwSelectedLocations].sort((a, b) => (b === 'Österreich') - (a === 'Österreich'));
+        let showsArchive = false;
         for (const loc of ordered) {
-            const tr = d.traces[loc];
+            const tr = wwTrace(loc, key, d);
             if (!tr) continue;
             const st = wwLineStyle(loc, mode);
-            legendNames.push(loc);
+            const name = wwLabel(loc);
+            if (isArchiveLoc(loc)) showsArchive = true;
+            legendNames.push(name);
             series.push({
-                name: loc, type: 'line', smooth: true, showSymbol: false,
+                name, type: 'line', smooth: true, showSymbol: false,
                 data: tr.x.map((x, i) => [x, tr.y[i]]),
                 lineStyle: st, itemStyle: { color: st.color }
             });
@@ -1261,6 +1326,9 @@
         updateLocationList(mode);
 
         const narrow = isNarrow();
+        // SARS-CoV-2 reaches back into the former programme (the other two start
+        // with AGES's monitoring), so the switch is marked as on AGES's chart
+        if (key === 'sarscov2') series.push(programmeStartSeries(narrow));
         // No in-canvas title: the section heading above says the same
         wwChart.setOption({
             toolbox: TOOLBOX,
@@ -1270,12 +1338,13 @@
                     v => fmtDe(v) + ' Mio./Einw.')
             },
             // At most 9 entries: a plain legend wraps onto a second row on desktop
-            legend: narrow ? narrowLegend(legendNames) : { top: 10, data: legendNames, padding: [5, 70, 5, 10] },
+            // Scrolls instead of wrapping: long Bundesland names would run into the axis name
+            legend: narrow ? narrowLegend(legendNames) : { top: 10, type: 'scroll', data: legendNames, padding: [5, 70, 5, 10] },
             grid: narrow ? narrowGrid(90, 90) : { left: 60, right: 30, top: legendNames.length > 5 ? 74 : 50, bottom: 90, containLabel: true },
             xAxis: TIME_X_AXIS,
             yAxis: { type: 'value', ...(narrow ? narrowAxisName('Mio./Einw.') : { name: 'Mio. Genkopien/Einw.' }), axisLabel: { formatter: compactNumber } },
             dataZoom: [
-                { type: 'slider', height: 30, bottom: 10, ...timeZoom(series) }
+                { type: 'slider', height: 30, bottom: 10, ...wwZoom(series, showsArchive) }
             ],
             series
         }, { notMerge: true });
@@ -1293,7 +1362,15 @@
         const list = document.getElementById('location-list');
         list.innerHTML = '';
         const sorted = ['Österreich', ...[...dataPool.locations].filter(l => l !== 'Österreich').sort()];
-        for (const loc of sorted) {
+        const archive = Object.keys(dataPool.wwArchive || {})
+            .sort((a, b) => wwName(a).localeCompare(wwName(b), 'de'));
+        for (const loc of [...sorted, ...archive]) {
+            if (loc === archive[0]) {
+                const head = document.createElement('p');
+                head.className = 'dropdown-subhead';
+                head.textContent = 'Bundesländer aus dem früheren Programm mit bis zu 48 Kläranlagen: nur SARS-CoV-2, bis November 2025, von der AGES geglättet und nach Einwohnern gewichtet (gestrichelt)';
+                list.appendChild(head);
+            }
             const isAT = loc === 'Österreich';
             const item = document.createElement('label');
             item.className = 'location-item' + (isAT ? ' austria' : '');
@@ -1311,7 +1388,7 @@
             swatch.className = 'region-swatch';
             item.appendChild(cb);
             item.appendChild(swatch);
-            item.appendChild(document.createTextNode(' ' + loc));
+            item.appendChild(document.createTextNode(' ' + wwName(loc)));
             list.appendChild(item);
         }
     }
@@ -1324,7 +1401,9 @@
             const cb = item.querySelector('input');
             const shown = wwSelectedLocations.has(cb.value);
             item.querySelector('.region-swatch').style.background = shown ? wwLineStyle(cb.value, mode).color : 'transparent';
-            if (cb.value !== 'Österreich') cb.disabled = atCap && !cb.checked;
+            // Archive curves exist for SARS-CoV-2 only; a ticked one can still be unticked
+            const noData = isArchiveLoc(cb.value) && wwVirus !== 'sarscov2';
+            if (cb.value !== 'Österreich') cb.disabled = (atCap || noData) && !cb.checked;
         }
         document.getElementById('location-cap-note').hidden = !atCap;
     }
@@ -1343,8 +1422,13 @@
     async function loadWastewater() {
         const sources = Object.entries(WW_SOURCES);
         // Extraction runs inside each file's promise, so a malformed file fails alone
+        // The archive is an extra: without it the Bundesland entries are just missing
+        // A stalled request must not hold back the card: after 10 s it is left out
+        const archive = Promise.race([loadWwArchive(), new Promise((_, no) => setTimeout(() => no(new Error('Zeitüberschreitung')), 10000))])
+            .catch(e => { console.warn('Archiv nicht geladen:', e); return null; });
         const settled = await Promise.allSettled(
             sources.map(([, src]) => fetchData(src.url).then(extractWastewaterTraces)));
+        dataPool.wwArchive = await archive;
         const loaded = {}, failed = [];
         settled.forEach((res, i) => {
             const [key, src] = sources[i];
@@ -1363,8 +1447,6 @@
     // variant charts: trend = weekly share (%) per variant group, only weeks with
     // a sequencing result; week = plants with each group in the newest week.
     const VARIANT_URL = `${DATA_BASE}/ages/varianten.json`;
-    // AGES marks the switch from the national programme to its own monitoring
-    const VARIANT_PROGRAMME_START = '2025-11-17';
     const VARIANT_BAR_COLORS = { detected: '#CB6F74', missing: '#C0E1BC' };
     // Below this a share prints as "0,0 %": left out of tooltip and legend
     const VARIANT_MIN_SHARE = 0.05;
@@ -1423,15 +1505,7 @@
         // 16 since 2022, most are long gone from a one-year view
         const start = timeRangeStart(parseYMD(weeks[weeks.length - 1]));
         const legendNames = groups.filter(g => g.share.some((v, i) => v >= VARIANT_MIN_SHARE && (!start || parseYMD(weeks[i]) >= start))).map(g => g.name);
-        series.push({
-            name: '__programme', type: 'line', data: [], silent: true, tooltip: { show: false },
-            markLine: {
-                silent: true, symbol: 'none',
-                lineStyle: { color: '#B88D00', type: 'dashed', width: 1.5 },
-                label: { formatter: narrow ? 'AGES-Monitoring' : 'Beginn AGES-Monitoring', color: '#B88D00', position: 'end' },
-                data: [{ xAxis: VARIANT_PROGRAMME_START }]
-            }
-        });
+        series.push(programmeStartSeries(narrow));
         variantTrendChart.setOption({
             toolbox: TOOLBOX,
             tooltip: { trigger: 'axis', confine: true, formatter: variantTrendTooltip },
